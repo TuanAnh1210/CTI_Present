@@ -1,5 +1,6 @@
 /* A-Score presentation board — shared nav + helpers */
 const PAGES = [
+  { href: "../index.html", label: "← Bài thuyết trình", kind: "home" },
   { href: "kiem_soat_workflow.html", label: "Workflow flow" },
   { href: "kich_ban_go_live.html", label: "Kịch bản go-live" },
   { href: "circuit_breaker.html", label: "Circuit breaker" },
@@ -16,6 +17,7 @@ function renderNav() {
     const a = document.createElement("a");
     a.href = p.href;
     a.textContent = p.label;
+    if (p.kind) a.classList.add(`nav-${p.kind}`);
     if (p.href === path || (path === "" && p.href === "kiem_soat_workflow.html")) a.classList.add("active");
     nav.appendChild(a);
   });
