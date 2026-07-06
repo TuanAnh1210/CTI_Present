@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CTI · A-Score — Trang chủ</title>
+  <link rel="stylesheet" href="assets/css/board.css">
+  <style>
+    body{display:flex;flex-direction:column;min-height:100vh}
+    .home-brand{padding:18px 22px 0;font-size:13px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+    .home-intro{max-width:720px}
+    main{flex:1;padding-top:8px}
+    .home-section{margin-bottom:28px}
+    .home-section > h2{margin:0 0 12px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+    .home-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+    .home-card{display:block;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;text-decoration:none;color:inherit;transition:border-color .15s,background .15s,transform .15s}
+    .home-card:hover{border-color:var(--accent);background:#111827;transform:translateY(-1px)}
+    .home-card h3{margin:0 0 6px;font-size:15px;color:var(--accent)}
+    .home-card p{margin:0;font-size:12.5px;line-height:1.55;color:var(--muted)}
+    .home-card .tag{display:inline-block;margin-top:10px;font-size:10.5px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+    .home-note{margin-top:20px;padding:12px 14px;border:1px dashed var(--line);border-radius:8px;font-size:12px;color:var(--muted);line-height:1.55}
+    .home-note code{font-size:11px}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="home-brand">CTI · A-Score · Ghi chú nội bộ</div>
+  </header>
+
+  <div class="page-header">
+    <h1>Trang chủ trình bày kiểm soát &amp; vận hành</h1>
+    <p class="home-intro">Bộ web board hỗ trợ trao đổi nội bộ về kiểm soát scoring, failsafe, alert và domain model tài chính. Chọn trang bên dưới để bắt đầu.</p>
+  </div>
+
+  <main>
+    <section class="home-section">
+      <h2>Web board</h2>
+      <div class="home-grid">
+        <a class="home-card" href="pages/kiem_soat_workflow.html">
+          <h3>Workflow flow</h3>
+          <p>Sơ đồ kiểm soát theo workflow chấm điểm — 6 nhóm control trên từng bước pipeline.</p>
+          <span class="tag">Sơ đồ tương tác</span>
+        </a>
+        <a class="home-card" href="pages/tin_hieu_van_hanh.html">
+          <h3>Tín hiệu vận hành</h3>
+          <p>Bảng control → đầu ra → metric → alert → log; tra cứu ngưỡng và owner.</p>
+          <span class="tag">Metric &amp; alert</span>
+        </a>
+        <a class="home-card" href="pages/kich_ban_go_live.html">
+          <h3>Kịch bản go-live</h3>
+          <p>Diễn biến xử lý sự cố theo runbook 10 bước, ma trận Phụ lục C và failsafe.</p>
+          <span class="tag">Incident drill</span>
+        </a>
+        <a class="home-card" href="pages/failsafe.html">
+          <h3>Failsafe Lv.0–6</h3>
+          <p>Thang can thiệp từ nhẹ đến nặng khi score không còn đủ tin cậy.</p>
+          <span class="tag">Fallback policy</span>
+        </a>
+        <a class="home-card" href="pages/circuit_breaker.html">
+          <h3>Circuit breaker</h3>
+          <p>State machine bảo vệ Prediction Service khi gọi Feature Store — CLOSED / OPEN / HALF-OPEN.</p>
+          <span class="tag">Runtime control</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="home-section">
+      <h2>Domain model</h2>
+      <div class="home-grid">
+        <a class="home-card" href="pages/mindmap_tai_chinh.html">
+          <h3>Mindmap tài chính / CTI</h3>
+          <p>Sơ đồ domain object tài chính — khám phá nhánh, thuộc tính và quan hệ CTI.</p>
+          <span class="tag">Mindmap</span>
+        </a>
+      </div>
+    </section>
+
+    <div class="home-note">
+      Chạy local qua HTTP (không mở <code>file://</code>):<br>
+      <code>cd CTI && python3 -m http.server 8137</code><br>
+      Sau đó mở <code>http://127.0.0.1:8137/</code> hoặc trực tiếp từng trang trong <code>pages/</code>.
+    </div>
+  </main>
+
+  <footer>Ghi chú nội bộ — không đưa vào báo cáo LaTeX chính thức.</footer>
+</body>
+</html>

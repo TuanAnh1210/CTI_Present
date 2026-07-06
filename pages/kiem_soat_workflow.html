@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A-Score · Sơ đồ kiểm soát theo workflow</title>
+<link rel="stylesheet" href="../assets/css/board.css" />
+</head>
+<body class="flow-page">
+<header class="site-header"></header>
+<div class="page-header">
+  <h1>A-Score · Sơ đồ kiểm soát theo workflow</h1>
+  <p>Sơ đồ dựng từ <code>../workflow__1__autoswitch.drawio</code>. Nhãn nét đứt: <b>Nhóm · việc → đầu ra | ai làm</b>. Bấm ô để xem chi tiết; metric/alert đầy đủ: <a href="tin_hieu_van_hanh.html">Tín hiệu vận hành</a>.</p>
+</div>
+<div class="toolbar">
+  <span class="lbl">Lọc nhóm:</span>
+  <span class="chip group active" data-group="all">Tất cả</span>
+  <span class="chip group" data-group="request"><span class="dot" style="background:var(--c-request)"></span>Request</span>
+  <span class="chip group" data-group="dq"><span class="dot" style="background:var(--c-dq)"></span>Data Quality</span>
+  <span class="chip group" data-group="model"><span class="dot" style="background:var(--c-model)"></span>Model &amp; Artifact</span>
+  <span class="chip group" data-group="runtime"><span class="dot" style="background:var(--c-runtime)"></span>Runtime</span>
+  <span class="chip group" data-group="logging"><span class="dot" style="background:var(--c-logging)"></span>Logging</span>
+  <span class="chip group" data-group="decision"><span class="dot" style="background:var(--c-decision)"></span>Decision</span>
+  <span class="lbl" style="margin-left:8px">Role:</span>
+  <span class="chip role active" data-role="all">Tất cả</span>
+  <span class="chip role" data-role="Dev">Dev</span>
+  <span class="chip role" data-role="DE">DE</span>
+  <span class="chip role" data-role="DS">DS</span>
+  <span class="chip role" data-role="DA">DA</span>
+  <span style="flex:1"></span>
+  <button class="zb" id="zout">−</button><button class="zb" id="zin">+</button><button class="zb" id="zfit">Fit</button>
+  <input id="search" type="text" placeholder="Tìm bước / field…" />
+</div>
+
+<div class="layout">
+  <div id="stage"><div id="err" style="display:none"></div></div>
+  <aside class="panel empty" id="panel">
+    <div class="ph">← Bấm vào một ô để xem chi tiết kiểm soát.<br><br>Các ô <b>có viền xanh khi rê chuột</b> là ô bấm được (bước + nhãn kiểm soát). Dùng bộ lọc nhóm / role để làm nổi phần liên quan.</div>
+  </aside>
+</div>
+<footer>Đồng bộ với <code>../../docs/kiem_soat_theo_workflow.md</code> · <a href="tin_hieu_van_hanh.html">bang_tin_hieu_van_hanh</a> · workflow scoring kết thúc bước 21 · Decision Safety sau bước 21.</footer>
+
+<script src="../assets/js/board.js"></script>
+<script>
+const GROUPS={request:"Request Control",dq:"Data Quality Control",model:"Model & Artifact Control",runtime:"Runtime Control",logging:"Logging & Audit Control",decision:"Decision Safety Control"};
+
+const DETAILS={
+ s1:{step:"1",title:"Nhận request chấm điểm",groups:["runtime","logging"],owners:["Dev"],
+  why:"Cổng vào duy nhất của hệ thống. Không kiểm soát từ đây thì không biết tải bao nhiêu và không truy vết được một ca cụ thể về sau.",
+  purpose:"Đếm tải (<code>request_volume</code>) để phát hiện quá tải/bất thường; sinh <code>request_id</code> + <code>correlation_id</code> để mọi log, snapshot, replay sau này gắn về đúng một lần chấm.",
+  outputs:"<code>request_id</code>, <code>correlation_id</code> · metric: <code>request_volume</code> · alert: spike tải.",
+  impl:"Dev sinh <code>request_id</code> (UUID) tại Prediction Service; giữ <code>correlation_id</code> nếu caller gửi để nối chuỗi với LOS. Expose counter Prometheus.",err:""},
+ s2:{step:"2",title:"AuthN / AuthZ — ai đang gọi",groups:["request","logging"],owners:["Dev"],
+  why:"Chỉ hệ thống được phép (LOS, MyF88…) mới được gọi. Lọt caller lạ → bị lạm dụng dò điểm hoặc tấn công.",
+  purpose:"Xác thực <b>ai</b> gọi (AuthN) và <b>có quyền</b> không (AuthZ); ghi caller ID để biết điểm phục vụ nguồn nào.",
+  outputs:"HTTP <code>401</code>/<code>403</code>, <code>caller_id</code> · metric: <code>auth_fail_total</code> · log: auth log.",
+  impl:"Dev dùng API key/mTLS/JWT đối chiếu caller registry; trả 401/403; ghi auth log.",err:"Reject request — KHÔNG scoring."},
+ s3:{step:"3",title:"Schema validation",groups:["request","logging"],owners:["Dev"],
+  why:"Model chỉ đúng nếu payload đúng cấu trúc. Sai field/kiểu mà vẫn chấm → điểm sai âm thầm.",
+  purpose:"Bảo đảm payload đúng OpenAPI/JSON Schema trước khi tốn tài nguyên; tách lỗi tích hợp khỏi rủi ro khách.",
+  outputs:"HTTP <code>400</code>, <code>validation_error_code</code> · metric: <code>schema_validation_fail_total</code>.",
+  impl:"Dev validate theo OpenAPI/JSON Schema; trả 4xx kèm <code>validation_error_code</code>.",err:"4xx — lỗi <b>tích hợp</b> (bên gọi), không quy thành rủi ro khách."},
+ s4:{step:"4",title:"Idempotency — chống trùng request",groups:["request","logging"],owners:["Dev"],
+  why:"Mạng chập chờn → caller gửi lại. Chấm lại tốn tài nguyên và có thể ra điểm khác gây mâu thuẫn.",
+  purpose:"Cùng <code>idempotency_key</code> chỉ chấm 1 lần; lần sau trả cached → nhất quán, tiết kiệm.",
+  outputs:"cached response, <code>dedup_hit=true</code> · metric: <code>idempotency_hit_total</code> · log: dedup log.",
+  impl:"Dev lưu key→kết quả; request trùng trả cached, ghi dedup log.",err:"Trùng → trả kết quả cũ → KẾT THÚC."},
+ dq_ingress:{step:"5–6",title:"Ingress: consent/eKYC/fraud + gán tier dự kiến",groups:["dq","logging"],owners:["Dev","DS","DE"],
+  why:"Trước khi tốn công chấm phải chắc khách đồng ý (consent), đúng người (eKYC), không gian lận. Đây là cổng tuân thủ/pháp lý — khác cổng dữ liệu kỹ thuật. Đồng thời nhận diện khách để chọn đúng nhánh model.",
+  purpose:"Bước 5 chặn hồ sơ vi phạm → <code>REJECT_INGRESS</code>. Bước 6 tra core/CRM, gán <code>intended_model_tier</code> (FULL/THIN/NEW) — tier <b>dự kiến</b>, chưa phải tier thật.",
+  outputs:"<code>REJECT_INGRESS</code> + <code>reject_reason</code> · hoặc <code>intended_model_tier</code> · metric: <code>reject_ingress_total</code>, <code>crm_lookup_latency_ms</code>.",
+  impl:"Dev enforce rule + gắn nhãn context; DS định nghĩa rule fraud/consent; DE xây truy vấn core/CRM. Ghi lý do reject/nguồn CRM.",
+  err:"Reject ingress → KẾT THÚC (khác NS/DF pipeline)."},
+ feat:{step:"7–10",title:"Feature pipeline (khách cũ / khách mới)",groups:["dq","runtime","logging"],owners:["DE","DS"],
+  why:"Model ăn feature, không ăn dữ liệu thô. Pipeline phải dựng feature đúng, đúng thời điểm (<code>as_of_time</code>), đúng cohort. Phải tách lỗi pipeline khỏi khách thiếu dữ liệu thật.",
+  purpose:"Khách cũ: lịch sử (7)+phát sinh (8)→cohort (9)→feature FULL (10). Khách mới: 7–8 đánh dấu thiếu LS→9–10 feature NEW. Bước 9 gán <code>intended_model_tier</code>.",
+  outputs:"feature vector, <code>as_of_time</code>, <code>cohort</code> · lỗi kỹ thuật → <code>DF</code> · metric: <code>feature_pipeline_latency_ms</code>, <code>df_total</code>.",
+  impl:"DE xây pipeline online/offline; DS định nghĩa feature logic + default thin-file. Ghi <code>as_of_time</code>, source, cohort. Job nền (Airflow/Spark): stale, online/offline mismatch.",
+  err:"Timeout core/lỗi pipeline → <b>DF</b> (lỗi kỹ thuật), không quy thành rủi ro khách."},
+ s11:{step:"11",title:"Feature snapshot (chạy nền)",groups:["logging","runtime"],owners:["Dev","DE","DA"],
+  why:"Muốn điều tra/đối chất một điểm số phải tái dựng đúng feature lúc chấm. Không snapshot = không audit được.",
+  purpose:"Lưu ảnh chụp feature + metadata vào Kafka/storage cho replay & audit.",
+  outputs:"<code>snapshot_id</code>, Kafka message · metric: <code>feature_snapshot_ok</code> · alert: <code>ALT-LG-02</code>.",
+  impl:"Dev emit snapshot; DE consumer→storage; DA alert nếu ghi fail (<code>ALT-LG-*</code>).",err:"Ghi fail → cảnh báo; cân nhắc chặn auto-decision."},
+ s12:{step:"12",title:"Chọn model theo loại khách",groups:["model","logging"],owners:["Dev","DS"],
+  why:"Chọn nhánh model FULL/THIN/NEW theo cohort/intended tier từ bước 6–9. Sau bước 14 có thể hạ cấp nếu thiếu dữ liệu.",
+  purpose:"Định tuyến nhánh FULL/THIN/NEW ban đầu; <code>actual_model_tier</code> cập nhật sau autoswitch nếu hạ cấp.",
+  outputs:"nhánh tier ban đầu · log: <code>tier_selected</code>.",
+  impl:"Dev route theo tier; DS mapping tier→artifact; log tier load.",err:""},
+ kill:{step:"◇",title:"Kill switch — model đang chạy?",groups:["model","decision"],owners:["Dev","DS"],
+  why:"Khi model lỗi/nghi ngờ cần tắt nhanh để không ra điểm sai hàng loạt.",
+  purpose:"Cờ bật/tắt model toàn cục; tắt → fallback rule-based.",
+  outputs:"<code>kill_switch_active</code> · <code>outcome_path=FALLBACK_RULE</code> · alert: page khi bật.",
+  impl:"Dev cài kill switch (flag); DS định nghĩa rule fallback.",err:"Tắt → fallback rule-based."},
+ s13:{step:"13",title:"Load artifact approved",groups:["model","logging"],owners:["Dev","DS"],
+  why:"Chỉ chạy artifact đã duyệt, đúng version, không bị sửa (checksum). Nhầm version = điểm không giải thích được.",
+  purpose:"Nạp đúng active version + verify checksum (AR-01..03).",
+  outputs:"<code>model_version</code>, <code>artifact_id</code>, <code>checksum_ok</code> · metric: <code>artifact_load_fail_total</code>.",
+  impl:"DS quản registry/version; Dev load+verify checksum; ghi <code>model_version</code>, <code>artifact_id</code>.",err:"Load fail/version mismatch → không inference; rollback artifact."},
+ s14:{step:"14",title:"Transform theo schema model",groups:["model","runtime"],owners:["Dev","DS"],
+  why:"Feature phải khớp schema artifact (thứ tự, kiểu, encoding). Lệch schema → model nhận sai đầu vào.",
+  purpose:"Biến feature thành đúng input artifact theo tier.",
+  outputs:"<code>model_input</code> vector · metric: <code>transform_latency_ms</code>.",
+  impl:"Dev transform theo feature-set; DS đảm bảo match schema; theo dõi latency.",err:""},
+ autoswitch:{step:"★",title:"Hạ cấp model sau transform (FULL→THIN→NEW)",groups:["dq","model","logging"],owners:["Dev","DS"],
+  why:"Sau bước 14 (transform), kiểm tra model đang chọn có đủ input không. Đây là <b>điểm duy nhất</b> hạ cấp tier trong workflow scoring.",
+  purpose:"Đủ → inference (15). Thiếu → hạ một bậc theo thang FULL→THIN→NEW, nạp lại bước 13→14 rồi kiểm tra lại. NEW là tier thấp nhất, không hạ thêm.",
+  outputs:"<code>actual_model_tier</code>, <code>MODEL_DOWNGRADED</code>, <code>downgrade_reason</code>, <code>downgrade_path</code> · metric: <code>downgrade_rate</code>.",
+  impl:"Dev: logic kiểm tra sau transform + vòng lặp nạp lại bước 13; DS: config required features/tier. Log outcome + tier thực.",
+  err:""},
+ s15:{step:"15–16",title:"Inference + raw score (300–900)",groups:["model","runtime","logging"],owners:["Dev"],
+  why:"Bước sinh điểm: phải chạy đúng artifact tier, đo hiệu năng, ghi kết quả + đường đi (<code>outcome_path</code>).",
+  purpose:"Inference trên <code>actual_model_tier</code>; sinh <code>raw_score</code>; ghi <code>outcome_path</code>.",
+  outputs:"<code>raw_score</code>, <code>outcome_path</code> (<code>MODEL_SCORED_*</code>, …) · metric: <code>inference_latency_ms</code>, <code>inference_error_rate</code>.",
+  impl:"Dev chạy inference; expose latency P95 + error rate; ghi raw_score, outcome_path. DQ cổng muộn: freshness/stale fail có thể chặn auto-decision.",err:""},
+ s17:{step:"17–18",title:"Grade mapping + limiting factors",groups:["model","logging"],owners:["DS","Dev"],
+  why:"Điểm thô cần map sang grade theo đúng version mapping; limiting factors để giải thích (minh bạch).",
+  purpose:"<code>score_mapping_version</code>→grade A–E; sinh limiting factors.",
+  outputs:"<code>grade</code> A–E, <code>score_mapping_version</code>, <code>limiting_factors[]</code>.",
+  impl:"DS quản score mapping version; Dev ghi grade + limiting factors vào inference log.",err:""},
+ s19:{step:"19–20",title:"Inference log + replay package (nền)",groups:["logging","runtime"],owners:["Dev","DE","DA"],
+  why:"Mỗi điểm phải có log đầy đủ + gói replay để tái chạy y hệt khi kiểm chứng/khiếu nại/audit.",
+  purpose:"Inference log đủ field Ch.5; replay package + cờ <code>replay_ready</code>.",
+  outputs:"inference log Kafka · <code>replay_ready</code>, replay URI · metric: <code>inference_log_ok</code> · alert: <code>ALT-LG-01</code>.",
+  impl:"Dev emit log + build replay; DE consumer Kafka→ES/Mongo; Dev/DA metric <code>inference_log_ok</code> + alert <code>ALT-LG-01</code>.",err:"<code>replay_not_ready</code> → không auto-decision (sau 21)."},
+ s21:{step:"21",title:"Trả response cho caller",groups:["runtime","logging","dq"],owners:["Dev"],
+  why:"Điểm cuối workflow scoring. Response phải đủ field để tuyến quyết định dùng và truy vết.",
+  purpose:"Trả score + <code>request_id</code>, <code>actual_model_tier</code>, <code>model_version</code>.",
+  outputs:"HTTP 200 + <code>score</code>, <code>grade</code>, <code>request_id</code>, <code>actual_model_tier</code>, <code>model_version</code> · metric: <code>api_success_rate</code>, <code>e2e_latency_ms</code>.",
+  impl:"Dev đo API success rate + end-to-end latency; chuẩn hóa response contract.",err:""},
+ decision:{step:"→",title:"Decision Safety (sau bước 21)",groups:["decision"],owners:["Dev","DA","DS"],
+  why:"Tuyến quyết định vay — điểm trở thành hành động. Phải không auto-decision khi context không tin cậy (DF/NS/replay chưa sẵn) và mọi override có dấu vết.",
+  purpose:"Eligibility gate đọc <code>actual_model_tier</code>/<code>outcome_path</code>/<code>replay_ready</code>; không auto-reject vì DF/NS; override audit.",
+  outputs:"<code>system_decision</code>, <code>final_decision</code>, <code>reason_code</code> · metric: <code>override_rate</code>, <code>auto_decision_blocked_total</code>.",
+  impl:"Dev policy engine + override log; DS chính sách; DA dashboard tuần. Team scoring vẫn phải cấp đủ field/log.",err:"Context không tin cậy → manual, không auto."}
+};
+
+const CELL2KEY={
+ s1:"s1",ctl_s1:"s1", s2:"s2",ctl_s2:"s2", s3:"s3",ctl_s3:"s3", s4:"s4",ctl_s4:"s4", ddup:"s4",
+ s5:"dq_ingress",ctl_s5:"dq_ingress", s6:"dq_ingress",ctl_s6:"dq_ingress", ddq:"dq_ingress",
+ a7:"feat",a8:"feat",a9:"feat",a10:"feat",b7:"feat",b8:"feat",b9:"feat",b10:"feat",ctl_feat:"feat",
+ s11:"s11",ctl_s11:"s11", s12:"s12", dkill:"kill",
+ s13:"s13",ctl_s13:"s13", s14:"s14",ctl_s14:"s14",
+ dmiss:"autoswitch",dtier:"autoswitch",swthin:"autoswitch",swnew:"autoswitch",ctl_dmiss:"autoswitch",
+ s15:"s15",s16:"s15",ctl_s15:"s15",ctl_s16:"s15", s17:"s17",s18:"s17",ctl_s17:"s17",
+ s19:"s19",s20:"s19",ctl_s19:"s19", s21:"s21",ctl_s21:"s21", ctl_decision:"decision"
+};
+
+const SVGNS="http://www.w3.org/2000/svg";
+let cells={}, scale=0.62, selKey=null, fGroup="all", fRole="all", fText="";
+
+function parseStyle(s){const o={flags:{}};(s||"").split(";").forEach(p=>{if(!p)return;const i=p.indexOf("=");if(i<0)o.flags[p]=true;else o[p.slice(0,i)]=p.slice(i+1);});return o;}
+function num(v,d){const n=parseFloat(v);return isNaN(n)?d:n;}
+function isDashed(st){return st.dashed==="1"||st.dashed===1||!!st.flags.dashed;}
+function dashAttr(st){return isDashed(st)?'stroke-dasharray="8 5"':"";}
+
+async function load(){
+  let xml;
+  try{const r=await fetch("../workflow__1__autoswitch.drawio");if(!r.ok)throw 0;xml=await r.text();}
+  catch(e){document.getElementById("err").style.display="block";
+    document.getElementById("err").innerHTML="Không tải được <code>../workflow__1__autoswitch.drawio</code>.<br>Hãy mở trang qua localhost, ví dụ:<br><code>cd ghi_chu_noi_bo && python3 -m http.server 8137</code> rồi vào <code>http://127.0.0.1:8137/pages/kiem_soat_workflow.html</code>.";return;}
+  const doc=new DOMParser().parseFromString(xml,"text/xml");
+  render(doc);
+}
+
+function render(doc){
+  const verts=[],edges=[];
+  doc.querySelectorAll("mxCell").forEach(c=>{
+    const id=c.getAttribute("id"); if(!id||id==="0"||id==="1")return;
+    const g=c.querySelector("mxGeometry");
+    const st=parseStyle(c.getAttribute("style"));
+    const o={id,style:st,value:c.getAttribute("value")||"",
+      isEdge:c.getAttribute("edge")==="1",
+      source:c.getAttribute("source"),target:c.getAttribute("target"),points:[]};
+    if(g){o.x=num(g.getAttribute("x"),0);o.y=num(g.getAttribute("y"),0);o.w=num(g.getAttribute("width"),0);o.h=num(g.getAttribute("height"),0);}
+    c.querySelectorAll("Array[as='points'] mxPoint").forEach(p=>o.points.push({x:num(p.getAttribute("x"),0),y:num(p.getAttribute("y"),0)}));
+    cells[id]=o; if(o.isEdge)edges.push(o);else verts.push(o);
+  });
+
+  const W=1320,H=2840;
+  let parts=[];
+  parts.push(`<defs></defs>`);
+  const containers=verts.filter(v=>v.id==="contA"||v.id==="contB");
+  const others=verts.filter(v=>!(v.id==="contA"||v.id==="contB"));
+  containers.forEach(v=>parts.push(vertexSVG(v)));
+  edges.forEach(e=>parts.push(edgeSVG(e)));
+  others.forEach(v=>parts.push(vertexSVG(v)));
+  edges.forEach(e=>{const l=edgeLabelSVG(e);if(l)parts.push(l);});
+
+  const svg=`<svg xmlns="${SVGNS}" viewBox="0 0 ${W} ${H}" width="${W*scale}" height="${H*scale}" id="dsvg">${parts.join("")}</svg>`;
+  const stage=document.getElementById("stage");
+  stage.innerHTML=svg;
+  stage.querySelectorAll(".v.clickable").forEach(el=>el.addEventListener("click",()=>select(el.dataset.key)));
+  applyFilter();
+}
+
+function shapeType(st){
+  if(st.flags.rhombus)return"rhombus";
+  if(st.flags.ellipse)return"ellipse";
+  if(st.flags.text&&(st.fillColor==="none"||!st.fillColor)&&(st.strokeColor==="none"))return"text";
+  return"rect";
+}
+function vertexSVG(v){
+  const st=v.style,t=shapeType(st);
+  const fill=(!st.fillColor||st.fillColor==="none")?"none":st.fillColor;
+  const stroke=(!st.strokeColor||st.strokeColor==="none")?"none":st.strokeColor;
+  const dash=dashAttr(st);
+  const op=st.opacity?(num(st.opacity,100)/100):1;
+  const x=v.x,y=v.y,w=v.w,h=v.h,cx=x+w/2,cy=y+h/2;
+  let shape="";
+  if(t==="rhombus")shape=`<polygon class="hit" points="${cx},${y} ${x+w},${cy} ${cx},${y+h} ${x},${cy}" fill="${fill}" stroke="${stroke}" stroke-width="1.5" ${dash}/>`;
+  else if(t==="ellipse")shape=`<ellipse class="hit" cx="${cx}" cy="${cy}" rx="${w/2}" ry="${h/2}" fill="${fill}" stroke="${stroke}" stroke-width="1.5" ${dash}/>`;
+  else if(t==="text")shape="";
+  else{const rx=st.flags["rounded=1"]||st.rounded==="1"?8:0;shape=`<rect class="hit" x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" stroke="${stroke}" stroke-width="1.5" ${dash}/>`;}
+  const fc=st.fontColor||"#1a1a1a";
+  const fsz=num(st.fontSize,12);
+  const fwAll=(num(st.fontStyle,0)&1)?"font-weight:700;":"";
+  const fiAll=(num(st.fontStyle,0)&2)?"font-style:italic;":"";
+  const align=(st.align==="left")?" left":"";
+  const valTop=(st.verticalAlign==="top")?"align-items:flex-start;":"";
+  let html=(v.value||"").replace(/\n/g,"<br>");
+  const label=html?`<foreignObject x="${x}" y="${y}" width="${w}" height="${h}"><div xmlns="http://www.w3.org/1999/xhtml" class="fo-label${align}" style="color:${fc};font-size:${fsz}px;${fwAll}${fiAll}${valTop}">${html}</div></foreignObject>`:"";
+  const key=CELL2KEY[v.id];
+  const cls="v"+(key?" clickable":"");
+  const data=key?` data-key="${key}" data-id="${v.id}"`:"";
+  return `<g class="${cls}"${data} data-op="${op}" style="opacity:${op}">${shape}${label}</g>`;
+}
+
+function sideDir(fx,fy){ if(fy===0)return"up"; if(fy===1)return"down"; if(fx===0)return"left"; if(fx===1)return"right"; return"none"; }
+function ptOf(node,fx,fy){return{x:node.x+fx*node.w,y:node.y+fy*node.h};}
+function edgeGeom(e){
+  const s=cells[e.source],t=cells[e.target]; if(!s||!t)return null;
+  const ex=e.style.exitX!=null?num(e.style.exitX,0.5):0.5, ey=e.style.exitY!=null?num(e.style.exitY,1):1;
+  const nx=e.style.entryX!=null?num(e.style.entryX,0.5):0.5, ny=e.style.entryY!=null?num(e.style.entryY,0):0;
+  const S=ptOf(s,ex,ey),E=ptOf(t,nx,ny);
+  const exDir=sideDir(ex,ey),enDir=sideDir(nx,ny);
+  const raw=[S,...e.points,E];
+  const out=[raw[0]];
+  for(let i=1;i<raw.length;i++){
+    const a=out[out.length-1],b=raw[i];
+    if(Math.abs(a.x-b.x)>0.5&&Math.abs(a.y-b.y)>0.5){
+      let corner;
+      if(i===1) corner=(exDir==="up"||exDir==="down")?{x:a.x,y:b.y}:{x:b.x,y:a.y};
+      else if(i===raw.length-1) corner=(enDir==="up"||enDir==="down")?{x:b.x,y:a.y}:{x:a.x,y:b.y};
+      else corner={x:a.x,y:b.y};
+      out.push(corner);
+    }
+    out.push(b);
+  }
+  return out;
+}
+function edgeSVG(e){
+  const pts=edgeGeom(e); if(!pts)return"";
+  const col=e.style.strokeColor||"#37474F";
+  const dash=dashAttr(e.style);
+  const d=pts.map((p,i)=>(i?"L":"M")+p.x+" "+p.y).join(" ");
+  let head="";
+  if(e.style.endArrow!=="none"){
+    const a=pts[pts.length-2],b=pts[pts.length-1];
+    const ang=Math.atan2(b.y-a.y,b.x-a.x),L=9,wdt=4.5;
+    const p1={x:b.x-L*Math.cos(ang)+wdt*Math.sin(ang),y:b.y-L*Math.sin(ang)-wdt*Math.cos(ang)};
+    const p2={x:b.x-L*Math.cos(ang)-wdt*Math.sin(ang),y:b.y-L*Math.sin(ang)+wdt*Math.cos(ang)};
+    head=`<polygon points="${b.x},${b.y} ${p1.x},${p1.y} ${p2.x},${p2.y}" fill="${col}"/>`;
+  }
+  return `<path d="${d}" fill="none" stroke="${col}" stroke-width="1.6" ${dash}/>${head}`;
+}
+function edgeLabelSVG(e){
+  if(!e.value)return""; const pts=edgeGeom(e); if(!pts)return"";
+  let tot=0,seg=[];for(let i=1;i<pts.length;i++){const l=Math.hypot(pts[i].x-pts[i-1].x,pts[i].y-pts[i-1].y);seg.push(l);tot+=l;}
+  let half=tot/2,mx=pts[0].x,my=pts[0].y;
+  for(let i=1;i<pts.length;i++){if(half<=seg[i-1]){const r=half/seg[i-1];mx=pts[i-1].x+(pts[i].x-pts[i-1].x)*r;my=pts[i-1].y+(pts[i].y-pts[i-1].y)*r;break;}half-=seg[i-1];}
+  const col=e.style.fontColor||"#444";const tw=e.value.length*6.5+8;
+  return `<g pointer-events="none"><rect x="${mx-tw/2}" y="${my-9}" width="${tw}" height="18" rx="3" fill="#ffffff" opacity="0.92"/><text x="${mx}" y="${my+4}" font-size="10" font-weight="700" fill="${col}" text-anchor="middle">${e.value}</text></g>`;
+}
+
+function badges(g){return g.map(k=>`<span class="badge b-${k}">${GROUPS[k].replace(' Control','')}</span>`).join("");}
+function owners(o){return o.map(r=>`<span class="owner">${r}</span>`).join("");}
+function select(key){
+  selKey=key;const d=DETAILS[key];if(!d)return;
+  const p=document.getElementById("panel");p.classList.remove("empty");
+  p.innerHTML=`<div class="p-step">Bước ${d.step} · ${d.groups.map(g=>GROUPS[g]).join(" · ")}</div>
+   <h2>${d.title}</h2>
+   <div class="pill-row">${badges(d.groups)}</div>
+   <div class="pill-row"><span class="owner" style="color:#cbd5e1">Ai làm:</span> ${owners(d.owners)}</div>
+   <div class="sec why"><h3>Tại sao kiểm soát ở đây</h3><p>${d.why}</p></div>
+   <div class="sec purpose"><h3>Phục vụ gì · để làm gì</h3><p>${d.purpose}</p></div>
+   ${d.outputs?`<div class="sec outputs"><h3>Đầu ra · metric · alert</h3><p>${d.outputs}</p></div>`:""}
+   <div class="sec impl"><h3>Triển khai thế nào</h3><p>${d.impl}</p></div>
+   ${d.err?`<div class="sec err"><h3>Khi lỗi / rẽ nhánh</h3><p>${d.err}</p></div>`:""}`;
+  p.scrollTop=0;
+  document.querySelectorAll(".v.clickable").forEach(el=>el.classList.toggle("sel",el.dataset.key===key));
+}
+
+function applyFilter(){
+  const active=(fGroup!=="all"||fRole!=="all"||fText);
+  document.querySelectorAll(".v.clickable").forEach(el=>{
+    const d=DETAILS[el.dataset.key];if(!d)return;let match=true;
+    if(fGroup!=="all"&&!d.groups.includes(fGroup))match=false;
+    if(fRole!=="all"&&!d.owners.includes(fRole))match=false;
+    if(fText){const hay=(d.title+d.why+d.purpose+(d.outputs||"")+d.impl+d.err+d.step).toLowerCase();if(!hay.includes(fText))match=false;}
+    const base=parseFloat(el.dataset.op)||1;
+    el.style.opacity = (active&&!match) ? 0.12 : base;
+    el.classList.toggle("hl", active&&match);
+  });
+}
+function rescale(){const s=document.getElementById("dsvg");if(s){s.setAttribute("width",1320*scale);s.setAttribute("height",2840*scale);}}
+
+document.querySelectorAll(".chip.group").forEach(c=>c.addEventListener("click",()=>{document.querySelectorAll(".chip.group").forEach(x=>x.classList.remove("active"));c.classList.add("active");fGroup=c.dataset.group;applyFilter();}));
+document.querySelectorAll(".chip.role").forEach(c=>c.addEventListener("click",()=>{document.querySelectorAll(".chip.role").forEach(x=>x.classList.remove("active"));c.classList.add("active");fRole=c.dataset.role;applyFilter();}));
+document.getElementById("search").addEventListener("input",e=>{fText=e.target.value.trim().toLowerCase();applyFilter();});
+document.getElementById("zin").addEventListener("click",()=>{scale=Math.min(2,scale+0.12);rescale();});
+document.getElementById("zout").addEventListener("click",()=>{scale=Math.max(0.25,scale-0.12);rescale();});
+document.getElementById("zfit").addEventListener("click",()=>{const st=document.getElementById("stage");scale=Math.max(0.25,(st.clientWidth-24)/1320);rescale();});
+
+load();
+</script>
+</body>
+</html>

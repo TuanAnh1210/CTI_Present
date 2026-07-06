@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A-Score · Tín hiệu vận hành</title>
+<link rel="stylesheet" href="../assets/css/board.css" />
+</head>
+<body>
+<header class="site-header"></header>
+<div class="page-header">
+  <h1>Bảng tín hiệu vận hành — control → đầu ra → metric → alert → log</h1>
+  <p>Control = code trong pipeline; giám sát = tín hiệu phát ra. Không cần đưa hết lên Grafana — chỉ metric/alert có ngưỡng vận hành.</p>
+  <p class="ref">Nguồn: <code>../../docs/bang_tin_hieu_van_hanh.md</code> · <a href="kiem_soat_workflow.html">Workflow flow</a> · <a href="kich_ban_go_live.html">Kịch bản alert</a></p>
+</div>
+
+<main class="wide" style="max-width:1400px;padding:0 22px 24px">
+
+  <div class="card">
+    <h2>Ba tầng giám sát</h2>
+    <table class="data-table">
+      <thead><tr><th>Tầng</th><th>Dùng khi</th><th>Nguồn</th></tr></thead>
+      <tbody>
+        <tr><td><b>Alert</b></td><td>Sự cố ngay (5xx, kill switch, log fail, DF spike)</td><td>Prometheus + Alertmanager</td></tr>
+        <tr><td><b>Dashboard</b></td><td>Xu hướng (downgrade rate, grade mix, latency P95)</td><td>Grafana</td></tr>
+        <tr><td><b>Log / replay</b></td><td>Điều tra ca đơn lẻ</td><td>inference log + replay package</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card"><h2>Bước 1 — Nhận request</h2>
+    <table class="data-table"><thead><tr><th>Control</th><th>Đầu ra</th><th>Metric</th><th>Alert</th><th>Log</th></tr></thead><tbody>
+      <tr><td>Runtime · request volume</td><td>—</td><td><code>request_volume</code></td><td>spike &gt; baseline ×3 (5m)</td><td>access log</td></tr>
+      <tr><td>Logging · request_id</td><td><code>request_id</code>, <code>correlation_id</code></td><td>—</td><td>—</td><td>mọi log downstream</td></tr>
+    </tbody></table></div>
+
+  <div class="card"><h2>Bước 2 — AuthN / AuthZ</h2>
+    <table class="data-table"><thead><tr><th>Control</th><th>Đầu ra</th><th>Metric</th><th>Alert</th><th>Log</th></tr></thead><tbody>
+      <tr><td>Request · caller hợp lệ</td><td><code>401</code>/<code>403</code>, <code>caller_id</code></td><td><code>auth_fail_total</code></td><td>fail rate &gt; 1% (15m)</td><td>auth log</td></tr>
+    </tbody></table></div>
+
+  <div class="card"><h2>Bước 3 — Schema validation</h2>
+    <table class="data-table"><thead><tr><th>Control</th><th>Đầu ra</th><th>Metric</th><th>Alert</th><th>Log</th></tr></thead><tbody>
+      <tr><td>Request · schema</td><td><code>400</code>, <code>validation_error_code</code></td><td><code>schema_validation_fail_total</code></td><td>spike theo caller</td><td>validation log</td></tr>
+    </tbody></table></div>
+
+  <div class="card"><h2>Bước 4 — Idempotency</h2>
+    <table class="data-table"><thead><tr><th>Control</th><th>Đầu ra</th><th>Metric</th><th>Alert</th><th>Log</th></tr></thead><tbody>
+      <tr><td>Request · dedup</td><td>cached, <code>dedup_hit=true</code></td><td><code>idempotency_hit_total</code></td><td>—</td><td>dedup log</td></tr>
+    </tbody></table></div>
+
+  <div class="card"><h2>Bước 5–6 — Ingress DQ + CRM</h2>
+    <table class="data-table"><thead><tr><th>Control</th><th>Đầu ra</th><th>Metric</th><th>Alert</th><th>Log</th></tr></thead><tbody>
+      <tr><td>DQ ingress · consent/eKYC/fraud</td><td><code>REJECT_INGRESS</code>, <code>reject_reason</code></td><td><code>reject_ingress_total</code></td><td>spike reject</td><td>ingress decision log</td></tr>
+      <tr><td>DQ · CRM lookup</td><td><code>intended_model_tier</code></td><td><code>crm_lookup_latency_ms</code></td><td>timeout P95 &gt; SLA</td><td>tier assignment log</td></tr>
+    </tbody></table></div>
+
+  <div class="card"><h2>Bước 7–10 — Feature pipeline</h2>
+    <table class="data-table"><thead><tr><th>Control</th><th>Đầu ra</th><th>Metric</th><th>Alert</th><th>Log</th></tr></thead><tbody>
+      <tr><td>DQ feature · pipeline</td><td>feature vector, <code>as_of_time</code>, <code>cohort</code></td><td><code>feature_pipeline_latency_ms</code></td><td>null rate &gt; ngưỡng</td><td>feature build log</td></tr>
+      <tr><td>Lỗi kỹ thuật</td><td><code>DF</code></td><td><code>df_total</code></td><td>DF spike</td><td>error log</td></tr>
+    </tbody></table>
+    <p style="font-size:12px;color:var(--muted);margin:8px 0 0">Job nền (DE): stale, online/offline mismatch → batch alert.</p></div>
+
+  <div class="card"><h2>Bước 11 — Feature snapshot</h2>
+    <table class="data-table"><thead><tr><th>Control</th><th>Đầu ra</th><th>Metric</th><th>Alert</th><th>Log</th></tr></thead><tbody>
+      <tr><td>Logging · snapshot</td><td><code>snapshot_id</code></td><td><code>feature_snapshot_ok</code></td><td><span class="badge badge-alert">ALT-LG-02</span></td><td>snapshot storage</td></tr>
+    </tbody></table></div>
+
+  <div class="card"><h2>Bước 12 + Kill switch</h2>
+    <table class="data-table"><thead><tr><th>Control</th><th>Đầu ra</th><th>Metric</th><th>Alert</th><th>Log</th></tr></thead><tbody>
+      <tr><td>Model · routing tier</td><td>nhánh FULL/THIN/NEW</td><td>—</td><td>—</td><td><code>tier_selected</code></td></tr>
+      <tr><td>Kill switch</td><td>fallback rule-based</td><td><code>kill_switch_active</code></td><td>bật = page ngay</td><td><code>outcome_path=FALLBACK_RULE</code></td></tr>
+    </tbody></table></div>
+
+  <div class="card"><h2>Bước 13–14 — Load + transform</h2>
+    <table class="data-table"><thead><tr><th>Control</th><th>Đầu ra</th><th>Metric</th><th>Alert</th><th>Log</th></tr></thead><tbody>
+      <tr><td>Model · load artifact</td><td><code>model_version</code>, <code>checksum_ok</code></td><td><code>artifact_load_fail_total</code></td><td><span class="badge badge-alert">ALT-AR-01</span></td><td>artifact load log</td></tr>
+      <tr><td>Model · transform</td><td><code>model_input</code></td><td><code>transform_latency_ms</code></td><td>P95 &gt; SLA</td><td>—</td></tr>
+    </tbody></table></div>
+
+  <div class="card"><h2>★ Autoswitch (sau bước 14)</h2>
+    <table class="data-table"><thead><tr><th>Control</th><th>Đầu ra</th><th>Metric</th><th>Alert</th><th>Log</th></tr></thead><tbody>
+      <tr><td>DQ · hạ cấp FULL→THIN→NEW</td><td><code>actual_model_tier</code>, <code>MODEL_DOWNGRADED</code></td><td><code>downgrade_rate</code></td><td>downgrade spike</td><td>inference log</td></tr>
+    </tbody></table></div>
+
+  <div class="card"><h2>Bước 15–16 — Inference</h2>
+    <table class="data-table"><thead><tr><th>Control</th><th>Đầu ra</th><th>Metric</th><th>Alert</th><th>Log</th></tr></thead><tbody>
+      <tr><td>Model · inference</td><td><code>raw_score</code></td><td><code>inference_latency_ms</code>, <code>inference_error_rate</code></td><td>P95; error &gt; 0.1%</td><td>inference log</td></tr>
+      <tr><td>Logging · outcome</td><td><code>outcome_path</code></td><td><code>outcome_path_total</code></td><td>—</td><td>inference log</td></tr>
+    </tbody></table></div>
+
+  <div class="card"><h2>Bước 17–18 — Grade + limiting factors</h2>
+    <table class="data-table"><thead><tr><th>Control</th><th>Đầu ra</th><th>Metric</th><th>Alert</th><th>Log</th></tr></thead><tbody>
+      <tr><td>Model · mapping</td><td><code>grade</code>, <code>score_mapping_version</code></td><td>—</td><td>—</td><td>inference log</td></tr>
+      <tr><td>Logging · explain</td><td><code>limiting_factors[]</code></td><td>—</td><td>—</td><td>inference log</td></tr>
+    </tbody></table></div>
+
+  <div class="card"><h2>Bước 19–20 — Inference log + replay</h2>
+    <table class="data-table"><thead><tr><th>Control</th><th>Đầu ra</th><th>Metric</th><th>Alert</th><th>Log</th></tr></thead><tbody>
+      <tr><td>Logging · inference log</td><td>full Ch.5 fields</td><td><code>inference_log_ok</code></td><td><span class="badge badge-alert">ALT-LG-01</span></td><td>Kafka → ES/Mongo</td></tr>
+      <tr><td>Logging · replay</td><td><code>replay_ready</code></td><td><code>replay_not_ready_total</code></td><td>replay fail rate</td><td>replay storage</td></tr>
+    </tbody></table></div>
+
+  <div class="card"><h2>Bước 21 — API response</h2>
+    <table class="data-table"><thead><tr><th>Control</th><th>Đầu ra</th><th>Metric</th><th>Alert</th><th>Log</th></tr></thead><tbody>
+      <tr><td>Runtime · response</td><td><code>score</code>, <code>grade</code>, <code>request_id</code></td><td><code>api_success_rate</code>, <code>e2e_latency_ms</code></td><td><span class="badge badge-alert">ALT-RT-01</span>, P95</td><td>response log</td></tr>
+    </tbody></table></div>
+
+  <div class="card"><h2>Sau bước 21 — Decision Safety</h2>
+    <table class="data-table"><thead><tr><th>Control</th><th>Đầu ra</th><th>Metric</th><th>Alert</th><th>Log</th></tr></thead><tbody>
+      <tr><td>Decision · eligibility</td><td><code>system_decision</code>, <code>final_decision</code></td><td><code>override_rate</code></td><td>override spike</td><td>decision audit log</td></tr>
+      <tr><td>Policy · không auto</td><td>manual queue</td><td><code>auto_decision_blocked_total</code></td><td><span class="badge badge-alert">ALT-DS-01</span></td><td>policy breach log</td></tr>
+    </tbody></table></div>
+
+  <div class="card">
+    <h2>Alert catalog (Ch.4) — liên kết kịch bản</h2>
+    <table class="data-table">
+      <thead><tr><th>Alert ID</th><th>Metric</th><th>Severity</th><th>Kịch bản go-live</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-alert">ALT-RT-01</span></td><td><code>api_success_rate</code></td><td>High</td><td><a href="kich_ban_go_live.html">Spike 5xx</a></td></tr>
+        <tr><td><span class="badge badge-alert">ALT-RT-02</span></td><td><code>latency_p95</code></td><td>Medium</td><td>—</td></tr>
+        <tr><td><span class="badge badge-alert">ALT-DQ-01</span></td><td><code>critical_missing_rate</code></td><td>High</td><td><a href="kich_ban_go_live.html">Critical missing</a></td></tr>
+        <tr><td><span class="badge badge-alert">ALT-AR-01</span></td><td><code>artifact_load_ok</code></td><td>High</td><td><a href="kich_ban_go_live.html">Sai version artifact</a></td></tr>
+        <tr><td><span class="badge badge-alert">ALT-LG-01</span></td><td><code>inference_log_ok</code></td><td>Critical</td><td><a href="kich_ban_go_live.html">Ghi log fail</a></td></tr>
+        <tr><td><span class="badge badge-alert">ALT-LG-02</span></td><td><code>feature_snapshot_ok</code></td><td>—</td><td>—</td></tr>
+        <tr><td><span class="badge badge-alert">ALT-DS-01</span></td><td><code>policy_breach_count</code></td><td>High</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+<footer>Đồng bộ <code>../../docs/bang_tin_hieu_van_hanh.md</code> · Owner: Dev (field/metric), DE (pipeline), DS (ngưỡng), DA (dashboard/alert)</footer>
+<script src="../assets/js/board.js"></script>
+</body>
+</html>
