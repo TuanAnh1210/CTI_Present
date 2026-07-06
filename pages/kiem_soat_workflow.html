@@ -10,7 +10,7 @@
 <header class="site-header"></header>
 <div class="page-header">
   <h1>A-Score · Sơ đồ kiểm soát theo workflow</h1>
-  <p>Sơ đồ dựng từ <code>../workflow__1__autoswitch.drawio</code>. Nhãn nét đứt: <b>Nhóm · việc → đầu ra | ai làm</b>. Bấm ô để xem chi tiết; metric/alert đầy đủ: <a href="tin_hieu_van_hanh.html">Tín hiệu vận hành</a>.</p>
+  <p>Sơ đồ dựng từ <code>../workflow/workflow__1__autoswitch.drawio</code>. Nhãn nét đứt: <b>Nhóm · việc → đầu ra | ai làm</b>. Bấm ô để xem chi tiết; metric/alert đầy đủ: <a href="tin_hieu_van_hanh.html">Tín hiệu vận hành</a>.</p>
 </div>
 <div class="toolbar">
   <span class="lbl">Lọc nhóm:</span>
@@ -156,9 +156,9 @@ function dashAttr(st){return isDashed(st)?'stroke-dasharray="8 5"':"";}
 
 async function load(){
   let xml;
-  try{const r=await fetch("../workflow__1__autoswitch.drawio");if(!r.ok)throw 0;xml=await r.text();}
+  try{const r=await fetch("../workflow/workflow__1__autoswitch.drawio");if(!r.ok)throw 0;xml=await r.text();}
   catch(e){document.getElementById("err").style.display="block";
-    document.getElementById("err").innerHTML="Không tải được <code>../workflow__1__autoswitch.drawio</code>.<br>Hãy mở trang qua localhost, ví dụ:<br><code>cd ghi_chu_noi_bo && python3 -m http.server 8137</code> rồi vào <code>http://127.0.0.1:8137/pages/kiem_soat_workflow.html</code>.";return;}
+    document.getElementById("err").innerHTML="Không tải được <code>../workflow/workflow__1__autoswitch.drawio</code>.<br>Hãy mở trang qua localhost, ví dụ:<br><code>cd CTI_Present && python3 -m http.server 8137</code> rồi vào <code>http://127.0.0.1:8137/pages/kiem_soat_workflow.html</code>.";return;}
   const doc=new DOMParser().parseFromString(xml,"text/xml");
   render(doc);
 }
