@@ -713,6 +713,14 @@
         font-size: 13px;
         line-height: 1.5;
       }
+      .cti-v2 .ds-visual-only {
+        width: 100%;
+      }
+      .cti-v2 .ds-visual-only .ds-diagram,
+      .cti-v2 .ds-visual-only .architecture-image,
+      .cti-v2 .ds-visual-only .arch-visual {
+        min-height: 430px;
+      }
       @media (max-width: 1100px) {
         .app {
           grid-template-columns: 1fr;
@@ -826,7 +834,7 @@
           <p>
             Flow chính:
             <b
-              >Start → Design-time → Train-time → Runtime → Monitoring →
+              >Start → Design-time → Train model → Runtime → Monitoring →
               Retraining → Retirement</b
             >. Cách này giúp người nghe nhìn thấy model như một tài sản nghiệp
             vụ có quản trị, có version, có lineage, có monitoring và có điểm
@@ -926,7 +934,7 @@
           <div class="section-head">
             <div>
               <h3>
-                4. Graph tương tác: lifecycle, train-time và runtime lineage
+                4. Graph tương tác: lifecycle, Train model và runtime lineage
               </h3>
               <p class="sub">
                 Graph giúp người nghe nhìn được dòng phụ thuộc giữa data, model,
@@ -942,7 +950,7 @@
               >
                 Lifecycle</button
               ><button data-graph="train" onclick="drawGraph('train')">
-                Train-time lineage</button
+                Train model lineage</button
               ><button data-graph="runtime" onclick="drawGraph('runtime')">
                 Runtime lineage
               </button>
@@ -1094,7 +1102,7 @@
           {
             id: "train",
             order: 3,
-            name: "Train-time",
+            name: "Train model",
             vi: "Huấn luyện & kiểm định",
             short:
               "Tạo candidate model từ dataset, feature set, experiment, metric và validation.",
@@ -5955,7 +5963,7 @@
           ],
           [
             "4. Dùng lifecycle làm xương sống",
-            "Trình bày Start → Design-time → Train-time → Runtime → Monitoring → Retraining → Retirement. Đây là lifecycle nghiệp vụ đầy đủ; status Draft/Validated/Active/Retired chỉ là trạng thái của ModelVersion.",
+            "Trình bày Start → Design-time → Train model → Runtime → Monitoring → Retraining → Retirement. Đây là lifecycle nghiệp vụ đầy đủ; status Draft/Validated/Active/Retired chỉ là trạng thái của ModelVersion.",
           ],
           [
             "5. Drill-down object lõi",
@@ -6317,9 +6325,39 @@
       }
       .cti-v2 .ds-grid {
         display: grid;
-        grid-template-columns: 0.34fr 1.66fr;
+        grid-template-columns: minmax(250px, 0.42fr) minmax(0, 1.58fr);
         gap: 14px;
         align-items: stretch;
+      }
+      .cti-v2 .ds-messagebar {
+        display: grid;
+        grid-template-columns: minmax(250px, 0.72fr) minmax(0, 1.28fr);
+        gap: 20px;
+        align-items: center;
+        padding: 14px 18px;
+        margin-bottom: 14px;
+        border: 1px solid #d9e4ef;
+        border-left: 5px solid #00833e;
+        border-radius: 8px;
+        background: linear-gradient(90deg, #f2fbf6 0%, #ffffff 72%);
+      }
+      .cti-v2 .ds-messagebar h4 {
+        margin: 0;
+        color: #0b4ea2;
+        font-size: 21px;
+        line-height: 1.25;
+      }
+      .cti-v2 .ds-messagebar p {
+        margin: 0;
+        color: #516173;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      .cti-v2 .ds-panel .lead-copy {
+        margin: 0 0 12px;
+        color: #516173;
+        font-size: 13px;
+        line-height: 1.5;
       }
       .cti-v2 .ds-panel {
         border: 1px solid #e5edf4;
@@ -6372,6 +6410,11 @@
         display: block;
         margin-bottom: 6px;
       }
+      .cti-v2 .visual-first .architecture-image,
+      .cti-v2 .visual-first .ds-diagram {
+        width: 100%;
+        height: 390px;
+      }
       .cti-v2 .architecture-image {
         border: 1px solid #d7e3ee;
         border-radius: 8px;
@@ -6414,6 +6457,15 @@
         grid-template-columns: 0.55fr 1.45fr;
         gap: 16px;
         align-items: stretch;
+      }
+      .cti-v2 .visual-grid.visual-only-main {
+        grid-template-columns: minmax(0, 1fr);
+        justify-items: center;
+      }
+      .cti-v2 .visual-grid.visual-only-main .arch-visual {
+        width: min(1120px, 100%);
+        height: 330px;
+        margin: 0 auto;
       }
       .cti-v2 .message-card {
         border: 1px solid #dfe8f2;
@@ -6486,6 +6538,7 @@
         .cti-v2 .phase-panel,
         .cti-v2 .architecture,
         .cti-v2 .ds-grid,
+        .cti-v2 .ds-messagebar,
         .cti-v2 .visual-grid {
           grid-template-columns: 1fr;
         }
@@ -6575,28 +6628,19 @@
             id: "design-time",
             title: "Design Time",
             short: "Thiết kế A-Score",
-            lead: "Design Time chuyển bài toán niềm tin thành thiết kế có thể build: target, population, feature, rule, score band, decision usage và control dữ liệu.",
+            lead: "",
             points: [
-              "Định nghĩa đối tượng chấm điểm, thời điểm chấm, nhãn good/bad hoặc proxy target.",
-              "Chọn feature theo ý nghĩa nghiệp vụ, quyền sử dụng dữ liệu và tính khả dụng tại runtime.",
-              "Thiết kế score band, reason code, policy guardrail và tiêu chí thành công.",
-            ],
-            output:
-              "Model design spec, target definition, feature definition, data requirement, rule mapping và acceptance criteria.",
+              "Feature Design",
+              "Model Design",
+              "Governance Design",
+            ]
           },
           {
             id: "train-time",
             title: "Train Model",
             short: "Huấn luyện và kiểm định",
-            lead: "Train Model biến thiết kế thành candidate model. Trọng tâm không chỉ là metric cao, mà là khả năng chứng minh model được train từ dữ liệu nào, dùng feature nào và đạt tiêu chí nào trước khi triển khai.",
-            points: [
-              "Đóng băng training dataset, kiểm tra data quality, train/validation/test split và feature set.",
-              "Ghi nhận experiment, metric, stability, bias check, approval và artifact.",
-              "So sánh candidate với baseline hoặc champion trước khi đưa vào runtime.",
-            ],
-            output:
-              "Candidate ModelVersion, validation report, run log, approved artifact và lineage đầy đủ.",
-          },
+            lead: "",
+            points: []},
           {
             id: "runtime",
             title: "Runtime",
@@ -6648,7 +6692,7 @@
             points: [
               "Business rule xác định use case, population, policy guardrail và label rule.",
               "Design Time biến rule thành feature blueprint, model blueprint và governance blueprint.",
-              "Train Model chạy các blueprint đó trên dữ liệu lịch sử để tạo scorecard có thể kiểm định, giải thích và đăng ký.",
+              "Train Model chạy các blueprint đó trên dữ liệu lịch sử để tạo Model Version có thể kiểm định, giải thích và đăng ký.",
             ],
             visual: "transition",
           },
@@ -6656,13 +6700,9 @@
             id: "design-overview-blueprint",
             group: "Design Time",
             title: "Tổng quan Design Time",
-            message: "Thiết kế feature + khung model asset",
-            lead: "Design Time không train model. Đây là giai đoạn thiết kế feature blueprint, model blueprint và governance blueprint để sau này model có thể train, kiểm định, đăng ký và tái tạo.",
-            points: [
-              "Feature blueprint: risk driver, feature group, derived feature, metadata, leakage rule.",
-              "Model blueprint: model family, input/output schema, training contract, validation contract.",
-              "Governance blueprint: dictionary, registry, offline store, score/grade/reason contract và model registry design.",
-            ],
+            message: "Thiết kế feature, model contract và governance asset",
+            lead: "Design Time xác định dữ liệu model sử dụng, cấu trúc model, contract đầu vào - đầu ra, validation criteria và cách quản trị version/lineage/registry.",
+            points: [],
             visual: "designOverview",
           },
           {
@@ -6671,11 +6711,7 @@
             title: "Risk Driver -> Feature dẫn xuất -> Coverage",
             message: "Biến rủi ro thành feature đo được",
             lead: "Risk Driver là giả thuyết rủi ro nghiệp vụ. DS đối chiếu Risk Driver với nguồn dữ liệu để tạo Feature Group, rồi sinh Derived Feature có công thức, cửa sổ thời gian và rule tính rõ ràng.",
-            points: [
-              "Ví dụ khả năng thanh toán có thể đo qua payment behaviour, delinquency, repayment capacity và repayment stability.",
-              "Derived Feature thể hiện cách nhìn dữ liệu theo tỷ lệ, xu hướng, độ biến động, recency hoặc độ ổn định.",
-              "Coverage bảo đảm mỗi Risk Driver có feature đại diện, đủ cho New/Thin/Thick và không thiếu góc nhìn quan trọng.",
-            ],
+            points: [],
             visual: "riskCoverage",
           },
           {
@@ -6684,24 +6720,16 @@
             title: "Feature Bundle / Dictionary / Registry / Offline Store",
             message: "Chuẩn hóa feature để train và replay",
             lead: "Sau Candidate Feature Pool, feature cần được chuẩn hóa thành asset quản trị được: bundle để thử nghiệm theo model family, dictionary để con người hiểu, registry để version hóa, offline store để lưu giá trị lịch sử.",
-            points: [
-              "Feature Bundle chưa phải Final Feature Set; nó là tập feature được phép thử nghiệm cho từng model family.",
-              "Feature Dictionary trả lời feature nghĩa là gì, công thức nào, nguồn nào, missing rule nào.",
-              "Feature Registry và Offline Store giúp training dataset, backtest, OOT test, recalibration và reproduce model.",
-            ],
+            points: [],
             visual: "featureStore",
           },
           {
             id: "train-overview-architecture",
             group: "Train Model",
             title: "Tổng quan Train Model",
-            message: "Không chỉ train model, mà xây scorecard architecture",
-            lead: "Train Model nhận Feature Bundle, Offline Feature Snapshot và Label Rule đã được phê duyệt. Mục tiêu không chỉ là train ra model, mà xây kiến trúc scorecard đủ tốt để tạo điểm A-Score ổn định.",
-            points: [
-              "Label Engine áp dụng đúng label rule version trên Outcome Store, DS không định nghĩa lại label.",
-              "Training Dataset ghép feature tại thời điểm T với label phát sinh sau T trong performance window.",
-              "TabNet/ML khám phá tín hiệu; Logistic/Scorecard biến tín hiệu thành điểm dễ giải thích và audit.",
-            ],
+            message: "A-Score architecture và Minimum Feature Set cho PreA",
+            lead: "Train Model tạo Model Version cho A-Score và đồng thời lựa chọn Minimum Feature Set để sinh PreA Score khi dữ liệu chưa đầy đủ.",
+            points: [],
             visual: "trainArchitecture",
           },
           {
@@ -6709,58 +6737,59 @@
             group: "Train Model",
             title: "Training Dataset + Label Engine",
             message: "Feature tại T + label sau T = dữ liệu học đúng",
-            lead: "Nền móng của model là training dataset đúng thời điểm: feature chỉ lấy những gì có sẵn tại T_request, còn label được sinh sau T theo performance window, maturity và label rule version.",
-            points: [
-              "Outcome Store giữ dữ liệu kết quả trả nợ, quá hạn hoặc tín hiệu tốt/xấu/xám sau quan sát.",
-              "Label Engine sinh target theo rule đã được Business/Risk chốt, đúng window và maturity.",
-              "Nếu feature lấy sai thời điểm hoặc label chưa mature, model học sai dù thuật toán tốt.",
-            ],
+            lead: "Training Dataset liên kết feature tại T với label sau T theo Label Rule Version đã được phê duyệt.",
+            points: [],
             visual: "datasetLabel",
           },
           {
             id: "tabnet-feature-logistic",
             group: "Train Model",
-            title: "TabNet -> Chọn feature -> Logistic Scorecard",
-            message: "TabNet tìm tín hiệu, Logistic biến thành điểm giải thích được",
-            lead: "Sau Design Time có nhiều feature ứng viên. TabNet hoặc ML tương tự được dùng như lớp screening để phát hiện tín hiệu phi tuyến, xếp hạng importance và gợi ý interaction, sau đó scorecard hóa bằng Logistic.",
-            points: [
-              "TabNet trả lời trong hàng trăm feature, tín hiệu thực sự nằm ở đâu.",
-              "Feature vẫn phải qua missing, leakage, stability, correlation, PSI/AVI, business direction và runtime availability.",
-              "Logistic/Scorecard dễ calibration, dễ chuyển hệ số thành điểm, dễ audit và dễ sinh reason code.",
-            ],
+            title: "TabNet Screening -> Final Feature Set -> Logistic Scoring Model",
+            message: "TabNet sàng lọc tín hiệu, Logistic Regression đánh giá rủi ro",
+            lead: "TabNet là lớp hỗ trợ khám phá tín hiệu; Logistic Regression là model để đánh giá rủi ro minh bạch và dễ kiểm định.",
+            points: [],
             visual: "tabnetLogistic",
           },
           {
             id: "validation-calibration-reason-registry",
             group: "Train Model",
             title: "Validation Gate -> Calibration -> Reason -> Registry",
-            message: "Model đạt khi qua đủ metric, stability, calibration và kiểm tra nghiệp vụ",
-            lead: "Kết quả cuối của Train Model không phải file .pkl đơn lẻ, mà là scorecard artifact có đầy đủ lineage, validation, calibration, grade/risk band, reason mapping và model registry record.",
-            points: [
-              "AUC/Gini/KS đạt ngưỡng và ổn định trên validation/OOT.",
-              "PSI/CSI/AVI, score distribution và bad rate by band không lệch bất thường.",
-              "No leakage, calibration đạt, dấu hệ số hợp lý, reason code giải thích được.",
-            ],
+            message: "Model Registry là output cuối của Train Model",
+            lead: "Model đạt khi qua 4 nhóm validation và được đăng ký như một ModelVersion có artifact, metadata, lineage, mapping và approval record.",
+            points: [],
             visual: "registry",
           },
         ];
         function dsVisual(type) {
           if (type === "trainArchitecture")
-            return `<div class="architecture-image"><svg viewBox="0 0 980 360" role="img" aria-label="Train Model architecture">
-              <defs><marker id="trainFocusArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#66788d"/></marker><filter id="trainFocusShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
-              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
-              <text x="490" y="50" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">KIẾN TRÚC TRAIN MODEL - SCORECARD PIPELINE</text>
-              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Từ snapshot feature và label rule đến scorecard artifact có lineage</text>
-              <rect x="50" y="110" width="128" height="74" rx="10" fill="#eef6ff" stroke="#8ab8ec" filter="url(#trainFocusShadow)"/><text x="114" y="140" text-anchor="middle" font-size="13" font-weight="900" fill="#0b4ea2">Feature tại T</text><text x="114" y="162" text-anchor="middle" font-size="11" font-weight="800" fill="#64748b">offline snapshot</text>
-              <rect x="50" y="216" width="128" height="74" rx="10" fill="#fff7db" stroke="#e7c95c" filter="url(#trainFocusShadow)"/><text x="114" y="246" text-anchor="middle" font-size="13" font-weight="900" fill="#7b5500">Label sau T</text><text x="114" y="268" text-anchor="middle" font-size="11" font-weight="800" fill="#64748b">maturity window</text>
-              <rect x="238" y="156" width="150" height="90" rx="12" fill="#ffffff" stroke="#cbd7e3" filter="url(#trainFocusShadow)"/><text x="313" y="190" text-anchor="middle" font-size="14" font-weight="900" fill="#0b4ea2">Training Dataset</text><text x="313" y="215" text-anchor="middle" font-size="12" font-weight="800" fill="#64748b">feature T + label T+W</text>
-              <rect x="448" y="90" width="150" height="70" rx="10" fill="#fff1e9" stroke="#ffb27d" filter="url(#trainFocusShadow)"/><text x="523" y="119" text-anchor="middle" font-size="13" font-weight="900" fill="#c84e00">TabNet / ML</text><text x="523" y="141" text-anchor="middle" font-size="11" font-weight="800" fill="#64748b">importance</text>
-              <rect x="448" y="190" width="150" height="70" rx="10" fill="#f8fbff" stroke="#cbd7e3" filter="url(#trainFocusShadow)"/><text x="523" y="219" text-anchor="middle" font-size="13" font-weight="900" fill="#0b4ea2">Lọc biến</text><text x="523" y="241" text-anchor="middle" font-size="11" font-weight="800" fill="#64748b">corr + WoE + IV</text>
-              <rect x="658" y="156" width="150" height="90" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#trainFocusShadow)"/><text x="733" y="190" text-anchor="middle" font-size="14" font-weight="900" fill="#007236">Logistic</text><text x="733" y="214" text-anchor="middle" font-size="12" font-weight="800" fill="#64748b">scorecard model</text>
-              <rect x="852" y="104" width="84" height="78" rx="10" fill="#ffffff" stroke="#cbd7e3" filter="url(#trainFocusShadow)"/><text x="894" y="132" text-anchor="middle" font-size="12" font-weight="900" fill="#0b4ea2">Validation</text><text x="894" y="153" text-anchor="middle" font-size="10" font-weight="800" fill="#64748b">AUC/Gini/KS</text><text x="894" y="169" text-anchor="middle" font-size="10" font-weight="800" fill="#64748b">OOT + PSI</text>
-              <rect x="852" y="216" width="84" height="78" rx="10" fill="#102033" stroke="#102033" filter="url(#trainFocusShadow)"/><text x="894" y="247" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">Registry</text><text x="894" y="268" text-anchor="middle" font-size="10" font-weight="800" fill="#dbe5ef">artifact</text>
-              <line x1="178" y1="147" x2="238" y2="184" stroke="#66788d" stroke-width="2.4" marker-end="url(#trainFocusArrow)"/><line x1="178" y1="253" x2="238" y2="218" stroke="#66788d" stroke-width="2.4" marker-end="url(#trainFocusArrow)"/><line x1="388" y1="201" x2="448" y2="125" stroke="#66788d" stroke-width="2.4" marker-end="url(#trainFocusArrow)"/><line x1="523" y1="160" x2="523" y2="190" stroke="#66788d" stroke-width="2.4" marker-end="url(#trainFocusArrow)"/><line x1="598" y1="225" x2="658" y2="201" stroke="#66788d" stroke-width="2.4" marker-end="url(#trainFocusArrow)"/><line x1="808" y1="184" x2="852" y2="143" stroke="#66788d" stroke-width="2.4" marker-end="url(#trainFocusArrow)"/><line x1="808" y1="218" x2="852" y2="255" stroke="#66788d" stroke-width="2.4" marker-end="url(#trainFocusArrow)"/>
-              <rect x="238" y="306" width="570" height="22" rx="7" fill="#f5fbf7" stroke="#9ad2b0"/><text x="523" y="322" text-anchor="middle" font-size="11" font-weight="900" fill="#00833e">Run log + dataset version + feature set version + label version + checksum</text>
+            return `<div class="architecture-image"><svg viewBox="0 0 980 390" role="img" aria-label="Kiến trúc Train Model A-Score và tập tối thiểu PreA">
+              <defs>
+                <marker id="trainArchArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#60758c"/></marker>
+                <filter id="trainArchShadow" x="-15%" y="-20%" width="140%" height="155%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity="0.11"/></filter>
+              </defs>
+              <rect x="16" y="14" width="948" height="362" rx="18" fill="#fbfdff" stroke="#d3dfeb"/>
+              <text x="490" y="43" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">KIẾN TRÚC MODEL A-SCORE</text>
+              <text x="490" y="65" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Từ Training Dataset đến Model Version — đồng thời tạo tập tối thiểu phục vụ PreA Score</text>
+
+              ${[
+                ["1", "TRAINING", "DATASET", ["Feature tại T", "Label sau T", "Dataset version"], 34, "#eef6ff", "#2368c4"],
+                ["2", "TABNET", "SCREENING", ["Nonlinear signal", "Interaction", "Feature importance"], 166, "#f5efff", "#7245c7"],
+                ["3", "FEATURE", "EVALUATION", ["IV / Correlation", "Stability", "Runtime-ready"], 298, "#fff3e9", "#db681d"],
+                ["4", "FINAL", "FEATURE SET", ["Full A-Score input", "Versioned set", "Selected predictors"], 430, "#eef9f1", "#168447"],
+                ["5", "LOGISTIC", "SCORING MODEL", ["PD / log-odds", "Score mapping", "Explainable coeff"], 562, "#edf8f0", "#168447"],
+                ["6", "VALIDATION &", "CALIBRATION", ["Gini / KS / OOT", "PD calibration", "Reason consistency"], 694, "#eef3fb", "#173d78"],
+                ["7", "MODEL", "REGISTRY", ["Model version", "Feature set version", "Reproducible artifact"], 826, "#eef2fb", "#0b2f64"],
+              ].map(([n,t1,t2,bullets,x,fill,color],i)=>`<g filter="url(#trainArchShadow)"><rect x="${x}" y="96" width="118" height="166" rx="13" fill="${fill}" stroke="${color}" stroke-opacity="0.52"/><circle cx="${x+59}" cy="96" r="23" fill="${color}"/><text x="${x+59}" y="102" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">${n}</text><text x="${x+59}" y="135" text-anchor="middle" font-size="12" font-weight="900" fill="${color}">${t1}</text><text x="${x+59}" y="152" text-anchor="middle" font-size="12" font-weight="900" fill="${color}">${t2}</text><line x1="${x+15}" y1="164" x2="${x+103}" y2="164" stroke="${color}" stroke-opacity="0.25"/><text x="${x+16}" y="187" font-size="9.7" font-weight="700" fill="#26384d">• ${bullets[0]}</text><text x="${x+16}" y="208" font-size="9.7" font-weight="700" fill="#26384d">• ${bullets[1]}</text><text x="${x+16}" y="229" font-size="9.7" font-weight="700" fill="#26384d">• ${bullets[2]}</text></g>${i<6?`<line x1="${x+118}" y1="179" x2="${x+132}" y2="179" stroke="#60758c" stroke-width="2.2" marker-end="url(#trainArchArrow)"/>`:""}`).join("")}
+
+              <path d="M489 262 L489 286" fill="none" stroke="#db681d" stroke-width="2.2" marker-end="url(#trainArchArrow)"/>
+              <g filter="url(#trainArchShadow)">
+                <rect x="356" y="292" width="266" height="62" rx="13" fill="#fff9e8" stroke="#e6b93f"/>
+                <text x="489" y="315" text-anchor="middle" font-size="12" font-weight="900" fill="#8b6500">MINIMUM FEATURE SET — PreA</text>
+                <text x="489" y="335" text-anchor="middle" font-size="10.5" font-weight="800" fill="#52657a">Tập nhỏ nhất vẫn giữ độ tương đồng cao với A-Score</text>
+                <text x="489" y="349" text-anchor="middle" font-size="9.6" font-weight="700" fill="#6b7280">MAE · KS · Spearman · Decile Match</text>
+              </g>
+              <line x1="622" y1="323" x2="680" y2="323" stroke="#e6b93f" stroke-width="2.2" marker-end="url(#trainArchArrow)"/>
+              <g filter="url(#trainArchShadow)"><rect x="692" y="292" width="144" height="62" rx="13" fill="#102f63" stroke="#102f63"/><text x="764" y="319" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">PreA Score</text><text x="764" y="338" text-anchor="middle" font-size="9.8" font-weight="700" fill="#dce7f5">Fallback khi dữ liệu thiếu</text></g>
             </svg></div>`;
           if (false)
             return `<div class="architecture-image"><svg viewBox="0 0 980 430" role="img" aria-label="Train model architecture">
@@ -6770,9 +6799,9 @@
               <rect x="20" y="296" width="170" height="88" rx="8" fill="#fff7db" stroke="#f3cf58"/><text x="105" y="330" text-anchor="middle" font-weight="800" fill="#7b5500">Outcome Store</text><text x="105" y="356" text-anchor="middle" font-size="13">Tốt / xấu / xám</text>
               <rect x="250" y="96" width="180" height="112" rx="8" fill="#ffffff" stroke="#cbd7e3"/><text x="340" y="132" text-anchor="middle" font-weight="800" fill="#0b4ea2">Label Engine</text><text x="340" y="160" text-anchor="middle" font-size="13">Áp dụng rule version</text><text x="340" y="180" text-anchor="middle" font-size="13">Window + maturity</text>
               <rect x="250" y="248" width="180" height="112" rx="8" fill="#ffffff" stroke="#cbd7e3"/><text x="340" y="286" text-anchor="middle" font-weight="800" fill="#0b4ea2">Training Dataset</text><text x="340" y="314" text-anchor="middle" font-size="13">Feature tại T</text><text x="340" y="334" text-anchor="middle" font-size="13">Label sau T</text>
-              <rect x="500" y="52" width="170" height="86" rx="8" fill="#fff1e9" stroke="#ffb27d"/><text x="585" y="86" text-anchor="middle" font-weight="800" fill="#c84e00">TabNet / ML</text><text x="585" y="112" text-anchor="middle" font-size="13">Khám phá tín hiệu</text>
-              <rect x="500" y="172" width="170" height="86" rx="8" fill="#f8fbff" stroke="#cbd7e3"/><text x="585" y="206" text-anchor="middle" font-weight="800" fill="#0b4ea2">Chọn feature</text><text x="585" y="232" text-anchor="middle" font-size="13">IV, PSI, stability</text>
-              <rect x="500" y="292" width="170" height="86" rx="8" fill="#eaf7ef" stroke="#8dd0aa"/><text x="585" y="326" text-anchor="middle" font-weight="800" fill="#007236">Logistic Scorecard</text><text x="585" y="352" text-anchor="middle" font-size="13">PD -> điểm</text>
+              <rect x="500" y="52" width="170" height="86" rx="8" fill="#fff1e9" stroke="#ffb27d"/><text x="585" y="86" text-anchor="middle" font-weight="800" fill="#c84e00">TabNet Screening</text><text x="585" y="112" text-anchor="middle" font-size="13">Khám phá tín hiệu</text>
+              <rect x="500" y="172" width="170" height="86" rx="8" fill="#f8fbff" stroke="#cbd7e3"/><text x="585" y="206" text-anchor="middle" font-weight="800" fill="#0b4ea2">Sàng lọc feature</text><text x="585" y="232" text-anchor="middle" font-size="13">IV, PSI, stability</text>
+              <rect x="500" y="292" width="170" height="86" rx="8" fill="#eaf7ef" stroke="#8dd0aa"/><text x="585" y="326" text-anchor="middle" font-weight="800" fill="#007236">Logistic Scorecard</text><text x="585" y="352" text-anchor="middle" font-size="13">PD -> score</text>
               <rect x="740" y="54" width="190" height="74" rx="8" fill="#ffffff" stroke="#cbd7e3"/><text x="835" y="88" text-anchor="middle" font-weight="800" fill="#0b4ea2">Validation</text><text x="835" y="110" text-anchor="middle" font-size="13">Gini, KS, OOT, leakage</text>
               <rect x="740" y="148" width="190" height="74" rx="8" fill="#ffffff" stroke="#cbd7e3"/><text x="835" y="182" text-anchor="middle" font-weight="800" fill="#0b4ea2">Calibration + Grade</text><text x="835" y="204" text-anchor="middle" font-size="13">Thang điểm, risk band</text>
               <rect x="740" y="242" width="190" height="74" rx="8" fill="#ffffff" stroke="#cbd7e3"/><text x="835" y="276" text-anchor="middle" font-weight="800" fill="#0b4ea2">Reason Code</text><text x="835" y="298" text-anchor="middle" font-size="13">Đóng góp feature/bin</text>
@@ -6787,7 +6816,7 @@
               </defs>
               <rect x="18" y="18" width="944" height="324" rx="14" fill="#fbfdff" stroke="#c8d7e7"/>
               <text x="490" y="48" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">DESIGN TIME - KHUNG MODEL ASSET</text>
-              <text x="490" y="72" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Thiết kế trước để train, kiểm định, replay và đăng ký model nhất quán</text>
+              <text x="490" y="72" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Feature, model contract, validation criteria, version, lineage và registry</text>
 
               <rect x="44" y="96" width="250" height="142" rx="12" fill="#eef6ff" stroke="#88b6e8" filter="url(#designShadow)"/>
               <text x="169" y="122" text-anchor="middle" font-size="15" font-weight="900" fill="#0b4ea2">FEATURE BLUEPRINT</text>
@@ -6798,20 +6827,20 @@
               <rect x="74" y="207" width="180" height="18" rx="5" fill="#d9ebff"/><text x="164" y="220" text-anchor="middle" font-size="11" font-weight="800" fill="#0b4ea2">metadata + leakage rule</text>
 
               <rect x="366" y="96" width="250" height="142" rx="12" fill="#eaf7ef" stroke="#87cfa5" filter="url(#designShadow)"/>
-              <text x="491" y="122" text-anchor="middle" font-size="15" font-weight="900" fill="#007236">MODEL BLUEPRINT</text>
+              <text x="491" y="122" text-anchor="middle" font-size="15" font-weight="900" fill="#007236">MODEL & CONTRACT</text>
               <circle cx="404" cy="152" r="17" fill="#00833e"/><text x="404" y="158" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">2</text>
               <text x="434" y="150" font-size="13" font-weight="800" fill="#102033">Model family</text>
-              <text x="434" y="171" font-size="13" font-weight="800" fill="#102033">Input / output schema</text>
-              <text x="434" y="192" font-size="13" font-weight="800" fill="#102033">Training contract</text>
-              <rect x="396" y="207" width="190" height="18" rx="5" fill="#d8f2e2"/><text x="491" y="220" text-anchor="middle" font-size="11" font-weight="800" fill="#007236">validation + score contract</text>
+              <text x="434" y="171" font-size="13" font-weight="800" fill="#102033">Training / validation contract</text>
+              <text x="434" y="192" font-size="13" font-weight="800" fill="#102033">Score / grade / reason</text>
+              <rect x="396" y="207" width="190" height="18" rx="5" fill="#d8f2e2"/><text x="491" y="220" text-anchor="middle" font-size="11" font-weight="800" fill="#007236">input / output contract</text>
 
               <rect x="688" y="96" width="250" height="142" rx="12" fill="#fff7db" stroke="#e8c550" filter="url(#designShadow)"/>
               <text x="813" y="122" text-anchor="middle" font-size="15" font-weight="900" fill="#7b5500">GOVERNANCE BLUEPRINT</text>
               <circle cx="726" cy="152" r="17" fill="#fcc20e"/><text x="726" y="158" text-anchor="middle" font-size="18" font-weight="900" fill="#102033">3</text>
-              <text x="756" y="150" font-size="13" font-weight="800" fill="#102033">Dictionary</text>
-              <text x="756" y="171" font-size="13" font-weight="800" fill="#102033">Registry</text>
-              <text x="756" y="192" font-size="13" font-weight="800" fill="#102033">Offline store</text>
-              <rect x="718" y="207" width="190" height="18" rx="5" fill="#fff0b8"/><text x="813" y="220" text-anchor="middle" font-size="11" font-weight="800" fill="#7b5500">version + owner + lineage</text>
+              <text x="756" y="150" font-size="13" font-weight="800" fill="#102033">Version policy</text>
+              <text x="756" y="171" font-size="13" font-weight="800" fill="#102033">Lineage metadata</text>
+              <text x="756" y="192" font-size="13" font-weight="800" fill="#102033">Model registry schema</text>
+              <rect x="718" y="207" width="190" height="18" rx="5" fill="#fff0b8"/><text x="813" y="220" text-anchor="middle" font-size="11" font-weight="800" fill="#7b5500">owner + audit + registry</text>
 
               <line x1="294" y1="167" x2="366" y2="167" stroke="#61758b" stroke-width="2.5" marker-end="url(#designArrow)"/>
               <line x1="616" y1="167" x2="688" y2="167" stroke="#61758b" stroke-width="2.5" marker-end="url(#designArrow)"/>
@@ -6826,11 +6855,11 @@
             return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Feature selection architecture">
               <defs><marker id="selectArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#66788d"/></marker><filter id="selectShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
               <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
-              <text x="490" y="50" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">CHỌN LỌC BIẾN - TỪ TABNET ĐẾN SCORECARD</text>
-              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Importance chỉ là lớp gợi ý đầu tiên; biến cuối phải qua correlation, binning, WoE và IV</text>
+              <text x="490" y="50" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">SÀNG LỌC FEATURE</text>
+              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">TabNet hỗ trợ khám phá tín hiệu; Logistic Regression là model để đánh giá rủi ro</text>
 
               <rect x="42" y="100" width="232" height="196" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#selectShadow)"/>
-              <text x="158" y="128" text-anchor="middle" font-size="15" font-weight="900" fill="#c84e00">1. TabNet importance</text>
+              <text x="158" y="128" text-anchor="middle" font-size="15" font-weight="900" fill="#c84e00">1. TabNet Screening</text>
               <rect x="76" y="152" width="126" height="16" rx="5" fill="#0b4ea2"/><text x="212" y="165" font-size="11" font-weight="900" fill="#102033">0.42</text><text x="76" y="144" font-size="11" font-weight="900" fill="#102033">dpd_recent</text>
               <rect x="76" y="186" width="104" height="16" rx="5" fill="#00833e"/><text x="190" y="199" font-size="11" font-weight="900" fill="#102033">0.35</text><text x="76" y="178" font-size="11" font-weight="900" fill="#102033">payment_ratio</text>
               <rect x="76" y="220" width="82" height="16" rx="5" fill="#fcc20e"/><text x="168" y="233" font-size="11" font-weight="900" fill="#102033">0.28</text><text x="76" y="212" font-size="11" font-weight="900" fill="#102033">income_stability</text>
@@ -6839,7 +6868,7 @@
               <rect x="374" y="100" width="232" height="196" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#selectShadow)"/>
               <text x="490" y="128" text-anchor="middle" font-size="15" font-weight="900" fill="#0b4ea2">2. Ma trận tương quan</text>
               ${[0,1,2,3,4].map((r)=>[0,1,2,3,4].map((c)=>`<rect x="${420+c*28}" y="${152+r*28}" width="26" height="26" rx="4" fill="${r===c?'#0b4ea2':Math.abs(r-c)===1?'#80b7ee':Math.abs(r-c)===2?'#d9ebff':'#f8fbff'}" stroke="#ffffff"/>`).join('')).join('')}
-              <text x="490" y="318" text-anchor="middle" font-size="12" font-weight="900" fill="#0b4ea2">loại biến trùng tín hiệu / giữ biến đại diện</text>
+              <text x="490" y="318" text-anchor="middle" font-size="12" font-weight="900" fill="#0b4ea2">loại feature trùng tín hiệu / giữ feature đại diện</text>
 
               <rect x="706" y="100" width="232" height="196" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#selectShadow)"/>
               <text x="822" y="128" text-anchor="middle" font-size="15" font-weight="900" fill="#007236">3. Binning -> WoE -> IV</text>
@@ -6848,7 +6877,7 @@
               <rect x="754" y="268" width="54" height="18" rx="5" fill="#d8f2e2"/><text x="781" y="281" text-anchor="middle" font-size="10" font-weight="900" fill="#007236">bin</text>
               <rect x="818" y="268" width="54" height="18" rx="5" fill="#d8f2e2"/><text x="845" y="281" text-anchor="middle" font-size="10" font-weight="900" fill="#007236">WoE</text>
               <rect x="882" y="268" width="42" height="18" rx="5" fill="#d8f2e2"/><text x="903" y="281" text-anchor="middle" font-size="10" font-weight="900" fill="#007236">IV</text>
-              <text x="822" y="318" text-anchor="middle" font-size="12" font-weight="900" fill="#007236">chỉ giữ biến ổn định, đơn điệu, giải thích được</text>
+              <text x="822" y="318" text-anchor="middle" font-size="12" font-weight="900" fill="#007236">Final Feature Set cho Logistic Scoring Model</text>
 
               <line x1="274" y1="198" x2="374" y2="198" stroke="#66788d" stroke-width="2.5" marker-end="url(#selectArrow)"/><line x1="606" y1="198" x2="706" y2="198" stroke="#66788d" stroke-width="2.5" marker-end="url(#selectArrow)"/>
             </svg></div>`;
@@ -6859,47 +6888,42 @@
                 <filter id="gateShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter>
               </defs>
               <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
-              <text x="490" y="50" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">MODEL VALIDATION GATE - MODEL OK KHI QUA ĐỦ CỬA</text>
-              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Không chỉ nhìn một metric; phải đạt sức phân biệt, ổn định, calibration và governance</text>
+              <text x="490" y="50" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">VALIDATION -> CALIBRATION -> MODEL REGISTRY</text>
+              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Model đáp ứng tiêu chí được chuẩn hóa đầu ra score và đăng ký thành ModelVersion</text>
 
-              <rect x="44" y="105" width="160" height="122" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#gateShadow)"/>
-              <text x="124" y="130" text-anchor="middle" font-size="14" font-weight="900" fill="#0b4ea2">1. DISCRIMINATION</text>
-              <path d="M72 192 C94 145, 120 206, 146 160 S180 158, 190 136" fill="none" stroke="#0b4ea2" stroke-width="4"/>
-              <text x="124" y="213" text-anchor="middle" font-size="11" font-weight="900" fill="#102033">AUC / Gini / KS đạt ngưỡng</text>
+              <rect x="56" y="106" width="196" height="116" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#gateShadow)"/>
+              <text x="154" y="132" text-anchor="middle" font-size="14" font-weight="900" fill="#0b4ea2">1. DISCRIMINATION</text>
+              <path d="M90 188 C112 146, 144 204, 176 160 S220 158, 234 136" fill="none" stroke="#0b4ea2" stroke-width="4"/>
+              <text x="154" y="210" text-anchor="middle" font-size="11" font-weight="900" fill="#102033">AUC / Gini / KS / Lift</text>
 
-              <rect x="224" y="105" width="160" height="122" rx="12" fill="#fff7db" stroke="#e7c95c" filter="url(#gateShadow)"/>
-              <text x="304" y="130" text-anchor="middle" font-size="14" font-weight="900" fill="#7b5500">2. OOT HOLDOUT</text>
-              <rect x="254" y="154" width="34" height="46" rx="6" fill="#fcc20e"/><rect x="296" y="146" width="34" height="54" rx="6" fill="#d9a600"/><rect x="338" y="162" width="18" height="38" rx="6" fill="#fff0b8" stroke="#d9a600"/>
-              <text x="304" y="213" text-anchor="middle" font-size="11" font-weight="900" fill="#102033">Validation và OOT không tụt mạnh</text>
+              <rect x="286" y="106" width="196" height="116" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#gateShadow)"/>
+              <text x="384" y="132" text-anchor="middle" font-size="14" font-weight="900" fill="#c84e00">2. STABILITY</text>
+              <circle cx="358" cy="174" r="21" fill="#ffe0cc" stroke="#c84e00"/><circle cx="390" cy="174" r="21" fill="#fff7db" stroke="#c84e00"/><text x="374" y="179" text-anchor="middle" font-size="13" font-weight="900" fill="#c84e00">PSI</text>
+              <text x="384" y="210" text-anchor="middle" font-size="11" font-weight="900" fill="#102033">PSI / CSI / bad rate by band</text>
 
-              <rect x="404" y="105" width="160" height="122" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#gateShadow)"/>
-              <text x="484" y="130" text-anchor="middle" font-size="14" font-weight="900" fill="#007236">3. CALIBRATION</text>
-              <line x1="440" y1="190" x2="528" y2="150" stroke="#94a3b8" stroke-width="3"/><path d="M440 178 C462 164, 488 158, 528 153" fill="none" stroke="#00833e" stroke-width="4"/>
-              <text x="484" y="213" text-anchor="middle" font-size="11" font-weight="900" fill="#102033">PD / score khớp bad rate</text>
+              <rect x="516" y="106" width="196" height="116" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#gateShadow)"/>
+              <text x="614" y="132" text-anchor="middle" font-size="14" font-weight="900" fill="#007236">3. CALIBRATION</text>
+              <line x1="562" y1="190" x2="666" y2="148" stroke="#94a3b8" stroke-width="3"/><path d="M562 178 C588 162, 620 158, 666 152" fill="none" stroke="#00833e" stroke-width="4"/>
+              <text x="614" y="210" text-anchor="middle" font-size="11" font-weight="900" fill="#102033">PD -> score / grade mapping</text>
 
-              <rect x="584" y="105" width="160" height="122" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#gateShadow)"/>
-              <text x="664" y="130" text-anchor="middle" font-size="14" font-weight="900" fill="#c84e00">4. STABILITY</text>
-              <circle cx="640" cy="174" r="22" fill="#ffe0cc" stroke="#c84e00"/><circle cx="672" cy="174" r="22" fill="#fff7db" stroke="#c84e00"/><text x="664" y="179" text-anchor="middle" font-size="13" font-weight="900" fill="#c84e00">PSI</text>
-              <text x="664" y="213" text-anchor="middle" font-size="11" font-weight="900" fill="#102033">PSI / CSI / AVI trong ngưỡng</text>
+              <rect x="746" y="106" width="180" height="116" rx="12" fill="#f8fbff" stroke="#b8c8da" filter="url(#gateShadow)"/>
+              <text x="836" y="132" text-anchor="middle" font-size="13" font-weight="900" fill="#334155">4. EXPLAINABILITY</text>
+              <path d="M836 148 l26 9 v21 c0 14 -10 24 -26 31 c-16 -7 -26 -17 -26 -31 v-21z" fill="#102033"/>
+              <text x="836" y="177" text-anchor="middle" font-size="16" font-weight="900" fill="#fff">✓</text>
+              <text x="836" y="210" text-anchor="middle" font-size="11" font-weight="900" fill="#102033">reason code + runtime contract</text>
 
-              <rect x="764" y="105" width="170" height="122" rx="12" fill="#f8fbff" stroke="#b8c8da" filter="url(#gateShadow)"/>
-              <text x="849" y="130" text-anchor="middle" font-size="14" font-weight="900" fill="#334155">5. GOVERNANCE</text>
-              <path d="M849 148 l34 12 v28 c0 18 -14 31 -34 40 c-20 -9 -34 -22 -34 -40 v-28z" fill="#102033"/>
-              <text x="849" y="181" text-anchor="middle" font-size="20" font-weight="900" fill="#fff">✓</text>
-              <text x="849" y="213" text-anchor="middle" font-size="11" font-weight="900" fill="#102033">No leakage + reason code</text>
+              <line x1="252" y1="164" x2="286" y2="164" stroke="#66788d" stroke-width="2.4" marker-end="url(#gateArrow)"/>
+              <line x1="482" y1="164" x2="516" y2="164" stroke="#66788d" stroke-width="2.4" marker-end="url(#gateArrow)"/>
+              <line x1="712" y1="164" x2="746" y2="164" stroke="#66788d" stroke-width="2.4" marker-end="url(#gateArrow)"/>
 
-              <line x1="204" y1="166" x2="224" y2="166" stroke="#66788d" stroke-width="2.4" marker-end="url(#gateArrow)"/>
-              <line x1="384" y1="166" x2="404" y2="166" stroke="#66788d" stroke-width="2.4" marker-end="url(#gateArrow)"/>
-              <line x1="564" y1="166" x2="584" y2="166" stroke="#66788d" stroke-width="2.4" marker-end="url(#gateArrow)"/>
-              <line x1="744" y1="166" x2="764" y2="166" stroke="#66788d" stroke-width="2.4" marker-end="url(#gateArrow)"/>
-
-              <rect x="86" y="270" width="250" height="42" rx="10" fill="#eaf7ef" stroke="#8bd0a8"/>
-              <text x="211" y="296" text-anchor="middle" font-size="13" font-weight="900" fill="#007236">PASS -> Calibration -> Reason Mapping</text>
-              <line x1="336" y1="291" x2="426" y2="291" stroke="#66788d" stroke-width="2.4" marker-end="url(#gateArrow)"/>
-              <rect x="426" y="270" width="170" height="42" rx="10" fill="#102033" stroke="#102033"/>
-              <text x="511" y="296" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Model Registry</text>
-              <rect x="660" y="270" width="236" height="42" rx="10" fill="#fff1e9" stroke="#ffb27d"/>
-              <text x="778" y="296" text-anchor="middle" font-size="13" font-weight="900" fill="#c84e00">FAIL -> quay lại feature/model selection</text>
+              <rect x="90" y="270" width="218" height="42" rx="10" fill="#eaf7ef" stroke="#8bd0a8"/>
+              <text x="199" y="296" text-anchor="middle" font-size="13" font-weight="900" fill="#007236">PASS -> output chuẩn hóa</text>
+              <line x1="308" y1="291" x2="392" y2="291" stroke="#66788d" stroke-width="2.4" marker-end="url(#gateArrow)"/>
+              <rect x="392" y="270" width="222" height="42" rx="10" fill="#ffffff" stroke="#cbd7e3"/>
+              <text x="503" y="296" text-anchor="middle" font-size="13" font-weight="900" fill="#0b4ea2">score / grade / reason mapping</text>
+              <line x1="614" y1="291" x2="698" y2="291" stroke="#66788d" stroke-width="2.4" marker-end="url(#gateArrow)"/>
+              <rect x="698" y="270" width="190" height="42" rx="10" fill="#102033" stroke="#102033"/>
+              <text x="793" y="296" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Model Registry</text>
             </svg></div>`;
           const flows = {
             transition: ["Business rule", "Risk driver + label", "Khung thiết kế", "Train scorecard"],
@@ -6907,8 +6931,8 @@
             riskCoverage: ["Risk driver", "Feature group", "Derived feature", "Coverage check"],
             featureStore: ["Feature bundle", "Dictionary", "Registry", "Offline store"],
             datasetLabel: ["Snapshot feature tại T", "Outcome sau T", "Label engine", "Training dataset"],
-            tabnetLogistic: ["Candidate pool", "Screening TabNet", "Final feature set", "Logistic scorecard"],
-            registry: ["Validation", "Calibration", "Reason mapping", "Model registry"],
+            tabnetLogistic: ["Feature Bundle", "TabNet Screening", "Final Feature Set", "Logistic Scorecard"],
+            registry: ["Validation", "Calibration", "Score / Grade / Reason", "Model Registry"],
           }[type] || [];
           return `<div class="ds-diagram"><svg viewBox="0 0 980 430" role="img" aria-label="DS architecture board">
             <defs>
@@ -6959,7 +6983,7 @@
               "feature-asset-standardization": "Chuẩn hóa feature asset",
               "train-overview-architecture": "Kiến trúc train model",
               "training-dataset-label-engine": "Tạo dữ liệu học",
-              "tabnet-feature-logistic": "Chọn lọc biến",
+              "tabnet-feature-logistic": "Sàng lọc feature",
               "validation-calibration-reason-registry": "Kiểm định và đăng ký model",
             }[item.id] || item.message
           );
@@ -6968,17 +6992,24 @@
           const progress = Array.from({ length: total })
             .map((_, idx) => `<span class="sub-dot ${idx < subNum ? "on" : ""}"></span>`)
             .join("");
-          return `<section class="section ds-slide" id="${item.id}">
+          const hasPoints = Array.isArray(item.points) && item.points.length > 0;
+          const content = hasPoints
+            ? `<div class="ds-grid">
+                <div class="ds-panel">
+                  <h4>${esc2(item.message)}</h4>
+                  <ul>${item.points.map((p) => `<li>${esc2(compactPoint(p))}</li>`).join("")}</ul>
+                </div>
+                ${dsVisual(item.visual)}
+              </div>`
+            : `<div class="ds-visual-only">${dsVisual(item.visual)}</div>`;
+          return `<section class="section ds-slide ${hasPoints ? "with-points" : "visual-first"}" id="${item.id}">
       <h3 class="visually-hidden">${esc2(label)}. ${esc2(item.title)}</h3>
       <div class="section-context">
         <span class="context-num">${parentNum}</span>
         <div class="context-title"><b>${esc2(subDisplayTitle(item))}</b><small>${esc2(parent.title)} · ${subNum}/${total}</small></div>
         <div class="sub-progress">${progress}</div>
       </div>
-      <div class="ds-grid">
-        <div class="ds-panel"><h4>${esc2(item.message)}</h4><ul>${item.points.map((p) => `<li>${esc2(compactPoint(p))}</li>`).join("")}</ul></div>
-        ${dsVisual(item.visual)}
-      </div>
+      ${content}
     </section>`;
         }
         function dsSlidesFor(flowId) {
@@ -7018,7 +7049,7 @@
               </defs>
               <rect x="22" y="24" width="856" height="382" rx="16" fill="#ffffff" stroke="#d6e2ee"/>
               <text x="450" y="58" text-anchor="middle" font-size="24" font-weight="900" fill="#0b2f64">DESIGN TIME - THIẾT KẾ MODEL ASSET</text>
-              <text x="450" y="82" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Chốt feature, contract và governance để model có thể train, replay, audit</text>
+              <text x="450" y="82" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Xác định feature, model contract, validation criteria, version, lineage và registry</text>
 
               <rect x="54" y="112" width="180" height="178" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#designMainShadow)"/>
               <text x="144" y="140" text-anchor="middle" font-size="14" font-weight="900" fill="#0b4ea2">BUSINESS RISK</text>
@@ -7040,14 +7071,14 @@
               <text x="608" y="140" text-anchor="middle" font-size="14" font-weight="900" fill="#7b5500">MODEL CONTRACT</text>
               <circle cx="560" cy="174" r="20" fill="#fcc20e"/><text x="560" y="181" text-anchor="middle" font-size="20" font-weight="900" fill="#102033">M</text>
               <text x="592" y="170" font-size="12" font-weight="800" fill="#102033">Model family</text>
-              <text x="592" y="191" font-size="12" font-weight="800" fill="#102033">Input / output</text>
-              <text x="592" y="212" font-size="12" font-weight="800" fill="#102033">Validation rule</text>
-              <rect x="546" y="244" width="124" height="24" rx="7" fill="#fff0b8"/><text x="608" y="261" text-anchor="middle" font-size="11" font-weight="900" fill="#7b5500">score contract</text>
+              <text x="592" y="191" font-size="12" font-weight="800" fill="#102033">Training / validation</text>
+              <text x="592" y="212" font-size="12" font-weight="800" fill="#102033">Input / output</text>
+              <rect x="546" y="244" width="124" height="24" rx="7" fill="#fff0b8"/><text x="608" y="261" text-anchor="middle" font-size="11" font-weight="900" fill="#7b5500">score/grade/reason</text>
 
               <rect x="750" y="112" width="96" height="178" rx="12" fill="#f8fbff" stroke="#b8c8da" filter="url(#designMainShadow)"/>
               <text x="798" y="140" text-anchor="middle" font-size="13" font-weight="900" fill="#334155">REGISTRY</text>
               <path d="M778 166 h40 a7 7 0 0 1 7 7 v54 a7 7 0 0 1 -7 7 h-40 a7 7 0 0 1 -7 -7 v-54 a7 7 0 0 1 7 -7z" fill="#102033"/>
-              <text x="798" y="197" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">version</text>
+              <text x="798" y="197" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">schema</text>
               <text x="798" y="216" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">lineage</text>
               <rect x="765" y="244" width="66" height="24" rx="7" fill="#e2e8f0"/><text x="798" y="261" text-anchor="middle" font-size="10" font-weight="900" fill="#334155">owner</text>
 
@@ -7071,26 +7102,26 @@
             return `<div class="arch-visual"><svg viewBox="0 0 900 430" role="img" aria-label="Train Model scorecard architecture">
               <defs><marker id="trainMainArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#63758a"/></marker><filter id="trainMainShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
               <rect x="22" y="24" width="856" height="382" rx="16" fill="#ffffff" stroke="#d6e2ee"/>
-              <text x="450" y="58" text-anchor="middle" font-size="24" font-weight="900" fill="#0b2f64">TRAIN MODEL - XÂY SCORECARD ARCHITECTURE</text>
-              <text x="450" y="82" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Không chỉ train thuật toán; phải tạo được scorecard asset có kiểm định và lineage</text>
+              <text x="450" y="58" text-anchor="middle" font-size="24" font-weight="900" fill="#0b2f64">TRAIN MODEL - XÂY DUAL-STAGE MODELING ARCHITECTURE</text>
+              <text x="450" y="82" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">TabNet screening hỗ trợ khám phá; Logistic Regression đánh giá rủi ro</text>
 
               <rect x="54" y="116" width="170" height="156" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#trainMainShadow)"/>
               <text x="139" y="142" text-anchor="middle" font-size="14" font-weight="900" fill="#0b4ea2">DATASET</text>
               <text x="84" y="174" font-size="12" font-weight="800" fill="#102033">Feature at T</text>
               <text x="84" y="198" font-size="12" font-weight="800" fill="#102033">Label after T</text>
               <text x="84" y="222" font-size="12" font-weight="800" fill="#102033">OOT split</text>
-              <rect x="78" y="238" width="122" height="20" rx="6" fill="#dbeafe"/><text x="139" y="252" text-anchor="middle" font-size="10" font-weight="900" fill="#0b4ea2">frozen version</text>
+              <rect x="78" y="238" width="122" height="20" rx="6" fill="#dbeafe"/><text x="139" y="252" text-anchor="middle" font-size="10" font-weight="900" fill="#0b4ea2">versioned dataset</text>
 
               <rect x="274" y="116" width="170" height="156" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#trainMainShadow)"/>
-              <text x="359" y="142" text-anchor="middle" font-size="14" font-weight="900" fill="#c84e00">SIGNAL DISCOVERY</text>
-              <text x="304" y="174" font-size="12" font-weight="800" fill="#102033">TabNet importance</text>
-              <text x="304" y="198" font-size="12" font-weight="800" fill="#102033">Correlation filter</text>
-              <text x="304" y="222" font-size="12" font-weight="800" fill="#102033">WoE / IV</text>
+              <text x="359" y="142" text-anchor="middle" font-size="14" font-weight="900" fill="#c84e00">TABNET SCREENING</text>
+              <text x="304" y="174" font-size="12" font-weight="800" fill="#102033">Nonlinear signal</text>
+              <text x="304" y="198" font-size="12" font-weight="800" fill="#102033">Interaction</text>
+              <text x="304" y="222" font-size="12" font-weight="800" fill="#102033">Feature importance</text>
               <rect x="298" y="238" width="122" height="20" rx="6" fill="#ffe0cc"/><text x="359" y="252" text-anchor="middle" font-size="10" font-weight="900" fill="#c84e00">final feature set</text>
 
               <rect x="494" y="116" width="170" height="156" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#trainMainShadow)"/>
-              <text x="579" y="142" text-anchor="middle" font-size="14" font-weight="900" fill="#007236">SCORECARD</text>
-              <text x="524" y="174" font-size="12" font-weight="800" fill="#102033">Logistic model</text>
+              <text x="579" y="142" text-anchor="middle" font-size="14" font-weight="900" fill="#007236">LOGISTIC SCORECARD</text>
+              <text x="524" y="174" font-size="12" font-weight="800" fill="#102033">Transparent coeff</text>
               <text x="524" y="198" font-size="12" font-weight="800" fill="#102033">Calibration</text>
               <text x="524" y="222" font-size="12" font-weight="800" fill="#102033">Reason code</text>
               <rect x="518" y="238" width="122" height="20" rx="6" fill="#d8f2e2"/><text x="579" y="252" text-anchor="middle" font-size="10" font-weight="900" fill="#007236">score mapping</text>
@@ -7100,7 +7131,7 @@
               <text x="740" y="174" font-size="12" font-weight="800" fill="#102033">AUC / Gini / KS</text>
               <text x="740" y="198" font-size="12" font-weight="800" fill="#102033">OOT + PSI</text>
               <text x="740" y="222" font-size="12" font-weight="800" fill="#102033">Calibration</text>
-              <rect x="736" y="238" width="88" height="20" rx="6" fill="#e2e8f0"/><text x="780" y="252" text-anchor="middle" font-size="10" font-weight="900" fill="#334155">pass -> registry</text>
+              <rect x="736" y="238" width="88" height="20" rx="6" fill="#e2e8f0"/><text x="780" y="252" text-anchor="middle" font-size="10" font-weight="900" fill="#334155">registry ready</text>
 
               <line x1="224" y1="194" x2="274" y2="194" stroke="#63758a" stroke-width="2.5" marker-end="url(#trainMainArrow)"/><line x1="444" y1="194" x2="494" y2="194" stroke="#63758a" stroke-width="2.5" marker-end="url(#trainMainArrow)"/><line x1="664" y1="194" x2="714" y2="194" stroke="#63758a" stroke-width="2.5" marker-end="url(#trainMainArrow)"/>
 
@@ -7122,7 +7153,7 @@
             },
             "train-time": {
               title: "Xây kiến trúc scorecard",
-              nodes: ["Feature tại T", "Label sau T", "Tín hiệu TabNet", "Logistic scorecard", "Registry"],
+              nodes: ["Feature tại T", "Label sau T", "Tín hiệu TabNet", "Logistic scoring model", "Registry"],
               colors: ["#eef6ff", "#fff7db", "#fff1e9", "#eaf7ef", "#102033"],
             },
             runtime: {
@@ -7162,23 +7193,27 @@
             {
               "business-case": "CTI biến niềm tin khách hàng thành điểm có thể giải thích.",
               ontology: "Ontology tạo ngôn ngữ chung cho dữ liệu, model, score và decision.",
-              "design-time": "Design Time chốt blueprint trước khi train.",
-              "train-time": "Train Model xây scorecard architecture, không chỉ tạo model file.",
+              // "design-time": "Design Time xác định model sử dụng dữ liệu gì, được xây dựng theo cấu trúc nào và được quản trị ra sao.",
+              "train-time": "",
               runtime: "Runtime trả score có version, snapshot và decision lineage.",
               deployment: "Deploy đưa model vào production bằng rollout có kiểm soát.",
             }[id] || fallback
           );
         }
         function sectionCard(item, i) {
+          const isTrainModel = item.id === "train-time";
+          const visualContent = isTrainModel
+            ? `<div class="visual-grid visual-only-main">${mainVisual(item.id)}</div>`
+            : `<div class="visual-grid">
+                <div class="message-card">
+                  <p class="big">${esc2(mainMessage(item.id, item.output))}</p>
+                  <div class="signal-list">${item.points.slice(0, 3).map((p) => `<div class="signal">${esc2(compactPoint(p))}</div>`).join("")}</div>
+                </div>
+                ${mainVisual(item.id)}
+              </div>`;
           return `<section class="section visual-slide" id="${item.id}">
       <div class="section-head"><div><h3>${i + 1}. ${esc2(item.title)}</h3><p class="sub">${esc2(item.short)}</p></div><span class="badge">Main section</span></div>
-      <div class="visual-grid">
-        <div class="message-card">
-          <p class="big">${esc2(mainMessage(item.id, item.output))}</p>
-          <div class="signal-list">${item.points.slice(0, 3).map((p) => `<div class="signal">${esc2(compactPoint(p))}</div>`).join("")}</div>
-        </div>
-        ${mainVisual(item.id)}
-      </div>
+      ${visualContent}
     </section>`;
         }
         function roleText(id) {
