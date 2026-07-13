@@ -835,7 +835,7 @@
             Flow chính:
             <b
               >Start → Design-time → Train model → Runtime → Monitoring →
-              Retraining → Retirement</b
+              Governance → Retraining → Retirement</b
             >. Cách này giúp người nghe nhìn thấy model như một tài sản nghiệp
             vụ có quản trị, có version, có lineage, có monitoring và có điểm
             dừng rõ ràng.
@@ -844,7 +844,7 @@
             <div class="kpi"><b>19</b><span>Domain trong ontology</span></div>
             <div class="kpi"><b>69</b><span>Object đã định nghĩa</span></div>
             <div class="kpi"><b>81</b><span>LinkType/Relationship</span></div>
-            <div class="kpi"><b>7</b><span>Phase model lifecycle</span></div>
+            <div class="kpi"><b>8</b><span>Phase model lifecycle</span></div>
           </div>
         </section>
 
@@ -1178,43 +1178,79 @@
             id: "monitoring",
             order: 5,
             name: "Monitoring",
-            vi: "Giám sát sau triển khai",
+            vi: "Giám sát runtime & observability",
             short:
-              "Theo dõi model health, data drift, score distribution, bad rate, latency và lỗi runtime.",
+              "Đo, nhìn, báo: service health, data quality, score/output integrity qua Grafana, metric dictionary và alert.",
             question:
-              "Model còn tốt không? Có drift, giảm hiệu quả, lỗi vận hành hay lệch chính sách không?",
+              "Service còn ổn không? Data vào scoring có tin không? Output (result_mode) có trung thực không?",
             input:
-              "ModelRunLog, ScoreResult, actual repayment/delinquency outcome, metric snapshot, production data.",
+              "scoring_decision_log (PG), Prometheus (latency/5xx), metric snapshot, ModelRunLog, ScoreResult.",
             output:
-              "Monitoring dashboard, drift report, performance report, alert, recommendation for retraining/rollback.",
+              "Grafana dashboard Phase 1, alert (ALT-RT-01, ALT-DQ-01, ALT-AR-01, ALT-LG-01), SLA breach signal.",
             actors:
-              "Model Governance, Risk Monitoring, Data Science, IT/MLOps, Business owner.",
+              "Model Governance, Dev, DE, DS, IT/MLOps, Risk Monitoring.",
             objects_existing: [
               "ModelRunLog",
               "ScoreResult",
-              "RiskSignal",
               "DataQualityCheck",
               "AuditLog",
               "IntegrationEvent",
+              "APIEndpoint",
             ],
             objects_suggested: [
               "MonitoringReport",
-              "DriftReport",
-              "PerformanceReport",
               "Alert",
+              "MetricDictionary",
+              "DriftReport",
             ],
             links: [
               "monitoring_tracks_model_version",
-              "drift_report_evaluates_feature_set",
-              "performance_report_uses_outcome",
               "alert_created_from_monitoring",
+              "metric_dictionary_defines_threshold",
+              "dashboard_aggregates_scoring_log",
             ],
             controls:
-              "Champion/challenger comparison, data drift, score band stability, bad rate by band, SLA runtime, error rate.",
+              "Metric dictionary 7 thuộc tính, SLA Green/Amber/Red, nguồn log PG + Prometheus, Model KPI (AUC/PSI) do DS/DE publish — Governance kéo panel Phase 2.",
+          },
+          {
+            id: "governance",
+            order: 6,
+            name: "Governance",
+            vi: "Kiểm soát vận hành & go-live",
+            short:
+              "Triage alert, runbook sự cố, phê duyệt rollback/kill switch và gate go-live observability.",
+            question:
+              "Khi metric lệch thì xử thế nào? Ai approve rollback? Khi nào được phép go-live production?",
+            input:
+              "Alert từ Monitoring, runbook, SLA breach, fire test result, drill rollback/kill switch.",
+            output:
+              "Incident triage, containment action, rollback/kill switch approval, go-live sign-off sheet.",
+            actors:
+              "Model Governance, Dev, DE, DS, IT/MLOps, Risk.",
+            objects_existing: [
+              "AuditLog",
+              "ModelRunLog",
+              "IntegrationEvent",
+              "ModelVersion",
+            ],
+            objects_suggested: [
+              "Runbook",
+              "IncidentRecord",
+              "GoLiveSignOff",
+              "RollbackApproval",
+            ],
+            links: [
+              "alert_triggers_runbook",
+              "governance_approves_rollback",
+              "governance_signs_off_golive",
+              "incident_records_audit_trail",
+            ],
+            controls:
+              "Detect → Triage → Contain → Fix → Restore. 4 runbook Phase 1 (5xx, critical missing, artifact fail, log fail). Approve rollback Lv.5 / kill switch Lv.6. Go-live chỉ khi dashboard + alert test + runbook đủ.",
           },
           {
             id: "retraining",
-            order: 6,
+            order: 7,
             name: "Retraining",
             vi: "Huấn luyện lại",
             short:
@@ -1251,7 +1287,7 @@
           },
           {
             id: "retirement",
-            order: 7,
+            order: 8,
             name: "Retirement",
             vi: "Dừng sử dụng & lưu trữ",
             short:
@@ -5845,13 +5881,16 @@
         svg.innerHTML = html;
       }
       function buildLifecycleGraph() {
+        const W = 1000;
+        const step =
+          DATA.phases.length > 1 ? (W - 160) / (DATA.phases.length - 1) : 0;
         const nodes = DATA.phases.map((p, i) => ({
           id: p.id,
           label: p.name,
           sub: p.vi,
           type: i % 2 ? "model" : "scoring",
           kind: "phase",
-          x: 80 + i * 140,
+          x: 80 + i * step,
           y: 120 + (i % 2) * 80,
         }));
         const edges = [];
@@ -5859,7 +5898,12 @@
           edges.push({
             from: nodes[i].id,
             to: nodes[i + 1].id,
-            label: i === 4 ? "trigger" : "next",
+            label:
+              nodes[i].id === "monitoring"
+                ? "alert"
+                : nodes[i].id === "governance"
+                  ? "trigger"
+                  : "next",
           });
         }
         edges.push({ from: "monitoring", to: "runtime", label: "pass" });
@@ -5963,7 +6007,7 @@
           ],
           [
             "4. Dùng lifecycle làm xương sống",
-            "Trình bày Start → Design-time → Train model → Runtime → Monitoring → Retraining → Retirement. Đây là lifecycle nghiệp vụ đầy đủ; status Draft/Validated/Active/Retired chỉ là trạng thái của ModelVersion.",
+            "Trình bày Start → Design-time → Train model → Runtime → Monitoring → Governance → Retraining → Retirement. Monitoring = đo/nhìn/báo; Governance = xử sự cố + gate go-live; status Draft/Validated/Active/Retired chỉ là trạng thái của ModelVersion.",
           ],
           [
             "5. Drill-down object lõi",
@@ -6163,7 +6207,7 @@
       }
       .cti-v2 .flow-strip {
         display: grid;
-        grid-template-columns: repeat(7, minmax(120px, 1fr));
+        grid-template-columns: repeat(8, minmax(110px, 1fr));
         gap: 8px;
       }
       .cti-v2 .flow-step {
@@ -6259,10 +6303,157 @@
         padding: 14px;
         background: #fff;
       }
-      .cti-v2 .runtime-step b {
+        .cti-v2 .runtime-step b {
         display: block;
         color: #0b4ea2;
         margin-bottom: 6px;
+      }
+      .cti-v2 .domain-cloud.ont-domain-map {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+        max-height: 500px;
+        overflow: auto;
+      }
+      .cti-v2 .domain-cloud.ont-domain-map .domain-tile {
+        min-height: 78px;
+        padding: 10px 12px;
+      }
+      .cti-v2 .domain-cloud.ont-domain-map .domain-tile b {
+        font-size: 12px;
+        line-height: 1.25;
+      }
+      .cti-v2 .domain-cloud.ont-domain-map .domain-tile .meta {
+        margin-top: 6px;
+        font-size: 11px;
+      }
+      .cti-v2 .ont-scope-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .cti-v2 .ont-scope-card {
+        border: 2px solid #00833e;
+        border-radius: 8px;
+        padding: 18px;
+        background: linear-gradient(135deg, #ecfff3, #fff);
+      }
+      .cti-v2 .ont-scope-card.alt {
+        border-color: #0b4ea2;
+        background: linear-gradient(135deg, #eef6ff, #fff);
+      }
+      .cti-v2 .ont-scope-card h4 {
+        margin: 0 0 10px;
+        font-size: 16px;
+      }
+      .cti-v2 .ont-scope-card p,
+      .cti-v2 .ont-scope-card li {
+        margin: 0;
+        font-size: 13px;
+        line-height: 1.55;
+        color: #415167;
+      }
+      .cti-v2 .ont-scope-card ul {
+        margin: 8px 0 0;
+        padding-left: 18px;
+      }
+      .cti-v2 .ont-object-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+      }
+      .cti-v2 .ont-object-table th,
+      .cti-v2 .ont-object-table td {
+        border: 1px solid #dfe8f2;
+        padding: 10px 12px;
+        vertical-align: top;
+        text-align: left;
+      }
+      .cti-v2 .ont-object-table th {
+        background: #f3f8fc;
+        color: #0b4ea2;
+        font-weight: 900;
+      }
+      .cti-v2 .ont-lifecycle-wrap {
+        max-height: 520px;
+        overflow: auto;
+        border: 1px solid #dfe8f2;
+        border-radius: 8px;
+      }
+      .cti-v2 .label-band {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .cti-v2 .label-band .band {
+        border-radius: 8px;
+        padding: 16px 10px;
+        text-align: center;
+        font-weight: 900;
+        font-size: 14px;
+        border: 1px solid transparent;
+      }
+      .cti-v2 .label-band .band.good {
+        background: #eaf7ef;
+        color: #007236;
+        border-color: #8bd0a8;
+      }
+      .cti-v2 .label-band .band.gray {
+        background: #f2f5f8;
+        color: #516173;
+        border-color: #c7d3df;
+      }
+      .cti-v2 .label-band .band.bad {
+        background: #fff1e9;
+        color: #c84e00;
+        border-color: #ffb27d;
+      }
+      .cti-v2 .label-band .band.unknown {
+        background: #fff7db;
+        color: #8a6500;
+        border-color: #f0cf6b;
+      }
+      .cti-v2 .routing-matrix {
+        display: grid;
+        grid-template-columns: 120px repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 14px;
+      }
+      .cti-v2 .routing-matrix .rm-head,
+      .cti-v2 .routing-matrix .rm-cell {
+        border: 1px solid #dfe8f2;
+        border-radius: 8px;
+        padding: 12px 10px;
+        font-size: 12px;
+        line-height: 1.45;
+        background: #fff;
+      }
+      .cti-v2 .routing-matrix .rm-head {
+        background: #f3f8fc;
+        font-weight: 900;
+        color: #0b4ea2;
+      }
+      .cti-v2 .routing-matrix .rm-cell.focus {
+        background: #eaf7ef;
+        border-color: #8bd0a8;
+        font-weight: 800;
+      }
+      .cti-v2 .outcome-callout {
+        border: 2px solid #fcc20e;
+        border-radius: 8px;
+        padding: 20px;
+        background: linear-gradient(135deg, #fffdf4, #fff);
+      }
+      .cti-v2 .outcome-callout h4 {
+        margin: 0 0 10px;
+        color: #7b5500;
+        font-size: 18px;
+      }
+      .cti-v2 .outcome-callout p {
+        margin: 0;
+        line-height: 1.6;
+        color: #415167;
+        font-size: 14px;
       }
       .cti-v2 .ds-slide .section-head {
         margin-bottom: 12px;
@@ -6655,6 +6846,32 @@
               "ScoreResult có version, input snapshot, reason code, latency/error log và decision lineage.",
           },
           {
+            id: "monitoring",
+            title: "Monitoring",
+            short: "Giám sát runtime",
+            lead: "Sau Runtime, cần biết service có ổn không, data vào scoring có tin không và output (result_mode) có trung thực không. Monitoring aggregate log PG và Prometheus lên Grafana, định nghĩa metric dictionary và alert.",
+            points: [
+              "Quan sát sức khỏe hệ thống: service health, data quality, output integrity.",
+              "Phát hiện bất thường: scoring_decision_log (PG) + Prometheus (latency, 5xx).",
+              "Cảnh báo tự động: ALT-RT-01, ALT-DQ-01, ALT-AR-01, ALT-LG-01.",
+            ],
+            output:
+              "Grafana dashboard Phase 1, metric dictionary, SLA Green/Amber/Red và alert rule sẵn sàng fire test.",
+          },
+          {
+            id: "governance",
+            title: "Governance",
+            short: "Kiểm soát & go-live",
+            lead: "Monitoring báo khi lệch — Governance quyết định xử thế nào và khi nào được go-live. Alert nối runbook; rollback/kill switch cần approve; go-live chỉ khi nhìn được lỗi và biết xử lý.",
+            points: [
+              "Incident response: Detect → Triage → Contain → Fix → Restore.",
+              "4 runbook Phase 1: 5xx, critical missing, artifact fail, log fail.",
+              "Go-live gate: dashboard live + alert test + runbook + drill rollback.",
+            ],
+            output:
+              "Incident triage, rollback/kill switch approval và go-live sign-off sheet observability.",
+          },
+          {
             id: "deployment",
             title: "Deploy",
             short: "Chiến lược triển khai",
@@ -6759,8 +6976,520 @@
             points: [],
             visual: "registry",
           },
+          {
+            id: "bc-definition",
+            group: "Business Case",
+            title: "A-Score / CTI là gì",
+            message: "Một chỉ số niềm tin khách hàng, có thể giải thích và truy vết",
+            lead: "A-Score (Customer Trust Index - CTI) là hệ thống chấm điểm định lượng mức độ tin cậy/rủi ro tín dụng của một khách hàng hoặc một hồ sơ, tại đúng thời điểm cần ra quyết định. Đầu ra là một bộ ba Score - Grade - Reason Code, được cung cấp cho hoạt động ra quyết định như một tín hiệu đầu vào, đi kèm phiên bản model, dữ liệu đầu vào và bằng chứng có thể kiểm toán.",
+            points: [
+              "Là một hệ thống/sản phẩm chấm điểm được huấn luyện và kiểm định trên dữ liệu lịch sử, không phải một công thức tính tay hay đánh giá cảm tính.",
+              "Đầu ra chuẩn hóa cho từng hồ sơ: Score (điểm số), Grade (hạng rủi ro) và Reason Code (mã lý do).",
+              "Mọi kết quả đều gắn với model version và dữ liệu đầu vào cụ thể, có thể tái lập để phục vụ audit.",
+            ],
+            visual: "bcDefinition",
+          },
+          {
+            id: "bc-value-chain",
+            group: "Business Case",
+            title: "Chuỗi giá trị và vị trí của Risk Assessment (Scoring)",
+            message: "Scoring là điểm kiểm soát giữa thu thập dữ liệu và ra quyết định",
+            lead: "Trong hành trình từ phát sinh nhu cầu vay đến thu hồi nợ, Risk Assessment/Scoring đứng ở vị trí trung gian: tiếp nhận đầu vào từ hoạt động thu thập và xác minh dữ liệu phía trước, đồng thời cung cấp tín hiệu rủi ro cho hoạt động ra quyết định, giải ngân, quản lý và thu hồi ở phía sau.",
+            points: [
+              "Phát sinh nhu cầu và tiếp nhận hồ sơ, sau đó xác minh định danh và dữ liệu đầu vào.",
+              "Risk Assessment/Scoring tổng hợp tín hiệu đã xác minh để sinh Score, Grade và Reason Code.",
+              "Kết quả scoring hỗ trợ Decision Engine ra quyết định, làm cơ sở cho giải ngân, quản lý khoản vay và thu hồi nợ.",
+            ],
+            visual: "bcValueChain",
+          },
+          {
+            id: "bc-problem",
+            group: "Business Case",
+            title: "Business problem - vấn đề kinh doanh hiện tại",
+            message: "Vấn đề nằm ở kiến trúc và lựa chọn thuật toán của phiên bản hiện tại",
+            lead: "F88 đã có một mô hình chấm điểm đang vận hành thực tế, được xây dựng bài bản và có tính giải thích. Vấn đề kinh doanh hiện tại nằm ở giới hạn kiến trúc (thiết kế gắn liền một sản phẩm) và giới hạn thuật toán (mô hình tuyến tính thuần túy), khiến việc mở rộng sang sản phẩm mới, phân khúc khách hàng mới hoặc yêu cầu tốc độ xử lý mới trở nên tốn thời gian và chi phí.",
+            points: [
+              "Kiến trúc hiện tại gắn liền với một sản phẩm, chưa tách lớp framework dùng chung khỏi cấu hình riêng theo sản phẩm.",
+              "Mô hình tuyến tính (logistic regression) giới hạn khả năng phân tách rủi ro so với dữ liệu hành vi/tín dụng ngày càng phi tuyến.",
+              "Thời gian xử lý runtime chưa đạt kỳ vọng phản hồi tức thời, đặc biệt với các luồng cần tốc độ cao.",
+              "Thiếu một ngôn ngữ dữ liệu chung (canonical schema) khi mở rộng sang nhiều sản phẩm và nhiều nguồn dữ liệu.",
+            ],
+            visual: "bcProblem",
+          },
+          {
+            id: "bc-objective",
+            group: "Business Case",
+            title: "Business objective - mục tiêu của A-Score",
+            message: "Một nền tảng chấm điểm dùng chung, xử lý đa mô hình, có thể giải thích và tái lập",
+            lead: "Mục tiêu của dự án không chỉ là cải thiện độ chính xác của một model đơn lẻ, mà là xây dựng một nền tảng/engine chấm điểm phục vụ nhiều bên sử dụng, có khả năng vận hành song song nhiều model, tái lập đúng kết quả đã chấm và giải thích được lý do sinh ra điểm số.",
+            points: [
+              "Xây dựng platform/engine chấm điểm dùng chung phục vụ nhiều sản phẩm, thay vì một model đơn lẻ cho một sản phẩm.",
+              "Xử lý multi-model: nhiều model family cùng vận hành theo cùng một chuẩn output.",
+              "Đảm bảo replay scoring: tái lập đúng kết quả đã chấm tại bất kỳ thời điểm nào để phục vụ audit và khiếu nại.",
+              "Đảm bảo explainable: mọi score đều có reason code, mọi quyết định liên quan đều có thể truy vết.",
+            ],
+            visual: "bcObjective",
+          },
+          {
+            id: "bc-scope",
+            group: "Business Case",
+            title: "Phạm vi dự án - A-Score làm gì và không làm gì",
+            message: "A-Score đảm nhiệm bài toán chấm điểm, không thay thế các hệ thống chuyên trách khác",
+            lead: "Việc xác định rõ ranh giới phạm vi giúp đội ngũ tập trung đúng bài toán chấm điểm rủi ro, đồng thời làm rõ những dữ liệu và tín hiệu nào A-Score tiêu thụ như đầu vào từ các hệ thống đã có chủ sở hữu riêng.",
+            points: [
+              "A-Score đảm nhiệm: tính Score/Grade/Reason Code, định nghĩa và quản trị vòng đời feature/model, chuẩn hóa output giữa các model family.",
+              "A-Score không đảm nhiệm: xác minh giấy tờ định danh (KYC), phát hiện gian lận (Fraud), ra quyết định phê duyệt/từ chối cuối cùng, định giá tài sản bảo đảm, quản lý hạn mức và hợp đồng.",
+              "Các nghiệp vụ trên do hệ thống chuyên trách đảm nhiệm; A-Score tiêu thụ output của các hệ thống đó làm input, hoặc cung cấp Score làm tín hiệu đầu vào cho hệ thống ra quyết định.",
+            ],
+            visual: "bcScope",
+          },
+          {
+            id: "bc-success",
+            group: "Business Case",
+            title: "Success criteria - tiêu chí thành công",
+            message: "Bốn nhóm KPI đo bổ sung cho nhau: kinh doanh, model, vận hành, giám sát",
+            lead: "Mức độ thành công của A-Score được đo bằng bốn nhóm chỉ số bổ sung cho nhau, bao phủ từ tác động kinh doanh, chất lượng thống kê của model, độ ổn định vận hành đến khả năng phát hiện sớm suy giảm chất lượng.",
+            points: [
+              "Business KPI: tỷ lệ phê duyệt tự động, thời gian xử lý hồ sơ trung bình, tốc độ tăng trưởng dư nợ theo phân khúc.",
+              "Model KPI: AUC/Gini, KS, PSI, Calibration (đối chiếu xác suất dự báo với tỷ lệ vỡ nợ thực tế), Rank Ordering.",
+              "Operational KPI: SLA xử lý request, tỷ lệ lỗi API/timeout, tỷ lệ hồ sơ NOT_SCORABLE/DATA_FAIL.",
+              "Monitoring KPI: feature drift, dịch chuyển phân phối điểm số, override rate, bad rate theo grade.",
+            ],
+            visual: "bcSuccess",
+          },
+          {
+            id: "monitoring-two-layers",
+            group: "Monitoring",
+            title: "Hai lớp giám sát: System và Model",
+            message: "System monitoring: hệ thống chạy đúng chưa - Model monitoring: model còn tốt không",
+            lead: "Monitoring A-Score gồm hai lớp tách biệt về nguồn dữ liệu và owner: lớp system (Phase 1) do Governance tự aggregate từ log PG và Prometheus; lớp model (Phase 2) do DS tính, DE publish và Governance kéo panel về Grafana.",
+            points: [],
+            visual: "monitorTwoLayers",
+          },
+          {
+            id: "monitoring-system-phase1",
+            group: "Monitoring",
+            title: "System monitoring Phase 1: Metric dictionary -> Grafana -> SLA",
+            message: "Mỗi metric là một hợp đồng: định nghĩa, công thức, nguồn, ngưỡng, hành động",
+            lead: "Lớp system trả lời ba câu hỏi Phase 1: service còn ổn không, data vào scoring có tin được không, output result_mode có trung thực không. Metric dictionary là hợp đồng đo lường; Grafana là điểm kiểm soát; SLA G/A/R là kết luận vận hành.",
+            points: [],
+            visual: "monitorPipeline",
+          },
+          {
+            id: "monitoring-model-kpi",
+            group: "Monitoring",
+            title: "Model KPI: AUC / KS / Gini / PSI / Calibration",
+            message: "DS định nghĩa, DE publish - Governance kéo panel và dùng khi gate promote",
+            lead: "Model KPI trả lời câu hỏi model còn đủ tốt để chấm điểm không. Governance không tự tính AUC từ log request: DS định nghĩa KPI và ngưỡng theo model card, DE publish bảng kết quả, Governance kéo panel Phase 2 và dùng số liệu này ở Deploy Gate.",
+            points: [],
+            visual: "modelKpi",
+          },
+          {
+            id: "governance-incident-response",
+            group: "Governance",
+            title: "Incident Response: từ alert đến khôi phục",
+            message: "Mỗi alert có runbook, có owner - không firefighting tùy hứng",
+            lead: "Khi alert fire, xử lý đi theo một luồng cố định: Detect, Triage, Contain, Fix, Restore. Bốn kịch bản Phase 1 đã có runbook chi tiết: 5xx/timeout, critical missing, artifact load fail và ghi log fail.",
+            points: [],
+            visual: "incidentResponse",
+          },
+          {
+            id: "governance-failsafe-raci",
+            group: "Governance",
+            title: "Failsafe và phân quyền: rollback / kill switch",
+            message: "Dev thực hiện - Governance approve: hành động càng mạnh, kiểm soát càng chặt",
+            lead: "Governance không sửa code. Dev/DE/DS chịu trách nhiệm fix kỹ thuật; Governance triage và phê duyệt các hành động failsafe mạnh: rollback về bản N-1 (Lv.5) và kill switch scoring (Lv.6).",
+            points: [],
+            visual: "failsafeLadder",
+          },
+          {
+            id: "governance-golive-gate",
+            group: "Governance",
+            title: "Go-live Gate: điều kiện mở production",
+            message: "Chỉ go-live khi NHÌN được lỗi và BIẾT xử lý - API trả score được chưa phải là go-live",
+            lead: "Go-live là quyết định có điều kiện từ góc observability: dashboard phải live, alert phải qua fire test, runbook và drill phải có owner. Đủ ba điều kiện mới sign-off - và từ đây mỗi lần đổi model đi cả vòng Deploy đến Retirement.",
+            points: [],
+            visual: "goliveGate",
+          },
+        ];
+        const ontologyLifecyclePhases = [
+          {
+            id: "start",
+            order: 1,
+            name: "Start",
+            vi: "Khởi động nhu cầu",
+            short:
+              "Xác định vì sao cần model và quyết định nào model sẽ hỗ trợ.",
+            input:
+              "Business objective, risk appetite, pain point vận hành, policy hiện hành, dữ liệu sẵn có.",
+            output:
+              "Model requirement, use case, success criteria, phạm vi áp dụng và actor/owner ban đầu.",
+            actors:
+              "Business owner, Risk, Data Science, IT/BA, Model Governance.",
+          },
+          {
+            id: "design",
+            order: 2,
+            name: "Design-time",
+            vi: "Thiết kế mô hình",
+            short:
+              "Chuyển nhu cầu thành thiết kế target, population, feature, rule và quyết định sử dụng score.",
+            input:
+              "Yêu cầu nghiệp vụ, định nghĩa good/bad, policy/rule, domain/object/property trong ontology.",
+            output:
+              "Model design spec, target definition, feature definition, rule design, data requirement.",
+            actors:
+              "Risk/Policy, Data Science, Data Governance, BA, Product/Operation.",
+          },
+          {
+            id: "train",
+            order: 3,
+            name: "Train model",
+            vi: "Huấn luyện & kiểm định",
+            short:
+              "Tạo candidate model từ dataset, feature set, experiment, metric và validation.",
+            input:
+              "TrainingDataset, FeatureSet, label definition, train/validation/test split, baseline model.",
+            output:
+              "Candidate ModelVersion, metric, validation report, approval record trước runtime.",
+            actors:
+              "Data Science, Model Validator, Risk, Data Governance, IT/MLOps.",
+          },
+          {
+            id: "runtime",
+            order: 4,
+            name: "Runtime",
+            vi: "Triển khai chấm điểm",
+            short:
+              "Model active nhận input thực tế, sinh ScoreResult, RiskSignal, Decision và log runtime.",
+            input:
+              "Application, input snapshot, active ModelVersion, FeatureSet runtime, API request.",
+            output:
+              "Assessment, ScoreResult, RiskSignal, Decision, ModelRunLog, IntegrationEvent.",
+            actors:
+              "LOS/Core system, Decision Engine, Sales/PGD, Risk engine, Integration/API.",
+          },
+          {
+            id: "deployment",
+            order: 5,
+            name: "Deployment Strategy",
+            vi: "Chiến lược triển khai",
+            short:
+              "Đưa model vào vận hành có kiểm soát: shadow, pilot, champion/challenger, rollout, rollback.",
+            input:
+              "Approved ModelVersion, rollout plan, monitoring threshold, owner vận hành, rollback rule.",
+            output:
+              "Production routing config, endpoint version, feature contract active, checklist phê duyệt production.",
+            actors:
+              "Model Governance, IT/MLOps, Risk, Business owner, Product/Operation.",
+          },
+          {
+            id: "monitoring",
+            order: 6,
+            name: "Monitoring & Dashboard",
+            vi: "Giám sát sau triển khai",
+            short:
+              "Theo dõi model health, data drift, score distribution, bad rate, latency và lỗi runtime.",
+            input:
+              "ModelRunLog, ScoreResult, actual outcome, metric snapshot, production data, dashboard KPI.",
+            output:
+              "Monitoring dashboard, drift report, performance report, alert, recommendation for retraining/rollback.",
+            actors:
+              "Model Governance, Risk Monitoring, Data Science, IT/MLOps, Business owner.",
+          },
+          {
+            id: "retraining",
+            order: 7,
+            name: "Retraining",
+            vi: "Huấn luyện lại",
+            short:
+              "Kích hoạt train lại hoặc challenger model khi monitoring cho thấy model suy giảm.",
+            input:
+              "Alert, new outcome data, updated TrainingDataset, updated FeatureSet, business/policy change.",
+            output:
+              "New candidate/challenger ModelVersion, comparison report, approval/rollback plan.",
+            actors:
+              "Data Science, Risk, Model Governance, IT/MLOps, Business owner.",
+          },
+          {
+            id: "retirement",
+            order: 8,
+            name: "Retirement",
+            vi: "Dừng sử dụng & lưu trữ",
+            short:
+              "Ngừng dùng model cũ, chuyển sang model thay thế, lưu artifact và audit evidence.",
+            input:
+              "Replacement model, retirement reason, audit requirement, retention policy, approval record.",
+            output:
+              "Retired ModelVersion, archived artifact, audit trail, historical score lineage, replacement mapping.",
+            actors:
+              "Model Governance, Risk, IT/MLOps, Data Governance, Compliance.",
+          },
+        ];
+        const ontologySlides = [
+          {
+            id: "ont-enterprise-domain",
+            group: "Ontology",
+            title: "Enterprise Domain Map",
+            message: "19 domain bao phủ toàn bộ hệ sinh thái nghiệp vụ F88",
+            lead: "Trước khi đi sâu vào Model Management và Scoring, ontology cho thấy A-Score/CTI nằm ở đâu trong bức tranh doanh nghiệp. Mỗi domain là một vùng nghiệp vụ có object, property và quan hệ riêng — từ Party, KYC, Application, Collateral, Behavior đến Decision, Repayment, Governance và Integration.",
+            points: [
+              "19 domain, 69 object và 81 LinkType tạo bản đồ khái niệm thống nhất cho toàn F88.",
+              "Domain không thay thế data warehouse; nó định nghĩa nghĩa nghiệp vụ và lineage giữa các thực thể.",
+              "Model Management và Credit Scoring & Risk Assessment là hai domain trọng tâm của bài toán A-Score.",
+            ],
+            visual: "ontEnterpriseDomain",
+          },
+          {
+            id: "ont-problem-scope",
+            group: "Ontology",
+            title: "Phạm vi bài toán trong ontology",
+            message: "Zoom-in: Model Management + Credit Scoring & Risk Assessment",
+            lead: "Trong toàn bộ enterprise domain, phần ontology cần đi sâu cho A-Score là Model Management (quản trị vòng đời model) và Credit Scoring & Risk Assessment (chấm điểm và đánh giá rủi ro runtime). Các domain khác cung cấp ngữ cảnh, input và outcome nhưng không phải trọng tâm thiết kế scoring.",
+            points: [
+              "Model Management: feature set, training dataset, model version, run log, metric, artifact registry.",
+              "Credit Scoring & Risk Assessment: Assessment, ScoreResult, risk grade, reason code, risk signal.",
+              "Hai domain này kết nối qua lineage: model nào sinh score nào, từ feature/dataset nào, cho hồ sơ nào.",
+            ],
+            visual: "ontProblemScope",
+          },
+          {
+            id: "ont-model-io",
+            group: "Ontology",
+            title: "Input và Output của model",
+            message: "Model nhận snapshot nghiệp vụ — trả Score / Grade / Reason",
+            lead: "Ở góc nhìn ontology, model không chỉ là thuật toán mà là một object có version, contract đầu vào/đầu ra và lineage. Input là dữ liệu đã chuẩn hóa từ các domain nguồn; output là bộ ba Score-Grade-Reason Code kèm metadata truy vết.",
+            points: [
+              "Input: Application/Party context, KYC result, feature snapshot, active ModelVersion, FeatureSet runtime, consent/policy guardrail.",
+              "Output: Assessment, ScoreResult (score + grade + reason code), RiskSignal, ModelRunLog, IntegrationEvent.",
+              "Mọi output phải gắn model_version_id, feature_set_version và input snapshot để replay/audit.",
+            ],
+            visual: "ontModelIO",
+          },
+          {
+            id: "ont-key-objects",
+            group: "Ontology",
+            title: "Object chính trong phạm vi bài toán",
+            message: "Thực thể có state, business intent, lifecycle và định nghĩa rõ",
+            lead: "Các object dưới đây là lớp bằng chứng giúp A-Score truy vết từ dữ liệu, model, score tới quyết định. Mỗi object có lifecycle riêng, business intent rõ và property được phân loại theo usage (feature, audit, monitoring, control).",
+            points: [
+              "Model layer: ModelVersion, FeatureSet, TrainingDataset, ModelRunLog.",
+              "Scoring layer: Application, Assessment, ScoreResult, RiskSignal.",
+              "Decision & governance: Decision, AuditLog, DataQualityCheck, APIEndpoint, IntegrationEvent.",
+            ],
+            visual: "ontKeyObjects",
+          },
+          {
+            id: "ont-outcome",
+            group: "Ontology",
+            title: "Outcome — linh hồn của training data",
+            message: "Module đặc thù: định nghĩa label, không đi sâu kiến trúc model",
+            lead: "Outcome (kết quả hậu nghiệm: trả nợ tốt/xấu, quá hạn, write-off) là module đặc thù trong ontology — nó là linh hồn của training data vì quyết định label customer và chất lượng model. Phần này tập trung vào định nghĩa nghiệp vụ outcome, không đi sâu vào thiết kế kiến trúc thuật toán.",
+            points: [
+              "Outcome gắn với Loan Account / Repayment / Delinquency domain — dữ liệu hậu quyết định.",
+              "Label rule version quyết định cách map outcome thành Tốt / Xám / Xấu / Chưa xác định tại thời điểm T.",
+              "Outcome không dùng trực tiếp làm feature runtime với khách new-to-F88; chủ yếu phục vụ train, backtest và monitoring.",
+            ],
+            visual: "ontOutcome",
+          },
+          {
+            id: "ont-business-rules",
+            group: "Ontology",
+            title: "Business Rule / Policy",
+            message: "Label customer, Risk Driver và Routing Matrix",
+            lead: "Business rule/policy là lớp nghiệp vụ đứng trước model: xác định khách thuộc nhóm nào, rủi ro nào cần đo, và model nào được gọi cho từng phân khúc. Đây là nền để Design Time và Train Model có population, label và routing đúng.",
+            points: [
+              "Label customer design: 4 nhóm Tốt — Xám — Xấu — Chưa xác định, theo outcome rule và maturity window.",
+              "Risk driver: giả thuyết rủi ro nghiệp vụ được map sang feature group và coverage check.",
+              "Segmentation → routing matrix: new / thin / thick file quyết định model family, feature set và luồng chấm điểm.",
+            ],
+            visual: "ontBusinessRules",
+          },
+          {
+            id: "ont-lifecycle",
+            group: "Ontology",
+            title: "Lifecycle Model Management",
+            message: "8 phase: Start → Design → Train → Runtime → Deploy → Monitor → Retrain → Retire",
+            lead: "Lifecycle là xương sống quản trị model như một tài sản nghiệp vụ. Mỗi phase có mục tiêu, input, output và actor riêng — đảm bảo model có thể thiết kế, train, triển khai, giám sát, cải tiến và dừng sử dụng một cách có kiểm soát.",
+            points: [
+              "Start → Design-time → Train model: từ nhu cầu kinh doanh tới candidate model có validation.",
+              "Runtime → Deployment Strategy: chấm điểm thực tế và đưa vào production có rollout/rollback.",
+              "Monitoring & Dashboard → Retraining → Retirement: giám sát, train lại khi cần và dừng model cũ an toàn.",
+            ],
+            visual: "ontLifecycle",
+          },
         ];
         function dsVisual(type) {
+          if (type === "monitorTwoLayers")
+            return `<div class="architecture-image"><svg viewBox="0 0 980 400" role="img" aria-label="Hai lớp giám sát A-Score">
+              <defs>
+                <marker id="monArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#60758c"/></marker>
+                <filter id="monShadow" x="-15%" y="-20%" width="140%" height="155%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity="0.11"/></filter>
+              </defs>
+              <rect x="16" y="14" width="948" height="372" rx="18" fill="#fbfdff" stroke="#d3dfeb"/>
+              <text x="490" y="43" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">HAI LỚP GIÁM SÁT A-SCORE</text>
+              <text x="490" y="65" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">System monitoring (Phase 1) là điều kiện go-live — Model monitoring (Phase 2) nuôi Deploy Gate</text>
+
+              <rect x="36" y="86" width="908" height="128" rx="14" fill="#eef6ff" stroke="#8ab8ec" filter="url(#monShadow)"/>
+              <rect x="36" y="86" width="200" height="128" rx="14" fill="#0b4ea2"/>
+              <text x="136" y="130" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">SYSTEM</text>
+              <text x="136" y="150" text-anchor="middle" font-size="12" font-weight="800" fill="#cfe2f8">Phase 1 — bắt buộc</text>
+              <text x="136" y="170" text-anchor="middle" font-size="11" font-weight="800" fill="#cfe2f8">Hệ thống chạy đúng chưa?</text>
+              <rect x="72" y="182" width="128" height="22" rx="7" fill="#083a7a"/><text x="136" y="197" text-anchor="middle" font-size="10.5" font-weight="900" fill="#fcc20e">BẠN TỰ AGGREGATE</text>
+              ${[
+                ["Log PG", "scoring_decision_log", 262],
+                ["Prometheus", "latency / 5xx", 428],
+                ["Grafana Phase 1", "dashboard + SLA", 594],
+                ["4 Alert", "RT / DQ / AR / LG", 760],
+              ].map(([t, s, x], i) => `<rect x="${x}" y="116" width="150" height="66" rx="10" fill="#ffffff" stroke="#8ab8ec" filter="url(#monShadow)"/><text x="${x + 75}" y="143" text-anchor="middle" font-size="12.5" font-weight="900" fill="#0b4ea2">${t}</text><text x="${x + 75}" y="164" text-anchor="middle" font-size="10.5" font-weight="700" fill="#52657a">${s}</text>${i < 3 ? `<line x1="${x + 150}" y1="149" x2="${x + 164}" y2="149" stroke="#60758c" stroke-width="2.2" marker-end="url(#monArrow)"/>` : ""}`).join("")}
+
+              <rect x="36" y="238" width="908" height="128" rx="14" fill="#f5efff" stroke="#b79ae0" filter="url(#monShadow)"/>
+              <rect x="36" y="238" width="200" height="128" rx="14" fill="#7245c7"/>
+              <text x="136" y="282" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">MODEL</text>
+              <text x="136" y="302" text-anchor="middle" font-size="12" font-weight="800" fill="#e4d7f8">Phase 2 — Deploy Gate</text>
+              <text x="136" y="322" text-anchor="middle" font-size="11" font-weight="800" fill="#e4d7f8">Model còn tốt không?</text>
+              <rect x="72" y="334" width="128" height="22" rx="7" fill="#54318f"/><text x="136" y="349" text-anchor="middle" font-size="10.5" font-weight="900" fill="#fcc20e">KÉO PANEL DS/DE</text>
+              ${[
+                ["DS tính", "AUC / KS / Gini / ngưỡng", 262],
+                ["DE publish", "bảng PG / PSI job", 428],
+                ["Grafana Phase 2", "Model Performance", 594],
+                ["Deploy Gate", "promote / retrain", 760],
+              ].map(([t, s, x], i) => `<rect x="${x}" y="268" width="150" height="66" rx="10" fill="#ffffff" stroke="#b79ae0" filter="url(#monShadow)"/><text x="${x + 75}" y="295" text-anchor="middle" font-size="12.5" font-weight="900" fill="#7245c7">${t}</text><text x="${x + 75}" y="316" text-anchor="middle" font-size="10.5" font-weight="700" fill="#52657a">${s}</text>${i < 3 ? `<line x1="${x + 150}" y1="301" x2="${x + 164}" y2="301" stroke="#60758c" stroke-width="2.2" marker-end="url(#monArrow)"/>` : ""}`).join("")}
+            </svg></div>`;
+          if (type === "monitorPipeline")
+            return `<div class="architecture-image"><svg viewBox="0 0 980 400" role="img" aria-label="Pipeline system monitoring Phase 1">
+              <defs>
+                <marker id="monPipeArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#60758c"/></marker>
+                <filter id="monPipeShadow" x="-15%" y="-20%" width="140%" height="155%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity="0.11"/></filter>
+              </defs>
+              <rect x="16" y="14" width="948" height="372" rx="18" fill="#fbfdff" stroke="#d3dfeb"/>
+              <text x="490" y="43" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">SYSTEM MONITORING PHASE 1 — ĐO, NHÌN, ĐÁNH GIÁ SLA</text>
+              <text x="490" y="65" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Metric dictionary là hợp đồng đo lường — Grafana là điểm kiểm soát — SLA là kết luận vận hành</text>
+
+              ${[
+                ["1", "METRIC", "DICTIONARY", ["Định nghĩa + công thức", "Grain + nguồn", "Ngưỡng + hành động"], 50, "#eef6ff", "#2368c4"],
+                ["2", "DATA", "SOURCE", ["Log PG (chính)", "Prometheus (P95/5xx)", "Không scrape response"], 280, "#f5efff", "#7245c7"],
+                ["3", "GRAFANA", "PANEL", ["Runtime health", "Data quality", "Score & output"], 510, "#fff3e9", "#db681d"],
+                ["4", "SLA", "G / A / R", ["Green: vận hành", "Amber: theo dõi", "Red: vượt ngưỡng"], 740, "#eef9f1", "#168447"],
+              ].map(([n,t1,t2,bullets,x,fill,color],i)=>`<g filter="url(#monPipeShadow)"><rect x="${x}" y="96" width="190" height="166" rx="13" fill="${fill}" stroke="${color}" stroke-opacity="0.52"/><circle cx="${x+95}" cy="96" r="23" fill="${color}"/><text x="${x+95}" y="102" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">${n}</text><text x="${x+95}" y="135" text-anchor="middle" font-size="12" font-weight="900" fill="${color}">${t1}</text><text x="${x+95}" y="152" text-anchor="middle" font-size="12" font-weight="900" fill="${color}">${t2}</text><line x1="${x+15}" y1="164" x2="${x+175}" y2="164" stroke="${color}" stroke-opacity="0.25"/><text x="${x+16}" y="187" font-size="9.8" font-weight="700" fill="#26384d">• ${bullets[0]}</text><text x="${x+16}" y="208" font-size="9.8" font-weight="700" fill="#26384d">• ${bullets[1]}</text><text x="${x+16}" y="229" font-size="9.8" font-weight="700" fill="#26384d">• ${bullets[2]}</text></g>${i<3?`<line x1="${x+190}" y1="179" x2="${x+210}" y2="179" stroke="#60758c" stroke-width="2.2" marker-end="url(#monPipeArrow)"/>`:""}`).join("")}
+
+              ${[
+                ["Service còn ổn?", "success rate · P95 · availability", 84, "#0b4ea2"],
+                ["Data vào tin được?", "critical missing · resolve fail", 384, "#db681d"],
+                ["Output trung thực?", "result_mode · score distribution", 684, "#168447"],
+              ].map(([q, s, x, color]) => `<g filter="url(#monPipeShadow)"><rect x="${x}" y="292" width="212" height="62" rx="13" fill="#ffffff" stroke="${color}"/><text x="${x + 106}" y="318" text-anchor="middle" font-size="12.5" font-weight="900" fill="${color}">${q}</text><text x="${x + 106}" y="340" text-anchor="middle" font-size="10" font-weight="700" fill="#52657a">${s}</text></g>`).join("")}
+              <text x="490" y="284" text-anchor="middle" font-size="11.5" font-weight="900" fill="#64748b">BA CÂU HỎI PHASE 1</text>
+            </svg></div>`;
+          if (type === "modelKpi")
+            return `<div class="architecture-image"><svg viewBox="0 0 980 400" role="img" aria-label="Ba lớp đo hiệu quả model">
+              <defs>
+                <marker id="kpiArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#60758c"/></marker>
+                <filter id="kpiShadow" x="-15%" y="-20%" width="140%" height="155%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity="0.11"/></filter>
+              </defs>
+              <rect x="16" y="14" width="948" height="372" rx="18" fill="#fbfdff" stroke="#d3dfeb"/>
+              <text x="490" y="43" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">MODEL KPI — MODEL CÒN TỐT KHÔNG?</text>
+              <text x="490" y="65" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Ba lớp đo tách theo thời điểm có dữ liệu — không gộp một cục</text>
+
+              ${[
+                ["①", "TRAIN / VALIDATION KPI", ["AUC · KS · Gini", "Per model version", "Trước Shadow Gate"], "DS tính — DE publish", 44, "#eef6ff", "#2368c4"],
+                ["②", "SCORE STABILITY", ["score / grade distribution", "result_mode mix", "PSI vs baseline"], "Phase 1 — bạn tự aggregate", 356, "#eef9f1", "#168447"],
+                ["③", "CALIBRATION & OUTCOME", ["expected vs observed", "bad rate by grade", "cần outcome — chậm"], "Phase 3 — DS + BI", 668, "#fff3e9", "#db681d"],
+              ].map(([n, t, bullets, owner, x, fill, color], i) => `<g filter="url(#kpiShadow)"><rect x="${x}" y="92" width="268" height="150" rx="13" fill="${fill}" stroke="${color}" stroke-opacity="0.55"/><circle cx="${x + 36}" cy="120" r="18" fill="${color}"/><text x="${x + 36}" y="127" text-anchor="middle" font-size="16" font-weight="900" fill="#fff">${n}</text><text x="${x + 64}" y="126" font-size="12.5" font-weight="900" fill="${color}">${t}</text><text x="${x + 24}" y="160" font-size="10.8" font-weight="700" fill="#26384d">• ${bullets[0]}</text><text x="${x + 24}" y="181" font-size="10.8" font-weight="700" fill="#26384d">• ${bullets[1]}</text><text x="${x + 24}" y="202" font-size="10.8" font-weight="700" fill="#26384d">• ${bullets[2]}</text><rect x="${x + 18}" y="214" width="232" height="20" rx="6" fill="#ffffff" stroke="${color}" stroke-opacity="0.4"/><text x="${x + 134}" y="228" text-anchor="middle" font-size="9.8" font-weight="900" fill="${color}">${owner}</text></g>${i < 2 ? `<line x1="${x + 268}" y1="167" x2="${x + 310}" y2="167" stroke="#60758c" stroke-width="2.2" marker-end="url(#kpiArrow)"/>` : ""}`).join("")}
+
+              <g filter="url(#kpiShadow)">
+                <rect x="44" y="268" width="588" height="94" rx="13" fill="#f5efff" stroke="#b79ae0"/>
+                <text x="338" y="296" text-anchor="middle" font-size="13" font-weight="900" fill="#7245c7">LUỒNG DỮ LIỆU MODEL KPI</text>
+                ${[
+                  ["DS model card", 76],
+                  ["DE publish bảng", 224],
+                  ["Grafana Phase 2", 372],
+                  ["Ngưỡng theo DS", 500],
+                ].map(([t, x], i) => `<rect x="${x}" y="312" width="118" height="34" rx="8" fill="#ffffff" stroke="#b79ae0"/><text x="${x + 59}" y="334" text-anchor="middle" font-size="10.2" font-weight="900" fill="#54318f">${t}</text>${i < 3 ? `<line x1="${x + 118}" y1="329" x2="${x + (i === 2 ? 128 : 148) - (i === 2 ? 0 : 24)}" y2="329" stroke="#60758c" stroke-width="2" marker-end="url(#kpiArrow)"/>` : ""}`).join("")}
+              </g>
+              <g filter="url(#kpiShadow)"><rect x="668" y="268" width="268" height="94" rx="13" fill="#102f63"/><text x="802" y="300" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">DÙNG Ở DEPLOY GATE</text><text x="802" y="324" text-anchor="middle" font-size="10.5" font-weight="700" fill="#dce7f5">KPI dưới floor model card → không promote</text><text x="802" y="344" text-anchor="middle" font-size="10.5" font-weight="700" fill="#dce7f5">PSI &gt; 0.25 → escalate DS, xét retrain</text></g>
+            </svg></div>`;
+          if (type === "incidentResponse")
+            return `<div class="architecture-image"><svg viewBox="0 0 980 400" role="img" aria-label="Luồng xử lý sự cố">
+              <defs>
+                <marker id="irArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#60758c"/></marker>
+                <filter id="irShadow" x="-15%" y="-20%" width="140%" height="155%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity="0.11"/></filter>
+              </defs>
+              <rect x="16" y="14" width="948" height="372" rx="18" fill="#fbfdff" stroke="#d3dfeb"/>
+              <text x="490" y="43" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">INCIDENT RESPONSE — TỪ ALERT ĐẾN KHÔI PHỤC</text>
+              <text x="490" y="65" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Governance triage và approve — Dev/DE/DS fix kỹ thuật</text>
+
+              ${[
+                ["1", "DETECT", ["Alert Grafana fire", "Notify on-call + GOV", "Ack trong 15 phút"], 44, "#fdecec", "#b91c1c"],
+                ["2", "TRIAGE", ["GOV phân loại", "DQ vs runtime vs artifact", "Xác định blast radius"], 230, "#fff3e9", "#db681d"],
+                ["3", "CONTAIN", ["Chặn lan rộng", "NS/DF hàng loạt nếu cần", "GOV approve mức mạnh"], 416, "#fff7db", "#8b6500"],
+                ["4", "FIX", ["Dev/DE/DS sửa gốc", "Theo runbook từng alert", "Update thread incident"], 602, "#eef6ff", "#2368c4"],
+                ["5", "RESTORE", ["Verify metric xanh lại", "GOV sign-off restore", "Post-mortem"], 788, "#eef9f1", "#168447"],
+              ].map(([n, t, bullets, x, fill, color], i) => `<g filter="url(#irShadow)"><rect x="${x}" y="92" width="148" height="148" rx="13" fill="${fill}" stroke="${color}" stroke-opacity="0.55"/><circle cx="${x + 74}" cy="92" r="21" fill="${color}"/><text x="${x + 74}" y="98" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">${n}</text><text x="${x + 74}" y="130" text-anchor="middle" font-size="13" font-weight="900" fill="${color}">${t}</text><line x1="${x + 18}" y1="142" x2="${x + 130}" y2="142" stroke="${color}" stroke-opacity="0.25"/><text x="${x + 14}" y="165" font-size="9.6" font-weight="700" fill="#26384d">• ${bullets[0]}</text><text x="${x + 14}" y="188" font-size="9.6" font-weight="700" fill="#26384d">• ${bullets[1]}</text><text x="${x + 14}" y="211" font-size="9.6" font-weight="700" fill="#26384d">• ${bullets[2]}</text></g>${i < 4 ? `<line x1="${x + 148}" y1="166" x2="${x + 172}" y2="166" stroke="#60758c" stroke-width="2.2" marker-end="url(#irArrow)"/>` : ""}`).join("")}
+
+              <text x="490" y="278" text-anchor="middle" font-size="11.5" font-weight="900" fill="#64748b">BỐN KỊCH BẢN PHASE 1 — MỖI ALERT MỘT RUNBOOK</text>
+              ${[
+                ["ALT-RT-01", "5xx / timeout spike", "Fix: DEV", 60, "#b91c1c"],
+                ["ALT-DQ-01", "critical missing spike", "Fix: DE / DEV", 288, "#db681d"],
+                ["ALT-AR-01", "artifact load fail", "Fix: DEV / DS", 516, "#2368c4"],
+                ["ALT-LG-01", "ghi log fail — audit gap", "Fix: DEV", 744, "#54318f"],
+              ].map(([code, desc, owner, x, color]) => `<g filter="url(#irShadow)"><rect x="${x}" y="290" width="182" height="72" rx="12" fill="#ffffff" stroke="${color}"/><text x="${x + 91}" y="314" text-anchor="middle" font-size="12.5" font-weight="900" fill="${color}">${code}</text><text x="${x + 91}" y="334" text-anchor="middle" font-size="10" font-weight="700" fill="#26384d">${desc}</text><text x="${x + 91}" y="352" text-anchor="middle" font-size="9.8" font-weight="900" fill="#64748b">${owner} · A: GOV</text></g>`).join("")}
+            </svg></div>`;
+          if (type === "failsafeLadder")
+            return `<div class="architecture-image"><svg viewBox="0 0 980 400" role="img" aria-label="Thang failsafe và phân quyền">
+              <defs>
+                <marker id="fsArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#60758c"/></marker>
+                <filter id="fsShadow" x="-15%" y="-20%" width="140%" height="155%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity="0.11"/></filter>
+              </defs>
+              <rect x="16" y="14" width="948" height="372" rx="18" fill="#fbfdff" stroke="#d3dfeb"/>
+              <text x="490" y="43" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">FAILSAFE — HÀNH ĐỘNG CÀNG MẠNH, KIỂM SOÁT CÀNG CHẶT</text>
+              <text x="490" y="65" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Rollback và kill switch: Dev thực hiện — Governance approve</text>
+
+              ${[
+                ["Lv.0–2", "THEO DÕI / NOTIFY", "Quan sát metric, thông báo kênh alert", "GOV tự quyết", 44, 300, "#eef9f1", "#168447"],
+                ["Lv.3", "NS / DF HÀNG LOẠT", "Trả NOT_SCORABLE / DATA_FAIL thay vì điểm sai", "DEV làm · GOV approve", 282, 252, "#fff7db", "#8b6500"],
+                ["Lv.5", "ROLLBACK N-1", "Quay về version model / artifact trước", "DEV làm · GOV APPROVE", 520, 204, "#fff3e9", "#db681d"],
+                ["Lv.6", "KILL SWITCH", "Dừng scoring — downstream dùng fallback", "DEV làm · GOV APPROVE + TL", 758, 156, "#fdecec", "#b91c1c"],
+              ].map(([lv, t, desc, who, x, y, fill, color], i) => `<g filter="url(#fsShadow)"><rect x="${x}" y="${y}" width="178" height="${356 - y}" rx="13" fill="${fill}" stroke="${color}" stroke-opacity="0.55"/><rect x="${x}" y="${y}" width="178" height="34" rx="13" fill="${color}"/><text x="${x + 89}" y="${y + 23}" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">${lv} — ${t.split(" ")[0]}</text><text x="${x + 89}" y="${y + 56}" text-anchor="middle" font-size="11.5" font-weight="900" fill="${color}">${t}</text>${desc.length > 42 ? `<text x="${x + 89}" y="${y + 78}" text-anchor="middle" font-size="9.3" font-weight="700" fill="#26384d">${desc.slice(0, 42)}</text><text x="${x + 89}" y="${y + 92}" text-anchor="middle" font-size="9.3" font-weight="700" fill="#26384d">${desc.slice(42)}</text>` : `<text x="${x + 89}" y="${y + 80}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#26384d">${desc}</text>`}<rect x="${x + 14}" y="${y + 100}" width="150" height="22" rx="7" fill="#ffffff" stroke="${color}" stroke-opacity="0.5"/><text x="${x + 89}" y="${y + 115}" text-anchor="middle" font-size="9.2" font-weight="900" fill="${color}">${who}</text></g>${i < 3 ? `<line x1="${x + 178}" y1="${y + 16}" x2="${x + 238}" y2="${y - 32}" stroke="#60758c" stroke-width="2.2" marker-end="url(#fsArrow)"/>` : ""}`).join("")}
+
+              <g filter="url(#fsShadow)"><rect x="44" y="96" width="420" height="88" rx="13" fill="#eef6ff" stroke="#8ab8ec"/><text x="254" y="122" text-anchor="middle" font-size="12.5" font-weight="900" fill="#0b4ea2">RACI — AI LÀM GÌ</text><text x="66" y="146" font-size="10.5" font-weight="700" fill="#26384d">• R (fix kỹ thuật): DEV / DE / DS theo alert</text><text x="66" y="166" font-size="10.5" font-weight="700" fill="#26384d">• A (triage + approve): GOVERNANCE — không sửa code</text></g>
+              <g filter="url(#fsShadow)"><rect x="492" y="96" width="240" height="88" rx="13" fill="#ffffff" stroke="#cbd7e3"/><text x="612" y="122" text-anchor="middle" font-size="12.5" font-weight="900" fill="#334155">SLA PHẢN HỒI RED</text><text x="514" y="146" font-size="10.5" font-weight="700" fill="#26384d">• Ack 15 phút (24/7)</text><text x="514" y="166" font-size="10.5" font-weight="700" fill="#26384d">• Triage 1 giờ · mitigate 4 giờ</text></g>
+            </svg></div>`;
+          if (type === "goliveGate")
+            return `<div class="architecture-image"><svg viewBox="0 0 980 400" role="img" aria-label="Cổng go-live">
+              <defs>
+                <marker id="glArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#60758c"/></marker>
+                <filter id="glShadow" x="-15%" y="-20%" width="140%" height="155%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity="0.11"/></filter>
+              </defs>
+              <rect x="16" y="14" width="948" height="372" rx="18" fill="#fbfdff" stroke="#d3dfeb"/>
+              <text x="490" y="43" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">GO-LIVE GATE — ĐIỀU KIỆN MỞ PRODUCTION</text>
+              <text x="490" y="65" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">API trả score được chưa phải là go-live — phải NHÌN được lỗi và BIẾT xử lý</text>
+
+              ${[
+                ["1", "NHÌN ĐƯỢC", ["Dashboard Phase 1 live", "Metric dictionary đủ 7 cột", "Datasource PG + Prom nối"], 44, "#eef6ff", "#2368c4"],
+                ["2", "BÁO ĐƯỢC", ["4 alert đã fire test", "Time-to-alert có evidence", "Kênh notify + on-call chạy"], 44, "#fff3e9", "#db681d"],
+                ["3", "XỬ ĐƯỢC", ["Runbook 4 alert có owner", "Drill rollback + kill switch", "RACI ký"], 44, "#eef9f1", "#168447"],
+              ].map(([n, t, bullets, x0, fill, color], i) => { const y = 96 + i * 92; return `<g filter="url(#glShadow)"><rect x="${x0}" y="${y}" width="380" height="80" rx="13" fill="${fill}" stroke="${color}" stroke-opacity="0.55"/><circle cx="${x0 + 34}" cy="${y + 40}" r="19" fill="${color}"/><text x="${x0 + 34}" y="${y + 46}" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">${n}</text><text x="${x0 + 66}" y="${y + 26}" font-size="12.5" font-weight="900" fill="${color}">${t}</text><text x="${x0 + 66}" y="${y + 46}" font-size="9.8" font-weight="700" fill="#26384d">• ${bullets[0]}</text><text x="${x0 + 66}" y="${y + 64}" font-size="9.8" font-weight="700" fill="#26384d">• ${bullets[1]} · ${bullets[2]}</text></g><line x1="${x0 + 380}" y1="${y + 40}" x2="470" y2="230" stroke="#60758c" stroke-width="2" marker-end="url(#glArrow)"/>`; }).join("")}
+
+              <g filter="url(#glShadow)">
+                <rect x="486" y="150" width="176" height="160" rx="15" fill="#102f63"/>
+                <text x="574" y="196" text-anchor="middle" font-size="15" font-weight="900" fill="#fcc20e">GO-LIVE</text>
+                <text x="574" y="218" text-anchor="middle" font-size="15" font-weight="900" fill="#fcc20e">SIGN-OFF</text>
+                <text x="574" y="248" text-anchor="middle" font-size="10" font-weight="700" fill="#dce7f5">Thiếu 1 trong 3</text>
+                <text x="574" y="264" text-anchor="middle" font-size="10" font-weight="700" fill="#dce7f5">= KHÔNG go-live</text>
+                <text x="574" y="290" text-anchor="middle" font-size="9.6" font-weight="700" fill="#9db6dd">Góc observability</text>
+              </g>
+              <line x1="662" y1="230" x2="716" y2="230" stroke="#60758c" stroke-width="2.4" marker-end="url(#glArrow)"/>
+              <g filter="url(#glShadow)">
+                <rect x="728" y="150" width="208" height="160" rx="15" fill="#eaf7ef" stroke="#8bd0a8"/>
+                <text x="832" y="186" text-anchor="middle" font-size="13.5" font-weight="900" fill="#007236">SANG DEPLOY</text>
+                <text x="832" y="214" text-anchor="middle" font-size="10.3" font-weight="700" fill="#26384d">Mỗi lần đổi model đi cả vòng</text>
+                <text x="832" y="232" text-anchor="middle" font-size="10.3" font-weight="700" fill="#26384d">Handoff → Shadow → Canary</text>
+                <text x="832" y="250" text-anchor="middle" font-size="10.3" font-weight="700" fill="#26384d">→ Rollback / Retirement</text>
+                <rect x="748" y="268" width="168" height="26" rx="8" fill="#ffffff" stroke="#8bd0a8"/>
+                <text x="832" y="286" text-anchor="middle" font-size="9.6" font-weight="900" fill="#007236">Go-live gate ≠ Deploy gate package</text>
+              </g>
+              <text x="490" y="352" text-anchor="middle" font-size="12" font-weight="900" fill="#64748b">3 KHÔNG → KHÔNG GO-LIVE: không dashboard · không alert test · không runbook + owner</text>
+            </svg></div>`;
           if (type === "trainArchitecture")
             return `<div class="architecture-image"><svg viewBox="0 0 980 390" role="img" aria-label="Kiến trúc Train Model A-Score và tập tối thiểu PreA">
               <defs>
@@ -6925,6 +7654,363 @@
               <rect x="698" y="270" width="190" height="42" rx="10" fill="#102033" stroke="#102033"/>
               <text x="793" y="296" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Model Registry</text>
             </svg></div>`;
+          if (type === "bcDefinition")
+            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="A-Score la gi">
+              <defs><marker id="bcdArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#66788d"/></marker><filter id="bcdShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
+              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="50" text-anchor="middle" font-size="21" font-weight="900" fill="#0b2f64">A-SCORE: MỘT SẢN PHẨM CHẤM ĐIỂM, KHÔNG PHẢI MỘT CON SỐ ĐƠN LẺ</text>
+              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Một chuỗi xử lý có kiểm soát, từ dữ liệu đầu vào đến kết quả có thể giải thích</text>
+
+              <rect x="42" y="110" width="214" height="140" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcdShadow)"/>
+              <text x="149" y="138" text-anchor="middle" font-size="14" font-weight="900" fill="#0b4ea2">1. INPUT</text>
+              <text x="149" y="168" text-anchor="middle" font-size="12" font-weight="800" fill="#102033">Hồ sơ / khách hàng</text>
+              <text x="149" y="188" text-anchor="middle" font-size="11" fill="#516173">Dữ liệu đã xác minh</text>
+
+              <rect x="270" y="110" width="214" height="140" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcdShadow)"/>
+              <text x="377" y="138" text-anchor="middle" font-size="14" font-weight="900" fill="#c84e00">2. FEATURE</text>
+              <text x="377" y="168" text-anchor="middle" font-size="12" font-weight="800" fill="#102033">Chuẩn hóa dữ liệu</text>
+              <text x="377" y="188" text-anchor="middle" font-size="11" fill="#516173">Theo canonical schema</text>
+
+              <rect x="498" y="110" width="214" height="140" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#bcdShadow)"/>
+              <text x="605" y="138" text-anchor="middle" font-size="14" font-weight="900" fill="#007236">3. MODEL</text>
+              <text x="605" y="168" text-anchor="middle" font-size="12" font-weight="800" fill="#102033">Model chấm điểm</text>
+              <text x="605" y="188" text-anchor="middle" font-size="11" fill="#516173">Gắn version cụ thể</text>
+
+              <rect x="726" y="110" width="214" height="140" rx="12" fill="#102033" stroke="#102033" filter="url(#bcdShadow)"/>
+              <text x="833" y="138" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">4. OUTPUT</text>
+              <text x="833" y="168" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">Score + Grade</text>
+              <text x="833" y="188" text-anchor="middle" font-size="11" fill="#cbd5e1">+ Reason Code</text>
+
+              <line x1="256" y1="180" x2="270" y2="180" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcdArrow)"/>
+              <line x1="484" y1="180" x2="498" y2="180" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcdArrow)"/>
+              <line x1="712" y1="180" x2="726" y2="180" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcdArrow)"/>
+
+              <rect x="90" y="278" width="800" height="38" rx="10" fill="#f8fbff" stroke="#d7e3ee"/>
+              <text x="490" y="302" text-anchor="middle" font-size="12" font-weight="800" fill="#334155">Mỗi bước đều được ghi log — kết quả có thể tái lập (replay) đúng tại bất kỳ thời điểm nào để phục vụ audit</text>
+            </svg></div>`;
+          if (type === "bcValueChain")
+            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Value chain va vi tri Risk Assessment">
+              <defs><marker id="bcvArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#66788d"/></marker><filter id="bcvShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
+              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="50" text-anchor="middle" font-size="20" font-weight="900" fill="#0b2f64">VỊ TRÍ CỦA RISK ASSESSMENT (SCORING) TRONG CHUỖI GIÁ TRỊ CHO VAY</text>
+              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Nhận dữ liệu đã xác minh từ phía trước — cung cấp tín hiệu rủi ro cho phía sau</text>
+
+              <rect x="34" y="130" width="164" height="110" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcvShadow)"/>
+              <text x="116" y="160" text-anchor="middle" font-size="12" font-weight="900" fill="#0b4ea2">1. Phát sinh</text>
+              <text x="116" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#0b4ea2">nhu cầu</text>
+              <text x="116" y="205" text-anchor="middle" font-size="10.5" fill="#516173">Tiếp nhận hồ sơ</text>
+
+              <rect x="214" y="130" width="164" height="110" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcvShadow)"/>
+              <text x="296" y="160" text-anchor="middle" font-size="12" font-weight="900" fill="#c84e00">2. Xác minh</text>
+              <text x="296" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#c84e00">dữ liệu</text>
+              <text x="296" y="205" text-anchor="middle" font-size="10.5" fill="#516173">Định danh, tài sản...</text>
+
+              <rect x="394" y="112" width="192" height="146" rx="14" fill="#102033" stroke="#102033" filter="url(#bcvShadow)"/>
+              <text x="490" y="145" text-anchor="middle" font-size="13" font-weight="900" fill="#fcc20e">3. Risk Assessment</text>
+              <text x="490" y="164" text-anchor="middle" font-size="13" font-weight="900" fill="#fcc20e">(Scoring)</text>
+              <text x="490" y="188" text-anchor="middle" font-size="10.5" fill="#e2e8f0">Sinh Score / Grade /</text>
+              <text x="490" y="203" text-anchor="middle" font-size="10.5" fill="#e2e8f0">Reason Code</text>
+              <text x="490" y="240" text-anchor="middle" font-size="10" font-weight="800" fill="#9fb6d4">TRỌNG TÂM CỦA TÀI LIỆU</text>
+
+              <rect x="622" y="130" width="164" height="110" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#bcvShadow)"/>
+              <text x="704" y="160" text-anchor="middle" font-size="12" font-weight="900" fill="#007236">4. Ra quyết</text>
+              <text x="704" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#007236">định</text>
+              <text x="704" y="205" text-anchor="middle" font-size="10.5" fill="#516173">Decision Engine</text>
+
+              <rect x="802" y="130" width="164" height="110" rx="12" fill="#f8fbff" stroke="#b8c8da" filter="url(#bcvShadow)"/>
+              <text x="884" y="160" text-anchor="middle" font-size="12" font-weight="900" fill="#334155">5. Giải ngân &amp;</text>
+              <text x="884" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#334155">quản lý</text>
+              <text x="884" y="205" text-anchor="middle" font-size="10.5" fill="#516173">Thu hồi nợ</text>
+
+              <line x1="198" y1="185" x2="214" y2="185" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcvArrow)"/>
+              <line x1="378" y1="185" x2="394" y2="185" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcvArrow)"/>
+              <line x1="586" y1="185" x2="622" y2="185" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcvArrow)"/>
+              <line x1="786" y1="185" x2="802" y2="185" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcvArrow)"/>
+            </svg></div>`;
+          if (type === "bcProblem")
+            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Business problem hien tai">
+              <defs><filter id="bcpShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
+              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="50" text-anchor="middle" font-size="21" font-weight="900" fill="#0b2f64">GIỚI HẠN CỦA PHIÊN BẢN HIỆN TẠI — 4 ĐIỂM NGHẼN CHÍNH</text>
+              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Vấn đề nằm ở kiến trúc và thuật toán của phiên bản hiện tại, không phải thiếu công cụ chấm điểm</text>
+
+              <rect x="42" y="106" width="214" height="196" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcpShadow)"/>
+              <circle cx="149" cy="140" r="16" fill="#c84e00"/><text x="149" y="146" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">1</text>
+              <text x="149" y="182" text-anchor="middle" font-size="13" font-weight="900" fill="#c84e00">Kiến trúc đóng cứng</text>
+              <text x="149" y="206" text-anchor="middle" font-size="11" fill="#516173">Gắn liền một sản phẩm</text>
+              <text x="149" y="224" text-anchor="middle" font-size="11" fill="#516173">Chưa tách framework</text>
+              <text x="149" y="242" text-anchor="middle" font-size="11" fill="#516173">dùng chung</text>
+
+              <rect x="270" y="106" width="214" height="196" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcpShadow)"/>
+              <circle cx="377" cy="140" r="16" fill="#0b4ea2"/><text x="377" y="146" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">2</text>
+              <text x="377" y="182" text-anchor="middle" font-size="13" font-weight="900" fill="#0b4ea2">Thuật toán tuyến tính</text>
+              <text x="377" y="206" text-anchor="middle" font-size="11" fill="#516173">Logistic regression</text>
+              <text x="377" y="224" text-anchor="middle" font-size="11" fill="#516173">Giới hạn với dữ liệu</text>
+              <text x="377" y="242" text-anchor="middle" font-size="11" fill="#516173">phi tuyến</text>
+
+              <rect x="498" y="106" width="214" height="196" rx="12" fill="#fff7db" stroke="#f0cf6b" filter="url(#bcpShadow)"/>
+              <circle cx="605" cy="140" r="16" fill="#a9790a"/><text x="605" y="146" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">3</text>
+              <text x="605" y="182" text-anchor="middle" font-size="13" font-weight="900" fill="#a9790a">SLA runtime</text>
+              <text x="605" y="206" text-anchor="middle" font-size="11" fill="#516173">~3 giây/request</text>
+              <text x="605" y="224" text-anchor="middle" font-size="11" fill="#516173">Chưa đạt kỳ vọng</text>
+              <text x="605" y="242" text-anchor="middle" font-size="11" fill="#516173">phản hồi tức thời</text>
+
+              <rect x="726" y="106" width="214" height="196" rx="12" fill="#f8fbff" stroke="#b8c8da" filter="url(#bcpShadow)"/>
+              <circle cx="833" cy="140" r="16" fill="#334155"/><text x="833" y="146" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">4</text>
+              <text x="833" y="182" text-anchor="middle" font-size="13" font-weight="900" fill="#334155">Ngôn ngữ dữ liệu</text>
+              <text x="833" y="206" text-anchor="middle" font-size="11" fill="#516173">Thiếu canonical schema</text>
+              <text x="833" y="224" text-anchor="middle" font-size="11" fill="#516173">khi mở rộng đa</text>
+              <text x="833" y="242" text-anchor="middle" font-size="11" fill="#516173">sản phẩm</text>
+
+              <text x="490" y="330" text-anchor="middle" font-size="11.5" font-weight="800" fill="#8a6500">F88 đã có model đang vận hành thực tế — vấn đề là giới hạn kiến trúc và thuật toán, không phải thiếu công cụ chấm điểm</text>
+            </svg></div>`;
+          if (type === "bcObjective")
+            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Business objective">
+              <defs><filter id="bcoShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
+              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="50" text-anchor="middle" font-size="21" font-weight="900" fill="#0b2f64">4 NĂNG LỰC CẦN CÓ CỦA A-SCORE THẾ HỆ MỚI</text>
+              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Không chỉ cải thiện độ chính xác của một model — xây một nền tảng có thể mở rộng</text>
+
+              <rect x="42" y="106" width="214" height="180" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcoShadow)"/>
+              <text x="149" y="140" text-anchor="middle" font-size="13" font-weight="900" fill="#0b4ea2">Nền tảng dùng chung</text>
+              <text x="149" y="168" text-anchor="middle" font-size="11" fill="#516173">Platform/engine phục vụ</text>
+              <text x="149" y="186" text-anchor="middle" font-size="11" fill="#516173">nhiều sản phẩm</text>
+
+              <rect x="270" y="106" width="214" height="180" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#bcoShadow)"/>
+              <text x="377" y="140" text-anchor="middle" font-size="13" font-weight="900" fill="#007236">Multi-model</text>
+              <text x="377" y="168" text-anchor="middle" font-size="11" fill="#516173">Nhiều model family</text>
+              <text x="377" y="186" text-anchor="middle" font-size="11" fill="#516173">cùng một chuẩn output</text>
+
+              <rect x="498" y="106" width="214" height="180" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcoShadow)"/>
+              <text x="605" y="140" text-anchor="middle" font-size="13" font-weight="900" fill="#c84e00">Replay scoring</text>
+              <text x="605" y="168" text-anchor="middle" font-size="11" fill="#516173">Tái lập đúng kết quả</text>
+              <text x="605" y="186" text-anchor="middle" font-size="11" fill="#516173">đã chấm, phục vụ audit</text>
+
+              <rect x="726" y="106" width="214" height="180" rx="12" fill="#102033" stroke="#102033" filter="url(#bcoShadow)"/>
+              <text x="833" y="140" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Explainable</text>
+              <text x="833" y="168" text-anchor="middle" font-size="11" fill="#cbd5e1">Reason code cho</text>
+              <text x="833" y="186" text-anchor="middle" font-size="11" fill="#cbd5e1">mọi score</text>
+
+              <rect x="90" y="300" width="800" height="34" rx="9" fill="#f8fbff" stroke="#d7e3ee"/>
+              <text x="490" y="322" text-anchor="middle" font-size="11.5" font-weight="800" fill="#334155">Bốn năng lực bổ sung cho nhau — thiếu một trong bốn, nền tảng vẫn chưa đạt chuẩn vận hành</text>
+            </svg></div>`;
+          if (type === "bcScope")
+            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Pham vi du an DO va DONT">
+              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="50" text-anchor="middle" font-size="20" font-weight="900" fill="#0b2f64">RANH GIỚI PHẠM VI DỰ ÁN</text>
+              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">A-Score đảm nhiệm bài toán chấm điểm — các nghiệp vụ khác do hệ thống chuyên trách đảm nhiệm</text>
+
+              <rect x="42" y="98" width="418" height="222" rx="12" fill="#eaf7ef" stroke="#8bd0a8"/>
+              <rect x="42" y="98" width="418" height="38" rx="12" fill="#00833e"/>
+              <text x="251" y="122" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">A-SCORE ĐẢM NHIỆM (DO)</text>
+              <text x="66" y="166" font-size="12" font-weight="800" fill="#0f5132">•  Tính Score / Grade / Reason Code</text>
+              <text x="66" y="200" font-size="12" font-weight="800" fill="#0f5132">•  Quản trị vòng đời Feature &amp; Model</text>
+              <text x="66" y="234" font-size="12" font-weight="800" fill="#0f5132">•  Chuẩn hóa output giữa các model</text>
+              <text x="66" y="268" font-size="12" font-weight="800" fill="#0f5132">•  Định tuyến hồ sơ theo phân khúc</text>
+              <text x="66" y="302" font-size="12" font-weight="800" fill="#0f5132">•  Giám sát chất lượng model liên tục</text>
+
+              <rect x="520" y="98" width="418" height="222" rx="12" fill="#fff1e9" stroke="#ffb27d"/>
+              <rect x="520" y="98" width="418" height="38" rx="12" fill="#c84e00"/>
+              <text x="729" y="122" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">A-SCORE KHÔNG ĐẢM NHIỆM (DON'T)</text>
+              <text x="544" y="166" font-size="12" font-weight="800" fill="#8a3700">•  Xác minh định danh (KYC)</text>
+              <text x="544" y="200" font-size="12" font-weight="800" fill="#8a3700">•  Phát hiện gian lận (Fraud)</text>
+              <text x="544" y="234" font-size="12" font-weight="800" fill="#8a3700">•  Ra quyết định phê duyệt cuối cùng</text>
+              <text x="544" y="268" font-size="12" font-weight="800" fill="#8a3700">•  Định giá tài sản bảo đảm</text>
+              <text x="544" y="302" font-size="12" font-weight="800" fill="#8a3700">•  Quản lý hạn mức &amp; hợp đồng</text>
+            </svg></div>`;
+          if (type === "bcSuccess")
+            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Success criteria">
+              <defs><filter id="bcsShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
+              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="50" text-anchor="middle" font-size="21" font-weight="900" fill="#0b2f64">4 NHÓM KPI ĐO THÀNH CÔNG CỦA A-SCORE</text>
+              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Đo bổ sung cho nhau: tác động kinh doanh, chất lượng model, vận hành, giám sát</text>
+
+              <rect x="42" y="106" width="214" height="196" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcsShadow)"/>
+              <text x="149" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#0b4ea2">Business KPI</text>
+              <text x="149" y="168" text-anchor="middle" font-size="11" fill="#516173">Auto-approve rate</text>
+              <text x="149" y="188" text-anchor="middle" font-size="11" fill="#516173">Time-to-decision</text>
+              <text x="149" y="208" text-anchor="middle" font-size="11" fill="#516173">Tăng trưởng dư nợ</text>
+
+              <rect x="270" y="106" width="214" height="196" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcsShadow)"/>
+              <text x="377" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#c84e00">Model KPI</text>
+              <text x="377" y="168" text-anchor="middle" font-size="11" fill="#516173">AUC / Gini / KS</text>
+              <text x="377" y="188" text-anchor="middle" font-size="11" fill="#516173">PSI / Calibration</text>
+              <text x="377" y="208" text-anchor="middle" font-size="11" fill="#516173">Rank Ordering</text>
+
+              <rect x="498" y="106" width="214" height="196" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#bcsShadow)"/>
+              <text x="605" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#007236">Operational KPI</text>
+              <text x="605" y="168" text-anchor="middle" font-size="11" fill="#516173">SLA xử lý request</text>
+              <text x="605" y="188" text-anchor="middle" font-size="11" fill="#516173">Tỷ lệ lỗi API/timeout</text>
+              <text x="605" y="208" text-anchor="middle" font-size="11" fill="#516173">Tỷ lệ NOT_SCORABLE</text>
+
+              <rect x="726" y="106" width="214" height="196" rx="12" fill="#102033" stroke="#102033" filter="url(#bcsShadow)"/>
+              <text x="833" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Monitoring KPI</text>
+              <text x="833" y="168" text-anchor="middle" font-size="11" fill="#cbd5e1">Feature drift</text>
+              <text x="833" y="188" text-anchor="middle" font-size="11" fill="#cbd5e1">Score distribution shift</text>
+              <text x="833" y="208" text-anchor="middle" font-size="11" fill="#cbd5e1">Bad rate theo grade</text>
+
+              <text x="490" y="330" text-anchor="middle" font-size="11.5" font-weight="800" fill="#334155">Monitoring KPI kích hoạt recalibrate/retrain kịp thời trước khi Business KPI bị ảnh hưởng</text>
+            </svg></div>`;
+          if (type === "ontEnterpriseDomain") {
+            const sorted = [...DATA.domainSummary].sort((a, b) =>
+              a.domain.localeCompare(b.domain),
+            );
+            return `<div class="domain-cloud compact ont-domain-map">${sorted
+              .map(
+                (d) =>
+                  `<div class="domain-tile ${["Model Management", "Credit Scoring & Risk Assessment"].includes(d.domain) ? "focus" : ""}">
+                <b>${esc2(d.domain)}</b>
+                <div class="meta"><span>${d.object_count} objects</span><span>${d.property_count} props</span></div>
+              </div>`,
+              )
+              .join("")}</div>`;
+          }
+          if (type === "ontProblemScope")
+            return `<div class="ont-scope-grid">
+              <div class="ont-scope-card">
+                <h4 style="color:#007236">Model Management</h4>
+                <p>Quản lý vòng đời model, feature set, training dataset, model version, run log, metric và artifact registry.</p>
+                <ul>
+                  <li>Object: ModelVersion, FeatureSet, TrainingDataset, ModelRunLog</li>
+                  <li>Đảm bảo score truy vết được model nào, feature nào, dataset nào</li>
+                  <li>Hỗ trợ rollback, replay, champion/challenger</li>
+                </ul>
+              </div>
+              <div class="ont-scope-card alt">
+                <h4 style="color:#0b4ea2">Credit Scoring &amp; Risk Assessment</h4>
+                <p>Quản lý phiên Assessment, đầu vào chấm điểm, ScoreResult, risk grade, reason code và risk signal.</p>
+                <ul>
+                  <li>Object: Assessment, ScoreResult, RiskSignal</li>
+                  <li>Lõi runtime: nhận input chuẩn hóa, sinh score cho Decision Engine</li>
+                  <li>Kết nối Application, model active và policy/rule</li>
+                </ul>
+              </div>
+            </div>`;
+          if (type === "ontModelIO")
+            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Input va output cua model">
+              <defs><marker id="ontIoArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#66788d"/></marker><filter id="ontIoShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
+              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="50" text-anchor="middle" font-size="21" font-weight="900" fill="#0b2f64">INPUT / OUTPUT CỦA MODEL TRONG ONTOLOGY</text>
+              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Contract nghiệp vụ — không chỉ ma trận feature</text>
+              <rect x="42" y="100" width="420" height="200" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#ontIoShadow)"/>
+              <text x="252" y="130" text-anchor="middle" font-size="15" font-weight="900" fill="#0b4ea2">INPUT</text>
+              <text x="62" y="158" font-size="12" font-weight="800" fill="#102033">• Application / Party context</text>
+              <text x="62" y="180" font-size="12" font-weight="800" fill="#102033">• KYC / Verification result</text>
+              <text x="62" y="202" font-size="12" font-weight="800" fill="#102033">• Feature snapshot (FeatureSet runtime)</text>
+              <text x="62" y="224" font-size="12" font-weight="800" fill="#102033">• Active ModelVersion</text>
+              <text x="62" y="246" font-size="12" font-weight="800" fill="#102033">• Consent, policy guardrail</text>
+              <text x="62" y="268" font-size="12" font-weight="800" fill="#102033">• API request metadata</text>
+              <rect x="518" y="100" width="420" height="200" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#ontIoShadow)"/>
+              <text x="728" y="130" text-anchor="middle" font-size="15" font-weight="900" fill="#007236">OUTPUT</text>
+              <text x="538" y="158" font-size="12" font-weight="800" fill="#102033">• Assessment (phiên chấm điểm)</text>
+              <text x="538" y="180" font-size="12" font-weight="800" fill="#102033">• ScoreResult: Score + Grade + Reason Code</text>
+              <text x="538" y="202" font-size="12" font-weight="800" fill="#102033">• RiskSignal</text>
+              <text x="538" y="224" font-size="12" font-weight="800" fill="#102033">• ModelRunLog (latency, error, version)</text>
+              <text x="538" y="246" font-size="12" font-weight="800" fill="#102033">• IntegrationEvent / API response</text>
+              <text x="538" y="268" font-size="12" font-weight="800" fill="#102033">• Decision input (qua policy/rule)</text>
+              <line x1="462" y1="200" x2="518" y2="200" stroke="#66788d" stroke-width="3" marker-end="url(#ontIoArrow)"/>
+              <rect x="120" y="318" width="740" height="34" rx="10" fill="#f8fbff" stroke="#d7e3ee"/>
+              <text x="490" y="340" text-anchor="middle" font-size="12" font-weight="800" fill="#334155">Mọi output gắn model_version_id + feature_set_version + input snapshot để replay và audit</text>
+            </svg></div>`;
+          if (type === "ontKeyObjects") {
+            const pool = (DATA.focusDetails || DATA.domainObjects || []).filter(
+              (o) => focusObjects.includes(o.object),
+            );
+            const rows = pool
+              .map(
+                (o) => `<tr>
+              <td><b>${esc2(o.object)}</b><br><small style="color:#65758b">${esc2(o.domain)}</small></td>
+              <td>${esc2((o.object_desc || "").slice(0, 120))}${(o.object_desc || "").length > 120 ? "…" : ""}</td>
+              <td><span class="pill green">${esc2((o.lifecycle || "—").split("→")[0].trim())}</span> → ${esc2((o.lifecycle || "—").split("→").slice(-1)[0].trim())}</td>
+              <td>${esc2(
+                (
+                  {
+                    ModelVersion: "Quản trị phiên bản model tạo score",
+                    FeatureSet: "Định nghĩa bộ feature cho train/runtime",
+                    TrainingDataset: "Dữ liệu học feature tại T + label sau T",
+                    ModelRunLog: "Bằng chứng mỗi lần chấm điểm",
+                    Assessment: "Phiên đánh giá rủi ro cho hồ sơ",
+                    ScoreResult: "Kết quả score/grade/reason",
+                    Decision: "Quyết định nghiệp vụ sau scoring",
+                    AuditLog: "Truy vết thay đổi và phê duyệt",
+                    Application: "Ngữ cảnh hồ sơ được chấm",
+                    DataQualityCheck: "Kiểm soát chất lượng dữ liệu đầu vào",
+                    APIEndpoint: "Điểm tích hợp scoring runtime",
+                    IntegrationEvent: "Sự kiện tích hợp giữa các hệ thống",
+                  }[o.object] || "Object trong phạm vi A-Score"
+                ).slice(0, 90),
+              )}</td>
+            </tr>`,
+              )
+              .join("");
+            return `<div class="ont-lifecycle-wrap"><table class="ont-object-table">
+              <thead><tr><th>Object</th><th>Định nghĩa</th><th>Lifecycle (state)</th><th>Business intent</th></tr></thead>
+              <tbody>${rows}</tbody>
+            </table></div>`;
+          }
+          if (type === "ontOutcome")
+            return `<div class="outcome-callout">
+              <h4>Outcome — module đặc thù, linh hồn training data</h4>
+              <p>Outcome là kết quả hậu nghiệm (trả nợ, quá hạn, write-off) được dùng để định nghĩa label customer và đo chất lượng model. Đây <b>không phải</b> phần thiết kế kiến trúc thuật toán — mà là lớp nghiệp vụ quyết định model học từ dữ liệu nào và đánh giá tốt/xấu ra sao.</p>
+              <div class="metric-row" style="margin-top:16px">
+                <div class="metric"><strong>Loan Repayment</strong><span>Nguồn outcome chính cho label</span></div>
+                <div class="metric"><strong>Delinquency</strong><span>DPD, bucket, bad flag</span></div>
+                <div class="metric"><strong>Label Rule</strong><span>Tốt / Xám / Xấu / Chưa XD</span></div>
+              </div>
+            </div>`;
+          if (type === "ontBusinessRules")
+            return `<div>
+              <div class="label-band">
+                <div class="band good">Tốt</div>
+                <div class="band gray">Xám</div>
+                <div class="band bad">Xấu</div>
+                <div class="band unknown">Chưa xác định</div>
+              </div>
+              <div class="phase-panel" style="margin-top:14px">
+                <div class="card"><h4>Label Customer Design</h4><p>4 nhóm khách theo outcome rule và maturity window. Label version được phê duyệt trước khi dùng cho TrainingDataset.</p></div>
+                <div class="card"><h4>Risk Driver</h4><p>Giả thuyết rủi ro nghiệp vụ (ổn định thu nhập, LTV, hành vi, fraud signal…) được map sang feature group và kiểm tra coverage.</p></div>
+              </div>
+              <div class="routing-matrix">
+                <div class="rm-head">Segment</div>
+                <div class="rm-head">New file</div>
+                <div class="rm-head">Thin file</div>
+                <div class="rm-head">Thick file</div>
+                <div class="rm-head">Routing</div>
+                <div class="rm-cell focus">PreA / minimum feature set<br><small>Khi dữ liệu thiếu</small></div>
+                <div class="rm-cell focus">A-Score standard<br><small>Feature set đầy đủ hơn</small></div>
+                <div class="rm-cell focus">A-Score + behavior<br><small>Có lịch sử F88/credit</small></div>
+                <div class="rm-head">Model family</div>
+                <div class="rm-cell">Logistic + PreA fallback</div>
+                <div class="rm-cell">Logistic scorecard</div>
+                <div class="rm-cell">Enriched feature set</div>
+                <div class="rm-head">Policy</div>
+                <div class="rm-cell">Manual review nếu NOT_SCORABLE</div>
+                <div class="rm-cell">Rule guardrail + score band</div>
+                <div class="rm-cell">Champion/challenger ready</div>
+              </div>
+            </div>`;
+          if (type === "ontLifecycle")
+            return `<div class="ont-lifecycle-wrap"><table class="decision-table ont-object-table">
+              <thead><tr><th>#</th><th>Phase</th><th>Mục tiêu</th><th>Input</th><th>Output</th><th>Actors</th></tr></thead>
+              <tbody>${ontologyLifecyclePhases
+                .map(
+                  (p) => `<tr>
+                <td><b>${p.order}</b></td>
+                <td><b>${esc2(p.name)}</b><br><small style="color:#65758b">${esc2(p.vi)}</small></td>
+                <td>${esc2(p.short)}</td>
+                <td>${esc2(p.input)}</td>
+                <td>${esc2(p.output)}</td>
+                <td>${esc2(p.actors)}</td>
+              </tr>`,
+                )
+                .join("")}</tbody>
+            </table></div>
+            <div class="flow-strip" style="margin-top:14px;grid-template-columns:repeat(8,minmax(0,1fr))">${ontologyLifecyclePhases
+              .map(
+                (p) =>
+                  `<div class="flow-step"><b>${p.order}. ${esc2(p.name)}</b><span style="color:#65758b;font-size:12px">${esc2(p.vi)}</span></div>`,
+              )
+              .join("")}</div>`;
           const flows = {
             transition: ["Business rule", "Risk driver + label", "Khung thiết kế", "Train scorecard"],
             designOverview: ["Khung feature", "Khung model", "Khung quản trị", "Asset sẵn sàng train"],
@@ -6985,6 +8071,25 @@
               "training-dataset-label-engine": "Tạo dữ liệu học",
               "tabnet-feature-logistic": "Sàng lọc feature",
               "validation-calibration-reason-registry": "Kiểm định và đăng ký model",
+              "bc-definition": "Định nghĩa A-Score",
+              "bc-value-chain": "Value chain & vị trí Scoring",
+              "bc-problem": "Business problem",
+              "bc-objective": "Business objective",
+              "bc-scope": "Phạm vi dự án (DO/DON'T)",
+              "bc-success": "Success criteria",
+              "monitoring-two-layers": "Hai lớp giám sát",
+              "monitoring-system-phase1": "Giám sát hệ thống Phase 1",
+              "monitoring-model-kpi": "Giám sát hiệu quả model",
+              "governance-incident-response": "Xử lý sự cố",
+              "governance-failsafe-raci": "Failsafe và phân quyền",
+              "governance-golive-gate": "Cổng go-live",
+              "ont-enterprise-domain": "Enterprise Domain Map",
+              "ont-problem-scope": "Phạm vi bài toán",
+              "ont-model-io": "Input / Output của model",
+              "ont-key-objects": "Object chính trong phạm vi",
+              "ont-outcome": "Outcome — linh hồn training data",
+              "ont-business-rules": "Business Rule / Policy",
+              "ont-lifecycle": "Lifecycle Model Management",
             }[item.id] || item.message
           );
         }
@@ -7012,25 +8117,43 @@
       ${content}
     </section>`;
         }
-        function dsSlidesFor(flowId) {
-          const map = {
+        function subSlidesFor(flowId) {
+          const dsMap = {
+            "business-case": [8, 9, 10, 11, 12, 13],
             "design-time": [1, 2, 3],
             "train-time": [4, 5, 6, 7],
+            monitoring: [14, 15, 16],
+            governance: [17, 18, 19],
           };
-          return (map[flowId] || []).map((idx) => dsSlides[idx]);
+          const ontMap = {
+            ontology: [
+              "ont-enterprise-domain",
+              "ont-problem-scope",
+              "ont-model-io",
+              "ont-key-objects",
+              "ont-outcome",
+              "ont-business-rules",
+              "ont-lifecycle",
+            ],
+          };
+          const ds = (dsMap[flowId] || []).map((idx) => dsSlides[idx]);
+          const ont = (ontMap[flowId] || [])
+            .map((id) => ontologySlides.find((s) => s.id === id))
+            .filter(Boolean);
+          return [...ds, ...ont];
         }
         function navItems() {
           const items = [];
           flow.forEach((item) => {
             items.push(item);
-            dsSlidesFor(item.id).forEach((slide) => items.push(slide));
+            subSlidesFor(item.id).forEach((slide) => items.push(slide));
           });
           return items;
         }
         function renderMainSections() {
           return mainFlow
             .map((item, i) => {
-              const subs = dsSlidesFor(item.id);
+              const subs = subSlidesFor(item.id);
               const extra = subs
                 .map((slide, j) =>
                   dsSlideCard(slide, `${i + 1}.${j + 1}`, item, i + 1, j + 1, subs.length),
@@ -7161,6 +8284,16 @@
               nodes: ["Yêu cầu API", "Snapshot feature", "Model active", "Kết quả score", "Log quyết định"],
               colors: ["#eef6ff", "#eaf7ef", "#fcc20e", "#00833e", "#334155"],
             },
+            monitoring: {
+              title: "Observability Phase 1",
+              nodes: ["Log PG", "Prometheus", "Grafana", "Alert", "SLA breach"],
+              colors: ["#eef6ff", "#fff7db", "#0b4ea2", "#ff6b00", "#334155"],
+            },
+            governance: {
+              title: "Từ alert đến go-live",
+              nodes: ["Alert fire", "Runbook triage", "Contain / Fix", "Approve rollback", "Go-live sign-off"],
+              colors: ["#ff6b00", "#fff1e9", "#eef6ff", "#fcc20e", "#00833e"],
+            },
             deployment: {
               title: "Rollout có kiểm soát",
               nodes: ["Shadow", "Pilot", "Champion / Challenger", "Deploy toàn phần", "Sẵn sàng rollback"],
@@ -7196,6 +8329,8 @@
               // "design-time": "Design Time xác định model sử dụng dữ liệu gì, được xây dựng theo cấu trúc nào và được quản trị ra sao.",
               "train-time": "",
               runtime: "Runtime trả score có version, snapshot và decision lineage.",
+              monitoring: "Monitoring = đo, nhìn, báo — biết service ổn trước khi go-live.",
+              governance: "Governance = xử sự cố + gate go-live — nhìn được và biết xử lý.",
               deployment: "Deploy đưa model vào production bằng rollout có kiểm soát.",
             }[id] || fallback
           );
@@ -7229,6 +8364,10 @@
                 "Tạo bằng chứng rằng model đủ điều kiện triển khai. Metric chỉ là một phần; lineage, stability và approval mới làm model vận hành được.",
               runtime:
                 "Nối model với quy trình thật. Mỗi score phải trả lời được: sinh khi nào, bởi version nào, dùng input nào và hỗ trợ decision nào.",
+              monitoring:
+                "Aggregate log runtime lên dashboard. Không có monitoring thì không biết service lệch — và không thể go-live an toàn.",
+              governance:
+                "Quyết định xử lý khi alert fire và điều kiện mở production. Tách khỏi Deploy: go-live gate ≠ deploy gate package.",
               deployment:
                 "Giảm rủi ro khi đưa model vào production bằng rollout có kiểm soát, giám sát sớm và khả năng rollback nhanh.",
               retirement:
@@ -7260,6 +8399,15 @@
           if (id === "runtime")
             return `<div class="runtime-flow" style="margin-top:16px">
       <div class="runtime-step"><b>1. Trigger</b>Application/API request</div><div class="runtime-step"><b>2. Prepare</b>Input snapshot và FeatureSet</div><div class="runtime-step"><b>3. Score</b>Active ModelVersion tạo ScoreResult</div><div class="runtime-step"><b>4. Decide</b>Policy/rule hỗ trợ Decision</div><div class="runtime-step"><b>5. Log</b>ModelRunLog, AuditLog, IntegrationEvent</div>
+    </div>`;
+          if (id === "monitoring")
+            return `<div class="runtime-flow" style="margin-top:16px">
+      <div class="runtime-step"><b>1. Đo</b>Metric dictionary — log PG + Prometheus</div><div class="runtime-step"><b>2. Nhìn</b>Grafana dashboard Phase 1</div><div class="runtime-step"><b>3. Báo</b>4 alert: RT / DQ / AR / LG</div><div class="runtime-step"><b>4. Model KPI</b>DS/DE publish — panel Phase 2</div>
+    </div>`;
+          if (id === "governance")
+            return `<div class="phase-panel" style="margin-top:16px">
+      <div class="card"><h4>Incident Response</h4><p>4 runbook: 5xx, critical missing, artifact fail, log fail. Detect → Triage → Contain → Fix → Restore. Approve rollback (Lv.5) / kill switch (Lv.6).</p></div>
+      <div class="card"><h4>Go-live Gate</h4><p>Chỉ go-live khi dashboard live, alert đã fire test và runbook có owner — không chỉ vì API trả score được.</p></div>
     </div>`;
           if (id === "deployment")
             return `<div class="matrix" style="margin-top:16px"><table class="decision-table"><thead><tr><th>Stage</th><th>Mục tiêu</th><th>Control</th></tr></thead><tbody><tr><td>Shadow mode</td><td>Chạy song song, chưa ảnh hưởng quyết định</td><td>So sánh score distribution và latency</td></tr><tr><td>Pilot</td><td>Áp dụng trên phạm vi hẹp</td><td>Giới hạn kênh, sản phẩm, segment</td></tr><tr><td>Champion/Challenger</td><td>So sánh model mới với model đang active</td><td>Bad rate by band, override, approval</td></tr><tr><td>Full rollout</td><td>Đưa vào vận hành chính thức</td><td>Monitoring threshold và rollback rule</td></tr></tbody></table></div>`;
@@ -7348,21 +8496,35 @@
         function renderGraph2() {
           const svg = document.getElementById("ctiGraph");
           if (!svg) return;
-          const nodes = [
-            ["Business Case", 80, 150, "#0b4ea2"],
-            ["Ontology", 230, 90, "#00833e"],
-            ["Design Time", 380, 150, "#0b4ea2"],
-            ["Train Model", 530, 90, "#fcc20e"],
-            ["Runtime", 680, 150, "#00833e"],
-            ["Deploy", 830, 90, "#ff6b00"],
+          const labels = [
+            "Business Case",
+            "Ontology",
+            "Design Time",
+            "Train Model",
+            "Runtime",
+            "Monitoring",
+            "Governance",
+            "Deploy",
           ];
-          const edges = [
-            [0, 1],
-            [1, 2],
-            [2, 3],
-            [3, 4],
-            [4, 5],
+          const colors = [
+            "#0b4ea2",
+            "#00833e",
+            "#0b4ea2",
+            "#fcc20e",
+            "#00833e",
+            "#0b4ea2",
+            "#334155",
+            "#ff6b00",
           ];
+          const W = 930;
+          const step = labels.length > 1 ? (W - 160) / (labels.length - 1) : 0;
+          const nodes = labels.map((label, i) => [
+            label,
+            80 + i * step,
+            i % 2 ? 90 : 150,
+            colors[i],
+          ]);
+          const edges = nodes.slice(0, -1).map((_, i) => [i, i + 1]);
           svg.setAttribute("viewBox", "0 0 930 340");
           svg.innerHTML =
             `<defs><marker id="ctiArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#b8c4d0"/></marker></defs>` +
@@ -7395,7 +8557,7 @@
           document.querySelector(".main").innerHTML =
             `<section class="section curiosity-slide" id="top"><div><div class="curiosity-mark">?</div></div></section>
       <section class="hero cover-hero" id="cover"><div><span class="platform-name">Customer Trust Index - A Score platform</span><h2>Đo lường chỉ số niềm tin khách hàng</h2><p class="leader-line">Leader: Mr Đinh Gia Hiếu</p></div><div class="team-panel"><h3>Thành viên</h3><div class="team-list"><div class="team-member">Đặng Thị Mỹ Dung</div><div class="team-member">Mai Thị Bảo Ngọc</div><div class="team-member">Dương Thùy An</div><div class="team-member">Nguyễn Tuấn Anh</div><div class="team-member">Hoàng Mai Duy</div><div class="team-member">Trần Hoàng Dương</div></div></div></section>
-      <section class="section"><div class="section-head"><div><h3>Flow trình bày</h3><p class="sub">6 section chính: Business Case, Ontology, Design Time, Train Model, Runtime, Deploy. Các nội dung DS chi tiết là subsection trong luồng.</p></div></div><div class="flow-strip">${mainFlow.map((x, i) => `<div class="flow-step"><b>${i + 1}. ${esc2(x.title)}</b><span style="color:#65758b;font-size:13px">${esc2(x.short)}</span></div>`).join("")}</div></section>
+      <section class="section"><div class="section-head"><div><h3>Flow trình bày</h3><p class="sub">8 section chính: Business Case, Ontology, Design Time, Train Model, Runtime, Monitoring, Governance, Deploy. Các nội dung DS chi tiết là subsection trong luồng.</p></div></div><div class="flow-strip">${mainFlow.map((x, i) => `<div class="flow-step"><b>${i + 1}. ${esc2(x.title)}</b><span style="color:#65758b;font-size:13px">${esc2(x.short)}</span></div>`).join("")}</div></section>
       <section class="section"><div class="section-head"><div><h3>Kiến trúc tổng quan</h3><p class="sub">A-Score/CTI được nhìn như một tài sản mô hình có lifecycle, không chỉ là công thức tính điểm. Sơ đồ dưới đây cho thấy cách business problem, ontology, model lifecycle và governance liên kết với nhau.</p></div></div><div class="graph-wrap"><svg id="ctiGraph" aria-label="A-Score architecture flow"></svg></div></section>
       ${renderMainSections()}
       <div class="section" id="object-reference"><div class="section-head"><div><h3>Object tham chiếu trong ontology</h3><p class="sub">Các object dưới đây là lớp bằng chứng giúp A-Score truy vết từ dữ liệu, model, score tới quyết định.</p></div><span class="badge">Reference layer</span></div><div class="object-detail"><div class="object-list" id="ctiObjectList"></div><div class="object-view" id="ctiObjectView"></div></div></div>
