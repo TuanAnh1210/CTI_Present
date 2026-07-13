@@ -6264,6 +6264,295 @@
         color: #0b4ea2;
         margin-bottom: 6px;
       }
+      .cti-v2 .runtime-board {
+        display: grid;
+        grid-template-columns: 185px minmax(0, 1fr);
+        gap: 14px;
+        margin-top: 16px;
+        align-items: stretch;
+      }
+      .cti-v2 .runtime-source {
+        display: grid;
+        gap: 10px;
+        align-content: center;
+        position: relative;
+      }
+      .cti-v2 .runtime-source::after {
+        content: "→";
+        position: absolute;
+        right: -17px;
+        top: 50%;
+        transform: translate(50%, -50%);
+        z-index: 2;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: #0b2f64;
+        background: #fff;
+        border: 1px solid #cbd7e3;
+        box-shadow: 0 5px 14px rgba(16, 32, 51, 0.12);
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-source-card,
+      .cti-v2 .runtime-gateway {
+        border: 1px solid #bfd0e4;
+        border-radius: 12px;
+        background: #fff;
+        padding: 14px;
+        text-align: center;
+        color: #0b2f64;
+        font-weight: 900;
+        box-shadow: 0 8px 18px rgba(16, 32, 51, 0.06);
+      }
+      .cti-v2 .runtime-source-card small,
+      .cti-v2 .runtime-gateway small {
+        display: block;
+        margin-top: 6px;
+        color: #64748b;
+        font-size: 11px;
+        line-height: 1.35;
+      }
+      .cti-v2 .runtime-arrow {
+        color: #0b4ea2;
+        font-weight: 900;
+        text-align: center;
+        font-size: 13px;
+      }
+      .cti-v2 .runtime-stages {
+        display: grid;
+        grid-template-columns: minmax(210px, 0.92fr) minmax(0, 3.4fr);
+        gap: 18px;
+        align-items: start;
+      }
+      .cti-v2 .runtime-engine {
+        border: 2px solid #b7dac7;
+        border-radius: 16px;
+        background: linear-gradient(180deg, #f5fff8, #ffffff);
+        padding: 12px;
+        position: relative;
+      }
+      .cti-v2 .runtime-engine-title {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        color: #00833e;
+        font-weight: 900;
+        margin-bottom: 10px;
+      }
+      .cti-v2 .runtime-engine-title small {
+        color: #5d6f83;
+        font-size: 11px;
+        font-weight: 800;
+      }
+      .cti-v2 .runtime-engine-stages {
+        display: grid;
+        grid-template-columns: 1.45fr 0.9fr 1.08fr;
+        gap: 18px;
+        align-items: start;
+      }
+      .cti-v2 .runtime-stage {
+        border: 1px solid #d8e4ef;
+        border-radius: 13px;
+        background: linear-gradient(180deg, #ffffff, #fbfdff);
+        overflow: visible;
+        min-width: 0;
+        position: relative;
+      }
+      .cti-v2 .runtime-stage.flow-next::after {
+        content: "→";
+        position: absolute;
+        right: -18px;
+        top: 50%;
+        transform: translate(50%, -50%);
+        z-index: 2;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: #0b2f64;
+        background: #fff;
+        border: 1px solid #cbd7e3;
+        box-shadow: 0 5px 14px rgba(16, 32, 51, 0.12);
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-stage-head {
+        display: grid;
+        grid-template-columns: 32px 1fr;
+        gap: 8px;
+        align-items: center;
+        color: #fff;
+        padding: 12px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-stage-head .n {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.94);
+      }
+      .cti-v2 .runtime-stage-head small {
+        display: block;
+        margin-top: 2px;
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 11px;
+      }
+      .cti-v2 .runtime-stage.be .runtime-stage-head {
+        background: #0b4ea2;
+      }
+      .cti-v2 .runtime-stage.feature .runtime-stage-head {
+        background: #00833e;
+      }
+      .cti-v2 .runtime-stage.model .runtime-stage-head {
+        background: #5b35a5;
+      }
+      .cti-v2 .runtime-stage.audit .runtime-stage-head {
+        background: #d89100;
+      }
+      .cti-v2 .runtime-stage.be .n {
+        color: #0b4ea2;
+      }
+      .cti-v2 .runtime-stage.feature .n {
+        color: #00833e;
+      }
+      .cti-v2 .runtime-stage.model .n {
+        color: #5b35a5;
+      }
+      .cti-v2 .runtime-stage.audit .n {
+        color: #d89100;
+      }
+      .cti-v2 .runtime-stage-body {
+        display: grid;
+        gap: 6px;
+        padding: 9px;
+      }
+      .cti-v2 .runtime-action {
+        border: 1px solid #e1eaf3;
+        border-radius: 10px;
+        background: #fff;
+        overflow: hidden;
+      }
+      .cti-v2 .runtime-action summary {
+        list-style: none;
+        cursor: pointer;
+        display: grid;
+        grid-template-columns: 24px 1fr auto;
+        gap: 7px;
+        align-items: center;
+        padding: 7px 8px;
+        color: #102033;
+        font-size: 12px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-action summary::-webkit-details-marker {
+        display: none;
+      }
+      .cti-v2 .runtime-action summary::after {
+        content: "+";
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: #eef4fb;
+        color: #0b4ea2;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-action[open] summary::after {
+        content: "-";
+      }
+      .cti-v2 .runtime-action .ico {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: #f1f5f9;
+        color: #0b4ea2;
+        font-size: 12px;
+        font-weight: 900;
+      }
+      .cti-v2 .feature-merge-visual {
+        display: grid;
+        gap: 6px;
+        border: 1px dashed #9cccac;
+        border-radius: 10px;
+        background: #f7fff9;
+        padding: 7px;
+      }
+      .cti-v2 .feature-merge-sources {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+      }
+      .cti-v2 .feature-merge-sources span {
+        border: 1px solid #cfe8d8;
+        border-radius: 8px;
+        background: #fff;
+        padding: 6px 5px;
+        text-align: center;
+        color: #24613c;
+        font-size: 11px;
+        font-weight: 900;
+      }
+      .cti-v2 .feature-merge-target {
+        border-radius: 8px;
+        padding: 7px;
+        text-align: center;
+        color: #fff;
+        background: #00833e;
+        font-size: 12px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-action ul {
+        margin: 0;
+        padding: 0 10px 9px 42px;
+        color: #516173;
+        font-size: 11px;
+        line-height: 1.45;
+      }
+      .cti-v2 .runtime-bottom {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: minmax(300px, 0.95fr) 1fr;
+        gap: 10px;
+        align-items: stretch;
+      }
+      .cti-v2 .runtime-response-box {
+        border: 1px solid #bfd0e4;
+        border-radius: 12px;
+        background: #fff;
+        padding: 10px 12px;
+      }
+      .cti-v2 .runtime-response-box b {
+        display: block;
+        color: #0b4ea2;
+        margin-bottom: 5px;
+      }
+      .cti-v2 .runtime-response-box span {
+        display: inline-flex;
+        margin: 2px;
+        padding: 4px 7px;
+        border-radius: 999px;
+        background: #eef6ff;
+        color: #0b4ea2;
+        font-size: 12px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-principle {
+        border: 1px dashed #9bb7d6;
+        border-radius: 12px;
+        background: #f8fbff;
+        padding: 10px 12px;
+        color: #0b2f64;
+        font-weight: 900;
+        line-height: 1.45;
+      }
       .cti-v2 .ds-slide .section-head {
         margin-bottom: 12px;
       }
@@ -6545,9 +6834,28 @@
         .cti-v2 .proof-grid,
         .cti-v2 .metric-row,
         .cti-v2 .runtime-flow,
+        .cti-v2 .runtime-board,
+        .cti-v2 .runtime-stages,
+        .cti-v2 .runtime-engine-stages,
+        .cti-v2 .runtime-bottom,
+        .cti-v2 .feature-merge-sources,
         .cti-v2 .flow-strip,
         .cti-v2 .ds-flow {
           grid-template-columns: 1fr;
+        }
+        .cti-v2 .runtime-stage.flow-next::after {
+          content: "↓";
+          right: 50%;
+          top: auto;
+          bottom: -20px;
+          transform: translate(50%, 50%);
+        }
+        .cti-v2 .runtime-source::after {
+          content: "↓";
+          right: 50%;
+          top: auto;
+          bottom: -18px;
+          transform: translate(50%, 50%);
         }
         .cti-v2 .hero h2 {
           font-size: 31px;
@@ -7202,7 +7510,10 @@
         }
         function sectionCard(item, i) {
           const isTrainModel = item.id === "train-time";
-          const visualContent = isTrainModel
+          const isRuntime = item.id === "runtime";
+          const visualContent = isRuntime
+            ? extraBlock(item.id)
+            : isTrainModel
             ? `<div class="visual-grid visual-only-main">${mainVisual(item.id)}</div>`
             : `<div class="visual-grid">
                 <div class="message-card">
@@ -7236,7 +7547,68 @@
             }[id] || ""
           );
         }
+        function runtimeBoard() {
+          const step = (code, label, tasks) =>
+            `<details class="runtime-action"><summary><span class="ico">${code}</span><span>${label}</span></summary><ul>${tasks.map((task) => `<li>${esc2(task)}</li>`).join("")}</ul></details>`;
+          return `<div class="runtime-board">
+      <div class="runtime-source">
+        <div class="runtime-source-card">Caller<small>LOS / MyF88 / PGD / Partner</small></div>
+        <div class="runtime-arrow">Request</div>
+        <div class="runtime-gateway">API Gateway<small>Chuẩn hóa cửa vào runtime</small></div>
+      </div>
+      <div class="runtime-stages">
+        <div class="runtime-stage be flow-next">
+          <div class="runtime-stage-head"><span class="n">1</span><div>A-Score BE<small>Runtime Orchestrator</small></div></div>
+          <div class="runtime-stage-body">
+            ${step("1", "Validate Header / Body", ["Kiểm tra request_id, correlation_id, caller_system, channel, api_version.", "Kiểm tra required fields, datatype, enum và timestamp format."])}
+            ${step("2", "Check Idempotency", ["So sánh idempotency_key và payload_hash.", "Nếu request đã xử lý xong thì trả cached response; nếu mismatch thì trả conflict."])}
+            ${step("3", "DQ Gate", ["Kiểm tra consent, eKYC, fraud pre-check, product/channel.", "Nếu FAIL thì trả DATA_FAIL / NOT_SCORABLE và không gọi Scoring Engine."])}
+            ${step("4", "Resolve Customer Identity", ["Tìm customer_key trong hệ thống.", "Ghi identity_status, matched_by và match_confidence."])}
+            ${step("5", "Customer History Router", ["Phân loại khách hàng thành New, Thin hoặc Thick.", "Dùng segment để chọn model/schema phù hợp."])}
+            ${step("6", "Select Candidate Model", ["Chọn A_SCORE_NEW_MODEL, A_SCORE_THIN_MODEL hoặc A_SCORE_THICK_MODEL.", "Gửi selected_model, model_version, feature_schema_version sang Scoring Engine."])}
+          </div>
+        </div>
+        <div class="runtime-engine">
+          <div class="runtime-engine-title">Scoring Engine <small>Handle Feature -> Model Serving -> Post-processing & Audit</small></div>
+          <div class="runtime-engine-stages">
+            <div class="runtime-stage feature flow-next">
+              <div class="runtime-stage-head"><span class="n">2</span><div>Handle Feature<small>Merge T-1 + Intraday + Request-time</small></div></div>
+              <div class="runtime-stage-body">
+                <div class="feature-merge-visual"><div class="feature-merge-sources"><span>T-1 Data</span><span>Intraday Data</span><span>Request-time Data</span></div><div class="feature-merge-target">Merge Feature -> Final Feature Vector</div></div>
+                ${step("1", "Build Final Feature Vector", ["Merge T-1 Data, Intraday Data và Request-time Data.", "Tính các feature dẫn xuất như current_ltv, exposure_after_request."])}
+                ${step("2", "Feature Quality Check", ["Kiểm tra required features, missing policy, range, schema compatibility.", "Nếu fail thì trả DATA_FAIL / SYSTEM_ERROR theo nguyên nhân."])}
+                ${step("3", "Write Feature Snapshot", ["Lưu bằng chứng đầu vào trước khi run model.", "Ghi feature_snapshot_id, feature_vector_hash và source_metadata."])}
+              </div>
+            </div>
+            <div class="runtime-stage model flow-next">
+              <div class="runtime-stage-head"><span class="n">3</span><div>Model Serving<small>Run selected model</small></div></div>
+              <div class="runtime-stage-body">
+                ${step("1", "Load Model Artifact", ["Load model artifact từ registry theo selected_model và model_version.", "Kiểm tra artifact_id và artifact_checksum."])}
+                ${step("2", "Run Model", ["Chạy đúng model theo customer_segment.", "Không tự fallback nếu policy không cho phép."])}
+                ${step("3", "Raw Prediction / PD", ["Trả raw_prediction hoặc probability of default.", "Ghi model latency và model_run_status."])}
+              </div>
+            </div>
+            <div class="runtime-stage audit">
+              <div class="runtime-stage-head"><span class="n">4</span><div>Post-processing & Audit<small>Kết quả nghiệp vụ</small></div></div>
+              <div class="runtime-stage-body">
+                ${step("1", "Calculate Score", ["Chuyển raw prediction / PD thành score_value.", "Dùng score_mapping_version để có thể audit."])}
+                ${step("2", "Map Grade / Risk Band", ["Map score thành grade và risk_band.", "Grade không phải quyết định approve/reject."])}
+                ${step("3", "Generate Reason Codes", ["Tạo reason_codes từ feature contribution, rule hoặc mapping.", "Sắp xếp theo rank và direction."])}
+                ${step("4", "Write Inference Log", ["Ghi dòng log tóm tắt để query nhanh.", "Lưu runtime_status, error_code, latency_ms và audit ids."])}
+                ${step("5", "Build Replay Package", ["Đóng gói request hash, feature snapshot, model artifact, mapping version và response hash.", "Lưu package vào replay storage để audit/replay."])}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="runtime-bottom">
+        <div class="runtime-response-box"><b>Scoring Engine trả result về A-Score BE</b><span>score</span><span>grade</span><span>risk_band</span><span>reason_codes</span><span>response_mode</span><span>audit_metadata</span></div>
+        <div class="runtime-principle">BE check response contract -> build full response -> return to LOS / Decision Engine. A-Score không approve/reject cuối cùng.</div>
+      </div>
+    </div>`;
+        }
         function extraBlock(id) {
+          if (id === "runtime") return runtimeBoard();
           if (id === "business-case")
             return `<div class="proof-grid" style="margin-top:16px">
       <div class="proof"><b>Pain point</b>Score khó giải thích nếu không có lineage từ dữ liệu tới quyết định.</div>
@@ -7256,10 +7628,6 @@
             return `<div class="phase-panel" style="margin-top:16px">
       <div class="card"><h4>Lineage cần giữ</h4><p>TrainingDataset -> FeatureSet -> ModelVersion -> ModelRunLog -> ValidationReport -> ApprovalRecord.</p></div>
       <div class="card"><h4>Điều kiện qua cửa</h4><p>Metric đạt ngưỡng, ổn định theo segment, không vi phạm policy dữ liệu, có owner phê duyệt và artifact có thể tái lập.</p></div>
-    </div>`;
-          if (id === "runtime")
-            return `<div class="runtime-flow" style="margin-top:16px">
-      <div class="runtime-step"><b>1. Trigger</b>Application/API request</div><div class="runtime-step"><b>2. Prepare</b>Input snapshot và FeatureSet</div><div class="runtime-step"><b>3. Score</b>Active ModelVersion tạo ScoreResult</div><div class="runtime-step"><b>4. Decide</b>Policy/rule hỗ trợ Decision</div><div class="runtime-step"><b>5. Log</b>ModelRunLog, AuditLog, IntegrationEvent</div>
     </div>`;
           if (id === "deployment")
             return `<div class="matrix" style="margin-top:16px"><table class="decision-table"><thead><tr><th>Stage</th><th>Mục tiêu</th><th>Control</th></tr></thead><tbody><tr><td>Shadow mode</td><td>Chạy song song, chưa ảnh hưởng quyết định</td><td>So sánh score distribution và latency</td></tr><tr><td>Pilot</td><td>Áp dụng trên phạm vi hẹp</td><td>Giới hạn kênh, sản phẩm, segment</td></tr><tr><td>Champion/Challenger</td><td>So sánh model mới với model đang active</td><td>Bad rate by band, override, approval</td></tr><tr><td>Full rollout</td><td>Đưa vào vận hành chính thức</td><td>Monitoring threshold và rollback rule</td></tr></tbody></table></div>`;
@@ -8109,7 +8477,7 @@
 
             // mouse: left-click advances (skip interactive), right-click goes back
             var INTERACTIVE =
-              "a,button,input,textarea,select,label,.object-item,[data-cti-object],.obj-chip,.phase-btn,.togglebar,.search";
+              "a,button,input,textarea,select,label,details,summary,.runtime-action,.object-item,[data-cti-object],.obj-chip,.phase-btn,.togglebar,.search";
             scaler.addEventListener("click", function (e) {
               if (e.target.closest(INTERACTIVE)) return;
               next();
