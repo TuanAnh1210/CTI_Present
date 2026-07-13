@@ -7319,6 +7319,39 @@
             visual: "ontLifecycle",
           },
         ];
+        const deSlides = [
+          {
+            id: "de-platform-architecture",
+            title: "Data Platform Architecture",
+            message: "Dữ liệu nằm ở đâu và tổ chức như thế nào?",
+            image: "assets/de-platform-architecture.png",
+            alt: "Kiến trúc nền tảng dữ liệu từ hệ thống nguồn, lakehouse và model registry tới runtime serving",
+          },
+          {
+            id: "de-traintime-pipeline",
+            title: "Train-time Data & Feature Pipeline",
+            message:
+              "Tạo dataset để train model đúng thời điểm, không leakage, publish dữ liệu phục vụ runtime",
+            image: "assets/de-traintime-pipeline.png",
+            alt: "Luồng dữ liệu và feature train-time từ raw ingestion tới training dataset và runtime artifact release",
+          },
+          {
+            id: "de-runtime-engine",
+            title: "A-Score Runtime Scoring Engine",
+            message:
+              "Nhận request từ BE, trả score đủ nhanh nhưng vẫn audit và replay.",
+            image: "assets/de-runtime-engine.png",
+            alt: "Kiến trúc A-Score runtime scoring engine từ request validation tới inference, audit và response",
+          },
+          {
+            id: "de-tech-stack",
+            title: "Công nghệ thực hiện",
+            message:
+              "Technology proposal — lựa chọn cuối cùng phụ thuộc nền tảng nội bộ và quyền truy cập được cấp.",
+            image: "assets/de-tech-stack.png",
+            alt: "Đề xuất công nghệ cho ingestion, lakehouse, orchestration, runtime serving và observability",
+          },
+        ];
         function dsVisual(type) {
           if (type === "monitorTwoLayers")
             return `<div class="architecture-image"><svg viewBox="0 0 980 400" role="img" aria-label="Hai lớp giám sát A-Score">
@@ -8117,6 +8150,29 @@
       ${content}
     </section>`;
         }
+        function deSlideCard(item, parent, parentNum, subNum, total) {
+          const progress = Array.from({ length: total })
+            .map((_, idx) => `<span class="sub-dot ${idx < subNum ? "on" : ""}"></span>`)
+            .join("");
+          return `<section class="section ds-slide visual-first de-slide" id="${item.id}">
+      <h3 class="visually-hidden">${parentNum}.${subNum}. ${esc2(item.title)}</h3>
+      <div class="section-context">
+        <span class="context-num">${parentNum}</span>
+        <div class="context-title"><b>${esc2(item.title)}</b><small>${esc2(parent.title)} · ${subNum}/${total} — ${esc2(item.message)}</small></div>
+        <div class="sub-progress">${progress}</div>
+      </div>
+      <div class="ds-visual-only">
+        <div class="architecture-image"><img src="${esc2(item.image)}" alt="${esc2(item.alt)}" /></div>
+      </div>
+    </section>`;
+        }
+        function renderDataEngineeringSlides(slides, parent, parentNum, startSubNum, total) {
+          return slides
+            .map((slide, index) =>
+              deSlideCard(slide, parent, parentNum, startSubNum + index, total),
+            )
+            .join("");
+        }
         function subSlidesFor(flowId) {
           const dsMap = {
             "business-case": [8, 9, 10, 11, 12, 13],
@@ -8154,12 +8210,36 @@
           return mainFlow
             .map((item, i) => {
               const subs = subSlidesFor(item.id);
+              const deCount =
+                item.id === "train-time" || item.id === "runtime" ? 2 : 0;
+              const groupTotal = subs.length + deCount;
               const extra = subs
                 .map((slide, j) =>
-                  dsSlideCard(slide, `${i + 1}.${j + 1}`, item, i + 1, j + 1, subs.length),
+                  dsSlideCard(slide, `${i + 1}.${j + 1}`, item, i + 1, j + 1, groupTotal),
                 )
                 .join("");
-              return sectionCard(item, i) + extra;
+              let dataEngineering = "";
+              if (item.id === "train-time") {
+                dataEngineering = renderDataEngineeringSlides(
+                  deSlides.slice(0, 2),
+                  item,
+                  i + 1,
+                  subs.length + 1,
+                  groupTotal,
+                );
+              } else if (item.id === "runtime") {
+                dataEngineering = renderDataEngineeringSlides(
+                  deSlides.slice(2, 4),
+                  item,
+                  i + 1,
+                  1,
+                  groupTotal,
+                );
+              }
+              if (item.id === "runtime") {
+                return dataEngineering + sectionCard(item, i) + extra;
+              }
+              return sectionCard(item, i) + extra + dataEngineering;
             })
             .join("");
         }
