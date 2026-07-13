@@ -6514,6 +6514,49 @@
       .cti-v2 .sub-dot.on {
         background: #00833e;
       }
+      .cti-v2 .de-intro {
+        min-height: 430px;
+        border: 1px solid #d7e3ee;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #f7fbff 0%, #ffffff 55%, #eef9f1 100%);
+        padding: 42px 56px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .cti-v2 .de-intro-kicker {
+        color: #00833e;
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+      .cti-v2 .de-intro h4 {
+        margin: 10px 0 30px;
+        color: #0b2f64;
+        font-size: 34px;
+        line-height: 1.2;
+      }
+      .cti-v2 .de-intro-list {
+        display: grid;
+        gap: 12px;
+      }
+      .cti-v2 .de-intro-item {
+        display: grid;
+        grid-template-columns: 54px 1fr;
+        align-items: center;
+        gap: 16px;
+        border: 1px solid #dbe6ef;
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 15px 18px;
+        color: #20344c;
+        font-size: 19px;
+      }
+      .cti-v2 .de-intro-item span {
+        color: #0b4ea2;
+        font-weight: 900;
+      }
       .cti-v2 .ds-grid {
         display: grid;
         grid-template-columns: minmax(250px, 0.42fr) minmax(0, 1.58fr);
@@ -7320,6 +7363,16 @@
           },
         ];
         const deSlides = [
+          {
+            id: "de-implementation-overview",
+            title: "A-Score Data Engineering Implementation",
+            message: "Ba nội dung chính",
+            points: [
+              "Kiến trúc data platform",
+              "Tạo training dataset để train model",
+              "Runtime scoring engine",
+            ],
+          },
           {
             id: "de-platform-architecture",
             title: "Data Platform Architecture",
@@ -8154,6 +8207,17 @@
           const progress = Array.from({ length: total })
             .map((_, idx) => `<span class="sub-dot ${idx < subNum ? "on" : ""}"></span>`)
             .join("");
+          const content = Array.isArray(item.points)
+            ? `<div class="de-intro">
+                <div class="de-intro-kicker">Data Engineering</div>
+                <h4>${esc2(item.title)}</h4>
+                <div class="de-intro-list">
+                  ${item.points.map((point, index) => `<div class="de-intro-item"><span>${String(index + 1).padStart(2, "0")}</span><b>${esc2(point)}</b></div>`).join("")}
+                </div>
+              </div>`
+            : `<div class="ds-visual-only">
+                <div class="architecture-image"><img src="${esc2(item.image)}" alt="${esc2(item.alt)}" /></div>
+              </div>`;
           return `<section class="section ds-slide visual-first de-slide" id="${item.id}">
       <h3 class="visually-hidden">${parentNum}.${subNum}. ${esc2(item.title)}</h3>
       <div class="section-context">
@@ -8161,9 +8225,7 @@
         <div class="context-title"><b>${esc2(item.title)}</b><small>${esc2(parent.title)} · ${subNum}/${total} — ${esc2(item.message)}</small></div>
         <div class="sub-progress">${progress}</div>
       </div>
-      <div class="ds-visual-only">
-        <div class="architecture-image"><img src="${esc2(item.image)}" alt="${esc2(item.alt)}" /></div>
-      </div>
+      ${content}
     </section>`;
         }
         function renderDataEngineeringSlides(slides, parent, parentNum, startSubNum, total) {
@@ -8211,7 +8273,7 @@
             .map((item, i) => {
               const subs = subSlidesFor(item.id);
               const deCount =
-                item.id === "train-time" || item.id === "runtime" ? 2 : 0;
+                item.id === "train-time" ? 3 : item.id === "runtime" ? 2 : 0;
               const groupTotal = subs.length + deCount;
               const extra = subs
                 .map((slide, j) =>
@@ -8221,7 +8283,7 @@
               let dataEngineering = "";
               if (item.id === "train-time") {
                 dataEngineering = renderDataEngineeringSlides(
-                  deSlides.slice(0, 2),
+                  deSlides.slice(0, 3),
                   item,
                   i + 1,
                   subs.length + 1,
@@ -8229,7 +8291,7 @@
                 );
               } else if (item.id === "runtime") {
                 dataEngineering = renderDataEngineeringSlides(
-                  deSlides.slice(2, 4),
+                  deSlides.slice(3, 5),
                   item,
                   i + 1,
                   1,
