@@ -6759,6 +6759,87 @@
             points: [],
             visual: "registry",
           },
+          {
+            id: "bc-definition",
+            group: "Business Case",
+            title: "A-Score / CTI là gì",
+            message: "Một chỉ số niềm tin khách hàng, có thể giải thích và truy vết",
+            lead: "A-Score (Customer Trust Index - CTI) là hệ thống chấm điểm định lượng mức độ tin cậy/rủi ro tín dụng của một khách hàng hoặc một hồ sơ, tại đúng thời điểm cần ra quyết định. Đầu ra là một bộ ba Score - Grade - Reason Code, được cung cấp cho hoạt động ra quyết định như một tín hiệu đầu vào, đi kèm phiên bản model, dữ liệu đầu vào và bằng chứng có thể kiểm toán.",
+            points: [
+              "Là một hệ thống/sản phẩm chấm điểm được huấn luyện và kiểm định trên dữ liệu lịch sử, không phải một công thức tính tay hay đánh giá cảm tính.",
+              "Đầu ra chuẩn hóa cho từng hồ sơ: Score (điểm số), Grade (hạng rủi ro) và Reason Code (mã lý do).",
+              "Mọi kết quả đều gắn với model version và dữ liệu đầu vào cụ thể, có thể tái lập để phục vụ audit.",
+            ],
+            visual: "bcDefinition",
+          },
+          {
+            id: "bc-value-chain",
+            group: "Business Case",
+            title: "Chuỗi giá trị và vị trí của Risk Assessment (Scoring)",
+            message: "Scoring là điểm kiểm soát giữa thu thập dữ liệu và ra quyết định",
+            lead: "Trong hành trình từ phát sinh nhu cầu vay đến thu hồi nợ, Risk Assessment/Scoring đứng ở vị trí trung gian: tiếp nhận đầu vào từ hoạt động thu thập và xác minh dữ liệu phía trước, đồng thời cung cấp tín hiệu rủi ro cho hoạt động ra quyết định, giải ngân, quản lý và thu hồi ở phía sau.",
+            points: [
+              "Phát sinh nhu cầu và tiếp nhận hồ sơ, sau đó xác minh định danh và dữ liệu đầu vào.",
+              "Risk Assessment/Scoring tổng hợp tín hiệu đã xác minh để sinh Score, Grade và Reason Code.",
+              "Kết quả scoring hỗ trợ Decision Engine ra quyết định, làm cơ sở cho giải ngân, quản lý khoản vay và thu hồi nợ.",
+            ],
+            visual: "bcValueChain",
+          },
+          {
+            id: "bc-problem",
+            group: "Business Case",
+            title: "Business problem - vấn đề kinh doanh hiện tại",
+            message: "Vấn đề nằm ở kiến trúc và lựa chọn thuật toán của phiên bản hiện tại",
+            lead: "F88 đã có một mô hình chấm điểm đang vận hành thực tế, được xây dựng bài bản và có tính giải thích. Vấn đề kinh doanh hiện tại nằm ở giới hạn kiến trúc (thiết kế gắn liền một sản phẩm) và giới hạn thuật toán (mô hình tuyến tính thuần túy), khiến việc mở rộng sang sản phẩm mới, phân khúc khách hàng mới hoặc yêu cầu tốc độ xử lý mới trở nên tốn thời gian và chi phí.",
+            points: [
+              "Kiến trúc hiện tại gắn liền với một sản phẩm, chưa tách lớp framework dùng chung khỏi cấu hình riêng theo sản phẩm.",
+              "Mô hình tuyến tính (logistic regression) giới hạn khả năng phân tách rủi ro so với dữ liệu hành vi/tín dụng ngày càng phi tuyến.",
+              "Thời gian xử lý runtime chưa đạt kỳ vọng phản hồi tức thời, đặc biệt với các luồng cần tốc độ cao.",
+              "Thiếu một ngôn ngữ dữ liệu chung (canonical schema) khi mở rộng sang nhiều sản phẩm và nhiều nguồn dữ liệu.",
+            ],
+            visual: "bcProblem",
+          },
+          {
+            id: "bc-objective",
+            group: "Business Case",
+            title: "Business objective - mục tiêu của A-Score",
+            message: "Một nền tảng chấm điểm dùng chung, xử lý đa mô hình, có thể giải thích và tái lập",
+            lead: "Mục tiêu của dự án không chỉ là cải thiện độ chính xác của một model đơn lẻ, mà là xây dựng một nền tảng/engine chấm điểm phục vụ nhiều bên sử dụng, có khả năng vận hành song song nhiều model, tái lập đúng kết quả đã chấm và giải thích được lý do sinh ra điểm số.",
+            points: [
+              "Xây dựng platform/engine chấm điểm dùng chung phục vụ nhiều sản phẩm, thay vì một model đơn lẻ cho một sản phẩm.",
+              "Xử lý multi-model: nhiều model family cùng vận hành theo cùng một chuẩn output.",
+              "Đảm bảo replay scoring: tái lập đúng kết quả đã chấm tại bất kỳ thời điểm nào để phục vụ audit và khiếu nại.",
+              "Đảm bảo explainable: mọi score đều có reason code, mọi quyết định liên quan đều có thể truy vết.",
+            ],
+            visual: "bcObjective",
+          },
+          {
+            id: "bc-scope",
+            group: "Business Case",
+            title: "Phạm vi dự án - A-Score làm gì và không làm gì",
+            message: "A-Score đảm nhiệm bài toán chấm điểm, không thay thế các hệ thống chuyên trách khác",
+            lead: "Việc xác định rõ ranh giới phạm vi giúp đội ngũ tập trung đúng bài toán chấm điểm rủi ro, đồng thời làm rõ những dữ liệu và tín hiệu nào A-Score tiêu thụ như đầu vào từ các hệ thống đã có chủ sở hữu riêng.",
+            points: [
+              "A-Score đảm nhiệm: tính Score/Grade/Reason Code, định nghĩa và quản trị vòng đời feature/model, chuẩn hóa output giữa các model family.",
+              "A-Score không đảm nhiệm: xác minh giấy tờ định danh (KYC), phát hiện gian lận (Fraud), ra quyết định phê duyệt/từ chối cuối cùng, định giá tài sản bảo đảm, quản lý hạn mức và hợp đồng.",
+              "Các nghiệp vụ trên do hệ thống chuyên trách đảm nhiệm; A-Score tiêu thụ output của các hệ thống đó làm input, hoặc cung cấp Score làm tín hiệu đầu vào cho hệ thống ra quyết định.",
+            ],
+            visual: "bcScope",
+          },
+          {
+            id: "bc-success",
+            group: "Business Case",
+            title: "Success criteria - tiêu chí thành công",
+            message: "Bốn nhóm KPI đo bổ sung cho nhau: kinh doanh, model, vận hành, giám sát",
+            lead: "Mức độ thành công của A-Score được đo bằng bốn nhóm chỉ số bổ sung cho nhau, bao phủ từ tác động kinh doanh, chất lượng thống kê của model, độ ổn định vận hành đến khả năng phát hiện sớm suy giảm chất lượng.",
+            points: [
+              "Business KPI: tỷ lệ phê duyệt tự động, thời gian xử lý hồ sơ trung bình, tốc độ tăng trưởng dư nợ theo phân khúc.",
+              "Model KPI: AUC/Gini, KS, PSI, Calibration (đối chiếu xác suất dự báo với tỷ lệ vỡ nợ thực tế), Rank Ordering.",
+              "Operational KPI: SLA xử lý request, tỷ lệ lỗi API/timeout, tỷ lệ hồ sơ NOT_SCORABLE/DATA_FAIL.",
+              "Monitoring KPI: feature drift, dịch chuyển phân phối điểm số, override rate, bad rate theo grade.",
+            ],
+            visual: "bcSuccess",
+          },
         ];
         function dsVisual(type) {
           if (type === "trainArchitecture")
@@ -6925,6 +7006,203 @@
               <rect x="698" y="270" width="190" height="42" rx="10" fill="#102033" stroke="#102033"/>
               <text x="793" y="296" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Model Registry</text>
             </svg></div>`;
+          if (type === "bcDefinition")
+            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="A-Score la gi">
+              <defs><marker id="bcdArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#66788d"/></marker><filter id="bcdShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
+              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="50" text-anchor="middle" font-size="21" font-weight="900" fill="#0b2f64">A-SCORE: MỘT SẢN PHẨM CHẤM ĐIỂM, KHÔNG PHẢI MỘT CON SỐ ĐƠN LẺ</text>
+              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Một chuỗi xử lý có kiểm soát, từ dữ liệu đầu vào đến kết quả có thể giải thích</text>
+
+              <rect x="42" y="110" width="214" height="140" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcdShadow)"/>
+              <text x="149" y="138" text-anchor="middle" font-size="14" font-weight="900" fill="#0b4ea2">1. INPUT</text>
+              <text x="149" y="168" text-anchor="middle" font-size="12" font-weight="800" fill="#102033">Hồ sơ / khách hàng</text>
+              <text x="149" y="188" text-anchor="middle" font-size="11" fill="#516173">Dữ liệu đã xác minh</text>
+
+              <rect x="270" y="110" width="214" height="140" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcdShadow)"/>
+              <text x="377" y="138" text-anchor="middle" font-size="14" font-weight="900" fill="#c84e00">2. FEATURE</text>
+              <text x="377" y="168" text-anchor="middle" font-size="12" font-weight="800" fill="#102033">Chuẩn hóa dữ liệu</text>
+              <text x="377" y="188" text-anchor="middle" font-size="11" fill="#516173">Theo canonical schema</text>
+
+              <rect x="498" y="110" width="214" height="140" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#bcdShadow)"/>
+              <text x="605" y="138" text-anchor="middle" font-size="14" font-weight="900" fill="#007236">3. MODEL</text>
+              <text x="605" y="168" text-anchor="middle" font-size="12" font-weight="800" fill="#102033">Model chấm điểm</text>
+              <text x="605" y="188" text-anchor="middle" font-size="11" fill="#516173">Gắn version cụ thể</text>
+
+              <rect x="726" y="110" width="214" height="140" rx="12" fill="#102033" stroke="#102033" filter="url(#bcdShadow)"/>
+              <text x="833" y="138" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">4. OUTPUT</text>
+              <text x="833" y="168" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">Score + Grade</text>
+              <text x="833" y="188" text-anchor="middle" font-size="11" fill="#cbd5e1">+ Reason Code</text>
+
+              <line x1="256" y1="180" x2="270" y2="180" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcdArrow)"/>
+              <line x1="484" y1="180" x2="498" y2="180" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcdArrow)"/>
+              <line x1="712" y1="180" x2="726" y2="180" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcdArrow)"/>
+
+              <rect x="90" y="278" width="800" height="38" rx="10" fill="#f8fbff" stroke="#d7e3ee"/>
+              <text x="490" y="302" text-anchor="middle" font-size="12" font-weight="800" fill="#334155">Mỗi bước đều được ghi log — kết quả có thể tái lập (replay) đúng tại bất kỳ thời điểm nào để phục vụ audit</text>
+            </svg></div>`;
+          if (type === "bcValueChain")
+            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Value chain va vi tri Risk Assessment">
+              <defs><marker id="bcvArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#66788d"/></marker><filter id="bcvShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
+              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="50" text-anchor="middle" font-size="20" font-weight="900" fill="#0b2f64">VỊ TRÍ CỦA RISK ASSESSMENT (SCORING) TRONG CHUỖI GIÁ TRỊ CHO VAY</text>
+              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Nhận dữ liệu đã xác minh từ phía trước — cung cấp tín hiệu rủi ro cho phía sau</text>
+
+              <rect x="34" y="130" width="164" height="110" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcvShadow)"/>
+              <text x="116" y="160" text-anchor="middle" font-size="12" font-weight="900" fill="#0b4ea2">1. Phát sinh</text>
+              <text x="116" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#0b4ea2">nhu cầu</text>
+              <text x="116" y="205" text-anchor="middle" font-size="10.5" fill="#516173">Tiếp nhận hồ sơ</text>
+
+              <rect x="214" y="130" width="164" height="110" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcvShadow)"/>
+              <text x="296" y="160" text-anchor="middle" font-size="12" font-weight="900" fill="#c84e00">2. Xác minh</text>
+              <text x="296" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#c84e00">dữ liệu</text>
+              <text x="296" y="205" text-anchor="middle" font-size="10.5" fill="#516173">Định danh, tài sản...</text>
+
+              <rect x="394" y="112" width="192" height="146" rx="14" fill="#102033" stroke="#102033" filter="url(#bcvShadow)"/>
+              <text x="490" y="145" text-anchor="middle" font-size="13" font-weight="900" fill="#fcc20e">3. Risk Assessment</text>
+              <text x="490" y="164" text-anchor="middle" font-size="13" font-weight="900" fill="#fcc20e">(Scoring)</text>
+              <text x="490" y="188" text-anchor="middle" font-size="10.5" fill="#e2e8f0">Sinh Score / Grade /</text>
+              <text x="490" y="203" text-anchor="middle" font-size="10.5" fill="#e2e8f0">Reason Code</text>
+              <text x="490" y="240" text-anchor="middle" font-size="10" font-weight="800" fill="#9fb6d4">TRỌNG TÂM CỦA TÀI LIỆU</text>
+
+              <rect x="622" y="130" width="164" height="110" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#bcvShadow)"/>
+              <text x="704" y="160" text-anchor="middle" font-size="12" font-weight="900" fill="#007236">4. Ra quyết</text>
+              <text x="704" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#007236">định</text>
+              <text x="704" y="205" text-anchor="middle" font-size="10.5" fill="#516173">Decision Engine</text>
+
+              <rect x="802" y="130" width="164" height="110" rx="12" fill="#f8fbff" stroke="#b8c8da" filter="url(#bcvShadow)"/>
+              <text x="884" y="160" text-anchor="middle" font-size="12" font-weight="900" fill="#334155">5. Giải ngân &amp;</text>
+              <text x="884" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#334155">quản lý</text>
+              <text x="884" y="205" text-anchor="middle" font-size="10.5" fill="#516173">Thu hồi nợ</text>
+
+              <line x1="198" y1="185" x2="214" y2="185" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcvArrow)"/>
+              <line x1="378" y1="185" x2="394" y2="185" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcvArrow)"/>
+              <line x1="586" y1="185" x2="622" y2="185" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcvArrow)"/>
+              <line x1="786" y1="185" x2="802" y2="185" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcvArrow)"/>
+            </svg></div>`;
+          if (type === "bcProblem")
+            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Business problem hien tai">
+              <defs><filter id="bcpShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
+              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="50" text-anchor="middle" font-size="21" font-weight="900" fill="#0b2f64">GIỚI HẠN CỦA PHIÊN BẢN HIỆN TẠI — 4 ĐIỂM NGHẼN CHÍNH</text>
+              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Vấn đề nằm ở kiến trúc và thuật toán của phiên bản hiện tại, không phải thiếu công cụ chấm điểm</text>
+
+              <rect x="42" y="106" width="214" height="196" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcpShadow)"/>
+              <circle cx="149" cy="140" r="16" fill="#c84e00"/><text x="149" y="146" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">1</text>
+              <text x="149" y="182" text-anchor="middle" font-size="13" font-weight="900" fill="#c84e00">Kiến trúc đóng cứng</text>
+              <text x="149" y="206" text-anchor="middle" font-size="11" fill="#516173">Gắn liền một sản phẩm</text>
+              <text x="149" y="224" text-anchor="middle" font-size="11" fill="#516173">Chưa tách framework</text>
+              <text x="149" y="242" text-anchor="middle" font-size="11" fill="#516173">dùng chung</text>
+
+              <rect x="270" y="106" width="214" height="196" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcpShadow)"/>
+              <circle cx="377" cy="140" r="16" fill="#0b4ea2"/><text x="377" y="146" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">2</text>
+              <text x="377" y="182" text-anchor="middle" font-size="13" font-weight="900" fill="#0b4ea2">Thuật toán tuyến tính</text>
+              <text x="377" y="206" text-anchor="middle" font-size="11" fill="#516173">Logistic regression</text>
+              <text x="377" y="224" text-anchor="middle" font-size="11" fill="#516173">Giới hạn với dữ liệu</text>
+              <text x="377" y="242" text-anchor="middle" font-size="11" fill="#516173">phi tuyến</text>
+
+              <rect x="498" y="106" width="214" height="196" rx="12" fill="#fff7db" stroke="#f0cf6b" filter="url(#bcpShadow)"/>
+              <circle cx="605" cy="140" r="16" fill="#a9790a"/><text x="605" y="146" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">3</text>
+              <text x="605" y="182" text-anchor="middle" font-size="13" font-weight="900" fill="#a9790a">SLA runtime</text>
+              <text x="605" y="206" text-anchor="middle" font-size="11" fill="#516173">~3 giây/request</text>
+              <text x="605" y="224" text-anchor="middle" font-size="11" fill="#516173">Chưa đạt kỳ vọng</text>
+              <text x="605" y="242" text-anchor="middle" font-size="11" fill="#516173">phản hồi tức thời</text>
+
+              <rect x="726" y="106" width="214" height="196" rx="12" fill="#f8fbff" stroke="#b8c8da" filter="url(#bcpShadow)"/>
+              <circle cx="833" cy="140" r="16" fill="#334155"/><text x="833" y="146" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">4</text>
+              <text x="833" y="182" text-anchor="middle" font-size="13" font-weight="900" fill="#334155">Ngôn ngữ dữ liệu</text>
+              <text x="833" y="206" text-anchor="middle" font-size="11" fill="#516173">Thiếu canonical schema</text>
+              <text x="833" y="224" text-anchor="middle" font-size="11" fill="#516173">khi mở rộng đa</text>
+              <text x="833" y="242" text-anchor="middle" font-size="11" fill="#516173">sản phẩm</text>
+
+              <text x="490" y="330" text-anchor="middle" font-size="11.5" font-weight="800" fill="#8a6500">F88 đã có model đang vận hành thực tế — vấn đề là giới hạn kiến trúc và thuật toán, không phải thiếu công cụ chấm điểm</text>
+            </svg></div>`;
+          if (type === "bcObjective")
+            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Business objective">
+              <defs><filter id="bcoShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
+              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="50" text-anchor="middle" font-size="21" font-weight="900" fill="#0b2f64">4 NĂNG LỰC CẦN CÓ CỦA A-SCORE THẾ HỆ MỚI</text>
+              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Không chỉ cải thiện độ chính xác của một model — xây một nền tảng có thể mở rộng</text>
+
+              <rect x="42" y="106" width="214" height="180" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcoShadow)"/>
+              <text x="149" y="140" text-anchor="middle" font-size="13" font-weight="900" fill="#0b4ea2">Nền tảng dùng chung</text>
+              <text x="149" y="168" text-anchor="middle" font-size="11" fill="#516173">Platform/engine phục vụ</text>
+              <text x="149" y="186" text-anchor="middle" font-size="11" fill="#516173">nhiều sản phẩm</text>
+
+              <rect x="270" y="106" width="214" height="180" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#bcoShadow)"/>
+              <text x="377" y="140" text-anchor="middle" font-size="13" font-weight="900" fill="#007236">Multi-model</text>
+              <text x="377" y="168" text-anchor="middle" font-size="11" fill="#516173">Nhiều model family</text>
+              <text x="377" y="186" text-anchor="middle" font-size="11" fill="#516173">cùng một chuẩn output</text>
+
+              <rect x="498" y="106" width="214" height="180" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcoShadow)"/>
+              <text x="605" y="140" text-anchor="middle" font-size="13" font-weight="900" fill="#c84e00">Replay scoring</text>
+              <text x="605" y="168" text-anchor="middle" font-size="11" fill="#516173">Tái lập đúng kết quả</text>
+              <text x="605" y="186" text-anchor="middle" font-size="11" fill="#516173">đã chấm, phục vụ audit</text>
+
+              <rect x="726" y="106" width="214" height="180" rx="12" fill="#102033" stroke="#102033" filter="url(#bcoShadow)"/>
+              <text x="833" y="140" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Explainable</text>
+              <text x="833" y="168" text-anchor="middle" font-size="11" fill="#cbd5e1">Reason code cho</text>
+              <text x="833" y="186" text-anchor="middle" font-size="11" fill="#cbd5e1">mọi score</text>
+
+              <rect x="90" y="300" width="800" height="34" rx="9" fill="#f8fbff" stroke="#d7e3ee"/>
+              <text x="490" y="322" text-anchor="middle" font-size="11.5" font-weight="800" fill="#334155">Bốn năng lực bổ sung cho nhau — thiếu một trong bốn, nền tảng vẫn chưa đạt chuẩn vận hành</text>
+            </svg></div>`;
+          if (type === "bcScope")
+            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Pham vi du an DO va DONT">
+              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="50" text-anchor="middle" font-size="20" font-weight="900" fill="#0b2f64">RANH GIỚI PHẠM VI DỰ ÁN</text>
+              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">A-Score đảm nhiệm bài toán chấm điểm — các nghiệp vụ khác do hệ thống chuyên trách đảm nhiệm</text>
+
+              <rect x="42" y="98" width="418" height="222" rx="12" fill="#eaf7ef" stroke="#8bd0a8"/>
+              <rect x="42" y="98" width="418" height="38" rx="12" fill="#00833e"/>
+              <text x="251" y="122" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">A-SCORE ĐẢM NHIỆM (DO)</text>
+              <text x="66" y="166" font-size="12" font-weight="800" fill="#0f5132">•  Tính Score / Grade / Reason Code</text>
+              <text x="66" y="200" font-size="12" font-weight="800" fill="#0f5132">•  Quản trị vòng đời Feature &amp; Model</text>
+              <text x="66" y="234" font-size="12" font-weight="800" fill="#0f5132">•  Chuẩn hóa output giữa các model</text>
+              <text x="66" y="268" font-size="12" font-weight="800" fill="#0f5132">•  Định tuyến hồ sơ theo phân khúc</text>
+              <text x="66" y="302" font-size="12" font-weight="800" fill="#0f5132">•  Giám sát chất lượng model liên tục</text>
+
+              <rect x="520" y="98" width="418" height="222" rx="12" fill="#fff1e9" stroke="#ffb27d"/>
+              <rect x="520" y="98" width="418" height="38" rx="12" fill="#c84e00"/>
+              <text x="729" y="122" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">A-SCORE KHÔNG ĐẢM NHIỆM (DON'T)</text>
+              <text x="544" y="166" font-size="12" font-weight="800" fill="#8a3700">•  Xác minh định danh (KYC)</text>
+              <text x="544" y="200" font-size="12" font-weight="800" fill="#8a3700">•  Phát hiện gian lận (Fraud)</text>
+              <text x="544" y="234" font-size="12" font-weight="800" fill="#8a3700">•  Ra quyết định phê duyệt cuối cùng</text>
+              <text x="544" y="268" font-size="12" font-weight="800" fill="#8a3700">•  Định giá tài sản bảo đảm</text>
+              <text x="544" y="302" font-size="12" font-weight="800" fill="#8a3700">•  Quản lý hạn mức &amp; hợp đồng</text>
+            </svg></div>`;
+          if (type === "bcSuccess")
+            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Success criteria">
+              <defs><filter id="bcsShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
+              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="50" text-anchor="middle" font-size="21" font-weight="900" fill="#0b2f64">4 NHÓM KPI ĐO THÀNH CÔNG CỦA A-SCORE</text>
+              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Đo bổ sung cho nhau: tác động kinh doanh, chất lượng model, vận hành, giám sát</text>
+
+              <rect x="42" y="106" width="214" height="196" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcsShadow)"/>
+              <text x="149" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#0b4ea2">Business KPI</text>
+              <text x="149" y="168" text-anchor="middle" font-size="11" fill="#516173">Auto-approve rate</text>
+              <text x="149" y="188" text-anchor="middle" font-size="11" fill="#516173">Time-to-decision</text>
+              <text x="149" y="208" text-anchor="middle" font-size="11" fill="#516173">Tăng trưởng dư nợ</text>
+
+              <rect x="270" y="106" width="214" height="196" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcsShadow)"/>
+              <text x="377" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#c84e00">Model KPI</text>
+              <text x="377" y="168" text-anchor="middle" font-size="11" fill="#516173">AUC / Gini / KS</text>
+              <text x="377" y="188" text-anchor="middle" font-size="11" fill="#516173">PSI / Calibration</text>
+              <text x="377" y="208" text-anchor="middle" font-size="11" fill="#516173">Rank Ordering</text>
+
+              <rect x="498" y="106" width="214" height="196" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#bcsShadow)"/>
+              <text x="605" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#007236">Operational KPI</text>
+              <text x="605" y="168" text-anchor="middle" font-size="11" fill="#516173">SLA xử lý request</text>
+              <text x="605" y="188" text-anchor="middle" font-size="11" fill="#516173">Tỷ lệ lỗi API/timeout</text>
+              <text x="605" y="208" text-anchor="middle" font-size="11" fill="#516173">Tỷ lệ NOT_SCORABLE</text>
+
+              <rect x="726" y="106" width="214" height="196" rx="12" fill="#102033" stroke="#102033" filter="url(#bcsShadow)"/>
+              <text x="833" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Monitoring KPI</text>
+              <text x="833" y="168" text-anchor="middle" font-size="11" fill="#cbd5e1">Feature drift</text>
+              <text x="833" y="188" text-anchor="middle" font-size="11" fill="#cbd5e1">Score distribution shift</text>
+              <text x="833" y="208" text-anchor="middle" font-size="11" fill="#cbd5e1">Bad rate theo grade</text>
+
+              <text x="490" y="330" text-anchor="middle" font-size="11.5" font-weight="800" fill="#334155">Monitoring KPI kích hoạt recalibrate/retrain kịp thời trước khi Business KPI bị ảnh hưởng</text>
+            </svg></div>`;
           const flows = {
             transition: ["Business rule", "Risk driver + label", "Khung thiết kế", "Train scorecard"],
             designOverview: ["Khung feature", "Khung model", "Khung quản trị", "Asset sẵn sàng train"],
@@ -6985,6 +7263,12 @@
               "training-dataset-label-engine": "Tạo dữ liệu học",
               "tabnet-feature-logistic": "Sàng lọc feature",
               "validation-calibration-reason-registry": "Kiểm định và đăng ký model",
+              "bc-definition": "Định nghĩa A-Score",
+              "bc-value-chain": "Value chain & vị trí Scoring",
+              "bc-problem": "Business problem",
+              "bc-objective": "Business objective",
+              "bc-scope": "Phạm vi dự án (DO/DON'T)",
+              "bc-success": "Success criteria",
             }[item.id] || item.message
           );
         }
@@ -7014,6 +7298,7 @@
         }
         function dsSlidesFor(flowId) {
           const map = {
+            "business-case": [8, 9, 10, 11, 12, 13],
             "design-time": [1, 2, 3],
             "train-time": [4, 5, 6, 7],
           };
