@@ -1139,7 +1139,7 @@
           },
           {
             id: "runtime",
-            order: 4,
+            order: 5,
             name: "Runtime",
             vi: "Triển khai chấm điểm",
             short:
@@ -6039,6 +6039,7 @@
       }
       document.addEventListener("DOMContentLoaded", init);
     </script>
+    <script src="./assets/ontology-enterprise-data.js"></script>
     <style>
       body.cti-v2 {
         background: #f5f7fb;
@@ -6326,6 +6327,597 @@
         margin-top: 6px;
         font-size: 11px;
       }
+      .cti-v2 .ontology-domain-board {
+        max-height: 520px;
+        overflow: auto;
+        padding: 10px;
+        border: 1px solid #dfe8f2;
+        border-radius: 10px;
+        background: linear-gradient(180deg, #f8fbff, #fff);
+      }
+      .cti-v2 .domain-group-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .cti-v2 .domain-group {
+        border: 1px solid var(--group-color, #8ab8ec);
+        border-radius: 10px;
+        background: #fff;
+        overflow: hidden;
+      }
+      .cti-v2 .domain-group:last-child:nth-child(odd) { grid-column: 1 / -1; }
+      .cti-v2 .domain-group > summary {
+        position: relative;
+        min-height: 72px;
+        padding: 11px 38px 10px 14px;
+        cursor: pointer;
+        list-style: none;
+        background: linear-gradient(135deg, color-mix(in srgb, var(--group-color, #0b4ea2) 10%, white), #fff);
+      }
+      .cti-v2 .domain-group > summary::-webkit-details-marker { display: none; }
+      .cti-v2 .domain-group > summary::after {
+        content: "+";
+        position: absolute;
+        right: 13px;
+        top: 12px;
+        display: grid;
+        place-items: center;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        color: #fff;
+        background: var(--group-color, #0b4ea2);
+        font-size: 15px;
+        font-weight: 900;
+      }
+      .cti-v2 .domain-group[open] > summary::after { content: "−"; }
+      .cti-v2 .domain-group-title {
+        display: block;
+        color: var(--group-color, #0b4ea2);
+        font-size: 12.5px;
+        font-weight: 900;
+      }
+      .cti-v2 .domain-group-preview {
+        display: block;
+        margin-top: 7px;
+        color: #60758c;
+        font-size: 9.5px;
+        line-height: 1.35;
+      }
+      .cti-v2 .domain-group-body {
+        border-top: 1px solid color-mix(in srgb, var(--group-color, #0b4ea2) 30%, white);
+      }
+      .cti-v2 .domain-group > h4 {
+        margin: 0;
+        padding: 11px 14px;
+        color: #fff;
+        background: var(--group-color, #0b4ea2);
+        font-size: 13px;
+        letter-spacing: .01em;
+      }
+      .cti-v2 .domain-disclosure {
+        border-top: 1px solid #e3ebf3;
+      }
+      .cti-v2 .domain-disclosure:first-of-type {
+        border-top: 0;
+      }
+      .cti-v2 .domain-disclosure > summary,
+      .cti-v2 .object-disclosure > summary {
+        cursor: pointer;
+        list-style: none;
+      }
+      .cti-v2 .domain-disclosure > summary::-webkit-details-marker,
+      .cti-v2 .object-disclosure > summary::-webkit-details-marker {
+        display: none;
+      }
+      .cti-v2 .domain-disclosure > summary {
+        display: grid;
+        grid-template-columns: 28px minmax(0, 1fr) auto;
+        gap: 8px;
+        align-items: center;
+        padding: 10px 12px;
+        color: #1f334a;
+        font-size: 12px;
+        font-weight: 900;
+      }
+      .cti-v2 .domain-disclosure > summary::before {
+        content: "+";
+        display: grid;
+        place-items: center;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--group-color, #0b4ea2) 14%, white);
+        color: var(--group-color, #0b4ea2);
+      }
+      .cti-v2 .domain-disclosure[open] > summary::before { content: "−"; }
+      .cti-v2 .domain-count {
+        color: #65758b;
+        font-size: 10px;
+        font-weight: 800;
+      }
+      .cti-v2 .domain-detail {
+        padding: 0 12px 12px 48px;
+      }
+      .cti-v2 .domain-detail > p {
+        margin: 0 0 9px;
+        color: #52657a;
+        font-size: 11px;
+        line-height: 1.5;
+      }
+      .cti-v2 .object-disclosure {
+        margin-top: 6px;
+        border: 1px solid #dfe8f2;
+        border-radius: 7px;
+        background: #fbfdff;
+      }
+      .cti-v2 .object-disclosure > summary {
+        padding: 7px 9px;
+        color: #0b4ea2;
+        font-size: 11px;
+        font-weight: 900;
+      }
+      .cti-v2 .object-disclosure > summary::after {
+        content: "Xem properties";
+        float: right;
+        color: #7b8da1;
+        font-size: 9px;
+        font-weight: 700;
+      }
+      .cti-v2 .object-disclosure[open] > summary::after { content: "Thu gọn"; }
+      .cti-v2 .object-properties {
+        padding: 0 9px 9px;
+        color: #52657a;
+        font-size: 10px;
+        line-height: 1.55;
+      }
+      .cti-v2 .ontology-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .cti-v2 .ontology-legend span {
+        border-radius: 999px;
+        padding: 5px 9px;
+        color: #334155;
+        background: #fff;
+        border: 1px solid #dfe8f2;
+        font-size: 10px;
+        font-weight: 800;
+      }
+      .cti-v2 .domain-relationship-flow {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 8px;
+      }
+      .cti-v2 .domain-relationship-flow div {
+        position: relative;
+        border-radius: 8px;
+        padding: 7px 8px;
+        text-align: center;
+        color: #fff;
+        background: var(--flow-color, #0b4ea2);
+        font-size: 10.5px;
+        font-weight: 900;
+      }
+      .cti-v2 .domain-relationship-flow div:not(:last-child)::after {
+        content: "→";
+        position: absolute;
+        right: -14px;
+        color: #60758c;
+        font-size: 16px;
+      }
+      .cti-v2 .platform-control-lane {
+        margin: -2px 0 8px;
+        border: 1px dashed #68b88a;
+        border-radius: 8px;
+        padding: 6px 10px;
+        text-align: center;
+        color: #007236;
+        background: #f1faf5;
+        font-size: 10.5px;
+        font-weight: 900;
+      }
+      .cti-v2 .enterprise-network-board {
+        border: 1px solid #dbe5ef;
+        border-radius: 10px;
+        padding: 10px;
+        background: radial-gradient(circle at 50% 40%, #ffffff, #f5f9fd);
+      }
+      .cti-v2 .enterprise-map-split {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+        gap: 12px;
+        align-items: stretch;
+        width: min(100%, 1180px);
+        min-height: 620px;
+        margin: 0 auto;
+        overflow-anchor: none;
+      }
+      .cti-v2 .enterprise-map-split .enterprise-network-board { min-width: 0; }
+      .cti-v2 .enterprise-quick-detail {
+        min-width: 0;
+        height: 650px;
+        border: 1px solid #d5e1ec;
+        border-radius: 10px;
+        background: #fff;
+        overflow-x: hidden;
+        overflow-y: auto;
+        scrollbar-gutter: stable;
+      }
+      .cti-v2 .enterprise-quick-detail .quick-detail-empty { padding: 22px; color: #65758b; font-size: 12px; line-height: 1.55; }
+      .cti-v2 .quick-domain-head { padding: 16px; color: #fff; background: linear-gradient(135deg, #0b2f64, #0b4ea2); }
+      .cti-v2 .quick-domain-head h4 { margin: 0 0 7px; font-size: 18px; }
+      .cti-v2 .quick-domain-head p { margin: 0; color: #e6eef8; font-size: 11.5px; line-height: 1.55; }
+      .cti-v2 .quick-domain-body { padding: 13px 14px; }
+      .cti-v2 .quick-domain-counts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+      .cti-v2 .quick-domain-counts div { border-radius: 7px; padding: 8px 5px; text-align: center; color: #40546a; background: #f2f7fb; font-size: 9px; font-weight: 800; }
+      .cti-v2 .quick-domain-counts b { display: block; color: #0b4ea2; font-size: 15px; }
+      .cti-v2 .quick-domain-section { margin-top: 11px; }
+      .cti-v2 .quick-domain-section h5 { margin: 0 0 8px; color: #0b2f64; font-size: 12.5px; }
+      .cti-v2 .quick-domain-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+      .cti-v2 .quick-domain-chips span { border: 1px solid #d8e3ed; border-radius: 6px; padding: 5px 7px; color: #4c6075; background: #fbfdff; font-size: 9px; font-weight: 800; }
+      .cti-v2 .quick-object-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .cti-v2 .quick-object-card { min-width: 0; border: 1.5px solid #b9d5f7; border-radius: 9px; padding: 8px 9px; background: #fbfdff; box-shadow: 0 1px 2px rgba(11,78,162,.04); }
+      .cti-v2 .quick-object-card h6 { margin: 0 0 6px; color: #0b4ea2; font-size: 11px; font-weight: 950; line-height: 1.3; overflow-wrap: anywhere; }
+      .cti-v2 .quick-object-card ul { margin: 0; padding-left: 15px; color: #4c6075; font-size: 9.5px; line-height: 1.45; }
+      .cti-v2 .quick-object-card li { overflow-wrap: anywhere; }
+      .cti-v2 .quick-domain-link { width: 100%; margin-top: 14px; border: 0; border-radius: 8px; padding: 9px 12px; color: #fff; background: #00833e; font: inherit; font-size: 10px; font-weight: 900; cursor: pointer; }
+      .cti-v2 .enterprise-compact-graph .enterprise-domain-node text { font-size: 10.2px; }
+      .cti-v2 .enterprise-compact-graph .enterprise-domain-node .node-count { font-size: 7.2px; }
+      .cti-v2 .enterprise-domain-card-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 9px;
+      }
+      .cti-v2 .enterprise-domain-card {
+        min-width: 0;
+        min-height: 105px;
+        border: 1px solid #c9d8e7;
+        border-top: 4px solid var(--card-color, #0b4ea2);
+        border-radius: 9px;
+        padding: 9px 10px;
+        text-align: left;
+        color: #26384d;
+        background: #fff;
+        font: inherit;
+        cursor: pointer;
+        transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+      }
+      .cti-v2 .enterprise-domain-card:hover,
+      .cti-v2 .enterprise-domain-card.active {
+        transform: translateY(-2px);
+        border-color: var(--card-color, #0b4ea2);
+        box-shadow: 0 7px 14px rgba(16, 32, 51, .12);
+      }
+      .cti-v2 .enterprise-domain-card .domain-card-title {
+        display: grid;
+        grid-template-columns: 24px minmax(0, 1fr);
+        gap: 6px;
+        align-items: start;
+        min-height: 31px;
+        font-size: 10.5px;
+        line-height: 1.25;
+        font-weight: 900;
+      }
+      .cti-v2 .enterprise-domain-card .domain-card-num {
+        display: grid;
+        place-items: center;
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        color: #fff;
+        background: var(--card-color, #0b4ea2);
+        font-size: 9px;
+      }
+      .cti-v2 .enterprise-domain-card .domain-card-meta {
+        display: block;
+        margin: 4px 0 6px;
+        color: #708197;
+        font-size: 8.5px;
+        font-weight: 800;
+      }
+      .cti-v2 .representative-properties {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3px;
+      }
+      .cti-v2 .representative-properties span {
+        max-width: 100%;
+        overflow: hidden;
+        border-radius: 4px;
+        padding: 3px 5px;
+        color: #40546a;
+        background: #f0f5fa;
+        font-size: 7.8px;
+        font-weight: 700;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .cti-v2 .enterprise-network-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 6px;
+        color: #52657a;
+        font-size: 11.5px;
+      }
+      .cti-v2 .enterprise-network-head b { color: #0b2f64; font-size: 13px; }
+      .cti-v2 .enterprise-network-svg {
+        display: block;
+        width: 100%;
+        height: 520px;
+      }
+      .cti-v2 .enterprise-link {
+        fill: none;
+        stroke: #9aabbd;
+        stroke-width: 1.4;
+        opacity: .32;
+        transition: opacity .18s ease, stroke-width .18s ease, stroke .18s ease;
+      }
+      .cti-v2 .enterprise-link.active { opacity: .95; stroke: #ff6b00; stroke-width: 3; }
+      .cti-v2 .enterprise-link.dim { opacity: .07; }
+      .cti-v2 .enterprise-link.hub-link { stroke: #71869c; stroke-width: 1.8; stroke-dasharray: 6 6; opacity: .36; }
+      .cti-v2 .enterprise-link.hub-link.active { stroke: #71869c; stroke-width: 1.8; stroke-dasharray: 6 6; opacity: .36; }
+      .cti-v2 .enterprise-domain-node { cursor: pointer; outline: none; }
+      .cti-v2 .enterprise-domain-node rect {
+        fill: #fff;
+        stroke: var(--node-color, #0b4ea2);
+        stroke-width: 1.6;
+        transition: fill .18s ease, stroke-width .18s ease, filter .18s ease;
+      }
+      .cti-v2 .enterprise-domain-node.core-node rect {
+        fill: color-mix(in srgb, var(--node-color, #0b4ea2) 9%, white);
+        stroke-width: 3;
+        filter: drop-shadow(0 4px 7px rgba(16,32,51,.18));
+      }
+      .cti-v2 .enterprise-domain-node text {
+        fill: #26384d;
+        font-size: 10.2px;
+        font-weight: 900;
+        pointer-events: none;
+      }
+      .cti-v2 .enterprise-domain-node .node-count {
+        fill: #718298;
+        font-size: 8.5px;
+        font-weight: 700;
+      }
+      .cti-v2 .enterprise-domain-node:hover rect,
+      .cti-v2 .enterprise-domain-node.active rect {
+        fill: color-mix(in srgb, var(--node-color, #0b4ea2) 12%, white);
+        stroke-width: 3;
+        filter: drop-shadow(0 4px 5px rgba(16,32,51,.15));
+      }
+      .cti-v2 .enterprise-domain-node.dim { opacity: .34; }
+      .cti-v2 .enterprise-detail-explorer {
+        border: 1px solid #dbe5ef;
+        border-radius: 10px;
+        padding: 12px;
+        background: #f8fbff;
+      }
+      .cti-v2 .enterprise-domain-strip {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding: 2px 2px 9px;
+        scrollbar-width: thin;
+      }
+      .cti-v2 .enterprise-domain-strip button {
+        flex: 0 0 auto;
+        border: 1px solid #c8d6e5;
+        border-radius: 999px;
+        padding: 6px 9px;
+        color: #40546a;
+        background: #fff;
+        font: inherit;
+        font-size: 9.5px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .cti-v2 .enterprise-domain-strip button.active {
+        color: #fff;
+        background: #0b4ea2;
+        border-color: #0b4ea2;
+      }
+      .cti-v2 .enterprise-detail-content {
+        min-height: 475px;
+        border: 1px solid #dbe5ef;
+        border-radius: 9px;
+        background: #fff;
+        overflow: hidden;
+      }
+      .cti-v2 .enterprise-detail-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 14px;
+        align-items: start;
+        padding: 14px 16px;
+        color: #fff;
+        background: linear-gradient(135deg, #0b2f64, #0b4ea2);
+      }
+      .cti-v2 .enterprise-detail-header h4 { margin: 0 0 6px; font-size: 17px; }
+      .cti-v2 .enterprise-detail-header p { margin: 0; max-width: 800px; font-size: 10.5px; line-height: 1.5; color: #e6eef8; }
+      .cti-v2 .enterprise-detail-counts { display: flex; gap: 6px; }
+      .cti-v2 .enterprise-detail-counts span { border-radius: 7px; padding: 7px 9px; background: rgba(255,255,255,.14); font-size: 9.5px; font-weight: 900; white-space: nowrap; }
+      .cti-v2 .enterprise-relation-bar {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding: 9px 12px;
+        border-bottom: 1px solid #e2eaf2;
+        background: #f8fbff;
+      }
+      .cti-v2 .enterprise-relation-bar span { flex: 0 0 auto; border-radius: 999px; padding: 5px 8px; color: #7b5500; background: #fff7db; border: 1px solid #ecd477; font-size: 9px; font-weight: 800; }
+      .cti-v2 .enterprise-detail-grid {
+        display: grid;
+        grid-template-columns: 210px minmax(0, 1fr);
+        min-height: 365px;
+      }
+      .cti-v2 .enterprise-object-list {
+        max-height: 365px;
+        overflow: auto;
+        padding: 10px;
+        border-right: 1px solid #e2eaf2;
+        background: #fbfdff;
+      }
+      .cti-v2 .enterprise-object-list button {
+        width: 100%;
+        margin-bottom: 6px;
+        border: 1px solid #d6e2ee;
+        border-radius: 7px;
+        padding: 8px 9px;
+        text-align: left;
+        color: #334155;
+        background: #fff;
+        font: inherit;
+        font-size: 10px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .cti-v2 .enterprise-object-list button small { display: block; margin-top: 3px; color: #7b8da1; font-size: 8.5px; font-weight: 700; }
+      .cti-v2 .enterprise-object-list button.active { color: #fff; background: #00833e; border-color: #00833e; }
+      .cti-v2 .enterprise-object-list button.active small { color: #d8f3e3; }
+      .cti-v2 .enterprise-object-panel { min-width: 0; padding: 12px 14px; }
+      .cti-v2 .enterprise-object-panel h5 { margin: 0 0 4px; color: #0b2f64; font-size: 14px; }
+      .cti-v2 .enterprise-object-panel .object-description { margin: 0 0 8px; color: #52657a; font-size: 10px; line-height: 1.45; }
+      .cti-v2 .enterprise-property-wrap { max-height: 270px; overflow: auto; border: 1px solid #e2eaf2; border-radius: 7px; }
+      .cti-v2 .enterprise-property-table { width: 100%; border-collapse: collapse; font-size: 9px; }
+      .cti-v2 .enterprise-property-table th { position: sticky; top: 0; z-index: 1; padding: 7px; text-align: left; color: #0b4ea2; background: #eef6ff; border-bottom: 1px solid #cad9e8; }
+      .cti-v2 .enterprise-property-table td { padding: 7px; vertical-align: top; color: #475a70; border-bottom: 1px solid #edf1f5; line-height: 1.35; }
+      .cti-v2 .enterprise-property-table td:first-child { color: #0b2f64; font-weight: 900; }
+      @media (max-width: 900px) {
+        .cti-v2 .enterprise-map-split { grid-template-columns: 1fr; }
+        .cti-v2 .enterprise-domain-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .cti-v2 .enterprise-network-svg { height: 430px; }
+        .cti-v2 .enterprise-detail-grid { grid-template-columns: 1fr; }
+        .cti-v2 .enterprise-object-list { display: flex; gap: 6px; max-height: none; overflow-x: auto; border-right: 0; border-bottom: 1px solid #e2eaf2; }
+        .cti-v2 .enterprise-object-list button { flex: 0 0 170px; }
+      }
+      .cti-v2 .customer-profile-board,
+      .cti-v2 .risk-driver-board,
+      .cti-v2 .routing-board,
+      .cti-v2 .lifecycle-workflow {
+        border: 1px solid #dfe8f2;
+        border-radius: 10px;
+        padding: 18px;
+        background: linear-gradient(180deg, #fff, #f8fbff);
+      }
+      .cti-v2 .five-c-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 9px;
+      }
+      .cti-v2 .five-c-card {
+        min-height: 136px;
+        border: 1px solid var(--c-color, #8ab8ec);
+        border-top: 5px solid var(--c-color, #0b4ea2);
+        border-radius: 9px;
+        padding: 12px;
+        background: #fff;
+      }
+      .cti-v2 .five-c-card h4 { margin: 0 0 7px; color: var(--c-color, #0b4ea2); font-size: 13px; }
+      .cti-v2 .five-c-card p { margin: 0; color: #52657a; font-size: 10.5px; line-height: 1.5; }
+      .cti-v2 .profile-class-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .cti-v2 .profile-class {
+        border: 1px solid var(--class-color);
+        border-radius: 9px;
+        padding: 12px 14px;
+        background: var(--class-bg);
+      }
+      .cti-v2 .profile-class h4 { margin: 0 0 6px; color: var(--class-color); font-size: 13px; }
+      .cti-v2 .profile-class p { margin: 0; color: #52657a; font-size: 10.5px; line-height: 1.45; }
+      .cti-v2 .risk-driver-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .cti-v2 .risk-driver-card {
+        border: 1px solid #d9e4ee;
+        border-radius: 9px;
+        padding: 12px;
+        background: #fff;
+      }
+      .cti-v2 .risk-driver-card h4 { margin: 0 0 8px; color: #0b4ea2; font-size: 12px; }
+      .cti-v2 .risk-driver-card ul { margin: 0; padding-left: 16px; color: #52657a; font-size: 10.5px; line-height: 1.5; }
+      .cti-v2 .driver-trace {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        align-items: center;
+        margin-top: 14px;
+      }
+      .cti-v2 .driver-trace div {
+        position: relative;
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+        background: #eef6ff;
+        border: 1px solid #8ab8ec;
+        color: #0b4ea2;
+        font-size: 11px;
+        font-weight: 900;
+      }
+      .cti-v2 .driver-trace div:not(:last-child)::after {
+        content: "→";
+        position: absolute;
+        right: -14px;
+        color: #6d8297;
+      }
+      .cti-v2 .lifecycle-row {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 10px;
+        align-items: stretch;
+      }
+      .cti-v2 .lifecycle-node {
+        position: relative;
+        min-height: 104px;
+        border-radius: 9px;
+        padding: 12px;
+        background: #fff;
+        border: 1px solid var(--phase-color, #8ab8ec);
+      }
+      .cti-v2 .lifecycle-node:not(:last-child)::after {
+        content: "→";
+        position: absolute;
+        right: -15px;
+        top: 40%;
+        z-index: 2;
+        color: #60758c;
+        font-size: 18px;
+        font-weight: 900;
+      }
+      .cti-v2 .lifecycle-node b { display: block; color: var(--phase-color, #0b4ea2); font-size: 12px; }
+      .cti-v2 .lifecycle-node span { display: block; margin-top: 6px; color: #52657a; font-size: 10px; line-height: 1.4; }
+      .cti-v2 .lifecycle-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 18px auto 0;
+        max-width: 610px;
+      }
+      .cti-v2 .lifecycle-actions .lifecycle-node { min-height: 82px; }
+      .cti-v2 .lifecycle-actions .lifecycle-node::after { content: none; }
+      .cti-v2 .workflow-loop {
+        margin-top: 12px;
+        border-radius: 8px;
+        padding: 9px 12px;
+        text-align: center;
+        color: #334155;
+        background: #fff7db;
+        border: 1px solid #f0cf6b;
+        font-size: 10.5px;
+        font-weight: 800;
+      }
       .cti-v2 .ont-scope-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -6420,7 +7012,9 @@
         margin-top: 14px;
       }
       .cti-v2 .routing-matrix .rm-head,
-      .cti-v2 .routing-matrix .rm-cell {
+      .cti-v2 .routing-matrix .rm-cell,
+      .cti-v2 .routing-board .rm-head,
+      .cti-v2 .routing-board .rm-cell {
         border: 1px solid #dfe8f2;
         border-radius: 8px;
         padding: 12px 10px;
@@ -6428,12 +7022,14 @@
         line-height: 1.45;
         background: #fff;
       }
-      .cti-v2 .routing-matrix .rm-head {
+      .cti-v2 .routing-matrix .rm-head,
+      .cti-v2 .routing-board .rm-head {
         background: #f3f8fc;
         font-weight: 900;
         color: #0b4ea2;
       }
-      .cti-v2 .routing-matrix .rm-cell.focus {
+      .cti-v2 .routing-matrix .rm-cell.focus,
+      .cti-v2 .routing-board .rm-cell.focus {
         background: #eaf7ef;
         border-color: #8bd0a8;
         font-weight: 800;
@@ -6454,6 +7050,15 @@
         line-height: 1.6;
         color: #415167;
         font-size: 14px;
+      }
+      @media (max-width: 900px) {
+        .cti-v2 .domain-group-grid,
+        .cti-v2 .profile-class-grid,
+        .cti-v2 .lifecycle-actions { grid-template-columns: 1fr; }
+        .cti-v2 .domain-relationship-flow { grid-template-columns: 1fr 1fr; }
+        .cti-v2 .five-c-grid,
+        .cti-v2 .risk-driver-grid,
+        .cti-v2 .lifecycle-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       }
       .cti-v2 .ds-slide .section-head {
         margin-bottom: 12px;
@@ -7005,15 +7610,10 @@
           {
             id: "bc-problem",
             group: "Business Case",
-            title: "Business problem - vấn đề kinh doanh hiện tại",
-            message: "Vấn đề nằm ở kiến trúc và lựa chọn thuật toán của phiên bản hiện tại",
-            lead: "F88 đã có một mô hình chấm điểm đang vận hành thực tế, được xây dựng bài bản và có tính giải thích. Vấn đề kinh doanh hiện tại nằm ở giới hạn kiến trúc (thiết kế gắn liền một sản phẩm) và giới hạn thuật toán (mô hình tuyến tính thuần túy), khiến việc mở rộng sang sản phẩm mới, phân khúc khách hàng mới hoặc yêu cầu tốc độ xử lý mới trở nên tốn thời gian và chi phí.",
-            points: [
-              "Kiến trúc hiện tại gắn liền với một sản phẩm, chưa tách lớp framework dùng chung khỏi cấu hình riêng theo sản phẩm.",
-              "Mô hình tuyến tính (logistic regression) giới hạn khả năng phân tách rủi ro so với dữ liệu hành vi/tín dụng ngày càng phi tuyến.",
-              "Thời gian xử lý runtime chưa đạt kỳ vọng phản hồi tức thời, đặc biệt với các luồng cần tốc độ cao.",
-              "Thiếu một ngôn ngữ dữ liệu chung (canonical schema) khi mở rộng sang nhiều sản phẩm và nhiều nguồn dữ liệu.",
-            ],
+            title: "Business problem & objective - từ model rời rạc đến scoring platform",
+            message: "Chuyển từ các model riêng lẻ sang platform/engine cung cấp scoring service end-to-end",
+            lead: "Bài toán không dừng ở việc nâng độ chính xác của một model. A-Score hướng tới một platform/engine cung cấp dịch vụ chấm điểm end-to-end: tiếp nhận và chuẩn hóa dữ liệu, định tuyến multi-model, sinh output thống nhất, giải thích/replay kết quả và giám sát toàn bộ vòng đời.",
+            points: [],
             visual: "bcProblem",
           },
           {
@@ -7049,12 +7649,7 @@
             title: "Success criteria - tiêu chí thành công",
             message: "Bốn nhóm KPI đo bổ sung cho nhau: kinh doanh, model, vận hành, giám sát",
             lead: "Mức độ thành công của A-Score được đo bằng bốn nhóm chỉ số bổ sung cho nhau, bao phủ từ tác động kinh doanh, chất lượng thống kê của model, độ ổn định vận hành đến khả năng phát hiện sớm suy giảm chất lượng.",
-            points: [
-              "Business KPI: tỷ lệ phê duyệt tự động, thời gian xử lý hồ sơ trung bình, tốc độ tăng trưởng dư nợ theo phân khúc.",
-              "Model KPI: AUC/Gini, KS, PSI, Calibration (đối chiếu xác suất dự báo với tỷ lệ vỡ nợ thực tế), Rank Ordering.",
-              "Operational KPI: SLA xử lý request, tỷ lệ lỗi API/timeout, tỷ lệ hồ sơ NOT_SCORABLE/DATA_FAIL.",
-              "Monitoring KPI: feature drift, dịch chuyển phân phối điểm số, override rate, bad rate theo grade.",
-            ],
+            points: [],
             visual: "bcSuccess",
           },
           {
@@ -7171,7 +7766,7 @@
           },
           {
             id: "deployment",
-            order: 5,
+            order: 4,
             name: "Deployment Strategy",
             vi: "Chiến lược triển khai",
             short:
@@ -7230,28 +7825,20 @@
           {
             id: "ont-enterprise-domain",
             group: "Ontology",
-            title: "Enterprise Domain Map",
-            message: "19 domain bao phủ toàn bộ hệ sinh thái nghiệp vụ F88",
-            lead: "Trước khi đi sâu vào Model Management và Scoring, ontology cho thấy A-Score/CTI nằm ở đâu trong bức tranh doanh nghiệp. Mỗi domain là một vùng nghiệp vụ có object, property và quan hệ riêng — từ Party, KYC, Application, Collateral, Behavior đến Decision, Repayment, Governance và Integration.",
-            points: [
-              "19 domain, 69 object và 81 LinkType tạo bản đồ khái niệm thống nhất cho toàn F88.",
-              "Domain không thay thế data warehouse; nó định nghĩa nghĩa nghiệp vụ và lineage giữa các thực thể.",
-              "Model Management và Credit Scoring & Risk Assessment là hai domain trọng tâm của bài toán A-Score.",
-            ],
-            visual: "ontEnterpriseDomain",
+            title: "Enterprise Domain Map — 19 domain",
+            message: "Network graph 19 domain — hai domain lõi làm tâm điểm",
+            lead: "Credit Scoring & Risk Assessment và Model Management được đặt song song ở trung tâm. Toàn bộ domain vệ tinh được quy tụ về một trong hai domain lõi bằng đường nét đứt để thể hiện luồng liên kết end-to-end; panel bên phải vẫn đọc mô tả, object, property và LinkType từ Ontology version2.xlsx.",
+            points: [],
+            visual: "ontEnterpriseGraph",
           },
           {
             id: "ont-problem-scope",
             group: "Ontology",
-            title: "Phạm vi bài toán trong ontology",
-            message: "Zoom-in: Model Management + Credit Scoring & Risk Assessment",
-            lead: "Trong toàn bộ enterprise domain, phần ontology cần đi sâu cho A-Score là Model Management (quản trị vòng đời model) và Credit Scoring & Risk Assessment (chấm điểm và đánh giá rủi ro runtime). Các domain khác cung cấp ngữ cảnh, input và outcome nhưng không phải trọng tâm thiết kế scoring.",
-            points: [
-              "Model Management: feature set, training dataset, model version, run log, metric, artifact registry.",
-              "Credit Scoring & Risk Assessment: Assessment, ScoreResult, risk grade, reason code, risk signal.",
-              "Hai domain này kết nối qua lineage: model nào sinh score nào, từ feature/dataset nào, cho hồ sơ nào.",
-            ],
-            visual: "ontProblemScope",
+            title: "Phạm vi bài toán & Input / Output",
+            message: "Zoom-in hai domain lõi và chốt contract end-to-end trên cùng một slide",
+            lead: "A-Score tập trung vào Model Management và Credit Scoring & Risk Assessment. Hai domain tạo thành một contract xuyên suốt: nhận context và feature snapshot đã chuẩn hóa, gọi đúng ModelVersion, sinh Score–Grade–Reason và lưu đủ lineage để replay/audit.",
+            points: [],
+            visual: "ontScopeIO",
           },
           {
             id: "ont-model-io",
@@ -7293,29 +7880,39 @@
             visual: "ontOutcome",
           },
           {
-            id: "ont-business-rules",
+            id: "ont-customer-profile",
             group: "Ontology",
-            title: "Business Rule / Policy",
-            message: "Label customer, Risk Driver và Routing Matrix",
-            lead: "Business rule/policy là lớp nghiệp vụ đứng trước model: xác định khách thuộc nhóm nào, rủi ro nào cần đo, và model nào được gọi cho từng phân khúc. Đây là nền để Design Time và Train Model có population, label và routing đúng.",
-            points: [
-              "Label customer design: 4 nhóm Tốt — Xám — Xấu — Chưa xác định, theo outcome rule và maturity window.",
-              "Risk driver: giả thuyết rủi ro nghiệp vụ được map sang feature group và coverage check.",
-              "Segmentation → routing matrix: new / thin / thick file quyết định model family, feature set và luồng chấm điểm.",
-            ],
-            visual: "ontBusinessRules",
+            title: "Label Customer Design — hồ sơ 5C",
+            message: "Tạo customer risk profile từ 5C trước khi phân loại Tốt — Xám — Xấu",
+            lead: "Customer profile tổng hợp tín hiệu theo năm nhóm Character/Characteristics, Capacity, Capital, Collateral và Conditions. Mức độ đầy đủ và mức rủi ro của các nhóm 5C là cơ sở giải thích việc phân loại khách hàng và xác định dữ liệu còn thiếu.",
+            points: [],
+            visual: "ontCustomerProfile",
+          },
+          {
+            id: "ont-risk-driver",
+            group: "Ontology",
+            title: "Risk Driver theo 5C",
+            message: "Mỗi giả thuyết rủi ro phải truy vết được tới object, feature và owner",
+            lead: "Risk driver không phải tên feature. Đây là giả thuyết nghiệp vụ mô tả vì sao khách hàng có thể phát sinh rủi ro; mỗi driver được ánh xạ sang source object, feature logic và coverage theo phân khúc.",
+            points: [],
+            visual: "ontRiskDriver",
+          },
+          {
+            id: "ont-routing-matrix",
+            group: "Ontology",
+            title: "Customer Segmentation & Routing Matrix",
+            message: "Độ dày dữ liệu quyết định model family, feature bundle và fallback",
+            lead: "Routing tách riêng khỏi risk driver để làm rõ quyết định vận hành: khách NEW, THIN và THICK phải đi qua các model/feature bundle khác nhau; thiếu dữ liệu không được mặc định đồng nghĩa với rủi ro cao.",
+            points: [],
+            visual: "ontRoutingMatrix",
           },
           {
             id: "ont-lifecycle",
             group: "Ontology",
             title: "Lifecycle Model Management",
-            message: "8 phase: Start → Design → Train → Runtime → Deploy → Monitor → Retrain → Retire",
-            lead: "Lifecycle là xương sống quản trị model như một tài sản nghiệp vụ. Mỗi phase có mục tiêu, input, output và actor riêng — đảm bảo model có thể thiết kế, train, triển khai, giám sát, cải tiến và dừng sử dụng một cách có kiểm soát.",
-            points: [
-              "Start → Design-time → Train model: từ nhu cầu kinh doanh tới candidate model có validation.",
-              "Runtime → Deployment Strategy: chấm điểm thực tế và đưa vào production có rollout/rollback.",
-              "Monitoring & Dashboard → Retraining → Retirement: giám sát, train lại khi cần và dừng model cũ an toàn.",
-            ],
+            message: "Workflow: Start → Design → Train → Deploy → Runtime → Monitor → Retrain / Retire",
+            lead: "Thứ tự được chỉnh lại để Deployment đứng trước Runtime. Monitoring tạo một cổng quyết định: tiếp tục vận hành, quay lại Train qua Retraining, hoặc Retirement khi model được thay thế.",
+            points: [],
             visual: "ontLifecycle",
           },
         ];
@@ -7728,41 +8325,39 @@
               <line x1="786" y1="185" x2="802" y2="185" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcvArrow)"/>
             </svg></div>`;
           if (type === "bcProblem")
-            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Business problem hien tai">
-              <defs><filter id="bcpShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
-              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
-              <text x="490" y="50" text-anchor="middle" font-size="21" font-weight="900" fill="#0b2f64">GIỚI HẠN CỦA PHIÊN BẢN HIỆN TẠI — 4 ĐIỂM NGHẼN CHÍNH</text>
-              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Vấn đề nằm ở kiến trúc và thuật toán của phiên bản hiện tại, không phải thiếu công cụ chấm điểm</text>
+            return `<div class="ds-diagram" style="height:430px"><svg viewBox="0 0 980 430" role="img" aria-label="Business problem va objective">
+              <defs><marker id="bcpArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#64748b"/></marker><filter id="bcpShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity="0.12"/></filter></defs>
+              <rect x="18" y="18" width="944" height="394" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="48" text-anchor="middle" font-size="20" font-weight="900" fill="#0b2f64">BUSINESS PROBLEM → BUSINESS OBJECTIVE</text>
+              <text x="490" y="71" text-anchor="middle" font-size="12.5" font-weight="800" fill="#64748b">Bài toán hướng tới platform/engine cung cấp scoring service end-to-end — không chỉ xây một model</text>
 
-              <rect x="42" y="106" width="214" height="196" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcpShadow)"/>
-              <circle cx="149" cy="140" r="16" fill="#c84e00"/><text x="149" y="146" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">1</text>
-              <text x="149" y="182" text-anchor="middle" font-size="13" font-weight="900" fill="#c84e00">Kiến trúc đóng cứng</text>
-              <text x="149" y="206" text-anchor="middle" font-size="11" fill="#516173">Gắn liền một sản phẩm</text>
-              <text x="149" y="224" text-anchor="middle" font-size="11" fill="#516173">Chưa tách framework</text>
-              <text x="149" y="242" text-anchor="middle" font-size="11" fill="#516173">dùng chung</text>
+              <rect x="42" y="94" width="405" height="246" rx="12" fill="#fff8f3" stroke="#ffb27d" filter="url(#bcpShadow)"/>
+              <rect x="42" y="94" width="405" height="38" rx="12" fill="#c84e00"/>
+              <text x="244" y="119" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">PROBLEM — NĂNG LỰC ĐANG PHÂN MẢNH</text>
+              <text x="66" y="160" font-size="12" font-weight="900" fill="#8a3700">1. Kiến trúc đóng cứng theo một sản phẩm</text>
+              <text x="66" y="181" font-size="10.8" fill="#516173">Mỗi sản phẩm/luồng phải xây lại pipeline, feature và API.</text>
+              <text x="66" y="215" font-size="12" font-weight="900" fill="#8a3700">2. Model tuyến tính bị giới hạn hiệu năng</text>
+              <text x="66" y="236" font-size="10.8" fill="#516173">Khó khai thác quan hệ phi tuyến trong dữ liệu hành vi/tín dụng.</text>
+              <text x="66" y="270" font-size="12" font-weight="900" fill="#8a3700">3. Runtime ~3 giây/request; thiếu Pre-Score nhanh</text>
+              <text x="66" y="291" font-size="10.8" fill="#516173">Chưa đáp ứng luồng cần phản hồi tức thời như Quick Offer.</text>
+              <text x="66" y="325" font-size="12" font-weight="900" fill="#8a3700">4. Dữ liệu phân mảnh, thiếu canonical schema dùng chung</text>
 
-              <rect x="270" y="106" width="214" height="196" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcpShadow)"/>
-              <circle cx="377" cy="140" r="16" fill="#0b4ea2"/><text x="377" y="146" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">2</text>
-              <text x="377" y="182" text-anchor="middle" font-size="13" font-weight="900" fill="#0b4ea2">Thuật toán tuyến tính</text>
-              <text x="377" y="206" text-anchor="middle" font-size="11" fill="#516173">Logistic regression</text>
-              <text x="377" y="224" text-anchor="middle" font-size="11" fill="#516173">Giới hạn với dữ liệu</text>
-              <text x="377" y="242" text-anchor="middle" font-size="11" fill="#516173">phi tuyến</text>
+              <line x1="458" y1="216" x2="516" y2="216" stroke="#64748b" stroke-width="3" marker-end="url(#bcpArrow)"/>
+              <text x="487" y="198" text-anchor="middle" font-size="10.5" font-weight="900" fill="#334155">CHUYỂN ĐỔI</text>
 
-              <rect x="498" y="106" width="214" height="196" rx="12" fill="#fff7db" stroke="#f0cf6b" filter="url(#bcpShadow)"/>
-              <circle cx="605" cy="140" r="16" fill="#a9790a"/><text x="605" y="146" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">3</text>
-              <text x="605" y="182" text-anchor="middle" font-size="13" font-weight="900" fill="#a9790a">SLA runtime</text>
-              <text x="605" y="206" text-anchor="middle" font-size="11" fill="#516173">~3 giây/request</text>
-              <text x="605" y="224" text-anchor="middle" font-size="11" fill="#516173">Chưa đạt kỳ vọng</text>
-              <text x="605" y="242" text-anchor="middle" font-size="11" fill="#516173">phản hồi tức thời</text>
+              <rect x="528" y="94" width="410" height="246" rx="12" fill="#f1faf5" stroke="#8bd0a8" filter="url(#bcpShadow)"/>
+              <rect x="528" y="94" width="410" height="38" rx="12" fill="#00833e"/>
+              <text x="733" y="119" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">OBJECTIVE — SCORING SERVICE END-TO-END</text>
+              <text x="552" y="160" font-size="12" font-weight="900" fill="#007236">1. Shared platform + product configuration</text>
+              <text x="552" y="181" font-size="10.8" fill="#516173">Tái sử dụng pipeline/API/registry cho nhiều sản phẩm.</text>
+              <text x="552" y="215" font-size="12" font-weight="900" fill="#007236">2. Multi-model + routing + unified output</text>
+              <text x="552" y="236" font-size="10.8" fill="#516173">New/Thin/Thick đi đúng model; cùng Score–Grade–Reason.</text>
+              <text x="552" y="270" font-size="12" font-weight="900" fill="#007236">3. SLA end-to-end &lt; 2 giây/request</text>
+              <text x="552" y="291" font-size="10.8" fill="#516173">Có Pre A-Score cho Quick Offer và runtime tối ưu.</text>
+              <text x="552" y="325" font-size="12" font-weight="900" fill="#007236">4. Explainable + replayable + lifecycle monitoring</text>
 
-              <rect x="726" y="106" width="214" height="196" rx="12" fill="#f8fbff" stroke="#b8c8da" filter="url(#bcpShadow)"/>
-              <circle cx="833" cy="140" r="16" fill="#334155"/><text x="833" y="146" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">4</text>
-              <text x="833" y="182" text-anchor="middle" font-size="13" font-weight="900" fill="#334155">Ngôn ngữ dữ liệu</text>
-              <text x="833" y="206" text-anchor="middle" font-size="11" fill="#516173">Thiếu canonical schema</text>
-              <text x="833" y="224" text-anchor="middle" font-size="11" fill="#516173">khi mở rộng đa</text>
-              <text x="833" y="242" text-anchor="middle" font-size="11" fill="#516173">sản phẩm</text>
-
-              <text x="490" y="330" text-anchor="middle" font-size="11.5" font-weight="800" fill="#8a6500">F88 đã có model đang vận hành thực tế — vấn đề là giới hạn kiến trúc và thuật toán, không phải thiếu công cụ chấm điểm</text>
+              <rect x="90" y="362" width="800" height="34" rx="9" fill="#102033"/>
+              <text x="490" y="384" text-anchor="middle" font-size="11.5" font-weight="900" fill="#fff">END-TO-END = Data contract → Feature → Routing/Model → Unified Output → Explain/Replay → Monitor/Govern</text>
             </svg></div>`;
           if (type === "bcObjective")
             return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Business objective">
@@ -7819,52 +8414,334 @@
               <text x="544" y="302" font-size="12" font-weight="800" fill="#8a3700">•  Quản lý hạn mức &amp; hợp đồng</text>
             </svg></div>`;
           if (type === "bcSuccess")
-            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Success criteria">
+            return `<div class="ds-diagram" style="height:470px"><svg viewBox="0 0 980 470" role="img" aria-label="Success criteria va chi tiet KPI">
               <defs><filter id="bcsShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
-              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <rect x="18" y="18" width="944" height="434" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
               <text x="490" y="50" text-anchor="middle" font-size="21" font-weight="900" fill="#0b2f64">4 NHÓM KPI ĐO THÀNH CÔNG CỦA A-SCORE</text>
-              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Đo bổ sung cho nhau: tác động kinh doanh, chất lượng model, vận hành, giám sát</text>
+              <text x="490" y="73" text-anchor="middle" font-size="12.5" font-weight="800" fill="#64748b">Mỗi chỉ số cần có định nghĩa/công thức, chiều phân tích, ngưỡng cảnh báo, owner và hành động</text>
 
-              <rect x="42" y="106" width="214" height="196" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcsShadow)"/>
+              <rect x="42" y="96" width="214" height="306" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcsShadow)"/>
               <text x="149" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#0b4ea2">Business KPI</text>
-              <text x="149" y="168" text-anchor="middle" font-size="11" fill="#516173">Auto-approve rate</text>
-              <text x="149" y="188" text-anchor="middle" font-size="11" fill="#516173">Time-to-decision</text>
-              <text x="149" y="208" text-anchor="middle" font-size="11" fill="#516173">Tăng trưởng dư nợ</text>
+              <text x="58" y="167" font-size="10.5" font-weight="900" fill="#0b4ea2">Auto-Approval Rate</text>
+              <text x="58" y="185" font-size="9.7" fill="#516173">Approved tự động / Decisioned</text>
+              <text x="58" y="217" font-size="10.5" font-weight="900" fill="#0b4ea2">Time-to-Decision</text>
+              <text x="58" y="235" font-size="9.7" fill="#516173">Tổng thời gian / hồ sơ Decisioned</text>
+              <text x="58" y="267" font-size="10.5" font-weight="900" fill="#0b4ea2">Scoring Coverage</text>
+              <text x="58" y="285" font-size="9.7" fill="#516173">Scored / tổng hồ sơ tiếp nhận</text>
+              <text x="58" y="317" font-size="10.5" font-weight="900" fill="#0b4ea2">Portfolio Growth</text>
+              <text x="58" y="335" font-size="9.7" fill="#516173">Tăng dư nợ theo segment/grade</text>
+              <text x="149" y="378" text-anchor="middle" font-size="9.4" font-weight="800" fill="#334155">Đọc cùng bad rate, không tối ưu</text>
+              <text x="149" y="392" text-anchor="middle" font-size="9.4" font-weight="800" fill="#334155">tăng trưởng/approval đơn lẻ</text>
 
-              <rect x="270" y="106" width="214" height="196" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcsShadow)"/>
+              <rect x="270" y="96" width="214" height="306" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcsShadow)"/>
               <text x="377" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#c84e00">Model KPI</text>
-              <text x="377" y="168" text-anchor="middle" font-size="11" fill="#516173">AUC / Gini / KS</text>
-              <text x="377" y="188" text-anchor="middle" font-size="11" fill="#516173">PSI / Calibration</text>
-              <text x="377" y="208" text-anchor="middle" font-size="11" fill="#516173">Rank Ordering</text>
+              <text x="286" y="167" font-size="10.5" font-weight="900" fill="#c84e00">AUC / Gini / KS</text>
+              <text x="286" y="185" font-size="9.7" fill="#516173">Khả năng phân biệt hồ sơ Good/Bad</text>
+              <text x="286" y="217" font-size="10.5" font-weight="900" fill="#c84e00">PSI / CSI</text>
+              <text x="286" y="235" font-size="9.7" fill="#516173">Ổn định population / feature</text>
+              <text x="286" y="267" font-size="10.5" font-weight="900" fill="#c84e00">Calibration</text>
+              <text x="286" y="285" font-size="9.7" fill="#516173">Predicted risk vs observed bad rate</text>
+              <text x="286" y="317" font-size="10.5" font-weight="900" fill="#c84e00">Rank Ordering</text>
+              <text x="286" y="335" font-size="9.7" fill="#516173">Bad rate tăng dần từ grade tốt → xấu</text>
+              <text x="377" y="378" text-anchor="middle" font-size="9.4" font-weight="800" fill="#8a3700">PSI &lt;0,10 ổn định · 0,10–0,25</text>
+              <text x="377" y="392" text-anchor="middle" font-size="9.4" font-weight="800" fill="#8a3700">cảnh báo · &gt;0,25 nghiêm trọng</text>
 
-              <rect x="498" y="106" width="214" height="196" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#bcsShadow)"/>
+              <rect x="498" y="96" width="214" height="306" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#bcsShadow)"/>
               <text x="605" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#007236">Operational KPI</text>
-              <text x="605" y="168" text-anchor="middle" font-size="11" fill="#516173">SLA xử lý request</text>
-              <text x="605" y="188" text-anchor="middle" font-size="11" fill="#516173">Tỷ lệ lỗi API/timeout</text>
-              <text x="605" y="208" text-anchor="middle" font-size="11" fill="#516173">Tỷ lệ NOT_SCORABLE</text>
+              <text x="514" y="167" font-size="10.5" font-weight="900" fill="#007236">Latency p50 / p95 / p99</text>
+              <text x="514" y="185" font-size="9.7" fill="#516173">SLA breach rate khi E2E &gt; 2.000 ms</text>
+              <text x="514" y="217" font-size="10.5" font-weight="900" fill="#007236">API Error / Timeout Rate</text>
+              <text x="514" y="235" font-size="9.7" fill="#516173">Lỗi hoặc timeout / tổng request</text>
+              <text x="514" y="267" font-size="10.5" font-weight="900" fill="#007236">Result Mode Mix</text>
+              <text x="514" y="285" font-size="9.7" fill="#516173">MODEL / FALLBACK / NOT_SCORABLE</text>
+              <text x="514" y="317" font-size="10.5" font-weight="900" fill="#007236">Availability &amp; Data Fail</text>
+              <text x="514" y="335" font-size="9.7" fill="#516173">Downtime, DATA_FAIL, log success</text>
+              <text x="605" y="378" text-anchor="middle" font-size="9.4" font-weight="800" fill="#0f5132">Mục tiêu E2E &lt; 2 giây/request</text>
+              <text x="605" y="392" text-anchor="middle" font-size="9.4" font-weight="800" fill="#0f5132">so với baseline hiện tại ~3 giây</text>
 
-              <rect x="726" y="106" width="214" height="196" rx="12" fill="#102033" stroke="#102033" filter="url(#bcsShadow)"/>
+              <rect x="726" y="96" width="214" height="306" rx="12" fill="#102033" stroke="#102033" filter="url(#bcsShadow)"/>
               <text x="833" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Monitoring KPI</text>
-              <text x="833" y="168" text-anchor="middle" font-size="11" fill="#cbd5e1">Feature drift</text>
-              <text x="833" y="188" text-anchor="middle" font-size="11" fill="#cbd5e1">Score distribution shift</text>
-              <text x="833" y="208" text-anchor="middle" font-size="11" fill="#cbd5e1">Bad rate theo grade</text>
+              <text x="742" y="167" font-size="10.5" font-weight="900" fill="#fff">Feature Health</text>
+              <text x="742" y="185" font-size="9.7" fill="#cbd5e1">Missing, outlier, freshness, drift</text>
+              <text x="742" y="217" font-size="10.5" font-weight="900" fill="#fff">Score / Grade Stability</text>
+              <text x="742" y="235" font-size="9.7" fill="#cbd5e1">Score PSI, grade mix shift</text>
+              <text x="742" y="267" font-size="10.5" font-weight="900" fill="#fff">Outcome Performance</text>
+              <text x="742" y="285" font-size="9.7" fill="#cbd5e1">Bad rate by grade, performance gap</text>
+              <text x="742" y="317" font-size="10.5" font-weight="900" fill="#fff">Decision Usage</text>
+              <text x="742" y="335" font-size="9.7" fill="#cbd5e1">Override, fallback, manual review</text>
+              <text x="833" y="378" text-anchor="middle" font-size="9.4" font-weight="800" fill="#fff">Daily: health · Weekly: stability</text>
+              <text x="833" y="392" text-anchor="middle" font-size="9.4" font-weight="800" fill="#fff">Monthly: outcome/calibration</text>
 
-              <text x="490" y="330" text-anchor="middle" font-size="11.5" font-weight="800" fill="#334155">Monitoring KPI kích hoạt recalibrate/retrain kịp thời trước khi Business KPI bị ảnh hưởng</text>
+              <rect x="92" y="418" width="796" height="24" rx="8" fill="#f8fbff" stroke="#d7e3ee"/>
+              <text x="490" y="435" text-anchor="middle" font-size="10.5" font-weight="800" fill="#334155">Cắt theo date · product · channel · segment · model version · grade; vượt ngưỡng phải gắn owner và action cụ thể</text>
             </svg></div>`;
-          if (type === "ontEnterpriseDomain") {
-            const sorted = [...DATA.domainSummary].sort((a, b) =>
-              a.domain.localeCompare(b.domain),
-            );
-            return `<div class="domain-cloud compact ont-domain-map">${sorted
-              .map(
-                (d) =>
-                  `<div class="domain-tile ${["Model Management", "Credit Scoring & Risk Assessment"].includes(d.domain) ? "focus" : ""}">
-                <b>${esc2(d.domain)}</b>
-                <div class="meta"><span>${d.object_count} objects</span><span>${d.property_count} props</span></div>
-              </div>`,
-              )
-              .join("")}</div>`;
+          if (type === "ontEnterpriseGraph") {
+            const source = window.ONTOLOGY_XLSX;
+            if (!source) return `<div class="callout">Không tải được dữ liệu Ontology version2.xlsx.</div>`;
+            const coreNames = ["Credit Scoring & Risk Assessment", "Model Management"];
+            const domainIndex = new Map(source.domains.map((domain) => [domain.name, domain]));
+            const crossLinks = source.links.filter((link) => link.fromDomain !== link.toDomain && domainIndex.has(link.fromDomain) && domainIndex.has(link.toDomain));
+            const directNames = [...new Set(crossLinks.filter((link) => coreNames.includes(link.fromDomain) || coreNames.includes(link.toDomain)).flatMap((link) => [link.fromDomain, link.toDomain]))].filter((name) => !coreNames.includes(name));
+            const outerNames = source.domains.map((domain) => domain.name).filter((name) => !coreNames.includes(name) && !directNames.includes(name));
+            const positions = new Map([
+              [coreNames[0], { cx: 385, cy: 340, ring: "core" }],
+              [coreNames[1], { cx: 535, cy: 340, ring: "core" }],
+            ]);
+            directNames.forEach((name, index) => {
+              const angle = -Math.PI / 2 + index * (Math.PI * 2 / directNames.length);
+              positions.set(name, { cx: 460 + Math.cos(angle) * 220, cy: 340 + Math.sin(angle) * 160, ring: "inner" });
+            });
+            outerNames.forEach((name, index) => {
+              const angle = -Math.PI / 2 + index * (Math.PI * 2 / outerNames.length);
+              positions.set(name, { cx: 460 + Math.cos(angle) * 385, cy: 340 + Math.sin(angle) * 295, ring: "outer" });
+            });
+            const nodeW = 132, nodeH = 50;
+            const boundaryPoint = (from, to) => {
+              const dx = to.cx - from.cx, dy = to.cy - from.cy;
+              const scale = 1 / Math.max(Math.abs(dx) / (nodeW / 2), Math.abs(dy) / (nodeH / 2));
+              return { x: from.cx + dx * scale, y: from.cy + dy * scale };
+            };
+            const hubPairs = source.domains.filter((domain) => !coreNames.includes(domain.name)).map((domain, index) => {
+              const position = positions.get(domain.name);
+              const hub = position.cx < 460 ? coreNames[0] : position.cx > 460 ? coreNames[1] : coreNames[index % 2];
+              const actualLinks = crossLinks.filter((link) => (link.fromDomain === domain.name && link.toDomain === hub) || (link.toDomain === domain.name && link.fromDomain === hub));
+              return { from: domain.name, to: hub, count: actualLinks.length, names: actualLinks.map((link) => link.name) };
+            });
+            hubPairs.push({ from: coreNames[0], to: coreNames[1], count: 1, names: ["score_calculated_by"] });
+            const linksSvg = hubPairs.map((pair, index) => {
+              const from = positions.get(pair.from), to = positions.get(pair.to);
+              const start = boundaryPoint(from, to), end = boundaryPoint(to, from);
+              const dx = end.x - start.x, dy = end.y - start.y, length = Math.max(1, Math.hypot(dx, dy));
+              const curve = 9 + (index % 3) * 3;
+              const controlX = (start.x + end.x) / 2 - dy / length * curve;
+              const controlY = (start.y + end.y) / 2 + dx / length * curve;
+              const detailLabel = pair.count ? ` · ${pair.count} LinkType: ${pair.names.join(", ")}` : " · liên kết kiến trúc";
+              return `<path class="enterprise-link hub-link" data-from="${esc2(pair.from)}" data-to="${esc2(pair.to)}" d="M${start.x.toFixed(1)} ${start.y.toFixed(1)} Q${controlX.toFixed(1)} ${controlY.toFixed(1)},${end.x.toFixed(1)} ${end.y.toFixed(1)}" marker-end="url(#enterpriseGraphArrow)"><title>${esc2(pair.from)} → ${esc2(pair.to)}${esc2(detailLabel)}</title></path>`;
+            }).join("");
+            const splitName = (name) => {
+              if (name.length <= 20) return [name];
+              const words = name.split(" ");
+              let best = 1;
+              for (let i = 1; i < words.length; i++) if (Math.abs(words.slice(0, i).join(" ").length - name.length / 2) < Math.abs(words.slice(0, best).join(" ").length - name.length / 2)) best = i;
+              return [words.slice(0, best).join(" "), words.slice(best).join(" ")];
+            };
+            const palette = ["#0b4ea2", "#00833e", "#c84e00", "#6f42a5", "#a9790a", "#087f8c"];
+            const nodesSvg = source.domains.map((domain, index) => {
+              const position = positions.get(domain.name), lines = splitName(domain.name);
+              const color = domain.name === coreNames[0] ? "#c84e00" : domain.name === coreNames[1] ? "#00833e" : palette[index % palette.length];
+              const propertyCount = domain.objects.reduce((total, object) => total + object.properties.length, 0);
+              const representative = [];
+              const properties = domain.objects.flatMap((object) => object.properties);
+              [...properties.filter((property) => ["Yes", "Derived"].includes(property.ascoreFeature)), ...properties].forEach((property) => {
+                if (representative.length < 3 && !representative.some((item) => item.name === property.name)) representative.push(property);
+              });
+              const nameText = lines.length === 1
+                ? `<text x="${position.cx}" y="${position.cy + 3}" text-anchor="middle">${esc2(lines[0])}</text>`
+                : `<text x="${position.cx}" y="${position.cy - 5}" text-anchor="middle"><tspan x="${position.cx}">${esc2(lines[0])}</tspan><tspan x="${position.cx}" dy="12">${esc2(lines[1])}</tspan></text>`;
+              return `<g class="enterprise-domain-node${coreNames.includes(domain.name) ? " core-node" : ""}" tabindex="0" role="button" aria-label="Xem ${esc2(domain.name)}" data-domain="${esc2(domain.name)}" style="--node-color:${color}"><rect x="${position.cx - nodeW / 2}" y="${position.cy - nodeH / 2}" width="${nodeW}" height="${nodeH}" rx="9"/>${nameText}<title>${esc2(domain.name)} · Property đại diện: ${esc2(representative.map((property) => property.name).join(", "))}</title></g>`;
+            }).join("");
+            return `<div class="enterprise-map-split">
+              <div class="enterprise-network-board">
+                <div class="enterprise-network-head"><b>${source.domainCount} domains · 2 core hubs</b><span>Nét đứt: liên kết về domain lõi · Bấm node để xem mô tả</span></div>
+                <svg class="enterprise-network-svg enterprise-compact-graph" style="height:610px" viewBox="0 0 920 680" role="img" aria-label="Enterprise domain network graph"><defs><marker id="enterpriseGraphArrow" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#526b85"/></marker></defs>
+                  <ellipse cx="460" cy="340" rx="220" ry="160" fill="none" stroke="#aab9c8" stroke-dasharray="5 7" opacity=".38"/>
+                  <ellipse cx="460" cy="340" rx="385" ry="295" fill="none" stroke="#c5d0db" stroke-dasharray="4 8" opacity=".32"/>
+                  <text x="460" y="290" text-anchor="middle" font-size="10" font-weight="900" fill="#7b8da1">TWO CORE DOMAINS</text>
+                  ${linksSvg}${nodesSvg}
+                </svg>
+              </div>
+              <aside class="enterprise-quick-detail" id="ontologyDomainQuickDetail"><div class="quick-detail-empty">Chọn một domain trên graph để xem mô tả, object và property đại diện.</div></aside>
+            </div>`;
           }
+          if (type === "ontEnterpriseFlat") {
+            const source = window.ONTOLOGY_XLSX;
+            if (!source) return `<div class="callout">Không tải được dữ liệu Ontology version2.xlsx.</div>`;
+            const palette = ["#0b4ea2", "#00833e", "#c84e00", "#6f42a5", "#a9790a", "#087f8c"];
+            const cards = source.domains.map((domain, index) => {
+              const allProperties = domain.objects.flatMap((object) => object.properties);
+              const preferred = allProperties.filter((property) => ["Yes", "Derived"].includes(property.ascoreFeature));
+              const representative = [];
+              [...preferred, ...allProperties].forEach((property) => {
+                if (representative.length < 4 && !representative.some((item) => item.name === property.name)) representative.push(property);
+              });
+              const color = palette[index % palette.length];
+              return `<button type="button" class="enterprise-domain-card" data-domain="${esc2(domain.name)}" style="--card-color:${color}">
+                <span class="domain-card-title"><span class="domain-card-num">${String(index + 1).padStart(2, "0")}</span><span>${esc2(domain.name)}</span></span>
+                <span class="domain-card-meta">${domain.objects.length} objects · ${allProperties.length} properties</span>
+                <span class="representative-properties">${representative.map((property) => `<span title="${esc2(property.businessMeaning || property.description || property.name)}">${esc2(property.name)}</span>`).join("")}</span>
+              </button>`;
+            }).join("");
+            return `<div class="enterprise-network-board">
+              <div class="enterprise-network-head"><b>${source.domainCount} enterprise domains · ${source.objectCount} objects · ${source.propertyCount} properties</b><span>Property đại diện ưu tiên các trường được dùng/biến đổi cho A-Score</span></div>
+              <div class="enterprise-domain-card-grid">${cards}</div>
+            </div>`;
+          }
+          if (type === "ontEnterpriseNetwork") {
+            const source = window.ONTOLOGY_XLSX;
+            if (!source) return `<div class="callout">Không tải được dữ liệu Ontology version2.xlsx.</div>`;
+            const columns = [
+              { title: "CUSTOMER & ACQUISITION", color: "#0b4ea2", x: 14, names: ["Party Management", "KYC & Verification", "Partner & Channel Management", "Campaign & Promotion", "Customer Communication & Notification"] },
+              { title: "PRODUCT & APPLICATION", color: "#a9790a", x: 248, names: ["Loan Product & Configuration", "Loan Application", "Collateral & Asset"] },
+              { title: "RISK, SCORING & DECISION", color: "#c84e00", x: 482, names: ["Behavior", "Credit Scoring & Risk Assessment", "Fraud Detection & Prevention", "Limit & Exposure Management", "Loan Approval & Underwriting"] },
+              { title: "LOAN SERVICING", color: "#6f42a5", x: 716, names: ["Loan Management Service", "Loan Repayment & Collection", "Delinquency & Recovery"] },
+              { title: "MODEL & PLATFORM", color: "#00833e", x: 950, names: ["Model Management", "Data Governance & Metadata", "System Integration & API"] },
+            ];
+            const domainIndex = new Map(source.domains.map((d) => [d.name, d]));
+            const positions = new Map();
+            columns.forEach((column) => {
+              const count = column.names.length;
+              const startY = count === 5 ? 58 : 112;
+              const gap = count === 5 ? 94 : 128;
+              column.names.forEach((name, i) => positions.set(name, { x: column.x + 8, y: startY + i * gap, color: column.color }));
+            });
+            const pairMap = new Map();
+            source.links.forEach((link) => {
+              if (!positions.has(link.fromDomain) || !positions.has(link.toDomain) || link.fromDomain === link.toDomain) return;
+              const key = `${link.fromDomain}|||${link.toDomain}`;
+              const pair = pairMap.get(key) || { from: link.fromDomain, to: link.toDomain, count: 0, names: [] };
+              pair.count += 1;
+              pair.names.push(link.name);
+              pairMap.set(key, pair);
+            });
+            const splitName = (name) => {
+              if (name.length <= 27) return [name];
+              const words = name.split(" ");
+              let best = 1;
+              for (let i = 1; i < words.length; i++) if (Math.abs(words.slice(0, i).join(" ").length - name.length / 2) < Math.abs(words.slice(0, best).join(" ").length - name.length / 2)) best = i;
+              return [words.slice(0, best).join(" "), words.slice(best).join(" ")];
+            };
+            const linksSvg = [...pairMap.values()].map((pair) => {
+              const a = positions.get(pair.from), b = positions.get(pair.to);
+              const sameColumn = Math.abs(a.x - b.x) < 10;
+              let path;
+              if (sameColumn) {
+                const down = b.y > a.y;
+                const ax = a.x + 102, ay = down ? a.y + 54 : a.y;
+                const bx = b.x + 102, by = down ? b.y : b.y + 54;
+                const side = a.x < 600 ? 34 : -34;
+                path = `M${ax} ${ay} C${ax + side} ${(ay + by) / 2},${bx + side} ${(ay + by) / 2},${bx} ${by}`;
+              } else {
+                const right = b.x > a.x;
+                const ax = right ? a.x + 204 : a.x, ay = a.y + 27;
+                const bx = right ? b.x : b.x + 204, by = b.y + 27;
+                const bend = Math.max(48, Math.abs(bx - ax) * .42);
+                path = `M${ax} ${ay} C${ax + bend * (right ? 1 : -1)} ${ay},${bx - bend * (right ? 1 : -1)} ${by},${bx} ${by}`;
+              }
+              return `<path class="enterprise-link" data-from="${esc2(pair.from)}" data-to="${esc2(pair.to)}" d="${path}" marker-end="url(#enterpriseArrow)"><title>${esc2(pair.from)} → ${esc2(pair.to)} · ${pair.count} LinkType: ${esc2(pair.names.join(", "))}</title></path>`;
+            }).join("");
+            const nodesSvg = columns.flatMap((column) => column.names.map((name) => {
+              const p = positions.get(name), domain = domainIndex.get(name), lines = splitName(name);
+              const nameText = lines.length === 1
+                ? `<text x="${p.x + 102}" y="${p.y + 23}" text-anchor="middle">${esc2(lines[0])}</text>`
+                : `<text x="${p.x + 102}" y="${p.y + 17}" text-anchor="middle"><tspan x="${p.x + 102}">${esc2(lines[0])}</tspan><tspan x="${p.x + 102}" dy="12">${esc2(lines[1])}</tspan></text>`;
+              return `<g class="enterprise-domain-node" tabindex="0" role="button" aria-label="Xem ${esc2(name)}" data-domain="${esc2(name)}" style="--node-color:${p.color}"><rect x="${p.x}" y="${p.y}" width="204" height="54" rx="9"/>${nameText}<text class="node-count" x="${p.x + 102}" y="${p.y + 46}" text-anchor="middle">${domain.objects.length} objects · ${domain.objects.reduce((n, o) => n + o.properties.length, 0)} properties</text></g>`;
+            })).join("");
+            const columnBg = columns.map((column) => `<rect x="${column.x}" y="34" width="220" height="536" rx="12" fill="${column.color}" fill-opacity=".035" stroke="${column.color}" stroke-opacity=".22"/><text x="${column.x + 110}" y="24" text-anchor="middle" font-size="10" font-weight="900" fill="${column.color}">${column.title}</text>`).join("");
+            return `<div class="enterprise-network-board">
+              <div class="enterprise-network-head"><b>${source.domainCount} enterprise domains · ${source.objectCount} objects · ${source.linkCount} LinkTypes</b><span>Bấm domain để highlight quan hệ và mở màn hình chi tiết</span></div>
+              <svg class="enterprise-network-svg" viewBox="0 0 1184 580" role="img" aria-label="Enterprise domain relationship map"><defs><marker id="enterpriseArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#8fa1b4"/></marker></defs>${columnBg}${linksSvg}${nodesSvg}</svg>
+            </div>`;
+          }
+          if (type === "ontEnterpriseDetail") {
+            const source = window.ONTOLOGY_XLSX;
+            if (!source) return `<div class="callout">Không tải được dữ liệu Ontology version2.xlsx.</div>`;
+            return `<div class="enterprise-detail-explorer">
+              <div class="enterprise-domain-strip">${source.domains.map((d) => `<button type="button" data-detail-domain="${esc2(d.name)}">${esc2(d.name)}</button>`).join("")}</div>
+              <div class="enterprise-detail-content" id="ontologyDomainDetail"><div class="callout" style="margin:16px">Chọn một enterprise domain ở bản đồ hoặc thanh phía trên.</div></div>
+            </div>`;
+          }
+          if (type === "ontEnterpriseDomain") {
+            const groups = [
+              { name: "1. Customer & Acquisition", color: "#0b4ea2", domains: ["Party Management", "KYC & Verification", "Partner & Channel Management", "Campaign & Promotion", "Customer Communication & Notification"] },
+              { name: "2. Product & Application", color: "#a9790a", domains: ["Loan Product & Configuration", "Loan Application", "Collateral & Asset"] },
+              { name: "3. Risk, Scoring & Decision", color: "#c84e00", domains: ["Behavior", "Credit Scoring & Risk Assessment", "Fraud Detection & Prevention", "Limit & Exposure Management", "Loan Approval & Underwriting"] },
+              { name: "4. Model & Platform Control", color: "#00833e", domains: ["Model Management", "Data Governance & Metadata", "System Integration & API"] },
+              { name: "5. Loan Servicing & Feedback", color: "#6f42a5", domains: ["Loan Management Service", "Loan Repayment & Collection", "Delinquency & Recovery"] },
+            ];
+            const summaries = DATA.domainSummary || [];
+            const objects = DATA.domainObjects || [];
+            const domainByName = new Map(summaries.map((d) => [d.domain, d]));
+            const assigned = new Set(groups.flatMap((g) => g.domains));
+            const extras = summaries.filter((d) => !assigned.has(d.domain));
+            if (extras.length) groups.push({ name: "6. Supporting Domains", color: "#52657a", domains: extras.map((d) => d.domain) });
+            const groupHtml = groups
+              .map((group) => {
+                const domains = group.domains.map((name) => domainByName.get(name)).filter(Boolean);
+                if (!domains.length) return "";
+                const preview = domains.map((d) => d.domain.replace(" Management", "").replace(" & Notification", "")).join(" · ");
+                return `<details class="domain-group" style="--group-color:${group.color}">
+                  <summary><span class="domain-group-title">${esc2(group.name)} · ${domains.length} domains</span><span class="domain-group-preview">${esc2(preview)}</span></summary>
+                  <div class="domain-group-body">${domains.map((d) => {
+                    const childObjects = objects.filter((o) => o.domain === d.domain);
+                    return `<details class="domain-disclosure">
+                      <summary><span></span><span>${esc2(d.domain)}</span><span class="domain-count">${d.object_count} objects · ${d.property_count} properties</span></summary>
+                      <div class="domain-detail">
+                        <p>${esc2(d.description || "Domain trong enterprise ontology A-Score/CTI.")}</p>
+                        ${childObjects.map((o) => `<details class="object-disclosure">
+                          <summary>${esc2(o.object)}</summary>
+                          <div class="object-properties"><b>Business meaning:</b> ${esc2(o.object_desc || "—")}<br><b>Properties:</b> ${esc2(o.properties || "Chưa có danh sách property")}</div>
+                        </details>`).join("") || '<p>Chưa có object detail trong dữ liệu hiện tại.</p>'}
+                      </div>
+                    </details>`;
+                  }).join("")}</div>
+                </details>`;
+              })
+              .join("");
+            return `<div class="ontology-domain-board">
+              <div class="ontology-legend"><span><b>19</b> domains</span><span><b>69</b> business objects</span><span><b>81</b> relationships</span><span>Nhấn domain → description/object</span><span>Nhấn object → properties</span></div>
+              <div class="domain-relationship-flow"><div style="--flow-color:#0b4ea2">Customer &amp; Acquisition</div><div style="--flow-color:#a9790a">Product &amp; Application</div><div style="--flow-color:#c84e00">Risk, Scoring &amp; Decision</div><div style="--flow-color:#6f42a5">Loan Servicing &amp; Feedback</div></div>
+              <div class="platform-control-lane">MODEL &amp; PLATFORM CONTROL — quản trị model, data contract, lineage, API và monitoring xuyên suốt toàn bộ chuỗi</div>
+              <div class="domain-group-grid">${groupHtml}</div>
+            </div>`;
+          }
+          if (type === "ontScopeIO")
+            return `<div class="ds-diagram" style="height:470px"><svg viewBox="0 0 980 470" role="img" aria-label="Pham vi va input output A-Score">
+              <defs><marker id="ontScopeArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#66788d"/></marker><filter id="ontScopeShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity="0.12"/></filter></defs>
+              <rect x="18" y="18" width="944" height="434" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="48" text-anchor="middle" font-size="20" font-weight="900" fill="#0b2f64">PHẠM VI ONTOLOGY &amp; INPUT / OUTPUT CONTRACT</text>
+              <text x="490" y="70" text-anchor="middle" font-size="12.5" font-weight="800" fill="#64748b">Hai domain lõi kết nối dữ liệu nghiệp vụ với scoring service end-to-end</text>
+
+              <rect x="42" y="96" width="245" height="286" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#ontScopeShadow)"/>
+              <text x="164" y="126" text-anchor="middle" font-size="14" font-weight="900" fill="#0b4ea2">INPUT CONTRACT</text>
+              <text x="62" y="158" font-size="11.5" font-weight="800" fill="#102033">• Party + Application context</text>
+              <text x="62" y="184" font-size="11.5" font-weight="800" fill="#102033">• KYC / Verification result</text>
+              <text x="62" y="210" font-size="11.5" font-weight="800" fill="#102033">• Collateral + Behavior signals</text>
+              <text x="62" y="236" font-size="11.5" font-weight="800" fill="#102033">• Feature snapshot / FeatureSet</text>
+              <text x="62" y="262" font-size="11.5" font-weight="800" fill="#102033">• Active ModelVersion</text>
+              <text x="62" y="288" font-size="11.5" font-weight="800" fill="#102033">• Consent + policy guardrail</text>
+              <rect x="62" y="320" width="205" height="42" rx="8" fill="#fff" stroke="#b7cbe0"/>
+              <text x="164" y="338" text-anchor="middle" font-size="10" font-weight="900" fill="#0b4ea2">Canonical schema</text>
+              <text x="164" y="353" text-anchor="middle" font-size="9.5" fill="#52657a">Chuẩn hóa nghĩa + thời điểm dữ liệu</text>
+
+              <line x1="287" y1="238" x2="330" y2="238" stroke="#66788d" stroke-width="3" marker-end="url(#ontScopeArrow)"/>
+              <rect x="332" y="96" width="316" height="286" rx="12" fill="#f1faf5" stroke="#8bd0a8" filter="url(#ontScopeShadow)"/>
+              <text x="490" y="126" text-anchor="middle" font-size="14" font-weight="900" fill="#007236">A-SCORE CORE SCOPE</text>
+              <rect x="354" y="148" width="272" height="82" rx="9" fill="#fff" stroke="#8bd0a8"/>
+              <text x="490" y="174" text-anchor="middle" font-size="12.5" font-weight="900" fill="#007236">Model Management</text>
+              <text x="490" y="195" text-anchor="middle" font-size="10.5" fill="#52657a">ModelVersion · FeatureSet · TrainingDataset</text>
+              <text x="490" y="212" text-anchor="middle" font-size="10.5" fill="#52657a">Artifact · Metric · ModelRunLog</text>
+              <rect x="354" y="250" width="272" height="94" rx="9" fill="#fff" stroke="#8ab8ec"/>
+              <text x="490" y="277" text-anchor="middle" font-size="12.5" font-weight="900" fill="#0b4ea2">Credit Scoring &amp; Risk Assessment</text>
+              <text x="490" y="299" text-anchor="middle" font-size="10.5" fill="#52657a">Assessment · ScoreResult · RiskSignal</text>
+              <text x="490" y="318" text-anchor="middle" font-size="10.5" fill="#52657a">Routing · Calibration · Reason Code</text>
+              <line x1="490" y1="230" x2="490" y2="250" stroke="#66788d" stroke-width="2.5" marker-end="url(#ontScopeArrow)"/>
+
+              <line x1="648" y1="238" x2="691" y2="238" stroke="#66788d" stroke-width="3" marker-end="url(#ontScopeArrow)"/>
+              <rect x="693" y="96" width="245" height="286" rx="12" fill="#fff8f3" stroke="#ffb27d" filter="url(#ontScopeShadow)"/>
+              <text x="815" y="126" text-anchor="middle" font-size="14" font-weight="900" fill="#c84e00">OUTPUT CONTRACT</text>
+              <text x="713" y="158" font-size="11.5" font-weight="800" fill="#102033">• Assessment / scoring status</text>
+              <text x="713" y="184" font-size="11.5" font-weight="800" fill="#102033">• Unified Score + Grade</text>
+              <text x="713" y="210" font-size="11.5" font-weight="800" fill="#102033">• Reason Code / RiskSignal</text>
+              <text x="713" y="236" font-size="11.5" font-weight="800" fill="#102033">• Result mode / decision eligible</text>
+              <text x="713" y="262" font-size="11.5" font-weight="800" fill="#102033">• ModelRunLog + latency/error</text>
+              <text x="713" y="288" font-size="11.5" font-weight="800" fill="#102033">• IntegrationEvent / API response</text>
+              <rect x="713" y="320" width="205" height="42" rx="8" fill="#fff" stroke="#ffb27d"/>
+              <text x="815" y="338" text-anchor="middle" font-size="10" font-weight="900" fill="#c84e00">Decision input</text>
+              <text x="815" y="353" text-anchor="middle" font-size="9.5" fill="#52657a">Không phải quyết định cuối cùng</text>
+
+              <rect x="106" y="404" width="768" height="28" rx="8" fill="#102033"/>
+              <text x="490" y="423" text-anchor="middle" font-size="10.5" font-weight="900" fill="#fff">Replay key = model_version_id + feature_set_version + input snapshot + policy version + timestamp</text>
+            </svg></div>`;
           if (type === "ontProblemScope")
             return `<div class="ont-scope-grid">
               <div class="ont-scope-card">
@@ -7989,28 +8866,77 @@
                 <div class="rm-cell">Champion/challenger ready</div>
               </div>
             </div>`;
+          if (type === "ontCustomerProfile")
+            return `<div class="customer-profile-board">
+              <div style="display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:14px">
+                <div><span class="badge">CUSTOMER RISK PROFILE</span><h4 style="margin:8px 0 0;color:#0b2f64;font-size:17px">Một hồ sơ khách hàng được đọc qua 5 góc nhìn bổ sung cho nhau</h4></div>
+                <div style="max-width:360px;color:#52657a;font-size:11px;line-height:1.5;text-align:right">Không kết luận từ một thuộc tính đơn lẻ. Mỗi nhóm 5C phải có evidence, độ đầy đủ dữ liệu và mức cảnh báo riêng.</div>
+              </div>
+              <div class="five-c-grid">
+                <div class="five-c-card" style="--c-color:#0b4ea2"><h4>1. Character / Characteristics</h4><p>KYC consistency, lịch sử trả nợ, fraud/blacklist signal, độ ổn định cư trú–việc làm và hành vi cam kết.</p></div>
+                <div class="five-c-card" style="--c-color:#00833e"><h4>2. Capacity</h4><p>Thu nhập xác minh, cash flow, DTI/affordability, nghĩa vụ nợ và khả năng tạo dòng tiền trả nợ.</p></div>
+                <div class="five-c-card" style="--c-color:#7b5500"><h4>3. Capital</h4><p>Nguồn vốn tự có, tài sản ròng, financial buffer, exposure hiện tại và mức độ phụ thuộc vào khoản vay.</p></div>
+                <div class="five-c-card" style="--c-color:#c84e00"><h4>4. Collateral</h4><p>Giá trị định giá, LTV, ownership/legal status, thanh khoản tài sản và chất lượng giấy tờ bảo đảm.</p></div>
+                <div class="five-c-card" style="--c-color:#6f42a5"><h4>5. Conditions</h4><p>Mục đích vay, sản phẩm/tenor, kênh, khu vực, thời điểm, điều kiện thị trường và policy áp dụng.</p></div>
+              </div>
+              <div style="text-align:center;color:#60758c;font-size:18px;font-weight:900;line-height:1;margin:10px 0">↓</div>
+              <div class="profile-class-grid">
+                <div class="profile-class" style="--class-color:#00833e;--class-bg:#eaf7ef"><h4>GOOD — Hồ sơ Tốt</h4><p>5C đủ bằng chứng; không có hard-risk signal; capacity và collateral phù hợp; hành vi/character nhất quán. Có thể đi luồng tự động theo policy.</p></div>
+                <div class="profile-class" style="--class-color:#d98500;--class-bg:#fff7db"><h4>GRAY — Hồ sơ Xám</h4><p>Thiếu hoặc mâu thuẫn evidence ở một hay nhiều nhóm 5C; mức rủi ro trung bình; cần bổ sung dữ liệu, fallback hoặc manual review.</p></div>
+                <div class="profile-class" style="--class-color:#c62828;--class-bg:#fff0f0"><h4>BAD — Hồ sơ Xấu</h4><p>Có hard-risk signal hoặc tổ hợp 5C cho thấy rủi ro cao: capacity yếu, fraud/character xấu, LTV cao hay điều kiện khoản vay không phù hợp.</p></div>
+              </div>
+              <div class="workflow-loop">Profile 5C giải thích “vì sao” · Label Tốt/Xám/Xấu là output của rule version, không phải một thuộc tính tĩnh của khách hàng</div>
+            </div>`;
+          if (type === "ontRiskDriver")
+            return `<div class="risk-driver-board">
+              <div class="risk-driver-grid">
+                <div class="risk-driver-card"><h4>Character / Characteristics</h4><ul><li>Identity &amp; KYC consistency</li><li>Repayment discipline</li><li>Fraud / blacklist exposure</li><li>Residence &amp; employment stability</li></ul></div>
+                <div class="risk-driver-card"><h4>Capacity</h4><ul><li>Income sufficiency</li><li>Debt service capacity</li><li>Cash-flow volatility</li><li>Affordability / DTI pressure</li></ul></div>
+                <div class="risk-driver-card"><h4>Capital</h4><ul><li>Own-fund contribution</li><li>Outstanding exposure</li><li>Financial buffer</li><li>Asset / liability position</li></ul></div>
+                <div class="risk-driver-card"><h4>Collateral</h4><ul><li>LTV &amp; valuation gap</li><li>Ownership / legal status</li><li>Asset liquidity</li><li>Document completeness</li></ul></div>
+                <div class="risk-driver-card"><h4>Conditions</h4><ul><li>Product &amp; loan purpose</li><li>Tenor / pricing suitability</li><li>Channel / partner risk</li><li>Regional &amp; time context</li></ul></div>
+              </div>
+              <div class="driver-trace"><div>Risk hypothesis<br><small>Business/Risk owner</small></div><div>Source object<br><small>Ontology + data owner</small></div><div>Feature logic<br><small>Definition + time rule</small></div><div>Coverage check<br><small>NEW / THIN / THICK</small></div></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+                <div class="ont-scope-card" style="padding:13px"><h4 style="color:#007236;font-size:13px">Đủ coverage</h4><p>Driver có evidence hợp lệ tại scoring time → tạo feature/score contribution và reason code nếu ảnh hưởng đáng kể.</p></div>
+                <div class="ont-scope-card alt" style="padding:13px"><h4 style="color:#0b4ea2;font-size:13px">Thiếu coverage</h4><p>Không gán mặc định “rủi ro cao” → route sang model phù hợp, fallback hoặc NOT_SCORABLE theo policy.</p></div>
+              </div>
+            </div>`;
+          if (type === "ontRoutingMatrix")
+            return `<div class="routing-board">
+              <div style="display:grid;grid-template-columns:150px repeat(3,1fr);gap:8px">
+                <div class="rm-head">Customer segment</div><div class="rm-head" style="background:#fff7db;color:#8a6500">NEW / New-to-F88</div><div class="rm-head" style="background:#eef6ff">THIN / Limited history</div><div class="rm-head" style="background:#eaf7ef;color:#007236">THICK / Returning</div>
+                <div class="rm-head">Profile depth</div><div class="rm-cell">Chưa có lịch sử vay; 5C chỉ có evidence hiện tại</div><div class="rm-cell">Có lịch sử nhưng chưa đủ maturity/độ sâu</div><div class="rm-cell">Lịch sử tín dụng và repayment đầy đủ</div>
+                <div class="rm-head">Model route</div><div class="rm-cell focus">Pre A-Score / NEW model</div><div class="rm-cell focus">THIN model / A-Score standard</div><div class="rm-cell focus">THICK model / enriched behavior</div>
+                <div class="rm-head">Feature bundle</div><div class="rm-cell">KYC + request-time + collateral + conditions</div><div class="rm-cell">NEW bundle + một phần credit/repayment history</div><div class="rm-cell">Đầy đủ 5C + behavior + repayment + exposure</div>
+                <div class="rm-head">Fallback / control</div><div class="rm-cell">Rule fallback hoặc manual review khi thiếu minimum set</div><div class="rm-cell">Fallback nếu history không đủ độ sâu</div><div class="rm-cell">Champion/challenger; DQ guardrail</div>
+                <div class="rm-head">Unified output</div><div class="rm-cell">Score · Grade · Reason · result_mode</div><div class="rm-cell">Score · Grade · Reason · result_mode</div><div class="rm-cell">Score · Grade · Reason · result_mode</div>
+              </div>
+              <div class="driver-trace" style="margin-top:16px"><div>1. Segment<br><small>customer_group_asof</small></div><div>2. Check data<br><small>profile_depth_asof</small></div><div>3. Route model<br><small>model + feature version</small></div><div>4. Return contract<br><small>unified output</small></div></div>
+              <div class="workflow-loop">Nguyên tắc: missing history ≠ high risk. Routing phải tách thiếu dữ liệu khỏi tín hiệu rủi ro thật.</div>
+            </div>`;
           if (type === "ontLifecycle")
-            return `<div class="ont-lifecycle-wrap"><table class="decision-table ont-object-table">
-              <thead><tr><th>#</th><th>Phase</th><th>Mục tiêu</th><th>Input</th><th>Output</th><th>Actors</th></tr></thead>
-              <tbody>${ontologyLifecyclePhases
-                .map(
-                  (p) => `<tr>
-                <td><b>${p.order}</b></td>
-                <td><b>${esc2(p.name)}</b><br><small style="color:#65758b">${esc2(p.vi)}</small></td>
-                <td>${esc2(p.short)}</td>
-                <td>${esc2(p.input)}</td>
-                <td>${esc2(p.output)}</td>
-                <td>${esc2(p.actors)}</td>
-              </tr>`,
-                )
-                .join("")}</tbody>
-            </table></div>
-            <div class="flow-strip" style="margin-top:14px;grid-template-columns:repeat(8,minmax(0,1fr))">${ontologyLifecyclePhases
-              .map(
-                (p) =>
-                  `<div class="flow-step"><b>${p.order}. ${esc2(p.name)}</b><span style="color:#65758b;font-size:12px">${esc2(p.vi)}</span></div>`,
-              )
-              .join("")}</div>`;
+            {
+              const phaseById = new Map(ontologyLifecyclePhases.map((p) => [p.id, p]));
+              const mainIds = ["start", "design", "train", "deployment", "runtime", "monitoring"];
+              const colors = ["#0b4ea2", "#6f42a5", "#a9790a", "#c84e00", "#00833e", "#334155"];
+              const mainNodes = mainIds.map((id, i) => {
+                const p = phaseById.get(id);
+                return `<div class="lifecycle-node" style="--phase-color:${colors[i]}"><b>${i + 1}. ${esc2(p.name)}</b><span>${esc2(p.vi)}</span><span>${esc2(p.short)}</span></div>`;
+              }).join("");
+              const retrain = phaseById.get("retraining");
+              const retire = phaseById.get("retirement");
+              return `<div class="lifecycle-workflow">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:15px"><h4 style="margin:0;color:#0b2f64;font-size:17px">MODEL MANAGEMENT LIFECYCLE WORKFLOW</h4><span class="badge">Deploy trước Runtime</span></div>
+                <div class="lifecycle-row">${mainNodes}</div>
+                <div style="text-align:center;margin:14px 0 4px;color:#60758c;font-size:12px;font-weight:900">MONITORING GATE ↓</div>
+                <div class="lifecycle-actions">
+                  <div class="lifecycle-node" style="--phase-color:#d98500"><b>7A. ${esc2(retrain.name)}</b><span>${esc2(retrain.short)}</span></div>
+                  <div class="lifecycle-node" style="--phase-color:#c62828"><b>7B. ${esc2(retire.name)}</b><span>${esc2(retire.short)}</span></div>
+                </div>
+                <div class="workflow-loop">Retrain → quay lại Train → validation → Deploy · Retirement → archive artifact + giữ replay/audit lineage</div>
+              </div>`;
+            }
           const flows = {
             transition: ["Business rule", "Risk driver + label", "Khung thiết kế", "Train scorecard"],
             designOverview: ["Khung feature", "Khung model", "Khung quản trị", "Asset sẵn sàng train"],
@@ -8073,7 +8999,7 @@
               "validation-calibration-reason-registry": "Kiểm định và đăng ký model",
               "bc-definition": "Định nghĩa A-Score",
               "bc-value-chain": "Value chain & vị trí Scoring",
-              "bc-problem": "Business problem",
+              "bc-problem": "Business problem & objective",
               "bc-objective": "Business objective",
               "bc-scope": "Phạm vi dự án (DO/DON'T)",
               "bc-success": "Success criteria",
@@ -8083,13 +9009,16 @@
               "governance-incident-response": "Xử lý sự cố",
               "governance-failsafe-raci": "Failsafe và phân quyền",
               "governance-golive-gate": "Cổng go-live",
-              "ont-enterprise-domain": "Enterprise Domain Map",
-              "ont-problem-scope": "Phạm vi bài toán",
+              "ont-enterprise-domain": "Enterprise Domain Map · 19 domain",
+              "ont-problem-scope": "Phạm vi & Input / Output",
               "ont-model-io": "Input / Output của model",
               "ont-key-objects": "Object chính trong phạm vi",
               "ont-outcome": "Outcome — linh hồn training data",
               "ont-business-rules": "Business Rule / Policy",
-              "ont-lifecycle": "Lifecycle Model Management",
+              "ont-customer-profile": "Customer Profile theo 5C",
+              "ont-risk-driver": "Risk Driver",
+              "ont-routing-matrix": "Routing Matrix",
+              "ont-lifecycle": "Lifecycle Workflow",
             }[item.id] || item.message
           );
         }
@@ -8119,7 +9048,7 @@
         }
         function subSlidesFor(flowId) {
           const dsMap = {
-            "business-case": [8, 9, 10, 11, 12, 13],
+            "business-case": [8, 9, 10, 12, 13],
             "design-time": [1, 2, 3],
             "train-time": [4, 5, 6, 7],
             monitoring: [14, 15, 16],
@@ -8129,10 +9058,9 @@
             ontology: [
               "ont-enterprise-domain",
               "ont-problem-scope",
-              "ont-model-io",
-              "ont-key-objects",
-              "ont-outcome",
-              "ont-business-rules",
+              "ont-customer-profile",
+              "ont-risk-driver",
+              "ont-routing-matrix",
               "ont-lifecycle",
             ],
           };
@@ -8493,6 +9421,103 @@
           });
           if (pool[0]) show(pool[0].object);
         }
+        function initOntologyEnterpriseExplorer() {
+          const source = window.ONTOLOGY_XLSX;
+          const detail = document.getElementById("ontologyDomainDetail");
+          const quickDetail = document.getElementById("ontologyDomainQuickDetail");
+          if (!source || (!detail && !quickDetail)) return;
+          const nodeList = [...document.querySelectorAll("[data-domain]")];
+          const stripButtons = [...document.querySelectorAll("[data-detail-domain]")];
+          let selectedDomainName = window.ctiSelectedOntologyDomain || "Credit Scoring & Risk Assessment";
+          let selectedObjectName = null;
+
+          const domainByName = new Map(source.domains.map((d) => [d.name, d]));
+
+          function updateMapState(domainName) {
+            const allLines = [...document.querySelectorAll(".enterprise-link")];
+            nodeList.forEach((node) => {
+              const active = node.dataset.domain === domainName;
+              node.classList.toggle("active", active);
+              node.classList.remove("dim");
+            });
+            allLines.forEach((line) => {
+              line.classList.remove("active", "dim");
+            });
+          }
+
+          function renderObject(domain, objectName) {
+            if (!detail) return;
+            const object = domain.objects.find((o) => o.name === objectName) || domain.objects[0];
+            if (!object) return;
+            selectedObjectName = object.name;
+            detail.querySelectorAll("[data-detail-object]").forEach((button) => button.classList.toggle("active", button.dataset.detailObject === object.name));
+            const objectLinks = source.links.filter((link) => link.fromObject === object.name || link.toObject === object.name);
+            const target = detail.querySelector("#ontologyObjectPropertyPanel");
+            target.innerHTML = `<h5>${esc2(object.name)}</h5>
+              <p class="object-description">${esc2(object.description || "Chưa có mô tả object.")}<br><b>Lifecycle:</b> ${esc2(object.lifecycle || "—")}</p>
+              <div class="enterprise-relation-bar" style="margin:0 0 8px;padding:6px 0;border:0;background:#fff">${objectLinks.map((link) => `<span>${esc2(link.fromObject)} —${esc2(link.verb || link.name)}→ ${esc2(link.toObject)}</span>`).join("") || "<span>Chưa có LinkType</span>"}</div>
+              <div class="enterprise-property-wrap"><table class="enterprise-property-table"><thead><tr><th>Property</th><th>Business meaning</th><th>Data type</th><th>Usage</th><th>A-Score feature</th><th>Example</th></tr></thead><tbody>${object.properties.map((property) => `<tr><td>${esc2(property.name)}</td><td>${esc2(property.businessMeaning || property.description || "—")}</td><td>${esc2(property.datatype || "—")}</td><td>${esc2(property.usageType || "—")}</td><td>${esc2(property.ascoreFeature || "—")}</td><td>${esc2(property.example || "—")}</td></tr>`).join("") || '<tr><td colspan="6">Chưa có property detail trong workbook.</td></tr>'}</tbody></table></div>`;
+          }
+
+          function renderDomain(domainName, shouldScroll) {
+            const domain = domainByName.get(domainName) || source.domains[0];
+            if (!domain) return;
+            selectedDomainName = domain.name;
+            window.ctiSelectedOntologyDomain = domain.name;
+            const propertyCount = domain.objects.reduce((total, object) => total + object.properties.length, 0);
+            const relations = source.links.filter((link) => link.fromDomain === domain.name || link.toDomain === domain.name);
+            const crossDomainLabels = [...new Set(relations.filter((link) => link.fromDomain !== link.toDomain).map((link) => link.fromDomain === domain.name ? `→ ${link.toDomain}: ${link.name}` : `← ${link.fromDomain}: ${link.name}`))];
+            const representativeProperties = [];
+            const allProperties = domain.objects.flatMap((object) => object.properties);
+            [...allProperties.filter((property) => ["Yes", "Derived"].includes(property.ascoreFeature)), ...allProperties].forEach((property) => {
+              if (representativeProperties.length < 8 && !representativeProperties.some((item) => item.name === property.name)) representativeProperties.push(property);
+            });
+            stripButtons.forEach((button) => button.classList.toggle("active", button.dataset.detailDomain === domain.name));
+            if (quickDetail) quickDetail.innerHTML = `<div class="quick-domain-head"><h4>${esc2(domain.name)}</h4><p>${esc2(domain.description || "Chưa có mô tả domain.")}</p></div>
+              <div class="quick-domain-body"><div class="quick-domain-section"><h5>Object trong domain</h5><div class="quick-object-grid">${domain.objects.map((object) => {
+                const objectProperties = [];
+                [...object.properties.filter((property) => ["Yes", "Derived"].includes(property.ascoreFeature)), ...object.properties].forEach((property) => {
+                  if (objectProperties.length < 3 && !objectProperties.some((item) => item.name === property.name)) objectProperties.push(property);
+                });
+                return `<article class="quick-object-card"><h6>${esc2(object.name)}</h6><ul>${objectProperties.map((property) => `<li title="${esc2(property.businessMeaning || property.description || property.name)}">${esc2(property.name)}</li>`).join("") || "<li>Chưa có property</li>"}</ul></article>`;
+              }).join("")}</div></div></div>`;
+            if (detail) {
+              detail.innerHTML = `<div class="enterprise-detail-header"><div><h4>${esc2(domain.name)}</h4><p>${esc2(domain.description || "Chưa có mô tả domain.")}</p></div><div class="enterprise-detail-counts"><span>${domain.objects.length} objects</span><span>${propertyCount} properties</span><span>${relations.length} LinkTypes</span></div></div>
+                <div class="enterprise-relation-bar">${crossDomainLabels.map((label) => `<span>${esc2(label)}</span>`).join("") || "<span>Không có quan hệ liên domain</span>"}</div>
+                <div class="enterprise-detail-grid"><div class="enterprise-object-list">${domain.objects.map((object) => `<button type="button" data-detail-object="${esc2(object.name)}">${esc2(object.name)}<small>${object.properties.length} properties</small></button>`).join("")}</div><div class="enterprise-object-panel" id="ontologyObjectPropertyPanel"></div></div>`;
+            }
+            updateMapState(domain.name);
+            if (detail) renderObject(domain, selectedObjectName && domain.objects.some((o) => o.name === selectedObjectName) ? selectedObjectName : domain.objects[0]?.name);
+          }
+
+          function selectDomainWithoutScroll(domainName) {
+            const scrollLeft = window.scrollX;
+            const scrollTop = window.scrollY;
+            renderDomain(domainName, false);
+            requestAnimationFrame(() => window.scrollTo(scrollLeft, scrollTop));
+          }
+
+          nodeList.forEach((node) => {
+            node.addEventListener("pointerdown", (event) => event.preventDefault());
+            node.addEventListener("click", (event) => {
+              event.preventDefault();
+              selectDomainWithoutScroll(node.dataset.domain);
+            });
+            node.addEventListener("keydown", (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                selectDomainWithoutScroll(node.dataset.domain);
+              }
+            });
+          });
+          stripButtons.forEach((button) => button.addEventListener("click", () => renderDomain(button.dataset.detailDomain, false)));
+          detail?.addEventListener("click", (event) => {
+            const button = event.target.closest("[data-detail-object]");
+            if (!button) return;
+            renderObject(domainByName.get(selectedDomainName), button.dataset.detailObject);
+          });
+          renderDomain(selectedDomainName, false);
+        }
         function renderGraph2() {
           const svg = document.getElementById("ctiGraph");
           if (!svg) return;
@@ -8565,6 +9590,7 @@
           renderDomainCloud2();
           renderObjects2();
           renderGraph2();
+          initOntologyEnterpriseExplorer();
           const links = [...document.querySelectorAll(".nav a")];
           const sections = links
             .map((a) => document.querySelector(a.getAttribute("href")))
