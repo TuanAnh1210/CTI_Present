@@ -8963,19 +8963,24 @@
               <text x="780" y="36" text-anchor="end" font-size="12" font-weight="700" fill="#cfe0f5">${idx}/${total}</text>
               <rect x="800" y="18" width="72" height="24" rx="7" fill="${sbg}"/><text x="836" y="35" text-anchor="middle" font-size="11" font-weight="900" fill="${sc}">${status}</text>
               <text x="1076" y="36" text-anchor="end" font-size="11" font-weight="700" fill="#9db6dd">${sub}</text>`;
+            const kpiCard = (k, v, delta, x, y, w, c, dc) => `<g><rect x="${x}" y="${y}" width="${w}" height="72" rx="8" fill="#ffffff" stroke="${c}" stroke-opacity="0.55"/><rect x="${x}" y="${y}" width="5" height="72" rx="2" fill="${c}"/><text x="${x+14}" y="${y+22}" font-size="9.5" font-weight="800" fill="#64748b">${k}</text><text x="${x+14}" y="${y+48}" font-size="20" font-weight="900" fill="${c}">${v}</text><text x="${x+w-12}" y="${y+48}" text-anchor="end" font-size="11" font-weight="800" fill="${dc}">${delta}</text></g>`;
             const panels = [
               `<svg viewBox="0 0 1100 640" role="img" aria-label="Feature Drift Dashboard">
                 ${hubChrome(1, 5, "#1", "Feature Drift", "Amber", "#db681d", "#fff3e9", "DE / DS")}
                 ${[
-                  ["feature_distribution_shift_psi", "0.12", 24, "#db681d"],
-                  ["online_offline_mismatch_rate", "1.8%", 208, "#2368c4"],
-                  ["feature_missing_rate", "0.4%", 392, "#168447"],
-                  ["feature_outlier_rate", "2.1%", 576, "#7245c7"],
-                  ["feature_store_timeout_rate", "0.3%", 760, "#8b6500"],
-                  ["feature_source_usage Δ", "+6%", 944, "#0b2f64"],
-                ].map(([k,v,x,c])=>`<g><rect x="${x}" y="74" width="172" height="78" rx="8" fill="#ffffff" stroke="#d5e0eb"/><text x="${x+10}" y="96" font-size="9.5" font-weight="800" fill="#64748b">${k}</text><text x="${x+10}" y="132" font-size="22" font-weight="900" fill="${c}">${v}</text></g>`).join("")}
-                <rect x="24" y="168" width="520" height="300" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="194" font-size="13" font-weight="900" fill="#102033">feature_distribution_shift_psi (per feature)</text>
+                  ["PSI max (feature)", "0.18", "↑0.03", 24, "#db681d", "#db681d"],
+                  ["online_offline_mismatch", "1.8%", "↑0.4pp", 208, "#db681d", "#db681d"],
+                  ["feature_missing_rate", "0.4%", "↓0.1pp", 392, "#168447", "#168447"],
+                  ["feature_outlier_rate", "2.1%", "↑0.3pp", 576, "#db681d", "#db681d"],
+                  ["feature_store_timeout", "0.3%", "→0.0", 760, "#168447", "#64748b"],
+                  ["source_usage shift", "+6%", "↑2pp", 944, "#db681d", "#db681d"],
+                ].map(([k,v,d,x,c,dc])=>kpiCard(k,v,d,x,74,172,c,dc)).join("")}
+                <rect x="24" y="162" width="640" height="300" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="188" font-size="13" font-weight="900" fill="#102033">feature_distribution_shift_psi (per feature)</text>
+                <line x1="200" y1="210" x2="200" y2="430" stroke="#db681d" stroke-dasharray="5 4" stroke-opacity="0.7"/>
+                <text x="204" y="222" font-size="10" font-weight="800" fill="#db681d">A 0.10</text>
+                <line x1="470" y1="210" x2="470" y2="430" stroke="#b91c1c" stroke-dasharray="5 4" stroke-opacity="0.7"/>
+                <text x="474" y="222" font-size="10" font-weight="800" fill="#b91c1c">R 0.25</text>
                 ${[
                   ["income_proxy", 0.18, "#db681d"],
                   ["bureau_util", 0.14, "#db681d"],
@@ -8984,30 +8989,31 @@
                   ["geo_risk", 0.07, "#168447"],
                   ["tenure_m", 0.05, "#168447"],
                 ].map(([n,v,c],i)=>{
-                  const y=220+i*36, w=v*1800;
-                  return `<text x="40" y="${y+4}" font-size="12" font-weight="700" fill="#52657a">${n}</text><rect x="160" y="${y-12}" width="${w}" height="18" rx="4" fill="${c}"/><text x="${170+w}" y="${y+4}" font-size="12" font-weight="900" fill="${c}">${v.toFixed(2)}</text>`;
+                  const y=240+i*32, w=v*1800;
+                  return `<text x="40" y="${y+4}" font-size="12" font-weight="700" fill="#52657a">${n}</text><rect x="160" y="${y-12}" width="${w}" height="16" rx="3" fill="${c}"/><text x="${170+w}" y="${y+4}" font-size="12" font-weight="900" fill="${c}">${v.toFixed(2)}</text>`;
                 }).join("")}
-                <rect x="560" y="168" width="516" height="300" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="576" y="194" font-size="13" font-weight="900" fill="#102033">feature_source_usage_distribution</text>
+                <rect x="680" y="162" width="396" height="300" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="696" y="188" font-size="13" font-weight="900" fill="#102033">feature_source_usage vs baseline</text>
+                <rect x="696" y="204" width="10" height="10" rx="2" fill="#2368c4"/><text x="712" y="213" font-size="10" font-weight="700" fill="#52657a">current</text>
+                <rect x="780" y="204" width="10" height="10" rx="2" fill="#cbd5e1"/><text x="796" y="213" font-size="10" font-weight="700" fill="#52657a">baseline</text>
                 ${[
-                  ["Bureau", 42, "#2368c4"],
-                  ["Internal FS", 28, "#168447"],
-                  ["Partner", 18, "#7245c7"],
-                  ["Request-time", 12, "#db681d"],
-                ].map(([n,v,c],i)=>{
-                  const y=220+i*48, w=v*8;
-                  return `<text x="576" y="${y}" font-size="12" font-weight="700" fill="#52657a">${n}</text><rect x="700" y="${y-14}" width="${w}" height="20" rx="4" fill="${c}"/><text x="${710+w}" y="${y}" font-size="13" font-weight="900" fill="${c}">${v}%</text>`;
+                  ["Bureau", 42, 40],
+                  ["Internal FS", 28, 32],
+                  ["Partner", 18, 16],
+                  ["Request-time", 12, 12],
+                ].map(([n,cur,base],i)=>{
+                  const y=240+i*48;
+                  return `<text x="696" y="${y}" font-size="12" font-weight="700" fill="#52657a">${n}</text><rect x="820" y="${y-14}" width="${cur*4}" height="14" rx="3" fill="#2368c4"/><rect x="820" y="${y+4}" width="${base*4}" height="10" rx="2" fill="#cbd5e1"/><text x="${830+cur*4}" y="${y}" font-size="12" font-weight="900" fill="#2368c4">${cur}% Δ${cur-base>=0?"+":""}${cur-base}</text>`;
                 }).join("")}
-                <text x="576" y="430" font-size="11" font-weight="700" fill="#7b8794">baseline shift max +6% · online_offline_mismatch 1.8%</text>
-                <rect x="24" y="484" width="1052" height="132" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="514" font-size="13" font-weight="900" fill="#102033">online_offline_mismatch_rate · detail</text>
+                <rect x="24" y="478" width="1052" height="138" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="508" font-size="13" font-weight="900" fill="#102033">online_offline_mismatch · detail</text>
                 ${[
                   ["Compared rows", "128,400"],
                   ["Mismatch count", "2,311"],
-                  ["Mismatch rate", "1.8%"],
+                  ["Mismatch rate", "1.8% ↑0.4pp"],
                   ["Critical features fail", "3"],
                   ["feature_store_timeout", "0.3%"],
-                  ["PSI max (feature)", "0.18"],
+                  ["PSI features &gt; A", "3 / 6"],
                 ].map(([k,v],i)=>{
                   const x=40+(i%3)*350, y=540+Math.floor(i/3)*36;
                   return `<text x="${x}" y="${y}" font-size="12" font-weight="700" fill="#64748b">${k}</text><text x="${x+220}" y="${y}" font-size="13" font-weight="900" fill="#102033">${v}</text>`;
@@ -9016,49 +9022,95 @@
               `<svg viewBox="0 0 1100 640" role="img" aria-label="Score and Grade Dashboard">
                 ${hubChrome(2, 5, "#2", "Score &amp; Grade", "Green", "#168447", "#e8f8ef", "Log PG")}
                 ${[
-                  ["result_mode MODEL_SCORED", "96.0%", 24, "#168447"],
-                  ["fallback_rate", "2.4%", 208, "#db681d"],
-                  ["NOT_SCORABLE", "1.1%", 392, "#8b6500"],
-                  ["DATA_FAIL", "0.5%", 576, "#b91c1c"],
-                  ["score_psi", "0.08", 760, "#7245c7"],
-                  ["grade_mix_shift", "2.1%", 944, "#2368c4"],
-                ].map(([k,v,x,c])=>`<g><rect x="${x}" y="74" width="172" height="78" rx="8" fill="#ffffff" stroke="#d5e0eb"/><text x="${x+10}" y="96" font-size="9.5" font-weight="800" fill="#64748b">${k}</text><text x="${x+10}" y="132" font-size="22" font-weight="900" fill="${c}">${v}</text></g>`).join("")}
-                <rect x="24" y="168" width="640" height="280" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="194" font-size="13" font-weight="900" fill="#102033">score_distribution</text>
-                ${[8,14,22,30,38,44,48,42,34,26,18,12,8,5,3].map((h,i)=>{
-                  const x=48+i*40, bh=h*3.8;
-                  return `<rect x="${x}" y="${400-bh}" width="30" height="${bh}" rx="3" fill="#2368c4"/><text x="${x+15}" y="422" text-anchor="middle" font-size="9" font-weight="700" fill="#94a3b8">${i*7}</text>`;
+                  ["scoring_coverage", "90.0%", "↓4.0pp", 24, "#db681d", "#db681d"],
+                  ["MODEL_SCORED", "96.0%", "↑1.2pp", 208, "#168447", "#168447"],
+                  ["fallback_rate", "2.4%", "↓0.3pp", 392, "#168447", "#168447"],
+                  ["NOT_SCORABLE", "1.1%", "↑0.2pp", 576, "#db681d", "#db681d"],
+                  ["DATA_FAIL", "0.5%", "→0.0", 760, "#168447", "#64748b"],
+                  ["score_psi", "0.08", "↓0.01", 944, "#168447", "#168447"],
+                ].map(([k,v,d,x,c,dc])=>kpiCard(k,v,d,x,74,172,c,dc)).join("")}
+                <rect x="24" y="162" width="300" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="188" font-size="13" font-weight="900" fill="#102033">Scoring funnel (scope nhóm)</text>
+                <text x="40" y="208" font-size="10" font-weight="700" fill="#94a3b8">Dừng trước decision downstream</text>
+                ${[
+                  ["Applications", "120k", 100, "#0b2f64"],
+                  ["Scored (90%)", "108k", 90, "#2368c4"],
+                  ["MODEL_SCORED", "103.7k", 86, "#168447"],
+                ].map(([n,v,pct,c],i)=>{
+                  const y=230+i*52, w=pct*2.4;
+                  return `<text x="40" y="${y}" font-size="11" font-weight="800" fill="#52657a">${n}</text><rect x="40" y="${y+8}" width="${w}" height="18" rx="4" fill="${c}"/><text x="${50+w}" y="${y+22}" font-size="12" font-weight="900" fill="${c}">${v}</text>`;
                 }).join("")}
-                <rect x="680" y="168" width="396" height="280" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="696" y="194" font-size="13" font-weight="900" fill="#102033">grade_distribution vs baseline</text>
-                <rect x="696" y="206" width="10" height="10" rx="2" fill="#2368c4"/><text x="712" y="215" font-size="10" font-weight="700" fill="#52657a">current</text>
-                <rect x="780" y="206" width="10" height="10" rx="2" fill="#cbd5e1"/><text x="796" y="215" font-size="10" font-weight="700" fill="#52657a">baseline</text>
+                <text x="40" y="392" font-size="10" font-weight="700" fill="#64748b">Drop-off: DF 0.5% · NS 1.1% · Runtime 0.4%</text>
+                <rect x="340" y="162" width="420" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="356" y="188" font-size="13" font-weight="900" fill="#102033">result_mode mix over time</text>
+                ${[
+                  [0.92,0.05,0.02,0.01],
+                  [0.93,0.04,0.02,0.01],
+                  [0.94,0.035,0.015,0.01],
+                  [0.95,0.03,0.015,0.005],
+                  [0.955,0.028,0.012,0.005],
+                  [0.96,0.024,0.011,0.005],
+                  [0.958,0.026,0.011,0.005],
+                ].map((parts,i)=>{
+                  const x=360+i*54, colors=["#168447","#db681d","#8b6500","#b91c1c"];
+                  let y=400;
+                  return parts.map((p,j)=>{
+                    const h=p*180;
+                    y-=h;
+                    return `<rect x="${x}" y="${y}" width="42" height="${h}" fill="${colors[j]}"/>`;
+                  }).join("")+`<text x="${x+21}" y="418" text-anchor="middle" font-size="9" font-weight="700" fill="#94a3b8">D${i+1}</text>`;
+                }).join("")}
+                <rect x="360" y="430" width="10" height="10" rx="2" fill="#168447"/><text x="374" y="439" font-size="9" font-weight="700" fill="#52657a">MODEL</text>
+                <rect x="430" y="430" width="10" height="10" rx="2" fill="#db681d"/><text x="444" y="439" font-size="9" font-weight="700" fill="#52657a">FALLBACK</text>
+                <rect x="520" y="430" width="10" height="10" rx="2" fill="#8b6500"/><text x="534" y="439" font-size="9" font-weight="700" fill="#52657a">NS</text>
+                <rect x="570" y="430" width="10" height="10" rx="2" fill="#b91c1c"/><text x="584" y="439" font-size="9" font-weight="700" fill="#52657a">DF</text>
+                <rect x="776" y="162" width="300" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="792" y="188" font-size="13" font-weight="900" fill="#102033">Cut by channel / segment</text>
+                <text x="792" y="214" font-size="10" font-weight="800" fill="#7b8794">channel</text>
+                <text x="920" y="214" font-size="10" font-weight="800" fill="#7b8794">cover</text>
+                <text x="980" y="214" font-size="10" font-weight="800" fill="#7b8794">MS%</text>
+                <text x="1040" y="214" font-size="10" font-weight="800" fill="#7b8794">PSI</text>
+                <line x1="792" y1="222" x2="1056" y2="222" stroke="#e6edf4"/>
+                ${[
+                  ["Branch/LOS", "92%", "97%", "0.06", "#168447"],
+                  ["MyF88 App", "91%", "96%", "0.07", "#168447"],
+                  ["Partner A", "84%", "93%", "0.14", "#db681d"],
+                  ["Partner B", "81%", "91%", "0.16", "#db681d"],
+                  ["New-to-F88", "86%", "94%", "0.12", "#db681d"],
+                  ["Returning", "95%", "98%", "0.05", "#168447"],
+                ].map(([ch,cov,ms,psi,c],i)=>{
+                  const y=244+i*24;
+                  return `<text x="792" y="${y}" font-size="11" font-weight="700" fill="#26384d">${ch}</text><text x="920" y="${y}" font-size="11" font-weight="800" fill="#52657a">${cov}</text><text x="980" y="${y}" font-size="11" font-weight="800" fill="#52657a">${ms}</text><text x="1040" y="${y}" font-size="11" font-weight="900" fill="${c}">${psi}</text>`;
+                }).join("")}
+                <rect x="24" y="428" width="520" height="188" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="456" font-size="13" font-weight="900" fill="#102033">grade_distribution vs baseline</text>
+                <rect x="40" y="468" width="10" height="10" rx="2" fill="#2368c4"/><text x="56" y="477" font-size="10" font-weight="700" fill="#52657a">current</text>
+                <rect x="120" y="468" width="10" height="10" rx="2" fill="#cbd5e1"/><text x="136" y="477" font-size="10" font-weight="700" fill="#52657a">baseline</text>
                 ${["A","B","C","D","E"].map((g,i)=>{
-                  const cur=[18,28,30,16,8][i], base=[17,27,31,17,8][i], x=708+i*70;
-                  return `<g><rect x="${x}" y="${400-cur*3.5}" width="20" height="${cur*3.5}" fill="#2368c4" rx="3"/><rect x="${x+24}" y="${400-base*3.5}" width="20" height="${base*3.5}" fill="#cbd5e1" rx="3"/><text x="${x+22}" y="422" text-anchor="middle" font-size="12" font-weight="800" fill="#52657a">${g}</text></g>`;
+                  const cur=[18,28,30,16,8][i], base=[17,27,31,17,8][i], x=60+i*90;
+                  return `<g><rect x="${x}" y="${580-cur*3.2}" width="24" height="${cur*3.2}" fill="#2368c4" rx="3"/><rect x="${x+28}" y="${580-base*3.2}" width="24" height="${base*3.2}" fill="#cbd5e1" rx="3"/><text x="${x+26}" y="600" text-anchor="middle" font-size="12" font-weight="800" fill="#52657a">${g}</text></g>`;
                 }).join("")}
-                <rect x="24" y="464" width="1052" height="152" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="492" font-size="13" font-weight="900" fill="#102033">score_psi vs champion baseline</text>
-                <polyline fill="none" stroke="#7245c7" stroke-width="3" points="56,580 180,572 300,568 420,558 560,548 720,542 900,536 1040,532"/>
-                <line x1="56" y1="520" x2="1040" y2="520" stroke="#b91c1c" stroke-dasharray="5 4"/>
-                <text x="1040" y="514" text-anchor="end" font-size="10" font-weight="800" fill="#b91c1c">R 0.25</text>
-                <line x1="56" y1="550" x2="1040" y2="550" stroke="#db681d" stroke-dasharray="5 4"/>
-                <text x="1040" y="568" text-anchor="end" font-size="10" font-weight="800" fill="#db681d">A 0.10</text>
+                <rect x="560" y="428" width="516" height="188" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="576" y="456" font-size="13" font-weight="900" fill="#102033">score_psi vs champion · G/A/R</text>
+                <polyline fill="none" stroke="#7245c7" stroke-width="3" points="580,580 660,572 740,568 820,558 900,548 980,542 1040,536"/>
+                <line x1="580" y1="500" x2="1040" y2="500" stroke="#b91c1c" stroke-dasharray="5 4"/>
+                <text x="1040" y="494" text-anchor="end" font-size="10" font-weight="800" fill="#b91c1c">R 0.25</text>
+                <line x1="580" y1="540" x2="1040" y2="540" stroke="#db681d" stroke-dasharray="5 4"/>
+                <text x="1040" y="558" text-anchor="end" font-size="10" font-weight="800" fill="#db681d">A 0.10</text>
               </svg>`,
               `<svg viewBox="0 0 1100 640" role="img" aria-label="Model Performance Dashboard">
                 ${hubChrome(3, 5, "#3", "Model Performance", "Green", "#168447", "#e8f8ef", "DS / DE")}
                 ${[
-                  ["auc_roc", "0.78", 24, "#168447"],
-                  ["ks_statistic", "0.41", 208, "#2368c4"],
-                  ["gini_coefficient", "0.56", 392, "#8b6500"],
-                  ["rank_order_stability", "0.94", 576, "#7245c7"],
-                  ["segment_performance_gap", "4.2%", 760, "#db681d"],
-                  ["bad_rate_by_grade (A)", "1.2%", 944, "#0b2f64"],
-                ].map(([k,v,x,c])=>`<g><rect x="${x}" y="74" width="172" height="78" rx="8" fill="#ffffff" stroke="#d5e0eb"/><text x="${x+10}" y="96" font-size="9.5" font-weight="800" fill="#64748b">${k}</text><text x="${x+10}" y="132" font-size="22" font-weight="900" fill="${c}">${v}</text></g>`).join("")}
-                <rect x="24" y="168" width="620" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="194" font-size="13" font-weight="900" fill="#102033">AUC / KS / Gini by model_version</text>
-                <line x1="56" y1="220" x2="600" y2="220" stroke="#e6edf4"/><line x1="56" y1="260" x2="600" y2="260" stroke="#e6edf4"/><line x1="56" y1="300" x2="600" y2="300" stroke="#e6edf4"/><line x1="56" y1="340" x2="600" y2="340" stroke="#e6edf4"/>
-                <line x1="56" y1="220" x2="600" y2="220" stroke="#b91c1c" stroke-dasharray="5 4" stroke-opacity="0.45"/>
+                  ["auc_roc", "0.78", "↑0.01", 24, "#168447", "#168447"],
+                  ["ks_statistic", "0.41", "↑0.01", 208, "#168447", "#168447"],
+                  ["gini_coefficient", "0.56", "↑0.02", 392, "#168447", "#168447"],
+                  ["rank_order_stability", "0.94", "→0.00", 576, "#168447", "#64748b"],
+                  ["segment_gap max", "4.2%", "↑0.8pp", 760, "#db681d", "#db681d"],
+                  ["bad_rate grade A", "1.2%", "↓0.1pp", 944, "#168447", "#168447"],
+                ].map(([k,v,d,x,c,dc])=>kpiCard(k,v,d,x,74,172,c,dc)).join("")}
+                <rect x="24" y="162" width="620" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="188" font-size="13" font-weight="900" fill="#102033">AUC / KS / Gini by model_version</text>
+                <line x1="56" y1="210" x2="600" y2="210" stroke="#e6edf4"/><line x1="56" y1="250" x2="600" y2="250" stroke="#e6edf4"/><line x1="56" y1="290" x2="600" y2="290" stroke="#e6edf4"/><line x1="56" y1="330" x2="600" y2="330" stroke="#e6edf4"/>
                 ${[[70,0.74,0.36,0.48],[170,0.75,0.37,0.50],[270,0.76,0.39,0.52],[370,0.77,0.40,0.54],[470,0.78,0.41,0.56]].map(([x,a,k,g],i)=>{
                   const baseY=360, hA=(a-0.65)*380, hK=(k-0.2)*260, hG=(g-0.3)*280;
                   return `<g><rect x="${x}" y="${baseY-hA}" width="18" height="${hA}" fill="#2368c4" rx="3"/><rect x="${x+22}" y="${baseY-hK}" width="18" height="${hK}" fill="#168447" rx="3"/><rect x="${x+44}" y="${baseY-hG}" width="18" height="${hG}" fill="#f5c518" rx="3"/><text x="${x+30}" y="386" text-anchor="middle" font-size="11" font-weight="800" fill="#52657a">v1.${i+1}</text></g>`;
@@ -9066,19 +9118,19 @@
                 <rect x="56" y="398" width="10" height="10" rx="2" fill="#2368c4"/><text x="72" y="407" font-size="10" font-weight="700" fill="#52657a">AUC</text>
                 <rect x="120" y="398" width="10" height="10" rx="2" fill="#168447"/><text x="136" y="407" font-size="10" font-weight="700" fill="#52657a">KS</text>
                 <rect x="176" y="398" width="10" height="10" rx="2" fill="#f5c518"/><text x="192" y="407" font-size="10" font-weight="700" fill="#52657a">Gini</text>
-                <rect x="660" y="168" width="416" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="676" y="194" font-size="13" font-weight="900" fill="#102033">Champion versions</text>
-                <text x="676" y="222" font-size="11" font-weight="800" fill="#7b8794">version</text><text x="790" y="222" font-size="11" font-weight="800" fill="#7b8794">AUC</text><text x="870" y="222" font-size="11" font-weight="800" fill="#7b8794">KS</text><text x="950" y="222" font-size="11" font-weight="800" fill="#7b8794">Gini</text><text x="1030" y="222" font-size="11" font-weight="800" fill="#7b8794">gate</text>
-                <line x1="676" y1="232" x2="1050" y2="232" stroke="#e6edf4"/>
-                ${[["v1.4.2","0.78","0.41","0.56","PASS","#168447",260],["v1.3.1","0.77","0.40","0.54","PASS","#168447",300],["v1.2.0","0.73","0.36","0.46","HOLD","#db681d",340],["v1.1.0","0.71","0.34","0.42","FAIL","#b91c1c",380]].map(([v,a,k,g,st,c,y])=>`<g><text x="676" y="${y}" font-size="12" font-weight="800" fill="#102033">${v}</text><text x="790" y="${y}" font-size="12" font-weight="700" fill="#26384d">${a}</text><text x="870" y="${y}" font-size="12" font-weight="700" fill="#26384d">${k}</text><text x="950" y="${y}" font-size="12" font-weight="700" fill="#26384d">${g}</text><text x="1030" y="${y}" text-anchor="middle" font-size="11" font-weight="900" fill="${c}">${st}</text></g>`).join("")}
-                <rect x="24" y="436" width="520" height="180" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="464" font-size="13" font-weight="900" fill="#102033">bad_rate_by_grade</text>
+                <rect x="660" y="162" width="416" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="676" y="188" font-size="13" font-weight="900" fill="#102033">Champion versions · gate</text>
+                <text x="676" y="216" font-size="11" font-weight="800" fill="#7b8794">version</text><text x="790" y="216" font-size="11" font-weight="800" fill="#7b8794">AUC</text><text x="870" y="216" font-size="11" font-weight="800" fill="#7b8794">KS</text><text x="950" y="216" font-size="11" font-weight="800" fill="#7b8794">Gini</text><text x="1030" y="216" font-size="11" font-weight="800" fill="#7b8794">gate</text>
+                <line x1="676" y1="226" x2="1050" y2="226" stroke="#e6edf4"/>
+                ${[["v1.4.2","0.78","0.41","0.56","PASS","#168447",254],["v1.3.1","0.77","0.40","0.54","PASS","#168447",294],["v1.2.0","0.73","0.36","0.46","HOLD","#db681d",334],["v1.1.0","0.71","0.34","0.42","FAIL","#b91c1c",374]].map(([v,a,k,g,st,c,y])=>`<g><text x="676" y="${y}" font-size="12" font-weight="800" fill="#102033">${v}</text><text x="790" y="${y}" font-size="12" font-weight="700" fill="#26384d">${a}</text><text x="870" y="${y}" font-size="12" font-weight="700" fill="#26384d">${k}</text><text x="950" y="${y}" font-size="12" font-weight="700" fill="#26384d">${g}</text><text x="1030" y="${y}" text-anchor="middle" font-size="11" font-weight="900" fill="${c}">${st}</text></g>`).join("")}
+                <rect x="24" y="428" width="520" height="188" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="456" font-size="13" font-weight="900" fill="#102033">bad_rate_by_grade</text>
                 ${["A","B","C","D","E"].map((g,i)=>{
                   const br=[1.2,2.8,5.4,9.1,14.6][i], x=56+i*92;
                   return `<g><rect x="${x}" y="${580-br*8}" width="48" height="${br*8}" fill="#0b2f64" rx="3"/><text x="${x+24}" y="598" text-anchor="middle" font-size="12" font-weight="800" fill="#52657a">${g}</text><text x="${x+24}" y="${572-br*8}" text-anchor="middle" font-size="11" font-weight="900" fill="#0b2f64">${br}%</text></g>`;
                 }).join("")}
-                <rect x="560" y="436" width="516" height="180" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="576" y="464" font-size="13" font-weight="900" fill="#102033">segment_performance_gap (AUC)</text>
+                <rect x="560" y="428" width="516" height="188" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="576" y="456" font-size="13" font-weight="900" fill="#102033">segment_performance_gap (AUC vs overall)</text>
                 ${[
                   ["New", 0.74, 0.78],
                   ["Thin", 0.76, 0.78],
@@ -9093,58 +9145,77 @@
               `<svg viewBox="0 0 1100 640" role="img" aria-label="Calibration Dashboard">
                 ${hubChrome(4, 5, "#4", "Calibration", "Amber", "#db681d", "#fff3e9", "DS / BI")}
                 ${[
-                  ["expected_vs_observed_gap", "1.4pp", 24, "#db681d"],
-                  ["observed_bad_rate_by_grade", "4.8%", 298, "#2368c4"],
-                  ["calibration_drift_index", "0.11", 572, "#8b6500"],
-                  ["score_band_default_rate", "3.9%", 846, "#7245c7"],
-                ].map(([k,v,x,c])=>`<g><rect x="${x}" y="74" width="230" height="88" rx="8" fill="#ffffff" stroke="#d5e0eb"/><text x="${x+14}" y="100" font-size="11" font-weight="800" fill="#64748b">${k}</text><text x="${x+14}" y="140" font-size="28" font-weight="900" fill="${c}">${v}</text></g>`).join("")}
-                <rect x="24" y="180" width="640" height="420" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="210" font-size="13" font-weight="900" fill="#102033">expected_vs_observed_gap (by grade)</text>
-                <line x1="80" y1="520" x2="600" y2="280" stroke="#2368c4" stroke-width="2.5" stroke-dasharray="6 4"/>
-                <text x="610" y="280" font-size="11" font-weight="800" fill="#2368c4">expected</text>
-                ${[["A",140,505,1.2],["B",220,455,2.9],["C",300,400,5.6],["D",380,350,9.8],["E",460,310,15.2],["F",540,285,21.0]].map(([g,x,y,v])=>`<g><circle cx="${x}" cy="${y}" r="7" fill="#2368c4"/><text x="${x}" y="${y+24}" text-anchor="middle" font-size="11" font-weight="800" fill="#64748b">${g}</text><text x="${x}" y="${y-14}" text-anchor="middle" font-size="11" font-weight="900" fill="#0b2f64">${v}%</text></g>`).join("")}
-                <rect x="680" y="180" width="396" height="420" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="696" y="210" font-size="13" font-weight="900" fill="#102033">observed_bad_rate_by_grade</text>
-                <text x="696" y="240" font-size="11" font-weight="800" fill="#7b8794">grade</text><text x="800" y="240" font-size="11" font-weight="800" fill="#7b8794">expected</text><text x="910" y="240" font-size="11" font-weight="800" fill="#7b8794">observed</text><text x="1020" y="240" font-size="11" font-weight="800" fill="#7b8794">gap</text>
-                <line x1="696" y1="250" x2="1050" y2="250" stroke="#e6edf4"/>
-                ${[["A","1.0%","1.2%","+0.2"],["B","2.5%","2.9%","+0.4"],["C","5.0%","5.6%","+0.6"],["D","9.0%","9.8%","+0.8"],["E","14.0%","15.2%","+1.2"]].map(([g,e,o,gap],i)=>{
-                  const y=280+i*40;
+                  ["expected_vs_observed_gap", "1.4pp", "↑0.3pp", 24, "#db681d", "#db681d"],
+                  ["observed_bad_rate", "4.8%", "↑0.2pp", 298, "#db681d", "#db681d"],
+                  ["calibration_drift_index", "0.11", "↑0.02", 572, "#db681d", "#db681d"],
+                  ["score_band_default", "3.9%", "↓0.1pp", 846, "#168447", "#168447"],
+                ].map(([k,v,d,x,c,dc])=>kpiCard(k,v,d,x,74,230,c,dc)).join("")}
+                <rect x="24" y="158" width="500" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="182" font-size="13" font-weight="900" fill="#102033">expected vs observed (by grade)</text>
+                <line x1="70" y1="360" x2="460" y2="210" stroke="#2368c4" stroke-width="2.2" stroke-dasharray="6 4"/>
+                <text x="430" y="200" font-size="10" font-weight="800" fill="#2368c4">expected</text>
+                ${[["A",90,350,1.2],["B",170,315,2.9],["C",250,275,5.6],["D",330,235,9.8],["E",410,205,15.2]].map(([g,x,y,v])=>`<g><circle cx="${x}" cy="${y}" r="6" fill="#2368c4"/><text x="${x}" y="${y+20}" text-anchor="middle" font-size="11" font-weight="800" fill="#64748b">${g}</text><text x="${x}" y="${y-12}" text-anchor="middle" font-size="11" font-weight="900" fill="#0b2f64">${v}%</text></g>`).join("")}
+                <rect x="540" y="158" width="536" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="556" y="182" font-size="13" font-weight="900" fill="#102033">observed_bad_rate_by_grade</text>
+                <text x="556" y="208" font-size="10" font-weight="800" fill="#7b8794">grade</text>
+                <text x="640" y="208" font-size="10" font-weight="800" fill="#7b8794">expected</text>
+                <text x="760" y="208" font-size="10" font-weight="800" fill="#7b8794">observed</text>
+                <text x="880" y="208" font-size="10" font-weight="800" fill="#7b8794">gap</text>
+                <text x="980" y="208" font-size="10" font-weight="800" fill="#7b8794">vs prev</text>
+                <line x1="556" y1="216" x2="1056" y2="216" stroke="#e6edf4"/>
+                ${[["A","1.0%","1.2%","+0.2","↑0.1"],["B","2.5%","2.9%","+0.4","↑0.1"],["C","5.0%","5.6%","+0.6","↑0.2"],["D","9.0%","9.8%","+0.8","↑0.3"],["E","14.0%","15.2%","+1.2","↑0.4"]].map(([g,e,o,gap,prev],i)=>{
+                  const y=242+i*30;
                   const gc = parseFloat(gap) >= 1 ? "#db681d" : "#168447";
-                  return `<g><text x="696" y="${y}" font-size="13" font-weight="800" fill="#102033">${g}</text><text x="800" y="${y}" font-size="13" font-weight="700" fill="#26384d">${e}</text><text x="910" y="${y}" font-size="13" font-weight="700" fill="#26384d">${o}</text><text x="1020" y="${y}" font-size="13" font-weight="900" fill="${gc}">${gap}</text></g>`;
+                  return `<g><text x="556" y="${y}" font-size="12" font-weight="800" fill="#102033">${g}</text><text x="640" y="${y}" font-size="12" font-weight="700" fill="#26384d">${e}</text><text x="760" y="${y}" font-size="12" font-weight="700" fill="#26384d">${o}</text><text x="880" y="${y}" font-size="12" font-weight="900" fill="${gc}">${gap}</text><text x="980" y="${y}" font-size="11" font-weight="800" fill="#db681d">${prev}</text></g>`;
                 }).join("")}
-                <text x="696" y="510" font-size="12" font-weight="800" fill="#102033">score_band_default_rate</text>
-                <text x="696" y="540" font-size="11" font-weight="700" fill="#64748b">0–20 · 21–40 · 41–60 · 61–80 · 81–100</text>
-                <text x="696" y="572" font-size="16" font-weight="900" fill="#0b2f64">18.4% · 9.1% · 4.2% · 1.8% · 0.6%</text>
+                <rect x="24" y="424" width="1052" height="192" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="450" font-size="13" font-weight="900" fill="#102033">calibration_gap over months</text>
+                <polyline fill="none" stroke="#db681d" stroke-width="3" points="60,560 190,550 320,540 450,528 580,520 710,512 840,508 970,502"/>
+                <line x1="60" y1="540" x2="970" y2="540" stroke="#db681d" stroke-dasharray="5 4" stroke-opacity="0.5"/>
+                <text x="980" y="544" font-size="10" font-weight="800" fill="#db681d">A 1.0pp</text>
+                ${["T-7","T-6","T-5","T-4","T-3","T-2","T-1","T0"].map((m,i)=>`<text x="${60+i*130}" y="580" text-anchor="middle" font-size="10" font-weight="700" fill="#94a3b8">${m}</text>`).join("")}
+                <text x="40" y="602" font-size="11" font-weight="700" fill="#8b6500">Note: observed chỉ đo trên tập đã giải ngân — đọc kèm approval mix, không kết luận model từ số đơn lẻ</text>
               </svg>`,
               `<svg viewBox="0 0 1100 640" role="img" aria-label="Portfolio Feedback Dashboard">
                 ${hubChrome(5, 5, "#5", "Portfolio Feedback", "Green", "#168447", "#e8f8ef", "BI / LOS / DS")}
                 ${[
-                  ["portfolio_bad_rate", "4.6%", 24, 74, "#db681d"],
-                  ["vintage_bad_rate_by_grade", "5.1%", 298, 74, "#2368c4"],
-                  ["dpd30_rate_by_grade", "7.8%", 572, 74, "#8b6500"],
-                  ["loss_rate_by_grade", "2.3%", 846, 74, "#7245c7"],
-                  ["approval_mix_by_grade", "62%", 24, 190, "#168447"],
-                  ["booking_volume_by_grade", "8.4k", 298, 190, "#0b2f64"],
-                  ["manual_review_conversion_rate", "41%", 572, 190, "#2368c4"],
-                  ["cap_hit_rate_by_cap_type", "3.2%", 846, 190, "#db681d"],
-                  ["amount_reduction_rate", "11%", 24, 306, "#8b6500"],
-                  ["policy_exception_bad_rate", "6.9%", 298, 306, "#b91c1c"],
-                ].map(([k,v,x,y,c])=>`<g><rect x="${x}" y="${y}" width="230" height="100" rx="8" fill="#ffffff" stroke="#d5e0eb"/><text x="${x+14}" y="${y+32}" font-size="11" font-weight="800" fill="#64748b">${k}</text><text x="${x+14}" y="${y+72}" font-size="28" font-weight="900" fill="${c}">${v}</text></g>`).join("")}
-                <rect x="572" y="306" width="504" height="100" rx="8" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="588" y="338" font-size="12" font-weight="800" fill="#64748b">vintage_bad_rate_by_grade · MOB6</text>
-                <text x="588" y="378" font-size="15" font-weight="900" fill="#0b2f64">A 1.4% · B 3.1% · C 5.8% · D 10.2% · E 16.5%</text>
-                <rect x="24" y="424" width="1052" height="192" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="456" font-size="13" font-weight="900" fill="#102033">approval_mix / booking / dpd30 by grade</text>
+                  ["portfolio_bad_rate", "4.6%", "↑0.3pp", 24, "#db681d", "#db681d"],
+                  ["dpd30_rate", "7.8%", "↑0.4pp", 298, "#db681d", "#db681d"],
+                  ["loss_rate", "2.3%", "↓0.1pp", 572, "#168447", "#168447"],
+                  ["booking volume", "8.4k", "↑6%", 846, "#168447", "#168447"],
+                ].map(([k,v,d,x,c,dc])=>kpiCard(k,v,d,x,74,230,c,dc)).join("")}
+                <rect x="24" y="158" width="1052" height="230" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="184" font-size="13" font-weight="900" fill="#102033">Grade × metric (vs baseline)</text>
+                <text x="40" y="210" font-size="10" font-weight="800" fill="#7b8794">grade</text>
+                <text x="110" y="210" font-size="10" font-weight="800" fill="#7b8794">approval</text>
+                <text x="210" y="210" font-size="10" font-weight="800" fill="#7b8794">booking</text>
+                <text x="310" y="210" font-size="10" font-weight="800" fill="#7b8794">bad rate</text>
+                <text x="420" y="210" font-size="10" font-weight="800" fill="#7b8794">vs base</text>
+                <text x="520" y="210" font-size="10" font-weight="800" fill="#7b8794">DPD30+</text>
+                <text x="630" y="210" font-size="10" font-weight="800" fill="#7b8794">vs base</text>
+                <text x="730" y="210" font-size="10" font-weight="800" fill="#7b8794">loss</text>
+                <text x="820" y="210" font-size="10" font-weight="800" fill="#7b8794">vs base</text>
+                <text x="940" y="210" font-size="10" font-weight="800" fill="#7b8794">status</text>
+                <line x1="40" y1="218" x2="1050" y2="218" stroke="#e6edf4"/>
                 ${[
-                  ["A", "18%", "1.6k", "2.1%"],
-                  ["B", "27%", "2.4k", "4.5%"],
-                  ["C", "31%", "2.7k", "7.9%"],
-                  ["D", "16%", "1.2k", "12.4%"],
-                  ["E", "8%", "0.5k", "19.8%"],
-                ].map(([g,ap,bk,dpd],i)=>{
-                  const x=80+i*200;
-                  return `<g><text x="${x}" y="500" text-anchor="middle" font-size="16" font-weight="900" fill="#102033">${g}</text><text x="${x}" y="536" text-anchor="middle" font-size="13" font-weight="700" fill="#52657a">approval ${ap}</text><text x="${x}" y="566" text-anchor="middle" font-size="13" font-weight="700" fill="#52657a">booking ${bk}</text><text x="${x}" y="596" text-anchor="middle" font-size="13" font-weight="700" fill="#52657a">dpd30 ${dpd}</text></g>`;
+                  ["A","18%","1.6k","1.4%","−0.1","2.1%","−0.2","0.6%","−0.1","OK","#168447"],
+                  ["B","27%","2.4k","3.1%","+0.1","4.5%","+0.2","1.2%","0.0","OK","#168447"],
+                  ["C","31%","2.7k","5.8%","+0.4","7.9%","+0.5","2.1%","+0.2","WATCH","#db681d"],
+                  ["D","16%","1.2k","10.2%","+0.8","12.4%","+0.9","3.8%","+0.4","WATCH","#db681d"],
+                  ["E","8%","0.5k","16.5%","+1.4","19.8%","+1.6","6.2%","+0.8","ALERT","#b91c1c"],
+                ].map(([g,ap,bk,br,brd,dpd,dpdd,loss,lossd,st,c],i)=>{
+                  const y=244+i*26;
+                  return `<g><text x="40" y="${y}" font-size="12" font-weight="900" fill="#102033">${g}</text><text x="110" y="${y}" font-size="12" font-weight="700" fill="#26384d">${ap}</text><text x="210" y="${y}" font-size="12" font-weight="700" fill="#26384d">${bk}</text><text x="310" y="${y}" font-size="12" font-weight="800" fill="#102033">${br}</text><text x="420" y="${y}" font-size="12" font-weight="900" fill="${c}">${brd}</text><text x="520" y="${y}" font-size="12" font-weight="800" fill="#102033">${dpd}</text><text x="630" y="${y}" font-size="12" font-weight="900" fill="${c}">${dpdd}</text><text x="730" y="${y}" font-size="12" font-weight="800" fill="#102033">${loss}</text><text x="820" y="${y}" font-size="12" font-weight="900" fill="${c}">${lossd}</text><text x="940" y="${y}" font-size="11" font-weight="900" fill="${c}">${st}</text></g>`;
                 }).join("")}
+                <rect x="24" y="404" width="1052" height="212" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="430" font-size="13" font-weight="900" fill="#102033">Vintage bad rate by MOB (A / C / E)</text>
+                <rect x="700" y="418" width="10" height="10" rx="2" fill="#168447"/><text x="716" y="427" font-size="10" font-weight="700" fill="#52657a">Grade A</text>
+                <rect x="790" y="418" width="10" height="10" rx="2" fill="#db681d"/><text x="806" y="427" font-size="10" font-weight="700" fill="#52657a">Grade C</text>
+                <rect x="880" y="418" width="10" height="10" rx="2" fill="#b91c1c"/><text x="896" y="427" font-size="10" font-weight="700" fill="#52657a">Grade E</text>
+                <polyline fill="none" stroke="#168447" stroke-width="2.5" points="70,555 200,548 330,542 460,536 590,530 720,524 850,520 980,516"/>
+                <polyline fill="none" stroke="#db681d" stroke-width="2.5" points="70,540 200,528 330,514 460,500 590,488 720,478 850,470 980,462"/>
+                <polyline fill="none" stroke="#b91c1c" stroke-width="2.5" points="70,520 200,505 330,488 460,472 590,458 720,448 850,440 980,434"/>
+                ${["MOB1","MOB2","MOB3","MOB4","MOB5","MOB6","MOB9","MOB12"].map((m,i)=>`<text x="${70+i*130}" y="590" text-anchor="middle" font-size="10" font-weight="700" fill="#94a3b8">${m}</text>`).join("")}
               </svg>`,
             ];
             return `<div class="model-hub" data-model-hub="1">
