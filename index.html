@@ -7044,6 +7044,28 @@
         font-size: 10.5px;
         font-weight: 800;
       }
+      .cti-v2 .lifecycle-workflow.lifecycle-v4 { padding: 11px 12px; }
+      .cti-v2 .lifecycle-v4-head { display: grid; grid-template-columns: 1fr 365px; gap: 14px; align-items: center; margin-bottom: 8px; }
+      .cti-v2 .lifecycle-v4-head h4 { margin: 0; color: #0b2f64; font-size: 16px; }
+      .cti-v2 .lifecycle-v4-head p { margin: 2px 0 0; color: #52657a; font-size: 9px; line-height: 1.35; }
+      .cti-v2 .lifecycle-v4-rule { border-radius: 7px; padding: 7px 9px; color: #fff; background: #0b2f64; font-size: 8.6px; font-weight: 780; line-height: 1.35; }
+      .cti-v2 .lifecycle-v4-rule b { color: #fcc20e; }
+      .cti-v2 .lifecycle-state-section { margin-top: 7px; }
+      .cti-v2 .lifecycle-state-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 5px; }
+      .cti-v2 .lifecycle-state-head b { color: #0b2f64; font-size: 9px; }
+      .cti-v2 .lifecycle-state-head span { color: #60758c; font-size: 7.5px; font-weight: 800; }
+      .cti-v2 .lifecycle-state-rail { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 8px; }
+      .cti-v2 .lifecycle-state-node { position: relative; min-width: 0; border: 1px solid var(--state-color); border-top: 5px solid var(--state-color); border-radius: 7px; padding: 6px 3px 5px; color: var(--state-color); background: color-mix(in srgb, var(--state-color) 6%, white); text-align: center; font-size: 7.1px; font-weight: 950; line-height: 1.15; }
+      .cti-v2 .lifecycle-state-node small { display: block; min-height: 18px; margin-top: 4px; color: #5e7186; font-size: 6.3px; font-weight: 750; line-height: 1.25; }
+      .cti-v2 .lifecycle-state-node:not(:last-child)::after { content: "→"; position: absolute; z-index: 2; right: -9px; top: 10px; color: #667d94; font-size: 12px; font-weight: 950; }
+      .cti-v2 .lifecycle-state-descriptions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 7px; }
+      .cti-v2 .lifecycle-state-desc { display: grid; grid-template-columns: 82px 1fr; gap: 7px; align-items: start; border: 1px solid #dce5ee; border-left: 4px solid var(--state-color); border-radius: 6px; padding: 6px 7px; background: #fff; }
+      .cti-v2 .lifecycle-state-desc b { display: block; color: var(--state-color); font-size: 7.7px; line-height: 1.2; }
+      .cti-v2 .lifecycle-state-desc span { display: block; color: #465b72; font-size: 7.2px; line-height: 1.3; }
+      .cti-v2 .lifecycle-control-loop { display: grid; grid-template-columns: 150px repeat(3, minmax(0, 1fr)); gap: 6px; align-items: stretch; margin-top: 7px; border-radius: 7px; padding: 6px; background: #eef4fa; border: 1px solid #cad9e8; }
+      .cti-v2 .lifecycle-control-loop > b { display: flex; align-items: center; color: #0b2f64; font-size: 8px; line-height: 1.25; }
+      .cti-v2 .lifecycle-control-item { border-radius: 5px; padding: 5px 6px; background: #fff; color: #465b72; font-size: 6.9px; line-height: 1.3; }
+      .cti-v2 .lifecycle-control-item b { color: #0b4ea2; }
       .cti-v2 .ont-scope-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -7213,23 +7235,6 @@
       .cti-v2 .routing-output-contract { display: grid; grid-template-columns: 1fr 2.2fr; gap: 10px; align-items: center; margin-top: 10px; border-radius: 9px; padding: 9px 12px; color: #fff; background: #0b2f64; }
       .cti-v2 .routing-output-contract b { font-size: 10px; }
       .cti-v2 .routing-output-contract span { color: #dce7f5; font-size: 9px; text-align: right; }
-      .cti-v2 .outcome-callout {
-        border: 2px solid #fcc20e;
-        border-radius: 8px;
-        padding: 20px;
-        background: linear-gradient(135deg, #fffdf4, #fff);
-      }
-      .cti-v2 .outcome-callout h4 {
-        margin: 0 0 10px;
-        color: #7b5500;
-        font-size: 18px;
-      }
-      .cti-v2 .outcome-callout p {
-        margin: 0;
-        line-height: 1.6;
-        color: #415167;
-        font-size: 14px;
-      }
       @media (max-width: 900px) {
         .cti-v2 .domain-group-grid,
         .cti-v2 .profile-class-grid,
@@ -7238,6 +7243,10 @@
         .cti-v2 .five-c-grid,
         .cti-v2 .risk-driver-grid,
         .cti-v2 .lifecycle-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .cti-v2 .lifecycle-v4-head { grid-template-columns: 1fr; }
+        .cti-v2 .lifecycle-state-descriptions,
+        .cti-v2 .lifecycle-control-loop { grid-template-columns: 1fr; }
+        .cti-v2 .lifecycle-state-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       }
       .cti-v2 .ds-slide .section-head {
         margin-bottom: 12px;
@@ -8042,19 +8051,6 @@
             visual: "ontKeyObjects",
           },
           {
-            id: "ont-outcome",
-            group: "Ontology",
-            title: "Outcome — linh hồn của training data",
-            message: "Module đặc thù: định nghĩa label, không đi sâu kiến trúc model",
-            lead: "Outcome (kết quả hậu nghiệm: trả nợ tốt/xấu, quá hạn, write-off) là module đặc thù trong ontology — nó là linh hồn của training data vì quyết định label customer và chất lượng model. Phần này tập trung vào định nghĩa nghiệp vụ outcome, không đi sâu vào thiết kế kiến trúc thuật toán.",
-            points: [
-              "Outcome gắn với Loan Account / Repayment / Delinquency domain — dữ liệu hậu quyết định.",
-              "Label rule version quyết định cách map outcome thành Tốt / Xám / Xấu / Chưa xác định tại thời điểm T.",
-              "Outcome không dùng trực tiếp làm feature runtime với khách new-to-F88; chủ yếu phục vụ train, backtest và monitoring.",
-            ],
-            visual: "ontOutcome",
-          },
-          {
             id: "ont-customer-profile",
             group: "Ontology",
             title: "Customer Label Profile — GOOD / GRAY / BAD",
@@ -8084,9 +8080,9 @@
           {
             id: "ont-lifecycle",
             group: "Ontology",
-            title: "Lifecycle Model Management",
-            message: "Workflow: Start → Design → Train → Deploy → Runtime → Monitor → Retrain / Retire",
-            lead: "Thứ tự được chỉnh lại để Deployment đứng trước Runtime. Monitoring tạo một cổng quyết định: tiếp tục vận hành, quay lại Train qua Retraining, hoặc Retirement khi model được thay thế.",
+            title: "Lifecycle — 9 trạng thái từ Draft đến Retired",
+            message: "Mỗi gói mô hình đi đúng chuỗi trạng thái trong Model Artifact Registry, không nhảy cóc",
+            lead: "Design và Train là hoạt động tạo gói mô hình, không phải trạng thái trong Registry. Chuỗi chính thức đi từ Draft, Candidate, Validated, Approved, Ready, Shadow Active, Production Active đến Deprecated và Retired; mọi lần chuyển trạng thái đều được ghi nhận để truy vết, rollback và replay.",
             points: [],
             visual: "ontLifecycle",
           },
@@ -8523,13 +8519,14 @@
               <rect x="528" y="94" width="410" height="246" rx="12" fill="#f1faf5" stroke="#8bd0a8" filter="url(#bcpShadow)"/>
               <rect x="528" y="94" width="410" height="38" rx="12" fill="#00833e"/>
               <text x="733" y="119" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">OBJECTIVE — SCORING SERVICE END-TO-END</text>
-              <text x="552" y="160" font-size="12" font-weight="900" fill="#007236">1. Shared platform + product configuration</text>
-              <text x="552" y="181" font-size="10.8" fill="#516173">Tái sử dụng pipeline/API/registry cho nhiều sản phẩm.</text>
+              <text x="552" y="160" font-size="12" font-weight="900" fill="#007236">1. Shared scoring platform / service</text>
+              <text x="552" y="181" font-size="10.8" fill="#516173">LOS, Quick Offer, Risk, Underwriting, Partner/API dùng chung engine.</text>
               <text x="552" y="215" font-size="12" font-weight="900" fill="#007236">2. Multi-model + routing + unified output</text>
               <text x="552" y="236" font-size="10.8" fill="#516173">New/Thin/Thick đi đúng model; cùng Score–Grade–Reason.</text>
-              <text x="552" y="270" font-size="12" font-weight="900" fill="#007236">3. SLA end-to-end &lt; 2 giây/request</text>
-              <text x="552" y="291" font-size="10.8" fill="#516173">Có Pre A-Score cho Quick Offer và runtime tối ưu.</text>
-              <text x="552" y="325" font-size="12" font-weight="900" fill="#007236">4. Explainable + replayable + lifecycle monitoring</text>
+              <text x="552" y="270" font-size="12" font-weight="900" fill="#007236">3. Replay scoring theo đúng trạng thái lịch sử</text>
+              <text x="552" y="291" font-size="10.8" fill="#516173">Tái lập input snapshot, FeatureSet, ModelVersion và output đã chấm.</text>
+              <text x="552" y="315" font-size="12" font-weight="900" fill="#007236">4. Explainable by design</text>
+              <text x="552" y="334" font-size="10.8" fill="#516173">Mọi score có Reason Code, lineage và bằng chứng phục vụ audit.</text>
 
               <rect x="90" y="362" width="800" height="34" rx="9" fill="#102033"/>
               <text x="490" y="384" text-anchor="middle" font-size="11.5" font-weight="900" fill="#fff">END-TO-END = Data contract → Feature → Routing/Model → Unified Output → Explain/Replay → Monitor/Govern</text>
@@ -8997,16 +8994,6 @@
             }).join("");
             return `<div class="object-profile-grid">${cards}</div>`;
           }
-          if (type === "ontOutcome")
-            return `<div class="outcome-callout">
-              <h4>Outcome — module đặc thù, linh hồn training data</h4>
-              <p>Outcome là kết quả hậu nghiệm (trả nợ, quá hạn, write-off) được dùng để định nghĩa label customer và đo chất lượng model. Đây <b>không phải</b> phần thiết kế kiến trúc thuật toán — mà là lớp nghiệp vụ quyết định model học từ dữ liệu nào và đánh giá tốt/xấu ra sao.</p>
-              <div class="metric-row" style="margin-top:16px">
-                <div class="metric"><strong>Loan Repayment</strong><span>Nguồn outcome chính cho label</span></div>
-                <div class="metric"><strong>Delinquency</strong><span>DPD, bucket, bad flag</span></div>
-                <div class="metric"><strong>Label Rule</strong><span>Tốt / Xám / Xấu / Chưa XD</span></div>
-              </div>
-            </div>`;
           if (type === "ontBusinessRules")
             return `<div>
               <div class="label-band">
@@ -9110,24 +9097,34 @@
             </div>`;
           if (type === "ontLifecycle")
             {
-              const phaseById = new Map(ontologyLifecyclePhases.map((p) => [p.id, p]));
-              const mainIds = ["start", "design", "train", "deployment", "runtime", "monitoring"];
-              const colors = ["#0b4ea2", "#6f42a5", "#a9790a", "#c84e00", "#00833e", "#334155"];
-              const mainNodes = mainIds.map((id, i) => {
-                const p = phaseById.get(id);
-                return `<div class="lifecycle-node" style="--phase-color:${colors[i]}"><b>${i + 1}. ${esc2(p.name)}</b><span>${esc2(p.vi)}</span><span>${esc2(p.short)}</span></div>`;
-              }).join("");
-              const retrain = phaseById.get("retraining");
-              const retire = phaseById.get("retirement");
-              return `<div class="lifecycle-workflow">
-                <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:15px"><h4 style="margin:0;color:#0b2f64;font-size:17px">MODEL MANAGEMENT LIFECYCLE WORKFLOW</h4><span class="badge">Deploy trước Runtime</span></div>
-                <div class="lifecycle-row">${mainNodes}</div>
-                <div style="text-align:center;margin:14px 0 4px;color:#60758c;font-size:12px;font-weight:900">MONITORING GATE ↓</div>
-                <div class="lifecycle-actions">
-                  <div class="lifecycle-node" style="--phase-color:#d98500"><b>7A. ${esc2(retrain.name)}</b><span>${esc2(retrain.short)}</span></div>
-                  <div class="lifecycle-node" style="--phase-color:#c62828"><b>7B. ${esc2(retire.name)}</b><span>${esc2(retire.short)}</span></div>
-                </div>
-                <div class="workflow-loop">Retrain → quay lại Train → validation → Deploy · Retirement → archive artifact + giữ replay/audit lineage</div>
+              return `<div class="lifecycle-workflow lifecycle-v4">
+                <div class="lifecycle-v4-head"><div><h4>MODEL ARTIFACT LIFECYCLE — DRAFT → RETIRED</h4><p>Chuỗi trạng thái chính thức của từng model artifact package trong Registry; phần mô tả bên dưới cho biết hoạt động tạo ra mỗi trạng thái.</p></div><div class="lifecycle-v4-rule"><b>NGUYÊN TẮC:</b> Không chuyển thẳng từ DRAFT sang PRODUCTION_ACTIVE. Gói mô hình phải qua kiểm định, phê duyệt và kiểm chứng Shadow/Canary trước khi phục vụ quyết định thật.</div></div>
+                <section class="lifecycle-state-section">
+                  <div class="lifecycle-state-head"><b>CHUỖI 9 TRẠNG THÁI TRONG MODEL ARTIFACT REGISTRY</b><span>Mọi bước chuyển lưu package_id · model_version · status · approved_by · effective time · checksum</span></div>
+                  <div class="lifecycle-state-rail">
+                    <div class="lifecycle-state-node" style="--state-color:#0b4ea2">DRAFT<small>Design yêu cầu</small></div>
+                    <div class="lifecycle-state-node" style="--state-color:#0b4ea2">CANDIDATE<small>Train &amp; đóng gói</small></div>
+                    <div class="lifecycle-state-node" style="--state-color:#7b5500">VALIDATED<small>Kiểm định độc lập</small></div>
+                    <div class="lifecycle-state-node" style="--state-color:#7b5500">APPROVED<small>Phê duyệt quản trị</small></div>
+                    <div class="lifecycle-state-node" style="--state-color:#7b5500">READY<small>Sẵn sàng phát hành</small></div>
+                    <div class="lifecycle-state-node" style="--state-color:#00833e">SHADOW_ACTIVE<small>Shadow · C/C · Canary</small></div>
+                    <div class="lifecycle-state-node" style="--state-color:#00833e">PRODUCTION_ACTIVE<small>Quyết định thật</small></div>
+                    <div class="lifecycle-state-node" style="--state-color:#60758c">DEPRECATED<small>Chỉ replay lịch sử</small></div>
+                    <div class="lifecycle-state-node" style="--state-color:#455568">RETIRED<small>Lưu trữ theo retention</small></div>
+                  </div>
+                  <div class="lifecycle-state-descriptions">
+                    <div class="lifecycle-state-desc" style="--state-color:#0b4ea2"><b>1 · DRAFT</b><span>Khởi tạo yêu cầu; thiết kế population, outcome/label, Risk Driver, Feature Definition, nguồn và lineage.</span></div>
+                    <div class="lifecycle-state-desc" style="--state-color:#0b4ea2"><b>2 · CANDIDATE</b><span>Tạo dữ liệu point-in-time, huấn luyện và đóng gói model, feature set, calibration, mapping, cấu hình.</span></div>
+                    <div class="lifecycle-state-desc" style="--state-color:#7b5500"><b>3 · VALIDATED</b><span>Đạt kiểm định kỹ thuật và nghiệp vụ: AUC/KS, stability, calibration, explainability, leakage và UAT.</span></div>
+                    <div class="lifecycle-state-desc" style="--state-color:#7b5500"><b>4 · APPROVED</b><span>Model Owner, Risk và Governance phê duyệt bằng chứng kiểm định, giới hạn dùng và kế hoạch rollback.</span></div>
+                    <div class="lifecycle-state-desc" style="--state-color:#7b5500"><b>5 · READY</b><span>Release package hoàn chỉnh, version và checksum cố định; API, routing, giám sát và rollback đã sẵn sàng.</span></div>
+                    <div class="lifecycle-state-desc" style="--state-color:#00833e"><b>6 · SHADOW_ACTIVE</b><span>Chạy trên traffic thật nhưng chưa quyết định; so Champion/Challenger rồi Canary 5% → 100%.</span></div>
+                    <div class="lifecycle-state-desc" style="--state-color:#00833e"><b>7 · PRODUCTION_ACTIVE</b><span>Được promote để chấm điểm chính thức; theo dõi drift, bad rate, calibration, latency và KPI nghiệp vụ.</span></div>
+                    <div class="lifecycle-state-desc" style="--state-color:#60758c"><b>8 · DEPRECATED</b><span>Khi package mới lên Production, bản cũ ngừng quyết định mới nhưng vẫn được giữ để replay và audit.</span></div>
+                    <div class="lifecycle-state-desc" style="--state-color:#455568"><b>9 · RETIRED</b><span>Sau thời gian retention, package kết thúc phục vụ; artifact và audit trail vẫn được lưu theo chính sách.</span></div>
+                  </div>
+                  <div class="lifecycle-control-loop"><b>VÒNG KIỂM SOÁT SAU PHÁT HÀNH</b><div class="lifecycle-control-item"><b>Sự cố khi Canary/Production</b> → rollback đồng bộ về Champion ổn định.</div><div class="lifecycle-control-item"><b>Drift hoặc giảm hiệu năng</b> → recalibrate hoặc retrain thành Candidate phiên bản mới.</div><div class="lifecycle-control-item"><b>Challenger được promote</b> → bản Champion cũ tự chuyển Deprecated rồi Retired.</div></div>
+                </section>
               </div>`;
             }
           const flows = {
@@ -9206,12 +9203,11 @@
               "ont-problem-scope": "Phạm vi & Input / Output",
               "ont-model-io": "Input / Output của model",
               "ont-key-objects": "Object trong luồng A-Score",
-              "ont-outcome": "Outcome — linh hồn training data",
               "ont-business-rules": "Business Rule / Policy",
               "ont-customer-profile": "Customer Label Profile",
               "ont-risk-driver": "Risk Driver",
               "ont-routing-matrix": "Routing Matrix",
-              "ont-lifecycle": "Lifecycle Workflow",
+              "ont-lifecycle": "Lifecycle: Design · Train · Runtime",
             }[item.id] || item.message
           );
         }
