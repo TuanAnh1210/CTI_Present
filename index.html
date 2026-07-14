@@ -7082,8 +7082,16 @@
         justify-content: center;
         min-height: 620px;
       }
-      .cti-v2 .ds-slide.image-only-slide:has(.model-dash) {
+      .cti-v2 .ds-slide.image-only-slide:has(.model-dash),
+      .cti-v2 .ds-slide.image-only-slide:has(.model-hub) {
         background: #f4f7fb !important;
+      }
+      .cti-v2 .ds-slide.image-only-slide:has(.model-hub) {
+        padding: 0 !important;
+        height: 640px !important;
+        min-height: 640px !important;
+        max-height: 640px !important;
+        overflow: hidden;
       }
       .cti-v2 .ds-slide.image-only-slide .architecture-image.image-fill {
         height: auto;
@@ -7108,6 +7116,62 @@
         width: 100%;
         height: auto;
         max-height: 640px;
+      }
+      .cti-v2 .model-hub {
+        position: relative;
+        width: 100%;
+        height: 640px;
+        background: #f4f7fb;
+      }
+      .cti-v2 .model-hub-scroll {
+        height: 640px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+        overscroll-behavior: contain;
+        scrollbar-width: thin;
+        scrollbar-color: #94a3b8 transparent;
+      }
+      .cti-v2 .model-hub-scroll::-webkit-scrollbar {
+        width: 6px;
+      }
+      .cti-v2 .model-hub-scroll::-webkit-scrollbar-thumb {
+        background: #94a3b8;
+        border-radius: 4px;
+      }
+      .cti-v2 .model-hub-panel {
+        height: 640px;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        box-sizing: border-box;
+      }
+      .cti-v2 .model-hub-panel svg {
+        width: 100%;
+        height: 640px;
+        display: block;
+      }
+      .cti-v2 .model-hub-dots {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        z-index: 3;
+      }
+      .cti-v2 .model-hub-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid #0b2f64;
+        background: transparent;
+        padding: 0;
+        cursor: pointer;
+      }
+      .cti-v2 .model-hub-dot.on {
+        background: #0b2f64;
       }
       .cti-v2 .architecture-image line,
       .cti-v2 .ds-diagram line {
@@ -7563,7 +7627,7 @@
             group: "Monitoring",
             title: "System monitoring Phase 1: Metric dictionary -> Grafana -> SLA",
             message: "Mỗi metric là một hợp đồng: định nghĩa, công thức, nguồn, ngưỡng, hành động",
-            lead: "Lớp system trả lời ba câu hỏi Phase 1: service còn ổn không, data vào scoring có tin được không, output result_mode có trung thực không. Metric dictionary là hợp đồng đo lường; Grafana là điểm kiểm soát; SLA G/A/R là kết luận vận hành.",
+            lead: "Lớp system trả lời ba câu hỏi Phase 1. Pipeline đo–nhìn–báo gắn với năm nhóm kiểm soát trên đường request (tên thôi — không trình catalogue).",
             points: [],
             visual: "monitorPipeline",
           },
@@ -7589,8 +7653,8 @@
           {
             id: "monitoring-model-dashboard",
             group: "Monitoring",
-            title: "Model Performance Dashboard Phase 2",
-            message: "Dashboard mẫu Model KPI",
+            title: "Model Monitoring Hub — 5 dashboard con",
+            message: "5 dashboard con full khung trong một hub",
             lead: "",
             points: [],
             visual: "modelDashboard",
@@ -8122,146 +8186,257 @@
             </svg></div>`;
           if (type === "systemDashboard")
             return `<div class="architecture-image image-fill"><img src="assets/system_dashboard.png" alt="A-Score System Monitoring Phase 1 Grafana dashboard" /></div>`;
-          if (type === "modelDashboard")
-            return `<div class="architecture-image image-fill model-dash"><svg viewBox="0 0 1100 640" role="img" aria-label="A-Score Model Performance Dashboard Phase 2">
+          if (type === "modelDashboard") {
+            const hubChrome = (idx, total, code, title, status, sc, sbg, sub) => `
               <rect width="1100" height="640" fill="#f4f7fb"/>
               <rect x="0" y="0" width="1100" height="58" fill="#0b2f64"/>
-              <text x="24" y="36" font-size="18" font-weight="900" fill="#ffffff">A-Score · Model Performance — Phase 2</text>
-              <text x="1076" y="28" text-anchor="end" font-size="11" font-weight="700" fill="#cfe0f5">Last 90 days · Refresh 1d</text>
-              <text x="1076" y="46" text-anchor="end" font-size="10" font-weight="700" fill="#9db6dd">A-Score / Phase 2 / Model Performance</text>
-
-              ${[
-                ["auc_roc", "0.78", "floor DS ≥ 0.72", 24, "#e8f8ef", "#168447"],
-                ["ks_statistic", "0.41", "floor DS ≥ 0.35", 298, "#eef6ff", "#2368c4"],
-                ["gini_coefficient", "0.56", "≈ 2×AUC − 1", 572, "#fff8e8", "#8b6500"],
-                ["score_psi", "0.08", "G &lt;0.10 · R &gt;0.25", 846, "#f5efff", "#7245c7"],
-              ].map(([k,v,s,x,bg,c])=>`<g><rect x="${x}" y="74" width="230" height="92" rx="10" fill="#ffffff" stroke="#d5e0eb"/><rect x="${x}" y="74" width="8" height="92" rx="4" fill="${c}"/><text x="${x+22}" y="98" font-size="12" font-weight="800" fill="#64748b">${k}</text><text x="${x+22}" y="132" font-size="28" font-weight="900" fill="${c}">${v}</text><text x="${x+22}" y="152" font-size="11" font-weight="700" fill="#7b8794">${s}</text></g>`).join("")}
-
-              <rect x="24" y="184" width="640" height="220" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-              <text x="40" y="208" font-size="13" font-weight="900" fill="#102033">AUC / KS / Gini by model_version</text>
-              <text x="40" y="226" font-size="10" font-weight="700" fill="#7b8794">[theo DS model card] · floor AUC 0.72</text>
-              <line x1="56" y1="248" x2="600" y2="248" stroke="#e6edf4"/>
-              <line x1="56" y1="282" x2="600" y2="282" stroke="#e6edf4"/>
-              <line x1="56" y1="316" x2="600" y2="316" stroke="#e6edf4"/>
-              <line x1="56" y1="350" x2="600" y2="350" stroke="#e6edf4"/>
-              <line x1="56" y1="248" x2="600" y2="248" stroke="#b91c1c" stroke-dasharray="5 4" stroke-opacity="0.5"/>
-              <text x="608" y="252" font-size="10" font-weight="800" fill="#b91c1c">floor</text>
-              ${[
-                [80, 0.74, 0.36, 0.48],
-                [175, 0.75, 0.37, 0.50],
-                [270, 0.76, 0.39, 0.52],
-                [365, 0.77, 0.40, 0.54],
-                [460, 0.78, 0.41, 0.56],
-              ].map(([x,a,k,g],i)=>{
-                const baseY=350, hA=(a-0.65)*350, hK=(k-0.2)*240, hG=(g-0.3)*260;
-                return `<g>
-                <rect x="${x}" y="${baseY-hA}" width="16" height="${hA}" fill="#2368c4" rx="3"/>
-                <rect x="${x+20}" y="${baseY-hK}" width="16" height="${hK}" fill="#168447" rx="3"/>
-                <rect x="${x+40}" y="${baseY-hG}" width="16" height="${hG}" fill="#f5c518" rx="3"/>
-                <text x="${x+28}" y="368" text-anchor="middle" font-size="11" font-weight="800" fill="#52657a">v1.${i+1}</text>
-              </g>`;
-              }).join("")}
-              <rect x="56" y="382" width="10" height="10" rx="2" fill="#2368c4"/><text x="72" y="391" font-size="10" font-weight="700" fill="#52657a">AUC</text>
-              <rect x="120" y="382" width="10" height="10" rx="2" fill="#168447"/><text x="136" y="391" font-size="10" font-weight="700" fill="#52657a">KS</text>
-              <rect x="176" y="382" width="10" height="10" rx="2" fill="#f5c518"/><text x="192" y="391" font-size="10" font-weight="700" fill="#52657a">Gini</text>
-
-              <rect x="684" y="184" width="392" height="220" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-              <text x="700" y="208" font-size="13" font-weight="900" fill="#102033">score_psi vs champion baseline</text>
-              <text x="700" y="226" font-size="10" font-weight="700" fill="#7b8794">DE job · baseline DS</text>
-              <line x1="712" y1="255" x2="980" y2="255" stroke="#e6edf4"/>
-              <line x1="712" y1="295" x2="980" y2="295" stroke="#e6edf4"/>
-              <line x1="712" y1="335" x2="980" y2="335" stroke="#e6edf4"/>
-              <line x1="712" y1="295" x2="980" y2="295" stroke="#db681d" stroke-dasharray="5 4"/>
-              <line x1="712" y1="255" x2="980" y2="255" stroke="#b91c1c" stroke-dasharray="5 4"/>
-              <text x="988" y="259" font-size="10" font-weight="800" fill="#b91c1c">R 0.25</text>
-              <text x="988" y="299" font-size="10" font-weight="800" fill="#db681d">A 0.10</text>
-              <polyline fill="none" stroke="#7245c7" stroke-width="3" points="720,355 780,340 840,348 900,322 960,312 1020,305"/>
-              <circle cx="1020" cy="305" r="4" fill="#7245c7"/>
-              <text x="700" y="388" font-size="11" font-weight="800" fill="#168447">Current PSI 0.08 — Green</text>
-
-              <rect x="24" y="424" width="520" height="184" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-              <text x="40" y="452" font-size="14" font-weight="900" fill="#102033">Model versions</text>
-              <text x="40" y="478" font-size="11" font-weight="800" fill="#7b8794">version</text>
-              <text x="160" y="478" font-size="11" font-weight="800" fill="#7b8794">AUC</text>
-              <text x="230" y="478" font-size="11" font-weight="800" fill="#7b8794">KS</text>
-              <text x="300" y="478" font-size="11" font-weight="800" fill="#7b8794">Gini</text>
-              <text x="380" y="478" font-size="11" font-weight="800" fill="#7b8794">status</text>
-              <text x="470" y="478" font-size="11" font-weight="800" fill="#7b8794">promote?</text>
-              <line x1="40" y1="488" x2="520" y2="488" stroke="#e6edf4"/>
-              ${[
-                ["v1.4.2", "0.78", "0.41", "0.56", "PASS", "#168447", 508],
-                ["v1.3.1", "0.77", "0.40", "0.54", "PASS", "#168447", 540],
-                ["v1.2.0", "0.73", "0.36", "0.46", "HOLD", "#db681d", 572],
-              ].map(([v,a,k,g,st,c,y])=>`<g>
-                <text x="40" y="${y}" font-size="12" font-weight="800" fill="#102033">${v}</text>
-                <text x="160" y="${y}" font-size="12" font-weight="700" fill="#26384d">${a}</text>
-                <text x="230" y="${y}" font-size="12" font-weight="700" fill="#26384d">${k}</text>
-                <text x="300" y="${y}" font-size="12" font-weight="700" fill="#26384d">${g}</text>
-                <rect x="372" y="${y-14}" width="54" height="20" rx="6" fill="${c}" fill-opacity="0.12"/><text x="399" y="${y}" text-anchor="middle" font-size="11" font-weight="900" fill="${c}">${st}</text>
-                <text x="490" y="${y}" text-anchor="middle" font-size="12" font-weight="800" fill="${st==="PASS"?"#168447":"#db681d"}">${st==="PASS"?"Yes":"No"}</text>
-              </g>`).join("")}
-
-              <rect x="564" y="424" width="250" height="184" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-              <text x="580" y="448" font-size="13" font-weight="900" fill="#102033">Grade mix vs baseline</text>
-              <rect x="580" y="458" width="10" height="10" rx="2" fill="#2368c4"/><text x="596" y="467" font-size="10" font-weight="700" fill="#52657a">current</text>
-              <rect x="668" y="458" width="10" height="10" rx="2" fill="#cbd5e1"/><text x="684" y="467" font-size="10" font-weight="700" fill="#52657a">baseline</text>
-              ${["A","B","C","D","E"].map((g,i)=>{
-                const cur=[18,28,30,16,8][i], base=[17,27,31,17,8][i];
-                const x=590+i*42;
-                return `<g>
-                  <rect x="${x}" y="${580-cur*2.2}" width="14" height="${cur*2.2}" fill="#2368c4" rx="2"/>
-                  <rect x="${x+16}" y="${580-base*2.2}" width="14" height="${base*2.2}" fill="#cbd5e1" rx="2"/>
-                  <text x="${x+15}" y="598" text-anchor="middle" font-size="11" font-weight="800" fill="#52657a">${g}</text>
-                </g>`;
-              }).join("")}
-
-              <rect x="834" y="424" width="242" height="184" rx="10" fill="#102f63"/>
-              <text x="955" y="458" text-anchor="middle" font-size="14" font-weight="900" fill="#fcc20e">GATE ACTION</text>
-              <text x="855" y="492" font-size="12" font-weight="700" fill="#dce7f5">• AUC/KS dưới floor</text>
-              <text x="855" y="512" font-size="12" font-weight="700" fill="#dce7f5">  → block promote</text>
-              <text x="855" y="540" font-size="12" font-weight="700" fill="#dce7f5">• score_psi &gt; 0.25</text>
-              <text x="855" y="560" font-size="12" font-weight="700" fill="#dce7f5">  → escalate DS / retrain</text>
-              <rect x="860" y="572" width="190" height="24" rx="7" fill="#168447"/><text x="955" y="589" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">Current: OK to promote</text>
-
-              <text x="24" y="628" font-size="11" font-weight="700" fill="#7b8794">Datasource: DE publish + DS model card · Governance kéo panel — không tự tính AUC từ scoring_decision_log</text>
-            </svg></div>`;
+              <text x="24" y="26" font-size="12" font-weight="800" fill="#9db6dd">A-Score · Model Monitoring Hub</text>
+              <text x="24" y="46" font-size="16" font-weight="900" fill="#ffffff">${code} · ${title}</text>
+              <text x="780" y="36" text-anchor="end" font-size="12" font-weight="700" fill="#cfe0f5">${idx}/${total}</text>
+              <rect x="800" y="18" width="72" height="24" rx="7" fill="${sbg}"/><text x="836" y="35" text-anchor="middle" font-size="11" font-weight="900" fill="${sc}">${status}</text>
+              <text x="1076" y="36" text-anchor="end" font-size="11" font-weight="700" fill="#9db6dd">${sub}</text>`;
+            const panels = [
+              `<svg viewBox="0 0 1100 640" role="img" aria-label="Feature Drift Dashboard">
+                ${hubChrome(1, 5, "#1", "Feature Drift", "Amber", "#db681d", "#fff3e9", "DE / DS")}
+                ${[
+                  ["feature_distribution_shift_psi", "0.12", 24, "#db681d"],
+                  ["online_offline_mismatch_rate", "1.8%", 208, "#2368c4"],
+                  ["feature_missing_rate", "0.4%", 392, "#168447"],
+                  ["feature_outlier_rate", "2.1%", 576, "#7245c7"],
+                  ["feature_store_timeout_rate", "0.3%", 760, "#8b6500"],
+                  ["feature_source_usage Δ", "+6%", 944, "#0b2f64"],
+                ].map(([k,v,x,c])=>`<g><rect x="${x}" y="74" width="172" height="78" rx="8" fill="#ffffff" stroke="#d5e0eb"/><text x="${x+10}" y="96" font-size="9.5" font-weight="800" fill="#64748b">${k}</text><text x="${x+10}" y="132" font-size="22" font-weight="900" fill="${c}">${v}</text></g>`).join("")}
+                <rect x="24" y="168" width="520" height="300" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="194" font-size="13" font-weight="900" fill="#102033">feature_distribution_shift_psi (per feature)</text>
+                ${[
+                  ["income_proxy", 0.18, "#db681d"],
+                  ["bureau_util", 0.14, "#db681d"],
+                  ["channel_mix", 0.11, "#db681d"],
+                  ["device_trust", 0.09, "#168447"],
+                  ["geo_risk", 0.07, "#168447"],
+                  ["tenure_m", 0.05, "#168447"],
+                ].map(([n,v,c],i)=>{
+                  const y=220+i*36, w=v*1800;
+                  return `<text x="40" y="${y+4}" font-size="12" font-weight="700" fill="#52657a">${n}</text><rect x="160" y="${y-12}" width="${w}" height="18" rx="4" fill="${c}"/><text x="${170+w}" y="${y+4}" font-size="12" font-weight="900" fill="${c}">${v.toFixed(2)}</text>`;
+                }).join("")}
+                <rect x="560" y="168" width="516" height="300" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="576" y="194" font-size="13" font-weight="900" fill="#102033">feature_source_usage_distribution</text>
+                ${[
+                  ["Bureau", 42, "#2368c4"],
+                  ["Internal FS", 28, "#168447"],
+                  ["Partner", 18, "#7245c7"],
+                  ["Request-time", 12, "#db681d"],
+                ].map(([n,v,c],i)=>{
+                  const y=220+i*48, w=v*8;
+                  return `<text x="576" y="${y}" font-size="12" font-weight="700" fill="#52657a">${n}</text><rect x="700" y="${y-14}" width="${w}" height="20" rx="4" fill="${c}"/><text x="${710+w}" y="${y}" font-size="13" font-weight="900" fill="${c}">${v}%</text>`;
+                }).join("")}
+                <text x="576" y="430" font-size="11" font-weight="700" fill="#7b8794">baseline shift max +6% · online_offline_mismatch 1.8%</text>
+                <rect x="24" y="484" width="1052" height="132" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="514" font-size="13" font-weight="900" fill="#102033">online_offline_mismatch_rate · detail</text>
+                ${[
+                  ["Compared rows", "128,400"],
+                  ["Mismatch count", "2,311"],
+                  ["Mismatch rate", "1.8%"],
+                  ["Critical features fail", "3"],
+                  ["feature_store_timeout", "0.3%"],
+                  ["PSI max (feature)", "0.18"],
+                ].map(([k,v],i)=>{
+                  const x=40+(i%3)*350, y=540+Math.floor(i/3)*36;
+                  return `<text x="${x}" y="${y}" font-size="12" font-weight="700" fill="#64748b">${k}</text><text x="${x+220}" y="${y}" font-size="13" font-weight="900" fill="#102033">${v}</text>`;
+                }).join("")}
+              </svg>`,
+              `<svg viewBox="0 0 1100 640" role="img" aria-label="Score and Grade Dashboard">
+                ${hubChrome(2, 5, "#2", "Score &amp; Grade", "Green", "#168447", "#e8f8ef", "Log PG")}
+                ${[
+                  ["result_mode MODEL_SCORED", "96.0%", 24, "#168447"],
+                  ["fallback_rate", "2.4%", 208, "#db681d"],
+                  ["NOT_SCORABLE", "1.1%", 392, "#8b6500"],
+                  ["DATA_FAIL", "0.5%", 576, "#b91c1c"],
+                  ["score_psi", "0.08", 760, "#7245c7"],
+                  ["grade_mix_shift", "2.1%", 944, "#2368c4"],
+                ].map(([k,v,x,c])=>`<g><rect x="${x}" y="74" width="172" height="78" rx="8" fill="#ffffff" stroke="#d5e0eb"/><text x="${x+10}" y="96" font-size="9.5" font-weight="800" fill="#64748b">${k}</text><text x="${x+10}" y="132" font-size="22" font-weight="900" fill="${c}">${v}</text></g>`).join("")}
+                <rect x="24" y="168" width="640" height="280" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="194" font-size="13" font-weight="900" fill="#102033">score_distribution</text>
+                ${[8,14,22,30,38,44,48,42,34,26,18,12,8,5,3].map((h,i)=>{
+                  const x=48+i*40, bh=h*3.8;
+                  return `<rect x="${x}" y="${400-bh}" width="30" height="${bh}" rx="3" fill="#2368c4"/><text x="${x+15}" y="422" text-anchor="middle" font-size="9" font-weight="700" fill="#94a3b8">${i*7}</text>`;
+                }).join("")}
+                <rect x="680" y="168" width="396" height="280" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="696" y="194" font-size="13" font-weight="900" fill="#102033">grade_distribution vs baseline</text>
+                <rect x="696" y="206" width="10" height="10" rx="2" fill="#2368c4"/><text x="712" y="215" font-size="10" font-weight="700" fill="#52657a">current</text>
+                <rect x="780" y="206" width="10" height="10" rx="2" fill="#cbd5e1"/><text x="796" y="215" font-size="10" font-weight="700" fill="#52657a">baseline</text>
+                ${["A","B","C","D","E"].map((g,i)=>{
+                  const cur=[18,28,30,16,8][i], base=[17,27,31,17,8][i], x=708+i*70;
+                  return `<g><rect x="${x}" y="${400-cur*3.5}" width="20" height="${cur*3.5}" fill="#2368c4" rx="3"/><rect x="${x+24}" y="${400-base*3.5}" width="20" height="${base*3.5}" fill="#cbd5e1" rx="3"/><text x="${x+22}" y="422" text-anchor="middle" font-size="12" font-weight="800" fill="#52657a">${g}</text></g>`;
+                }).join("")}
+                <rect x="24" y="464" width="1052" height="152" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="492" font-size="13" font-weight="900" fill="#102033">score_psi vs champion baseline</text>
+                <polyline fill="none" stroke="#7245c7" stroke-width="3" points="56,580 180,572 300,568 420,558 560,548 720,542 900,536 1040,532"/>
+                <line x1="56" y1="520" x2="1040" y2="520" stroke="#b91c1c" stroke-dasharray="5 4"/>
+                <text x="1040" y="514" text-anchor="end" font-size="10" font-weight="800" fill="#b91c1c">R 0.25</text>
+                <line x1="56" y1="550" x2="1040" y2="550" stroke="#db681d" stroke-dasharray="5 4"/>
+                <text x="1040" y="568" text-anchor="end" font-size="10" font-weight="800" fill="#db681d">A 0.10</text>
+              </svg>`,
+              `<svg viewBox="0 0 1100 640" role="img" aria-label="Model Performance Dashboard">
+                ${hubChrome(3, 5, "#3", "Model Performance", "Green", "#168447", "#e8f8ef", "DS / DE")}
+                ${[
+                  ["auc_roc", "0.78", 24, "#168447"],
+                  ["ks_statistic", "0.41", 208, "#2368c4"],
+                  ["gini_coefficient", "0.56", 392, "#8b6500"],
+                  ["rank_order_stability", "0.94", 576, "#7245c7"],
+                  ["segment_performance_gap", "4.2%", 760, "#db681d"],
+                  ["bad_rate_by_grade (A)", "1.2%", 944, "#0b2f64"],
+                ].map(([k,v,x,c])=>`<g><rect x="${x}" y="74" width="172" height="78" rx="8" fill="#ffffff" stroke="#d5e0eb"/><text x="${x+10}" y="96" font-size="9.5" font-weight="800" fill="#64748b">${k}</text><text x="${x+10}" y="132" font-size="22" font-weight="900" fill="${c}">${v}</text></g>`).join("")}
+                <rect x="24" y="168" width="620" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="194" font-size="13" font-weight="900" fill="#102033">AUC / KS / Gini by model_version</text>
+                <line x1="56" y1="220" x2="600" y2="220" stroke="#e6edf4"/><line x1="56" y1="260" x2="600" y2="260" stroke="#e6edf4"/><line x1="56" y1="300" x2="600" y2="300" stroke="#e6edf4"/><line x1="56" y1="340" x2="600" y2="340" stroke="#e6edf4"/>
+                <line x1="56" y1="220" x2="600" y2="220" stroke="#b91c1c" stroke-dasharray="5 4" stroke-opacity="0.45"/>
+                ${[[70,0.74,0.36,0.48],[170,0.75,0.37,0.50],[270,0.76,0.39,0.52],[370,0.77,0.40,0.54],[470,0.78,0.41,0.56]].map(([x,a,k,g],i)=>{
+                  const baseY=360, hA=(a-0.65)*380, hK=(k-0.2)*260, hG=(g-0.3)*280;
+                  return `<g><rect x="${x}" y="${baseY-hA}" width="18" height="${hA}" fill="#2368c4" rx="3"/><rect x="${x+22}" y="${baseY-hK}" width="18" height="${hK}" fill="#168447" rx="3"/><rect x="${x+44}" y="${baseY-hG}" width="18" height="${hG}" fill="#f5c518" rx="3"/><text x="${x+30}" y="386" text-anchor="middle" font-size="11" font-weight="800" fill="#52657a">v1.${i+1}</text></g>`;
+                }).join("")}
+                <rect x="56" y="398" width="10" height="10" rx="2" fill="#2368c4"/><text x="72" y="407" font-size="10" font-weight="700" fill="#52657a">AUC</text>
+                <rect x="120" y="398" width="10" height="10" rx="2" fill="#168447"/><text x="136" y="407" font-size="10" font-weight="700" fill="#52657a">KS</text>
+                <rect x="176" y="398" width="10" height="10" rx="2" fill="#f5c518"/><text x="192" y="407" font-size="10" font-weight="700" fill="#52657a">Gini</text>
+                <rect x="660" y="168" width="416" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="676" y="194" font-size="13" font-weight="900" fill="#102033">Champion versions</text>
+                <text x="676" y="222" font-size="11" font-weight="800" fill="#7b8794">version</text><text x="790" y="222" font-size="11" font-weight="800" fill="#7b8794">AUC</text><text x="870" y="222" font-size="11" font-weight="800" fill="#7b8794">KS</text><text x="950" y="222" font-size="11" font-weight="800" fill="#7b8794">Gini</text><text x="1030" y="222" font-size="11" font-weight="800" fill="#7b8794">gate</text>
+                <line x1="676" y1="232" x2="1050" y2="232" stroke="#e6edf4"/>
+                ${[["v1.4.2","0.78","0.41","0.56","PASS","#168447",260],["v1.3.1","0.77","0.40","0.54","PASS","#168447",300],["v1.2.0","0.73","0.36","0.46","HOLD","#db681d",340],["v1.1.0","0.71","0.34","0.42","FAIL","#b91c1c",380]].map(([v,a,k,g,st,c,y])=>`<g><text x="676" y="${y}" font-size="12" font-weight="800" fill="#102033">${v}</text><text x="790" y="${y}" font-size="12" font-weight="700" fill="#26384d">${a}</text><text x="870" y="${y}" font-size="12" font-weight="700" fill="#26384d">${k}</text><text x="950" y="${y}" font-size="12" font-weight="700" fill="#26384d">${g}</text><text x="1030" y="${y}" text-anchor="middle" font-size="11" font-weight="900" fill="${c}">${st}</text></g>`).join("")}
+                <rect x="24" y="436" width="520" height="180" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="464" font-size="13" font-weight="900" fill="#102033">bad_rate_by_grade</text>
+                ${["A","B","C","D","E"].map((g,i)=>{
+                  const br=[1.2,2.8,5.4,9.1,14.6][i], x=56+i*92;
+                  return `<g><rect x="${x}" y="${580-br*8}" width="48" height="${br*8}" fill="#0b2f64" rx="3"/><text x="${x+24}" y="598" text-anchor="middle" font-size="12" font-weight="800" fill="#52657a">${g}</text><text x="${x+24}" y="${572-br*8}" text-anchor="middle" font-size="11" font-weight="900" fill="#0b2f64">${br}%</text></g>`;
+                }).join("")}
+                <rect x="560" y="436" width="516" height="180" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="576" y="464" font-size="13" font-weight="900" fill="#102033">segment_performance_gap (AUC)</text>
+                ${[
+                  ["New", 0.74, 0.78],
+                  ["Thin", 0.76, 0.78],
+                  ["Thick", 0.79, 0.78],
+                  ["Partner", 0.71, 0.78],
+                ].map(([n,seg,base],i)=>{
+                  const y=492+i*28, gap=((base-seg)*100).toFixed(1);
+                  const c = Math.abs(base-seg) > 0.04 ? "#db681d" : "#168447";
+                  return `<text x="576" y="${y}" font-size="12" font-weight="700" fill="#52657a">${n}</text><text x="700" y="${y}" font-size="12" font-weight="800" fill="#102033">${seg.toFixed(2)}</text><text x="820" y="${y}" font-size="12" font-weight="700" fill="#94a3b8">vs ${base.toFixed(2)}</text><text x="1000" y="${y}" text-anchor="end" font-size="12" font-weight="900" fill="${c}">Δ ${gap}pp</text>`;
+                }).join("")}
+              </svg>`,
+              `<svg viewBox="0 0 1100 640" role="img" aria-label="Calibration Dashboard">
+                ${hubChrome(4, 5, "#4", "Calibration", "Amber", "#db681d", "#fff3e9", "DS / BI")}
+                ${[
+                  ["expected_vs_observed_gap", "1.4pp", 24, "#db681d"],
+                  ["observed_bad_rate_by_grade", "4.8%", 298, "#2368c4"],
+                  ["calibration_drift_index", "0.11", 572, "#8b6500"],
+                  ["score_band_default_rate", "3.9%", 846, "#7245c7"],
+                ].map(([k,v,x,c])=>`<g><rect x="${x}" y="74" width="230" height="88" rx="8" fill="#ffffff" stroke="#d5e0eb"/><text x="${x+14}" y="100" font-size="11" font-weight="800" fill="#64748b">${k}</text><text x="${x+14}" y="140" font-size="28" font-weight="900" fill="${c}">${v}</text></g>`).join("")}
+                <rect x="24" y="180" width="640" height="420" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="210" font-size="13" font-weight="900" fill="#102033">expected_vs_observed_gap (by grade)</text>
+                <line x1="80" y1="520" x2="600" y2="280" stroke="#2368c4" stroke-width="2.5" stroke-dasharray="6 4"/>
+                <text x="610" y="280" font-size="11" font-weight="800" fill="#2368c4">expected</text>
+                ${[["A",140,505,1.2],["B",220,455,2.9],["C",300,400,5.6],["D",380,350,9.8],["E",460,310,15.2],["F",540,285,21.0]].map(([g,x,y,v])=>`<g><circle cx="${x}" cy="${y}" r="7" fill="#2368c4"/><text x="${x}" y="${y+24}" text-anchor="middle" font-size="11" font-weight="800" fill="#64748b">${g}</text><text x="${x}" y="${y-14}" text-anchor="middle" font-size="11" font-weight="900" fill="#0b2f64">${v}%</text></g>`).join("")}
+                <rect x="680" y="180" width="396" height="420" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="696" y="210" font-size="13" font-weight="900" fill="#102033">observed_bad_rate_by_grade</text>
+                <text x="696" y="240" font-size="11" font-weight="800" fill="#7b8794">grade</text><text x="800" y="240" font-size="11" font-weight="800" fill="#7b8794">expected</text><text x="910" y="240" font-size="11" font-weight="800" fill="#7b8794">observed</text><text x="1020" y="240" font-size="11" font-weight="800" fill="#7b8794">gap</text>
+                <line x1="696" y1="250" x2="1050" y2="250" stroke="#e6edf4"/>
+                ${[["A","1.0%","1.2%","+0.2"],["B","2.5%","2.9%","+0.4"],["C","5.0%","5.6%","+0.6"],["D","9.0%","9.8%","+0.8"],["E","14.0%","15.2%","+1.2"]].map(([g,e,o,gap],i)=>{
+                  const y=280+i*40;
+                  const gc = parseFloat(gap) >= 1 ? "#db681d" : "#168447";
+                  return `<g><text x="696" y="${y}" font-size="13" font-weight="800" fill="#102033">${g}</text><text x="800" y="${y}" font-size="13" font-weight="700" fill="#26384d">${e}</text><text x="910" y="${y}" font-size="13" font-weight="700" fill="#26384d">${o}</text><text x="1020" y="${y}" font-size="13" font-weight="900" fill="${gc}">${gap}</text></g>`;
+                }).join("")}
+                <text x="696" y="510" font-size="12" font-weight="800" fill="#102033">score_band_default_rate</text>
+                <text x="696" y="540" font-size="11" font-weight="700" fill="#64748b">0–20 · 21–40 · 41–60 · 61–80 · 81–100</text>
+                <text x="696" y="572" font-size="16" font-weight="900" fill="#0b2f64">18.4% · 9.1% · 4.2% · 1.8% · 0.6%</text>
+              </svg>`,
+              `<svg viewBox="0 0 1100 640" role="img" aria-label="Portfolio Feedback Dashboard">
+                ${hubChrome(5, 5, "#5", "Portfolio Feedback", "Green", "#168447", "#e8f8ef", "BI / LOS / DS")}
+                ${[
+                  ["portfolio_bad_rate", "4.6%", 24, 74, "#db681d"],
+                  ["vintage_bad_rate_by_grade", "5.1%", 298, 74, "#2368c4"],
+                  ["dpd30_rate_by_grade", "7.8%", 572, 74, "#8b6500"],
+                  ["loss_rate_by_grade", "2.3%", 846, 74, "#7245c7"],
+                  ["approval_mix_by_grade", "62%", 24, 190, "#168447"],
+                  ["booking_volume_by_grade", "8.4k", 298, 190, "#0b2f64"],
+                  ["manual_review_conversion_rate", "41%", 572, 190, "#2368c4"],
+                  ["cap_hit_rate_by_cap_type", "3.2%", 846, 190, "#db681d"],
+                  ["amount_reduction_rate", "11%", 24, 306, "#8b6500"],
+                  ["policy_exception_bad_rate", "6.9%", 298, 306, "#b91c1c"],
+                ].map(([k,v,x,y,c])=>`<g><rect x="${x}" y="${y}" width="230" height="100" rx="8" fill="#ffffff" stroke="#d5e0eb"/><text x="${x+14}" y="${y+32}" font-size="11" font-weight="800" fill="#64748b">${k}</text><text x="${x+14}" y="${y+72}" font-size="28" font-weight="900" fill="${c}">${v}</text></g>`).join("")}
+                <rect x="572" y="306" width="504" height="100" rx="8" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="588" y="338" font-size="12" font-weight="800" fill="#64748b">vintage_bad_rate_by_grade · MOB6</text>
+                <text x="588" y="378" font-size="15" font-weight="900" fill="#0b2f64">A 1.4% · B 3.1% · C 5.8% · D 10.2% · E 16.5%</text>
+                <rect x="24" y="424" width="1052" height="192" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
+                <text x="40" y="456" font-size="13" font-weight="900" fill="#102033">approval_mix / booking / dpd30 by grade</text>
+                ${[
+                  ["A", "18%", "1.6k", "2.1%"],
+                  ["B", "27%", "2.4k", "4.5%"],
+                  ["C", "31%", "2.7k", "7.9%"],
+                  ["D", "16%", "1.2k", "12.4%"],
+                  ["E", "8%", "0.5k", "19.8%"],
+                ].map(([g,ap,bk,dpd],i)=>{
+                  const x=80+i*200;
+                  return `<g><text x="${x}" y="500" text-anchor="middle" font-size="16" font-weight="900" fill="#102033">${g}</text><text x="${x}" y="536" text-anchor="middle" font-size="13" font-weight="700" fill="#52657a">approval ${ap}</text><text x="${x}" y="566" text-anchor="middle" font-size="13" font-weight="700" fill="#52657a">booking ${bk}</text><text x="${x}" y="596" text-anchor="middle" font-size="13" font-weight="700" fill="#52657a">dpd30 ${dpd}</text></g>`;
+                }).join("")}
+              </svg>`,
+            ];
+            return `<div class="model-hub" data-model-hub="1">
+              <div class="model-hub-scroll" tabindex="0" aria-label="Model Monitoring Hub">
+                ${panels.map((svg, i) => `<div class="model-hub-panel" data-hub-idx="${i}">${svg}</div>`).join("")}
+              </div>
+              <div class="model-hub-dots" aria-hidden="true">
+                ${panels.map((_, i) => `<button type="button" class="model-hub-dot${i === 0 ? " on" : ""}" data-hub-dot="${i}" title="Dashboard ${i + 1}"></button>`).join("")}
+              </div>
+            </div>`;
+          }
           if (type === "monitorPipeline")
             return `<div class="architecture-image"><svg viewBox="0 0 980 400" role="img" aria-label="Pipeline system monitoring Phase 1">
               <defs>
                 <marker id="monPipeArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#60758c"/></marker>
-                <filter id="monPipeShadow" x="-15%" y="-20%" width="140%" height="155%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity="0.11"/></filter>
+                <filter id="monPipeShadow" x="-15%" y="-20%" width="140%" height="155%"><feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#102033" flood-opacity="0.1"/></filter>
               </defs>
               <rect x="16" y="14" width="948" height="372" rx="18" fill="#fbfdff" stroke="#d3dfeb"/>
-              <text x="490" y="43" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">SYSTEM MONITORING PHASE 1 — ĐO, NHÌN, BÁO</text>
-              <text x="490" y="65" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Log PG + Prometheus cùng đổ vào Grafana — rồi SLA — rồi Alert</text>
+              <text x="490" y="38" text-anchor="middle" font-size="20" font-weight="900" fill="#0b2f64">SYSTEM MONITORING PHASE 1 — ĐO, NHÌN, BÁO</text>
+              <text x="490" y="58" text-anchor="middle" font-size="12" font-weight="800" fill="#64748b">Metric dictionary → Log PG + Prometheus → Grafana → SLA → Alert</text>
 
-              <g filter="url(#monPipeShadow)"><rect x="36" y="96" width="150" height="166" rx="13" fill="#eef6ff" stroke="#2368c4" stroke-opacity="0.52"/><circle cx="111" cy="96" r="23" fill="#2368c4"/><text x="111" y="102" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">1</text><text x="111" y="135" text-anchor="middle" font-size="12" font-weight="900" fill="#2368c4">METRIC</text><text x="111" y="152" text-anchor="middle" font-size="12" font-weight="900" fill="#2368c4">DICTIONARY</text><line x1="51" y1="164" x2="171" y2="164" stroke="#2368c4" stroke-opacity="0.25"/><text x="52" y="187" font-size="9.6" font-weight="700" fill="#26384d">• Định nghĩa + công thức</text><text x="52" y="208" font-size="9.6" font-weight="700" fill="#26384d">• Grain + nguồn</text><text x="52" y="229" font-size="9.6" font-weight="700" fill="#26384d">• Ngưỡng + hành động</text></g>
+              <g filter="url(#monPipeShadow)"><rect x="36" y="78" width="140" height="128" rx="12" fill="#eef6ff" stroke="#2368c4" stroke-opacity="0.5"/><circle cx="106" cy="78" r="18" fill="#2368c4"/><text x="106" y="84" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">1</text><text x="106" y="112" text-anchor="middle" font-size="12" font-weight="900" fill="#2368c4">METRIC</text><text x="106" y="130" text-anchor="middle" font-size="12" font-weight="900" fill="#2368c4">DICTIONARY</text><text x="48" y="158" font-size="10" font-weight="700" fill="#26384d">• Định nghĩa + công thức</text><text x="48" y="176" font-size="10" font-weight="700" fill="#26384d">• Nguồn + ngưỡng</text><text x="48" y="194" font-size="10" font-weight="700" fill="#26384d">• Hành động khi lệch</text></g>
 
-              <line x1="186" y1="150" x2="228" y2="130" stroke="#60758c" stroke-width="2.2" marker-end="url(#monPipeArrow)"/>
-              <line x1="186" y1="200" x2="228" y2="220" stroke="#60758c" stroke-width="2.2" marker-end="url(#monPipeArrow)"/>
+              <line x1="176" y1="120" x2="210" y2="105" stroke="#60758c" stroke-width="2.2" marker-end="url(#monPipeArrow)"/>
+              <line x1="176" y1="155" x2="210" y2="170" stroke="#60758c" stroke-width="2.2" marker-end="url(#monPipeArrow)"/>
 
-              <g filter="url(#monPipeShadow)"><rect x="236" y="96" width="150" height="70" rx="13" fill="#f5efff" stroke="#7245c7" stroke-opacity="0.55"/><text x="311" y="124" text-anchor="middle" font-size="13" font-weight="900" fill="#7245c7">Log PG</text><text x="311" y="144" text-anchor="middle" font-size="10" font-weight="700" fill="#52657a">scoring_decision_log</text></g>
-              <g filter="url(#monPipeShadow)"><rect x="236" y="192" width="150" height="70" rx="13" fill="#f5efff" stroke="#7245c7" stroke-opacity="0.55"/><text x="311" y="220" text-anchor="middle" font-size="13" font-weight="900" fill="#7245c7">Prometheus</text><text x="311" y="240" text-anchor="middle" font-size="10" font-weight="700" fill="#52657a">latency / 5xx</text></g>
+              <g filter="url(#monPipeShadow)"><rect x="218" y="78" width="130" height="54" rx="10" fill="#f5efff" stroke="#7245c7" stroke-opacity="0.5"/><text x="283" y="100" text-anchor="middle" font-size="12" font-weight="900" fill="#7245c7">Log PG</text><text x="283" y="118" text-anchor="middle" font-size="9.5" font-weight="700" fill="#52657a">scoring_decision_log</text></g>
+              <g filter="url(#monPipeShadow)"><rect x="218" y="148" width="130" height="54" rx="10" fill="#f5efff" stroke="#7245c7" stroke-opacity="0.5"/><text x="283" y="170" text-anchor="middle" font-size="12" font-weight="900" fill="#7245c7">Prometheus</text><text x="283" y="188" text-anchor="middle" font-size="9.5" font-weight="700" fill="#52657a">latency / 5xx</text></g>
 
-              <line x1="386" y1="131" x2="438" y2="175" stroke="#60758c" stroke-width="2.2" marker-end="url(#monPipeArrow)"/>
-              <line x1="386" y1="227" x2="438" y2="183" stroke="#60758c" stroke-width="2.2" marker-end="url(#monPipeArrow)"/>
+              <line x1="348" y1="105" x2="392" y2="130" stroke="#60758c" stroke-width="2.2" marker-end="url(#monPipeArrow)"/>
+              <line x1="348" y1="175" x2="392" y2="150" stroke="#60758c" stroke-width="2.2" marker-end="url(#monPipeArrow)"/>
 
-              <g filter="url(#monPipeShadow)"><rect x="446" y="112" width="150" height="134" rx="13" fill="#fff3e9" stroke="#db681d" stroke-opacity="0.52"/><circle cx="521" cy="112" r="23" fill="#db681d"/><text x="521" y="118" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">2</text><text x="521" y="152" text-anchor="middle" font-size="12" font-weight="900" fill="#db681d">GRAFANA</text><text x="521" y="170" text-anchor="middle" font-size="12" font-weight="900" fill="#db681d">PANEL</text><line x1="461" y1="182" x2="581" y2="182" stroke="#db681d" stroke-opacity="0.25"/><text x="462" y="204" font-size="9.6" font-weight="700" fill="#26384d">• Runtime health</text><text x="462" y="222" font-size="9.6" font-weight="700" fill="#26384d">• Data quality</text><text x="462" y="240" font-size="9.6" font-weight="700" fill="#26384d">• Score &amp; output</text></g>
+              <g filter="url(#monPipeShadow)"><rect x="400" y="90" width="130" height="106" rx="12" fill="#fff3e9" stroke="#db681d" stroke-opacity="0.5"/><circle cx="465" cy="90" r="18" fill="#db681d"/><text x="465" y="96" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">2</text><text x="465" y="128" text-anchor="middle" font-size="12" font-weight="900" fill="#db681d">GRAFANA</text><text x="465" y="148" text-anchor="middle" font-size="11" font-weight="800" fill="#52657a">Runtime · DQ · Output</text><text x="465" y="170" text-anchor="middle" font-size="11" font-weight="800" fill="#52657a">Audit panels</text></g>
 
-              <line x1="596" y1="179" x2="638" y2="179" stroke="#60758c" stroke-width="2.2" marker-end="url(#monPipeArrow)"/>
+              <line x1="530" y1="143" x2="568" y2="143" stroke="#60758c" stroke-width="2.2" marker-end="url(#monPipeArrow)"/>
 
-              <g filter="url(#monPipeShadow)"><rect x="646" y="112" width="140" height="134" rx="13" fill="#fffef0" stroke="#e6b93f"/><circle cx="716" cy="112" r="23" fill="#f5c518"/><text x="716" y="118" text-anchor="middle" font-size="15" font-weight="900" fill="#102033">3</text><text x="716" y="152" text-anchor="middle" font-size="13" font-weight="900" fill="#8b6500">SLA</text><text x="716" y="170" text-anchor="middle" font-size="13" font-weight="900" fill="#8b6500">G / A / R</text><line x1="661" y1="182" x2="771" y2="182" stroke="#e6b93f" stroke-opacity="0.45"/><text x="662" y="204" font-size="9.8" font-weight="700" fill="#26384d">• Green: vận hành</text><text x="662" y="222" font-size="9.8" font-weight="700" fill="#26384d">• Amber: theo dõi</text><text x="662" y="240" font-size="9.8" font-weight="700" fill="#26384d">• Red: vượt ngưỡng</text></g>
+              <g filter="url(#monPipeShadow)"><rect x="576" y="90" width="120" height="106" rx="12" fill="#fffef0" stroke="#e6b93f"/><circle cx="636" cy="90" r="18" fill="#f5c518"/><text x="636" y="96" text-anchor="middle" font-size="13" font-weight="900" fill="#102033">3</text><text x="636" y="128" text-anchor="middle" font-size="13" font-weight="900" fill="#8b6500">SLA</text><text x="636" y="150" text-anchor="middle" font-size="12" font-weight="900" fill="#8b6500">G / A / R</text><text x="636" y="174" text-anchor="middle" font-size="10" font-weight="700" fill="#52657a">Green · Amber · Red</text></g>
 
-              <line x1="786" y1="179" x2="828" y2="179" stroke="#60758c" stroke-width="2.2" marker-end="url(#monPipeArrow)"/>
+              <line x1="696" y1="143" x2="734" y2="143" stroke="#60758c" stroke-width="2.2" marker-end="url(#monPipeArrow)"/>
 
-              <g filter="url(#monPipeShadow)"><rect x="836" y="112" width="120" height="134" rx="13" fill="#fdecec" stroke="#b91c1c" stroke-opacity="0.55"/><circle cx="896" cy="112" r="23" fill="#b91c1c"/><text x="896" y="118" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">4</text><text x="896" y="152" text-anchor="middle" font-size="12" font-weight="900" fill="#b91c1c">ALERT</text><text x="896" y="170" text-anchor="middle" font-size="12" font-weight="900" fill="#b91c1c">PHASE 1</text><line x1="851" y1="182" x2="941" y2="182" stroke="#b91c1c" stroke-opacity="0.25"/><text x="850" y="204" font-size="9.2" font-weight="700" fill="#26384d">• ALT-RT-01</text><text x="850" y="222" font-size="9.2" font-weight="700" fill="#26384d">• ALT-DQ-01</text><text x="850" y="240" font-size="9.2" font-weight="700" fill="#26384d">• ALT-AR / LG</text></g>
+              <g filter="url(#monPipeShadow)"><rect x="742" y="90" width="202" height="106" rx="12" fill="#fdecec" stroke="#b91c1c" stroke-opacity="0.5"/><circle cx="843" cy="90" r="18" fill="#b91c1c"/><text x="843" y="96" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">4</text><text x="843" y="128" text-anchor="middle" font-size="13" font-weight="900" fill="#b91c1c">ALERT PHASE 1</text><text x="843" y="152" text-anchor="middle" font-size="11" font-weight="800" fill="#52657a">ALT-RT · ALT-DQ</text><text x="843" y="174" text-anchor="middle" font-size="11" font-weight="800" fill="#52657a">ALT-AR · ALT-LG</text></g>
 
+              <text x="40" y="236" font-size="11" font-weight="900" fill="#64748b">3 CÂU HỎI</text>
               ${[
-                ["Service còn ổn?", "success rate · P95 · availability", 84, "#0b4ea2"],
-                ["Data vào tin được?", "critical missing · resolve fail", 384, "#db681d"],
-                ["Output trung thực?", "result_mode · score distribution", 684, "#168447"],
-              ].map(([q, s, x, color]) => `<g filter="url(#monPipeShadow)"><rect x="${x}" y="292" width="212" height="62" rx="13" fill="#ffffff" stroke="${color}"/><text x="${x + 106}" y="318" text-anchor="middle" font-size="12.5" font-weight="900" fill="${color}">${q}</text><text x="${x + 106}" y="340" text-anchor="middle" font-size="10" font-weight="700" fill="#52657a">${s}</text></g>`).join("")}
-              <text x="490" y="284" text-anchor="middle" font-size="11.5" font-weight="900" fill="#64748b">BA CÂU HỎI PHASE 1</text>
+                ["Service ổn?", "#0b4ea2", 120],
+                ["Data tin được?", "#db681d", 310],
+                ["Output trung thực?", "#168447", 520],
+              ].map(([q, color, x]) => `<g filter="url(#monPipeShadow)"><rect x="${x}" y="216" width="170" height="32" rx="8" fill="#ffffff" stroke="${color}"/><text x="${x + 85}" y="237" text-anchor="middle" font-size="12" font-weight="900" fill="${color}">${q}</text></g>`).join("")}
+
+              <text x="40" y="286" font-size="11" font-weight="900" fill="#64748b">5 NHÓM KIỂM SOÁT</text>
+              ${[
+                ["1. Request & Access", "#2368c4"],
+                ["2. Data & Feature", "#168447"],
+                ["3. Model & Artifact", "#7245c7"],
+                ["4. Runtime & Audit", "#db681d"],
+                ["5. Output & Reliability", "#8b6500"],
+              ].map(([name, color], i) => {
+                const x = 36 + i * 186;
+                return `<g filter="url(#monPipeShadow)"><rect x="${x}" y="300" width="174" height="56" rx="10" fill="#ffffff" stroke="${color}" stroke-opacity="0.55"/><rect x="${x}" y="300" width="6" height="56" rx="3" fill="${color}"/><text x="${x + 90}" y="334" text-anchor="middle" font-size="12" font-weight="900" fill="${color}">${name}</text></g>`;
+              }).join("")}
             </svg></div>`;
           if (type === "modelKpi")
             return `<div class="architecture-image"><svg viewBox="0 0 980 400" role="img" aria-label="Ba lớp đo hiệu quả model">
@@ -8270,26 +8445,14 @@
                 <filter id="kpiShadow" x="-15%" y="-20%" width="140%" height="155%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity="0.11"/></filter>
               </defs>
               <rect x="16" y="14" width="948" height="372" rx="18" fill="#fbfdff" stroke="#d3dfeb"/>
-              <text x="490" y="43" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">MODEL KPI — MODEL CÒN TỐT KHÔNG?</text>
-              <text x="490" y="65" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Ba lớp đo tách theo thời điểm có dữ liệu — không gộp một cục</text>
+              <text x="490" y="52" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">MODEL KPI — MODEL CÒN TỐT KHÔNG?</text>
+              <text x="490" y="78" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Ba lớp đo tách theo thời điểm có dữ liệu — không gộp một cục</text>
 
               ${[
                 ["①", "TRAIN / VALIDATION KPI", ["AUC · KS · Gini", "Per model version", "Trước Shadow Gate"], "DS tính — DE publish", 44, "#eef6ff", "#2368c4"],
                 ["②", "SCORE STABILITY", ["score / grade distribution", "result_mode mix", "PSI vs baseline"], "Phase 1 — bạn tự aggregate", 356, "#eef9f1", "#168447"],
                 ["③", "CALIBRATION & OUTCOME", ["expected vs observed", "bad rate by grade", "cần outcome — chậm"], "Phase 3 — DS + BI", 668, "#fff3e9", "#db681d"],
-              ].map(([n, t, bullets, owner, x, fill, color], i) => `<g filter="url(#kpiShadow)"><rect x="${x}" y="92" width="268" height="150" rx="13" fill="${fill}" stroke="${color}" stroke-opacity="0.55"/><circle cx="${x + 36}" cy="120" r="18" fill="${color}"/><text x="${x + 36}" y="127" text-anchor="middle" font-size="16" font-weight="900" fill="#fff">${n}</text><text x="${x + 64}" y="126" font-size="12.5" font-weight="900" fill="${color}">${t}</text><text x="${x + 24}" y="160" font-size="10.8" font-weight="700" fill="#26384d">• ${bullets[0]}</text><text x="${x + 24}" y="181" font-size="10.8" font-weight="700" fill="#26384d">• ${bullets[1]}</text><text x="${x + 24}" y="202" font-size="10.8" font-weight="700" fill="#26384d">• ${bullets[2]}</text><rect x="${x + 18}" y="214" width="232" height="20" rx="6" fill="#ffffff" stroke="${color}" stroke-opacity="0.4"/><text x="${x + 134}" y="228" text-anchor="middle" font-size="9.8" font-weight="900" fill="${color}">${owner}</text></g>${i < 2 ? `<line x1="${x + 268}" y1="167" x2="${x + 310}" y2="167" stroke="#60758c" stroke-width="2.2" marker-end="url(#kpiArrow)"/>` : ""}`).join("")}
-
-              <g filter="url(#kpiShadow)">
-                <rect x="44" y="268" width="588" height="94" rx="13" fill="#f5efff" stroke="#b79ae0"/>
-                <text x="338" y="296" text-anchor="middle" font-size="13" font-weight="900" fill="#7245c7">LUỒNG DỮ LIỆU MODEL KPI</text>
-                ${[
-                  ["DS model card", 76],
-                  ["DE publish bảng", 224],
-                  ["Grafana Phase 2", 372],
-                  ["Ngưỡng theo DS", 500],
-                ].map(([t, x], i) => `<rect x="${x}" y="312" width="118" height="34" rx="8" fill="#ffffff" stroke="#b79ae0"/><text x="${x + 59}" y="334" text-anchor="middle" font-size="10.2" font-weight="900" fill="#54318f">${t}</text>${i < 3 ? `<line x1="${x + 118}" y1="329" x2="${x + (i === 2 ? 128 : 148) - (i === 2 ? 0 : 24)}" y2="329" stroke="#60758c" stroke-width="2" marker-end="url(#kpiArrow)"/>` : ""}`).join("")}
-              </g>
-              <g filter="url(#kpiShadow)"><rect x="668" y="268" width="268" height="94" rx="13" fill="#102f63"/><text x="802" y="300" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">DÙNG Ở DEPLOY GATE</text><text x="802" y="324" text-anchor="middle" font-size="10.5" font-weight="700" fill="#dce7f5">KPI dưới floor model card → không promote</text><text x="802" y="344" text-anchor="middle" font-size="10.5" font-weight="700" fill="#dce7f5">PSI &gt; 0.25 → escalate DS, xét retrain</text></g>
+              ].map(([n, t, bullets, owner, x, fill, color], i) => `<g filter="url(#kpiShadow)"><rect x="${x}" y="118" width="268" height="210" rx="13" fill="${fill}" stroke="${color}" stroke-opacity="0.55"/><circle cx="${x + 36}" cy="150" r="20" fill="${color}"/><text x="${x + 36}" y="157" text-anchor="middle" font-size="17" font-weight="900" fill="#fff">${n}</text><text x="${x + 66}" y="156" font-size="13" font-weight="900" fill="${color}">${t}</text><text x="${x + 24}" y="198" font-size="12.5" font-weight="700" fill="#26384d">• ${bullets[0]}</text><text x="${x + 24}" y="226" font-size="12.5" font-weight="700" fill="#26384d">• ${bullets[1]}</text><text x="${x + 24}" y="254" font-size="12.5" font-weight="700" fill="#26384d">• ${bullets[2]}</text><rect x="${x + 18}" y="280" width="232" height="28" rx="7" fill="#ffffff" stroke="${color}" stroke-opacity="0.4"/><text x="${x + 134}" y="299" text-anchor="middle" font-size="11" font-weight="900" fill="${color}">${owner}</text></g>${i < 2 ? `<line x1="${x + 268}" y1="223" x2="${x + 310}" y2="223" stroke="#60758c" stroke-width="2.2" marker-end="url(#kpiArrow)"/>` : ""}`).join("")}
             </svg></div>`;
           if (type === "incidentResponse")
             return `<div class="architecture-image"><svg viewBox="0 0 980 400" role="img" aria-label="Luồng xử lý sự cố">
@@ -8963,7 +9126,7 @@
               "monitoring-system-phase1": "Giám sát hệ thống Phase 1",
               "monitoring-grafana-dashboard": "Dashboard Grafana Phase 1",
               "monitoring-model-kpi": "Giám sát hiệu quả model",
-              "monitoring-model-dashboard": "Dashboard Model KPI Phase 2",
+              "monitoring-model-dashboard": "Model Monitoring Hub",
               "governance-incident-response": "Xử lý sự cố",
               "governance-failsafe-raci": "Failsafe và phân quyền",
               "governance-golive-gate": "Cổng go-live",
@@ -10285,9 +10448,8 @@
             prevBtn.addEventListener("click", prev);
             nextBtn.addEventListener("click", next);
 
-            // mouse: left-click advances (skip interactive), right-click goes back
             var INTERACTIVE =
-              "a,button,input,textarea,select,label,details,summary,.runtime-action,.object-item,[data-cti-object],.obj-chip,.phase-btn,.togglebar,.search";
+              "a,button,input,textarea,select,label,details,summary,.runtime-action,.object-item,[data-cti-object],.obj-chip,.phase-btn,.togglebar,.search,.model-hub-dot,.model-hub-dots";
             scaler.addEventListener("click", function (e) {
               if (e.target.closest(INTERACTIVE)) return;
               next();
@@ -10297,8 +10459,83 @@
               prev();
             });
 
+            function initModelHub(root) {
+              if (!root || root.getAttribute("data-hub-ready") === "1") return;
+              root.setAttribute("data-hub-ready", "1");
+              var sc = root.querySelector(".model-hub-scroll");
+              var panels = root.querySelectorAll(".model-hub-panel");
+              var dots = root.querySelectorAll(".model-hub-dot");
+              if (!sc || !panels.length) return;
+              var i = 0;
+              var lock = false;
+              function setDot(n) {
+                i = Math.max(0, Math.min(panels.length - 1, n));
+                dots.forEach(function (d, di) {
+                  d.classList.toggle("on", di === i);
+                });
+              }
+              function goPanel(n) {
+                n = Math.max(0, Math.min(panels.length - 1, n));
+                if (n === i && Math.abs(sc.scrollTop - n * 640) < 8) return false;
+                lock = true;
+                sc.scrollTo({ top: n * 640, behavior: "smooth" });
+                setDot(n);
+                setTimeout(function () {
+                  lock = false;
+                }, 480);
+                return true;
+              }
+              root._hubGo = function (dir) {
+                return goPanel(i + dir);
+              };
+              root._hubAt = function () {
+                return { i: i, n: panels.length };
+              };
+              sc.addEventListener(
+                "wheel",
+                function (e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (lock) return;
+                  if (e.deltaY > 8) goPanel(i + 1);
+                  else if (e.deltaY < -8) goPanel(i - 1);
+                },
+                { passive: false },
+              );
+              sc.addEventListener("scroll", function () {
+                if (lock) return;
+                var n = Math.round(sc.scrollTop / 640);
+                if (n !== i) setDot(n);
+              });
+              dots.forEach(function (d) {
+                d.addEventListener("click", function (e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  goPanel(parseInt(d.getAttribute("data-hub-dot"), 10) || 0);
+                });
+              });
+            }
+            function activeModelHub() {
+              var st = steps[idx];
+              if (!st) return null;
+              var sec = groups[st.g] && groups[st.g].sec;
+              return sec ? sec.querySelector("[data-model-hub]") : null;
+            }
+            document.querySelectorAll("[data-model-hub]").forEach(initModelHub);
+
             window.addEventListener("keydown", function (e) {
               var k = e.key;
+              var hub = activeModelHub();
+              if (hub && (k === "ArrowDown" || k === "PageDown")) {
+                e.preventDefault();
+                if (hub._hubGo) hub._hubGo(1);
+                return;
+              }
+              if (hub && (k === "ArrowUp" || k === "PageUp")) {
+                e.preventDefault();
+                if (hub._hubGo) hub._hubGo(-1);
+                return;
+              }
               if (k === "ArrowRight" || k === "PageDown") {
                 next();
                 e.preventDefault();
