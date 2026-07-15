@@ -14016,7 +14016,7 @@
             "design-time": ["design-business-risk", "design-feature-blueprint", "design-model-contract", "design-governance-blueprint"],
             "train-time": ["train-model-overview", "train-step-1-dataset", "train-step-2-screening", "train-step-3-selection", "train-step-4-training", "train-step-5-validation", "train-step-6-calibration", "train-step-7-registry", "design-train-traceability"],
             monitoring: ["monitoring-system-phase1", "monitoring-grafana-dashboard", "monitoring-model-kpi", "monitoring-model-dashboard"],
-            governance: ["governance-incident-response", "governance-failsafe-raci", "governance-golive-gate"],
+            governance: ["governance-incident-response", "governance-golive-gate"],
             deployment: ["deployment-release-handoff", "deployment-validation-gate", "deployment-shadow", "deployment-champion-challenger", "deployment-canary", "deployment-rollback"],
           };
           const ontMap = {
@@ -14088,7 +14088,7 @@
                 );
               }
               if (item.id === "runtime") {
-                return dataEngineering + sectionCard(item, i) + extra;
+                return dataEngineering + sectionCard(item, i) + runtimeTraceSlide() + extra;
               }
               if (item.id === "design-time") {
                 const lifecycleOverview = dsSlides.find((slide) => slide && slide.id === "ds-lifecycle-overview");
@@ -14136,28 +14136,81 @@
       </div>
       <div class="runtime-support-grid">
         <div class="runtime-support-panel">
-          <h4>Object instance giữ trạng thái request</h4>
+          <h4>Object instance trong một request</h4>
           <div class="runtime-object-chain">
             <div>BE Contexts<small>RuntimeContext, IdentityContext, RoutingContext.</small></div>
-            <div>ScoringExecutionContext<small>Object trung tâm của một lần scoring trong Scoring Engine.</small></div>
-            <div>Evidence objects<small>FeatureSnapshot, InferenceLog, ReplayPackage được tạo đúng thời điểm.</small></div>
-            <div>ModelInstance cached<small>Model không tạo lại theo request; request chỉ tạo ModelInput.</small></div>
+            <div>Scoring request<small>ScoringEngineRequest là gói context BE submit sang Scoring Engine.</small></div>
+            <div>Engine state<small>ScoringExecutionContext giữ trạng thái chính của lần scoring.</small></div>
           </div>
         </div>
         <div class="runtime-support-panel">
-          <h4>Trace & audit sau scoring</h4>
-          <div class="runtime-trace-chain">
-            <div>Trace IDs<small>request_id, correlation_id, idempotency_key đi xuyên suốt BE và Engine.</small></div>
-            <div>Checkpoint logs<small>Validate, DQ, routing, selected_model, model_version, runtime_status.</small></div>
-            <div>Replay path<small>request_id -> FeatureSnapshot -> model_version -> InferenceLog -> ReplayPackage.</small></div>
+          <h4>Object tạo để audit / replay</h4>
+          <div class="runtime-object-chain">
+            <div>Evidence objects<small>FeatureSnapshot, InferenceLog, ReplayPackage được tạo đúng thời điểm.</small></div>
+            <div>ModelInstance cached<small>Model không tạo lại theo request; mỗi request chỉ tạo ModelInput.</small></div>
           </div>
         </div>
       </div>
       <div class="runtime-simple-footer">
-        <div><b>Thông điệp:</b> Runtime không chỉ gọi model; Runtime điều phối request, quản lý trạng thái và đảm bảo kết quả trace/audit/replay được.</div>
+        <div><b>Thông điệp:</b> BE không tự chạy model; BE chuẩn hóa request, tạo scoring context rồi submit sang Scoring Engine.</div>
         <div><b>Ranh giới trách nhiệm:</b> A-Score trả scoring result hỗ trợ quyết định; LOS / Decision Engine mới là nơi approve/reject cuối cùng.</div>
       </div>
     </div>`;
+        }
+        function runtimeTraceSlide() {
+          return `<section class="section visual-slide runtime-detail-slide" id="runtime-traceability">
+      <div class="section-head"><div><h3>Runtime Traceability</h3><p class="sub">Sau khi scoring xong, hệ thống phải lần ngược được input, model version, output và audit evidence.</p></div><span class="badge">Runtime 2/2</span></div>
+      <div class="runtime-simple-board">
+        <div class="runtime-simple-flow runtime-trace-flow">
+          <div class="runtime-simple-node source">
+            <h4>Trace IDs</h4>
+            <p>ID đi xuyên suốt từ BE sang Scoring Engine rồi quay lại BE.</p>
+            <div class="runtime-simple-tags"><span>request_id</span><span>correlation_id</span><span>idempotency_key</span></div>
+          </div>
+          <div class="runtime-simple-arrow" aria-hidden="true"></div>
+          <div class="runtime-simple-node be">
+            <h4>Checkpoint Logs</h4>
+            <p>Ghi lại request đã đi qua các điểm kiểm soát nào.</p>
+            <div class="runtime-simple-tags"><span>validate</span><span>DQ Gate</span><span>routing</span><span>selected_model</span></div>
+          </div>
+          <div class="runtime-simple-arrow" aria-hidden="true"></div>
+          <div class="runtime-simple-node engine">
+            <h4>Evidence Objects</h4>
+            <p>Giữ bằng chứng input, output và model version đã dùng.</p>
+            <div class="runtime-simple-tags"><span>FeatureSnapshot</span><span>InferenceLog</span><span>model_version</span></div>
+          </div>
+          <div class="runtime-simple-arrow" aria-hidden="true"></div>
+          <div class="runtime-simple-node response">
+            <h4>Replay / Audit</h4>
+            <p>Đủ thông tin để giải thích score hoặc chạy lại khi cần.</p>
+            <div class="runtime-simple-tags"><span>ReplayPackage</span><span>response_hash</span><span>audit_metadata</span></div>
+          </div>
+        </div>
+        <div class="runtime-support-grid">
+          <div class="runtime-support-panel">
+            <h4>Khi business hỏi “vì sao ra score này?”</h4>
+            <div class="runtime-trace-chain">
+              <div>1. Tìm theo request_id<small>Liên kết log từ A-Score BE, Scoring Engine và response.</small></div>
+              <div>2. Mở FeatureSnapshot<small>Xem input feature tại thời điểm scoring.</small></div>
+              <div>3. Đối chiếu model_version<small>Biết chính xác artifact và mapping version đã dùng.</small></div>
+              <div>4. Xem InferenceLog / ReplayPackage<small>Kiểm tra score, reason_codes, latency và khả năng replay.</small></div>
+            </div>
+          </div>
+          <div class="runtime-support-panel">
+            <h4>Thông điệp traceability</h4>
+            <div class="runtime-trace-chain">
+              <div>Trace = ID xuyên suốt<small>request_id, correlation_id, idempotency_key.</small></div>
+              <div>Trace = checkpoint log<small>Biết fail hoặc lệch ở bước nào.</small></div>
+              <div>Trace = evidence object<small>Biết input, model, output và replay package.</small></div>
+            </div>
+          </div>
+        </div>
+        <div class="runtime-simple-footer">
+          <div><b>Câu nói chính:</b> A-Score không chỉ trả score; mỗi score phải giải thích, audit và replay được.</div>
+          <div><b>Đường trace:</b> request_id -> FeatureSnapshot -> model_version -> InferenceLog -> ReplayPackage.</div>
+        </div>
+      </div>
+    </section>`;
         }
 
         function mainVisual(id) {
