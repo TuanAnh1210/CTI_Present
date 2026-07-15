@@ -14113,7 +14113,7 @@
         <div class="runtime-simple-node source">
           <h4>Caller</h4>
           <p>LOS / MyF88 / PGD / Partner gửi request qua API Gateway.</p>
-          <div class="runtime-simple-tags"><span>request_id</span><span>correlation_id</span></div>
+          <div class="runtime-simple-tags"><span>request_id</span><span>trace_id</span><span>correlation_id</span></div>
         </div>
         <div class="runtime-simple-arrow" aria-hidden="true"></div>
         <div class="runtime-simple-node be">
@@ -14165,7 +14165,7 @@
           <div class="runtime-simple-node source">
             <h4>Trace IDs</h4>
             <p>ID đi xuyên suốt từ BE sang Scoring Engine rồi quay lại BE.</p>
-            <div class="runtime-simple-tags"><span>request_id</span><span>correlation_id</span><span>idempotency_key</span></div>
+            <div class="runtime-simple-tags"><span>trace_id</span><span>request_id</span><span>correlation_id</span><span>idempotency_key</span></div>
           </div>
           <div class="runtime-simple-arrow" aria-hidden="true"></div>
           <div class="runtime-simple-node be">
@@ -14190,7 +14190,7 @@
           <div class="runtime-support-panel">
             <h4>Khi business hỏi “vì sao ra score này?”</h4>
             <div class="runtime-trace-chain">
-              <div>1. Tìm theo request_id<small>Liên kết log từ A-Score BE, Scoring Engine và response.</small></div>
+              <div>1. Tìm theo trace_id / request_id<small>trace_id nối observability end-to-end; request_id nối nghiệp vụ scoring.</small></div>
               <div>2. Mở FeatureSnapshot<small>Xem input feature tại thời điểm scoring.</small></div>
               <div>3. Đối chiếu model_version<small>Biết chính xác artifact và mapping version đã dùng.</small></div>
               <div>4. Xem InferenceLog / ReplayPackage<small>Kiểm tra score, reason_codes, latency và khả năng replay.</small></div>
@@ -14199,7 +14199,8 @@
           <div class="runtime-support-panel">
             <h4>Thông điệp traceability</h4>
             <div class="runtime-trace-chain">
-              <div>Trace = ID xuyên suốt<small>request_id, correlation_id, idempotency_key.</small></div>
+              <div>Trace = ID xuyên suốt<small>trace_id cho observability, request_id cho nghiệp vụ, correlation_id nối upstream/downstream.</small></div>
+              <div>Idempotency = chống request trùng<small>idempotency_key giúp biết request có bị gửi lại hay không.</small></div>
               <div>Trace = checkpoint log<small>Biết fail hoặc lệch ở bước nào.</small></div>
               <div>Trace = evidence object<small>Biết input, model, output và replay package.</small></div>
             </div>
@@ -14207,7 +14208,7 @@
         </div>
         <div class="runtime-simple-footer">
           <div><b>Câu nói chính:</b> A-Score không chỉ trả score; mỗi score phải giải thích, audit và replay được.</div>
-          <div><b>Đường trace:</b> request_id -> FeatureSnapshot -> model_version -> InferenceLog -> ReplayPackage.</div>
+          <div><b>Đường trace:</b> trace_id / request_id -> FeatureSnapshot -> model_version -> InferenceLog -> ReplayPackage.</div>
         </div>
       </div>
     </section>`;
