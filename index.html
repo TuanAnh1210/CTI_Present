@@ -10356,17 +10356,6 @@
         height: 720px;
         overflow: hidden;
       }
-      .cti-v2 .ds-slide.image-only-slide:has(.model-dash),
-      .cti-v2 .ds-slide.image-only-slide:has(.model-hub) {
-        background: #f4f7fb !important;
-      }
-      .cti-v2 .ds-slide.image-only-slide:has(.model-hub) {
-        padding: 0 !important;
-        height: 720px !important;
-        min-height: 720px !important;
-        max-height: 720px !important;
-        overflow: hidden;
-      }
       .cti-v2 .ds-slide.image-only-slide .architecture-image.image-fill {
         width: 100%;
         height: 100%;
@@ -10385,21 +10374,6 @@
         object-fit: contain;
         display: block;
       }
-      .cti-v2
-        .ds-slide.image-only-slide
-        .architecture-image.image-fill.model-dash {
-        background: #f4f7fb;
-        max-height: none;
-        height: 100%;
-      }
-      .cti-v2
-        .ds-slide.image-only-slide
-        .architecture-image.image-fill.model-dash
-        svg {
-        width: 100%;
-        height: 100%;
-        max-height: none;
-      }
       /* Deck: 2 dashboard full khung 1280x720 */
       .d-holder > .section.image-only-slide {
         padding: 0 !important;
@@ -10416,62 +10390,6 @@
         min-height: 720px !important;
         height: 720px !important;
         box-sizing: border-box;
-      }
-      .cti-v2 .model-hub {
-        position: relative;
-        width: 100%;
-        height: 640px;
-        background: #f4f7fb;
-      }
-      .cti-v2 .model-hub-scroll {
-        height: 640px;
-        overflow-y: auto;
-        overflow-x: hidden;
-        scroll-snap-type: y mandatory;
-        scroll-behavior: smooth;
-        overscroll-behavior: contain;
-        scrollbar-width: thin;
-        scrollbar-color: #94a3b8 transparent;
-      }
-      .cti-v2 .model-hub-scroll::-webkit-scrollbar {
-        width: 6px;
-      }
-      .cti-v2 .model-hub-scroll::-webkit-scrollbar-thumb {
-        background: #94a3b8;
-        border-radius: 4px;
-      }
-      .cti-v2 .model-hub-panel {
-        height: 640px;
-        scroll-snap-align: start;
-        scroll-snap-stop: always;
-        box-sizing: border-box;
-      }
-      .cti-v2 .model-hub-panel svg {
-        width: 100%;
-        height: 640px;
-        display: block;
-      }
-      .cti-v2 .model-hub-dots {
-        position: absolute;
-        right: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        z-index: 3;
-      }
-      .cti-v2 .model-hub-dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        border: 2px solid #0b2f64;
-        background: transparent;
-        padding: 0;
-        cursor: pointer;
-      }
-      .cti-v2 .model-hub-dot.on {
-        background: #0b2f64;
       }
       .cti-v2 .architecture-image line,
       .cti-v2 .ds-diagram line {
@@ -11124,9 +11042,19 @@
             title: "Go-live Gate: điều kiện mở production",
             message:
               "Chỉ go-live khi NHÌN được lỗi và BIẾT xử lý - API trả score được chưa phải là go-live",
-            lead: "Go-live là quyết định có điều kiện từ góc observability: dashboard phải live, alert phải qua fire test, runbook và drill phải có owner. Đủ ba điều kiện mới sign-off - và từ đây mỗi lần đổi model đi cả vòng Deploy đến Retirement.",
+            lead: "Go-live là quyết định có điều kiện từ góc observability: dashboard phải live, alert phải qua fire test, runbook và drill phải có owner. Đủ ba điều kiện mới sign-off.",
             points: [],
             visual: "goliveGate",
+          },
+          {
+            id: "governance-model-degradation",
+            group: "Governance",
+            title: "Khi Model Monitoring phát hiện suy giảm — Governance làm gì?",
+            message:
+              "Quy trình quản trị chất lượng model",
+            lead: "Dashboard phát hiện KPI vượt ngưỡng → Root Cause Analysis → Impact Assessment → rẽ hai nhánh: Keep & Tune quay lại Monitoring, hoặc Retrain/Replace mở vòng Deploy & Retirement.",
+            points: [],
+            visual: "modelDegradation",
           },
           {
             id: "dp-8steps",
@@ -11631,7 +11559,7 @@
           if (type === "systemDashboard")
             return `<div class="architecture-image image-fill"><img src="assets/system_dashboard.png" alt="A-Score System Monitoring Phase 1 Grafana dashboard" /></div>`;
           if (type === "modelDashboard")
-            return `<div class="architecture-image image-fill model-dash"><img src="assets/model_dashboard.jpg" alt="A-Score Model Monitoring Phase 2 dashboard" /></div>`;
+            return `<div class="architecture-image image-fill"><img src="assets/model_dashboard.jpg" alt="A-Score Model Monitoring Phase 2 dashboard" /></div>`;
 
           if (type === "monitorPipeline")
             return `<div class="architecture-image"><svg viewBox="0 0 980 400" role="img" aria-label="Pipeline system monitoring Phase 1">
@@ -11640,7 +11568,7 @@
                 <filter id="monPipeShadow" x="-15%" y="-20%" width="140%" height="155%"><feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#102033" flood-opacity="0.1"/></filter>
               </defs>
               <rect x="16" y="14" width="948" height="372" rx="18" fill="#fbfdff" stroke="#d3dfeb"/>
-              <text x="490" y="38" text-anchor="middle" font-size="20" font-weight="900" fill="#0b2f64">SYSTEM MONITORING PHASE 1 — ĐO, NHÌN, BÁO</text>
+              <text x="490" y="38" text-anchor="middle" font-size="20" font-weight="900" fill="#0b2f64">SYSTEM MONITORING</text>
               <text x="490" y="58" text-anchor="middle" font-size="12" font-weight="800" fill="#64748b">Metric dictionary → Log PG + Prometheus → Grafana → SLA → Alert</text>
 
               <g filter="url(#monPipeShadow)"><rect x="36" y="78" width="140" height="128" rx="12" fill="#eef6ff" stroke="#2368c4" stroke-opacity="0.5"/><circle cx="106" cy="78" r="18" fill="#2368c4"/><text x="106" y="84" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">1</text><text x="106" y="112" text-anchor="middle" font-size="12" font-weight="900" fill="#2368c4">METRIC</text><text x="106" y="130" text-anchor="middle" font-size="12" font-weight="900" fill="#2368c4">DICTIONARY</text><text x="48" y="158" font-size="10" font-weight="700" fill="#26384d">• Định nghĩa + công thức</text><text x="48" y="176" font-size="10" font-weight="700" fill="#26384d">• Nguồn + ngưỡng</text><text x="48" y="194" font-size="10" font-weight="700" fill="#26384d">• Hành động khi lệch</text></g>
@@ -11987,6 +11915,56 @@
               </g>
               <rect x="44" y="358" width="892" height="36" rx="10" fill="#f1f5f9" stroke="#d3dfeb"/>
               <text x="490" y="381" text-anchor="middle" font-size="12" font-weight="900" fill="#475569">3 KHÔNG → KHÔNG GO-LIVE: không dashboard · không alert test · không runbook + owner</text>
+            </svg></div>`;
+          if (type === "modelDegradation")
+            return `<div class="architecture-image"><svg viewBox="0 0 980 400" role="img" aria-label="Governance khi Model Monitoring phát hiện suy giảm">
+              <defs>
+                <marker id="mdArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#60758c"/></marker>
+                <filter id="mdShadow" x="-15%" y="-20%" width="140%" height="155%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity="0.11"/></filter>
+              </defs>
+              <rect x="16" y="14" width="948" height="372" rx="18" fill="#fbfdff" stroke="#d3dfeb"/>
+              <text x="490" y="40" text-anchor="middle" font-size="18" font-weight="900" fill="#0b2f64">KHI MODEL SUY GIẢM — QUẢN TRỊ NHƯ THẾ NÀO?</text>
+              <text x="490" y="60" text-anchor="middle" font-size="12" font-weight="800" fill="#64748b">Từ Model Dashboard đến quyết định Governance</text>
+
+              ${[
+                ["1", "DASHBOARD", ["KPI vượt ngưỡng", "PSI · Calibration", "Gini · Bad rate"], 44, "#eef6ff", "#2368c4"],
+                ["2", "ROOT CAUSE", ["Phân tích nguyên nhân", "Feature drift · DQ", "Population shift"], 268, "#fff3e9", "#db681d"],
+                ["3", "IMPACT", ["Đánh giá ảnh hưởng", "Business impact", "Model card floor"], 492, "#f5efff", "#7245c7"],
+                ["4", "DECISION", ["Governance quyết định", "Hai hướng xử lý", "Keep hoặc Retrain"], 716, "#eef9f1", "#168447"],
+              ].map(([n, t, bullets, x, fill, color], i) => `
+                <g filter="url(#mdShadow)">
+                  <rect x="${x}" y="82" width="196" height="118" rx="13" fill="${fill}" stroke="${color}" stroke-opacity="0.55"/>
+                  <circle cx="${x + 98}" cy="82" r="18" fill="${color}"/>
+                  <text x="${x + 98}" y="88" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">${n}</text>
+                  <text x="${x + 98}" y="118" text-anchor="middle" font-size="13" font-weight="900" fill="${color}">${t}</text>
+                  <line x1="${x + 22}" y1="130" x2="${x + 174}" y2="130" stroke="${color}" stroke-opacity="0.25"/>
+                  <text x="${x + 98}" y="152" text-anchor="middle" font-size="10.5" font-weight="700" fill="#26384d">${bullets[0]}</text>
+                  <text x="${x + 98}" y="170" text-anchor="middle" font-size="10.5" font-weight="700" fill="#26384d">${bullets[1]}</text>
+                  <text x="${x + 98}" y="188" text-anchor="middle" font-size="10.5" font-weight="700" fill="#26384d">${bullets[2]}</text>
+                </g>
+                ${i < 3 ? `<line x1="${x + 196}" y1="141" x2="${x + 224}" y2="141" stroke="#60758c" stroke-width="2.2" marker-end="url(#mdArrow)"/>` : ""}
+              `).join("")}
+
+              <line x1="814" y1="200" x2="814" y2="224" stroke="#60758c" stroke-width="2.2"/>
+              <line x1="248" y1="224" x2="814" y2="224" stroke="#60758c" stroke-width="2.2"/>
+              <line x1="248" y1="224" x2="248" y2="246" stroke="#60758c" stroke-width="2.2" marker-end="url(#mdArrow)"/>
+              <line x1="732" y1="224" x2="732" y2="246" stroke="#60758c" stroke-width="2.2" marker-end="url(#mdArrow)"/>
+
+              <g filter="url(#mdShadow)">
+                <rect x="48" y="248" width="400" height="100" rx="13" fill="#eef9f1" stroke="#168447" stroke-opacity="0.55"/>
+                <text x="248" y="276" text-anchor="middle" font-size="14" font-weight="900" fill="#168447">KEEP &amp; TUNE</text>
+                <text x="248" y="298" text-anchor="middle" font-size="11" font-weight="700" fill="#26384d">Suy giảm nhẹ · Keep model · Adjust threshold / policy</text>
+                <text x="248" y="320" text-anchor="middle" font-size="11" font-weight="700" fill="#26384d">Tăng tần suất theo dõi → quay lại Monitoring</text>
+              </g>
+
+              <g filter="url(#mdShadow)">
+                <rect x="532" y="248" width="400" height="100" rx="13" fill="#fff7db" stroke="#8b6500" stroke-opacity="0.55"/>
+                <text x="732" y="276" text-anchor="middle" font-size="14" font-weight="900" fill="#8b6500">RETRAIN / REPLACE</text>
+                <text x="732" y="298" text-anchor="middle" font-size="11" font-weight="700" fill="#26384d">Suy giảm nghiêm trọng · không đáp ứng model card</text>
+                <text x="732" y="320" text-anchor="middle" font-size="11" font-weight="700" fill="#26384d">Mở vòng đời model mới → Deploy &amp; Retirement</text>
+              </g>
+
+              <text x="490" y="372" text-anchor="middle" font-size="11.5" font-weight="800" fill="#64748b">Monitoring → Governance → Deploy &amp; Retirement → Monitoring</text>
             </svg></div>`;
           if (type === "trainArchitecture")
             return `<div class="architecture-image"><svg viewBox="0 0 980 440" role="img" aria-label="Quy trình Train Model 7 bước và xác định bộ biến tối thiểu cho Quick Offer">
@@ -13579,6 +13557,7 @@
               "governance-incident-response": "Xử lý sự cố",
               "governance-failsafe-raci": "Failsafe và phân quyền",
               "governance-golive-gate": "Cổng go-live",
+              "governance-model-degradation": "Governance khi model suy giảm",
               "ont-enterprise-domain": "Enterprise Domain Map · 19 domain",
               "ont-problem-scope": "Phạm vi & Input / Output",
               "ont-model-io": "Input / Output của model",
@@ -13678,7 +13657,7 @@
             "design-time": ["design-business-risk", "design-feature-blueprint", "design-model-contract", "design-governance-blueprint"],
             "train-time": ["train-model-overview", "train-step-1-dataset", "train-step-2-screening", "train-step-3-selection", "train-step-4-training", "train-step-5-validation", "train-step-6-calibration", "train-step-7-registry", "design-train-traceability"],
             monitoring: ["monitoring-system-phase1", "monitoring-grafana-dashboard", "monitoring-model-kpi", "monitoring-model-dashboard"],
-            governance: ["governance-incident-response", "governance-golive-gate"],
+            governance: ["governance-incident-response", "governance-golive-gate", "governance-model-degradation"],
             deployment: ["dp-8steps", "dp-rollback3", "dp-times3", "dp-compare", "dp-dashboard", "dp-canary"],
           };
           const ontMap = {
@@ -15453,7 +15432,7 @@
             nextBtn.addEventListener("click", next);
 
             var INTERACTIVE =
-              "a,button,input,textarea,select,label,details,summary,.runtime-action,.object-item,[data-cti-object],.obj-chip,.phase-btn,.togglebar,.search,.model-hub-dot,.model-hub-dots";
+              "a,button,input,textarea,select,label,details,summary,.runtime-action,.object-item,[data-cti-object],.obj-chip,.phase-btn,.togglebar,.search";
             scaler.addEventListener("click", function (e) {
               if (e.target.closest(INTERACTIVE)) return;
               next();
@@ -15463,84 +15442,8 @@
               prev();
             });
 
-            function initModelHub(root) {
-              if (!root || root.getAttribute("data-hub-ready") === "1") return;
-              root.setAttribute("data-hub-ready", "1");
-              var sc = root.querySelector(".model-hub-scroll");
-              var panels = root.querySelectorAll(".model-hub-panel");
-              var dots = root.querySelectorAll(".model-hub-dot");
-              if (!sc || !panels.length) return;
-              var i = 0;
-              var lock = false;
-              function setDot(n) {
-                i = Math.max(0, Math.min(panels.length - 1, n));
-                dots.forEach(function (d, di) {
-                  d.classList.toggle("on", di === i);
-                });
-              }
-              function goPanel(n) {
-                n = Math.max(0, Math.min(panels.length - 1, n));
-                if (n === i && Math.abs(sc.scrollTop - n * 640) < 8)
-                  return false;
-                lock = true;
-                sc.scrollTo({ top: n * 640, behavior: "smooth" });
-                setDot(n);
-                setTimeout(function () {
-                  lock = false;
-                }, 480);
-                return true;
-              }
-              root._hubGo = function (dir) {
-                return goPanel(i + dir);
-              };
-              root._hubAt = function () {
-                return { i: i, n: panels.length };
-              };
-              sc.addEventListener(
-                "wheel",
-                function (e) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  if (lock) return;
-                  if (e.deltaY > 8) goPanel(i + 1);
-                  else if (e.deltaY < -8) goPanel(i - 1);
-                },
-                { passive: false },
-              );
-              sc.addEventListener("scroll", function () {
-                if (lock) return;
-                var n = Math.round(sc.scrollTop / 640);
-                if (n !== i) setDot(n);
-              });
-              dots.forEach(function (d) {
-                d.addEventListener("click", function (e) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  goPanel(parseInt(d.getAttribute("data-hub-dot"), 10) || 0);
-                });
-              });
-            }
-            function activeModelHub() {
-              var st = steps[idx];
-              if (!st) return null;
-              var sec = groups[st.g] && groups[st.g].sec;
-              return sec ? sec.querySelector("[data-model-hub]") : null;
-            }
-            document.querySelectorAll("[data-model-hub]").forEach(initModelHub);
-
             window.addEventListener("keydown", function (e) {
               var k = e.key;
-              var hub = activeModelHub();
-              if (hub && (k === "ArrowDown" || k === "PageDown")) {
-                e.preventDefault();
-                if (hub._hubGo) hub._hubGo(1);
-                return;
-              }
-              if (hub && (k === "ArrowUp" || k === "PageUp")) {
-                e.preventDefault();
-                if (hub._hubGo) hub._hubGo(-1);
-                return;
-              }
               if (k === "ArrowRight" || k === "PageDown") {
                 next();
                 e.preventDefault();
