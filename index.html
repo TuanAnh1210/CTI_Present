@@ -7252,6 +7252,55 @@
         font-weight: 900;
         color: rgba(255, 255, 255, 0.9);
       }
+      .cti-v2 .thankyou-slide {
+        min-height: 650px;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        overflow: hidden;
+        border: 0 !important;
+        background: linear-gradient(
+          135deg,
+          #12355b 0%,
+          #0b4ea2 42%,
+          #00833e 100%
+        ) !important;
+        color: #fff;
+        padding: 48px 56px !important;
+      }
+      .cti-v2 .thankyou-slide .thankyou-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.26);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+        font-size: 15px;
+        font-weight: 900;
+        color: #fff;
+        margin-bottom: 22px;
+      }
+      .cti-v2 .thankyou-slide h2 {
+        margin: 0 0 18px;
+        font-size: 72px;
+        line-height: 1.05;
+        font-weight: 1000;
+        letter-spacing: 0.02em;
+        color: #fff;
+      }
+      .cti-v2 .thankyou-slide .thankyou-sub {
+        margin: 0 0 28px;
+        font-size: 22px;
+        font-weight: 800;
+        color: rgba(255, 255, 255, 0.9);
+      }
+      .cti-v2 .thankyou-slide .thankyou-meta {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 750;
+        color: rgba(255, 255, 255, 0.78);
+      }
       .cti-v2 .cover-hero {
         min-height: 650px;
         display: grid;
@@ -8124,8 +8173,21 @@
         margin: 0 auto;
         overflow-anchor: none;
       }
-      .cti-v2 .enterprise-map-split .enterprise-network-board {
+      .cti-v2 .enterprise-map-split .enterprise-network-board { min-width: 0; }
+      .cti-v2 .enterprise-graph-only {
+        position: relative;
+        width: min(100%, 1180px);
+        min-height: 540px;
+        margin: 0 auto;
+        overflow: visible;
+      }
+      .cti-v2 .enterprise-graph-only .enterprise-network-board {
+        width: 100%;
         min-width: 0;
+      }
+      .cti-v2 .enterprise-graph-only .enterprise-network-svg {
+        width: 100%;
+        height: 535px !important;
       }
       .cti-v2 .enterprise-quick-detail {
         min-width: 0;
@@ -8137,122 +8199,42 @@
         overflow-y: auto;
         scrollbar-gutter: stable;
       }
-      .cti-v2 .enterprise-quick-detail .quick-detail-empty {
-        padding: 22px;
-        color: #65758b;
-        font-size: 12px;
-        line-height: 1.55;
+      .cti-v2 .enterprise-domain-popover {
+        position: absolute;
+        z-index: 20;
+        display: none;
+        width: 390px;
+        height: auto;
+        max-height: 430px;
+        border: 1px solid #b9cce0;
+        box-shadow: 0 18px 48px rgba(16,32,51,.2);
+        overflow: auto;
       }
-      .cti-v2 .quick-domain-head {
-        padding: 16px;
-        color: #fff;
-        background: linear-gradient(135deg, #0b2f64, #0b4ea2);
-      }
-      .cti-v2 .quick-domain-head h4 {
-        margin: 0 0 7px;
-        font-size: 18px;
-      }
-      .cti-v2 .quick-domain-head p {
-        margin: 0;
-        color: #e6eef8;
-        font-size: 11.5px;
-        line-height: 1.55;
-      }
-      .cti-v2 .quick-domain-body {
-        padding: 13px 14px;
-      }
-      .cti-v2 .quick-domain-counts {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 6px;
-        margin-bottom: 12px;
-      }
-      .cti-v2 .quick-domain-counts div {
-        border-radius: 7px;
-        padding: 8px 5px;
-        text-align: center;
-        color: #40546a;
-        background: #f2f7fb;
-        font-size: 9px;
-        font-weight: 800;
-      }
-      .cti-v2 .quick-domain-counts b {
-        display: block;
-        color: #0b4ea2;
-        font-size: 15px;
-      }
-      .cti-v2 .quick-domain-section {
-        margin-top: 11px;
-      }
-      .cti-v2 .quick-domain-section h5 {
-        margin: 0 0 8px;
-        color: #0b2f64;
-        font-size: 12.5px;
-      }
-      .cti-v2 .quick-domain-chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
-      }
-      .cti-v2 .quick-domain-chips span {
-        border: 1px solid #d8e3ed;
-        border-radius: 6px;
-        padding: 5px 7px;
-        color: #4c6075;
-        background: #fbfdff;
-        font-size: 9px;
-        font-weight: 800;
-      }
-      .cti-v2 .quick-object-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-      }
-      .cti-v2 .quick-object-card {
-        min-width: 0;
-        border: 1.5px solid #b9d5f7;
-        border-radius: 9px;
-        padding: 8px 9px;
-        background: #fbfdff;
-        box-shadow: 0 1px 2px rgba(11, 78, 162, 0.04);
-      }
-      .cti-v2 .quick-object-card h6 {
-        margin: 0 0 6px;
-        color: #0b4ea2;
-        font-size: 11px;
-        font-weight: 950;
-        line-height: 1.3;
-        overflow-wrap: anywhere;
-      }
-      .cti-v2 .quick-object-card ul {
-        margin: 0;
-        padding-left: 15px;
-        color: #4c6075;
-        font-size: 9.5px;
-        line-height: 1.45;
-      }
-      .cti-v2 .quick-object-card li {
-        overflow-wrap: anywhere;
-      }
-      .cti-v2 .quick-domain-link {
-        width: 100%;
-        margin-top: 14px;
-        border: 0;
-        border-radius: 8px;
-        padding: 9px 12px;
-        color: #fff;
-        background: #00833e;
-        font: inherit;
-        font-size: 10px;
-        font-weight: 900;
-        cursor: pointer;
-      }
-      .cti-v2 .enterprise-compact-graph .enterprise-domain-node text {
-        font-size: 10.2px;
-      }
-      .cti-v2 .enterprise-compact-graph .enterprise-domain-node .node-count {
-        font-size: 7.2px;
-      }
+      .cti-v2 .enterprise-domain-popover.open { display: block; }
+      .cti-v2 .enterprise-domain-popover .quick-domain-head h4 { font-size: 19px; }
+      .cti-v2 .enterprise-domain-popover .quick-domain-head p { font-size: 12px; }
+      .cti-v2 .enterprise-domain-popover .quick-object-card h6 { font-size: 12px; }
+      .cti-v2 .enterprise-domain-popover .quick-object-card ul { font-size: 10px; }
+      .cti-v2 .enterprise-quick-detail .quick-detail-empty { padding: 22px; color: #65758b; font-size: 12px; line-height: 1.55; }
+      .cti-v2 .quick-domain-head { padding: 16px; color: #fff; background: linear-gradient(135deg, #0b2f64, #0b4ea2); }
+      .cti-v2 .quick-domain-head h4 { margin: 0 0 7px; font-size: 18px; }
+      .cti-v2 .quick-domain-head p { margin: 0; color: #e6eef8; font-size: 11.5px; line-height: 1.55; }
+      .cti-v2 .quick-domain-body { padding: 13px 14px; }
+      .cti-v2 .quick-domain-counts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+      .cti-v2 .quick-domain-counts div { border-radius: 7px; padding: 8px 5px; text-align: center; color: #40546a; background: #f2f7fb; font-size: 9px; font-weight: 800; }
+      .cti-v2 .quick-domain-counts b { display: block; color: #0b4ea2; font-size: 15px; }
+      .cti-v2 .quick-domain-section { margin-top: 11px; }
+      .cti-v2 .quick-domain-section h5 { margin: 0 0 8px; color: #0b2f64; font-size: 12.5px; }
+      .cti-v2 .quick-domain-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+      .cti-v2 .quick-domain-chips span { border: 1px solid #d8e3ed; border-radius: 6px; padding: 5px 7px; color: #4c6075; background: #fbfdff; font-size: 9px; font-weight: 800; }
+      .cti-v2 .quick-object-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .cti-v2 .quick-object-card { min-width: 0; border: 1.5px solid #b9d5f7; border-radius: 9px; padding: 8px 9px; background: #fbfdff; box-shadow: 0 1px 2px rgba(11,78,162,.04); }
+      .cti-v2 .quick-object-card h6 { margin: 0 0 6px; color: #0b4ea2; font-size: 11px; font-weight: 950; line-height: 1.3; overflow-wrap: anywhere; }
+      .cti-v2 .quick-object-card ul { margin: 0; padding-left: 15px; color: #4c6075; font-size: 9.5px; line-height: 1.45; }
+      .cti-v2 .quick-object-card li { overflow-wrap: anywhere; }
+      .cti-v2 .quick-domain-link { width: 100%; margin-top: 14px; border: 0; border-radius: 8px; padding: 9px 12px; color: #fff; background: #00833e; font: inherit; font-size: 10px; font-weight: 900; cursor: pointer; }
+      .cti-v2 .enterprise-compact-graph .enterprise-domain-node text { font-size: 11.5px; }
+      .cti-v2 .enterprise-compact-graph .enterprise-domain-node .node-count { font-size: 7.2px; }
       .cti-v2 .enterprise-domain-card-grid {
         display: grid;
         grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -10276,6 +10258,72 @@
         width: 100%;
         height: 390px;
       }
+      .cti-v2 .lifecycle-workflow.lifecycle-v4 { padding: 14px 16px; }
+      .cti-v2 .lifecycle-v4-head h4 { margin: 0; color: #0b2f64; font-size: 19px; }
+      .cti-v2 .lifecycle-v4-head p { margin: 4px 0 0; color: #52657a; font-size: 11px; line-height: 1.4; }
+      .cti-v2 .lifecycle-v4-rule { border-radius: 8px; padding: 9px 11px; color: #fff; background: #0b2f64; font-size: 10px; font-weight: 780; line-height: 1.4; }
+      .cti-v2 .lifecycle-state-section { margin-top: 10px; }
+      .cti-v2 .lifecycle-state-head b { color: #0b2f64; font-size: 11px; }
+      .cti-v2 .lifecycle-state-head span { color: #60758c; font-size: 9px; font-weight: 800; }
+      .cti-v2 .lifecycle-state-node { appearance: none; position: relative; min-width: 0; min-height: 72px; border: 1px solid var(--state-color); border-top: 6px solid var(--state-color); border-radius: 8px; padding: 9px 4px 7px; color: var(--state-color); background: color-mix(in srgb, var(--state-color) 6%, white); text-align: center; font-family: inherit; font-size: 9.4px; font-weight: 950; line-height: 1.15; cursor: pointer; transition: transform .16s ease, box-shadow .16s ease, background .16s ease, color .16s ease; overflow-wrap: anywhere; }
+      .cti-v2 .lifecycle-state-node small { display: block; min-height: 23px; margin-top: 6px; color: #5e7186; font-size: 7.8px; font-weight: 750; line-height: 1.3; }
+      .cti-v2 .lifecycle-state-node:hover { transform: translateY(-2px); box-shadow: 0 7px 14px rgba(21, 50, 82, .14); }
+      .cti-v2 .lifecycle-state-node.active { color: #fff; background: var(--state-color); box-shadow: 0 7px 16px color-mix(in srgb, var(--state-color) 24%, transparent); }
+      .cti-v2 .lifecycle-state-node.active small { color: rgba(255,255,255,.88); }
+      .cti-v2 .lifecycle-state-dropdown { --state-color: #0b4ea2; margin-top: 10px; border: 1px solid #cbd9e7; border-left: 6px solid var(--state-color); border-radius: 9px; background: #fff; box-shadow: 0 5px 14px rgba(20, 48, 78, .08); overflow: hidden; }
+      .cti-v2 .lifecycle-state-dropdown-head { display: grid; grid-template-columns: 34px 1fr auto; gap: 10px; align-items: center; padding: 10px 13px; background: color-mix(in srgb, var(--state-color) 7%, white); cursor: pointer; }
+      .cti-v2 .lifecycle-state-index { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 7px; color: #fff; background: var(--state-color); font-size: 13px; font-weight: 950; }
+      .cti-v2 .lifecycle-state-dropdown-title b { display: block; color: var(--state-color); font-size: 14px; line-height: 1.2; }
+      .cti-v2 .lifecycle-state-dropdown-title small { display: block; margin-top: 2px; color: #5e7186; font-size: 10px; font-weight: 750; }
+      .cti-v2 .lifecycle-state-chevron { color: var(--state-color); font-size: 20px; font-weight: 950; line-height: 1; transition: transform .18s ease; }
+      .cti-v2 .lifecycle-state-dropdown.open .lifecycle-state-chevron { transform: rotate(180deg); }
+      .cti-v2 .lifecycle-state-dropdown-body { display: none; padding: 11px 13px 12px; color: #334b63; border-top: 1px solid #e0e8f0; font-size: 11px; font-weight: 650; line-height: 1.42; }
+      .cti-v2 .lifecycle-state-dropdown.open .lifecycle-state-dropdown-body { display: block; }
+      .cti-v2 .lifecycle-state-summary { display: grid; grid-template-columns: 112px 1fr; gap: 10px; align-items: start; margin-bottom: 9px; }
+      .cti-v2 .lifecycle-state-summary b { color: var(--state-color); font-size: 10px; }
+      .cti-v2 .lifecycle-state-summary p { margin: 0; color: #334b63; font-size: 12px; line-height: 1.42; }
+      .cti-v2 .lifecycle-state-detail-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+      .cti-v2 .lifecycle-state-detail { min-width: 0; border: 1px solid #dce6ef; border-radius: 7px; padding: 8px 9px; background: #f9fbfd; }
+      .cti-v2 .lifecycle-state-detail b { display: block; margin-bottom: 4px; color: var(--state-color); font-size: 9.5px; }
+      .cti-v2 .lifecycle-state-detail span { display: block; color: #465b72; font-size: 10px; line-height: 1.38; }
+      .cti-v2 .lifecycle-state-detail.output { background: color-mix(in srgb, var(--state-color) 6%, white); }
+      .cti-v2 .lifecycle-control-loop { display: grid; grid-template-columns: 155px repeat(3, minmax(0, 1fr)); gap: 7px; align-items: stretch; margin-top: 9px; border-radius: 8px; padding: 7px; background: #eef4fa; border: 1px solid #cad9e8; }
+      .cti-v2 .lifecycle-control-item { border-radius: 6px; padding: 7px 8px; background: #fff; color: #465b72; font-size: 9px; line-height: 1.35; }
+      .cti-v2 .ascore-object-graph {
+        position: relative;
+        width: 100%;
+        height: 500px;
+        border: 1px solid #d7e3ee;
+        border-radius: 11px;
+        background: radial-gradient(circle at 50% 48%, #fff, #f4f8fc);
+        overflow: visible;
+      }
+      .cti-v2 .ascore-object-graph svg { width: 100%; height: 100%; display: block; }
+      .cti-v2 .ascore-object-node { cursor: pointer; outline: none; }
+      .cti-v2 .ascore-object-node rect { fill: #fff; stroke: var(--object-color); stroke-width: 1.6; filter: drop-shadow(0 3px 4px rgba(16,32,51,.09)); transition: .18s ease; }
+      .cti-v2 .ascore-object-node text { fill: var(--object-color); font-size: 11px; font-weight: 900; pointer-events: none; }
+      .cti-v2 .ascore-object-node:hover rect,
+      .cti-v2 .ascore-object-node.active rect { fill: var(--object-color); stroke-width: 2.2; transform: translateY(-2px); transform-box: fill-box; transform-origin: center; }
+      .cti-v2 .ascore-object-node:hover text,
+      .cti-v2 .ascore-object-node.active text { fill: #fff; }
+      .cti-v2 .ascore-object-popover {
+        position: absolute;
+        z-index: 20;
+        display: none;
+        width: 330px;
+        max-height: 310px;
+        overflow: auto;
+        border: 1px solid #b8cce0;
+        border-radius: 10px;
+        padding: 13px 14px;
+        background: #fff;
+        box-shadow: 0 18px 46px rgba(16,32,51,.2);
+      }
+      .cti-v2 .ascore-object-popover.open { display: block; }
+      .cti-v2 .ascore-object-popover h4 { margin: 0 0 4px; color: var(--popup-color, #0b4ea2); font-size: 16px; }
+      .cti-v2 .ascore-object-popover p { margin: 0 0 8px; color: #52657a; font-size: 10.5px; line-height: 1.45; }
+      .cti-v2 .ascore-object-popover b { color: #0b2f64; font-size: 9px; text-transform: uppercase; }
+      .cti-v2 .ascore-object-popover ul { columns: 2; margin: 6px 0 0; padding-left: 17px; color: #40546a; font-size: 9.5px; line-height: 1.45; }
       .cti-v2 .architecture-image {
         border: 1px solid #d7e3ee;
         border-radius: 8px;
@@ -10298,13 +10346,15 @@
         object-fit: contain;
       }
       .cti-v2 .ds-slide.image-only-slide {
-        padding: 12px 16px !important;
+        padding: 0 !important;
         background: #0b0c0e !important;
         border: 0 !important;
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 620px;
+        min-height: 720px;
+        height: 720px;
+        overflow: hidden;
       }
       .cti-v2 .ds-slide.image-only-slide:has(.model-dash),
       .cti-v2 .ds-slide.image-only-slide:has(.model-hub) {
@@ -10312,39 +10362,60 @@
       }
       .cti-v2 .ds-slide.image-only-slide:has(.model-hub) {
         padding: 0 !important;
-        height: 640px !important;
-        min-height: 640px !important;
-        max-height: 640px !important;
+        height: 720px !important;
+        min-height: 720px !important;
+        max-height: 720px !important;
         overflow: hidden;
       }
       .cti-v2 .ds-slide.image-only-slide .architecture-image.image-fill {
-        height: auto;
-        max-height: 640px;
         width: 100%;
+        height: 100%;
+        max-height: none;
         border: 0;
         border-radius: 0;
         background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       .cti-v2 .ds-slide.image-only-slide .architecture-image.image-fill img {
         width: 100%;
-        height: auto;
-        max-height: 640px;
+        height: 100%;
+        max-height: none;
         object-fit: contain;
+        display: block;
       }
       .cti-v2
         .ds-slide.image-only-slide
         .architecture-image.image-fill.model-dash {
         background: #f4f7fb;
         max-height: none;
-        height: auto;
+        height: 100%;
       }
       .cti-v2
         .ds-slide.image-only-slide
         .architecture-image.image-fill.model-dash
         svg {
         width: 100%;
-        height: auto;
-        max-height: 640px;
+        height: 100%;
+        max-height: none;
+      }
+      /* Deck: 2 dashboard full khung 1280x720 */
+      .d-holder > .section.image-only-slide {
+        padding: 0 !important;
+        min-height: 720px !important;
+        height: 720px !important;
+        max-height: 720px !important;
+      }
+      .d-holder > .section.image-only-slide.deck-center {
+        justify-content: center;
+      }
+      .d-holder > .section.thankyou-slide,
+      .d-holder > .section.curiosity-slide,
+      .d-holder > .hero.cover-hero {
+        min-height: 720px !important;
+        height: 720px !important;
+        box-sizing: border-box;
       }
       .cti-v2 .model-hub {
         position: relative;
@@ -10924,39 +10995,31 @@
           {
             id: "bc-definition",
             group: "Business Case",
-            title: "A-Score / CTI là gì",
-            message:
-              "Một chỉ số niềm tin khách hàng, có thể giải thích và truy vết",
-            lead: "A-Score (Customer Trust Index - CTI) là hệ thống chấm điểm định lượng mức độ tin cậy/rủi ro tín dụng của một khách hàng hoặc một hồ sơ, tại đúng thời điểm cần ra quyết định. Đầu ra là một bộ ba Score - Grade - Reason Code, được cung cấp cho hoạt động ra quyết định như một tín hiệu đầu vào, đi kèm phiên bản model, dữ liệu đầu vào và bằng chứng có thể kiểm toán.",
+            title: "A-Score là gì",
+            message: "A-Score đo rủi ro tín dụng tại thời điểm hồ sơ và cung cấp tín hiệu cho quy trình ra quyết định",
+            lead: "A-Score là điểm rủi ro tín dụng tại thời điểm hồ sơ được tạo hoặc chuẩn bị thẩm định. A-Score không tự ra quyết định phê duyệt; kết quả được Decision Engine kết hợp với các tín hiệu và chính sách kiểm soát để đưa ra quyết định cuối cùng.",
             points: [
-              "Là một hệ thống/sản phẩm chấm điểm được huấn luyện và kiểm định trên dữ liệu lịch sử, không phải một công thức tính tay hay đánh giá cảm tính.",
-              "Đầu ra chuẩn hóa cho từng hồ sơ: Score (điểm số), Grade (hạng rủi ro) và Reason Code (mã lý do).",
-              "Mọi kết quả đều gắn với model version và dữ liệu đầu vào cụ thể, có thể tái lập để phục vụ audit.",
+              "A-Score là điểm rủi ro tín dụng tại thời điểm hồ sơ được tạo hoặc chuẩn bị thẩm định.",
+              "A-Score được chấm tại các điểm cần đánh giá hoặc khi dữ liệu trọng yếu của hồ sơ thay đổi.",
+              "A-Score là tín hiệu đầu vào; quyết định cuối cùng thuộc Underwriting và Decision Engine.",
             ],
             visual: "bcDefinition",
           },
           {
             id: "bc-value-chain",
             group: "Business Case",
-            title: "Chuỗi giá trị và vị trí của Risk Assessment (Scoring)",
-            message:
-              "Scoring là điểm kiểm soát giữa thu thập dữ liệu và ra quyết định",
-            lead: "Trong hành trình từ phát sinh nhu cầu vay đến thu hồi nợ, Risk Assessment/Scoring đứng ở vị trí trung gian: tiếp nhận đầu vào từ hoạt động thu thập và xác minh dữ liệu phía trước, đồng thời cung cấp tín hiệu rủi ro cho hoạt động ra quyết định, giải ngân, quản lý và thu hồi ở phía sau.",
-            points: [
-              "Phát sinh nhu cầu và tiếp nhận hồ sơ, sau đó xác minh định danh và dữ liệu đầu vào.",
-              "Risk Assessment/Scoring tổng hợp tín hiệu đã xác minh để sinh Score, Grade và Reason Code.",
-              "Kết quả scoring hỗ trợ Decision Engine ra quyết định, làm cơ sở cho giải ngân, quản lý khoản vay và thu hồi nợ.",
-            ],
+            title: "Vai trò của Scoring trong chuỗi giá trị vay",
+            message: "Scoring xuất hiện từ bước tư vấn (Pre-scoring) và được thực hiện đầy đủ tại bước thẩm định (Risk Assessment)",
+            lead: "A-Score phục vụ hai thời điểm trong hành trình vay: Pre-scoring dùng dữ liệu tối thiểu để tư vấn nhanh; Risk Assessment dùng hồ sơ đã xác minh để chấm đầy đủ, cung cấp Score, Grade và Reason Code cho bước ra quyết định.",
+            points: [],
             visual: "bcValueChain",
           },
           {
             id: "bc-problem",
             group: "Business Case",
-            title:
-              "Business problem & objective - từ model rời rạc đến scoring platform",
-            message:
-              "Chuyển từ các model riêng lẻ sang platform/engine cung cấp scoring service end-to-end",
-            lead: "Bài toán không dừng ở việc nâng độ chính xác của một model. A-Score hướng tới một platform/engine cung cấp dịch vụ chấm điểm end-to-end: tiếp nhận và chuẩn hóa dữ liệu, định tuyến multi-model, sinh output thống nhất, giải thích/replay kết quả và giám sát toàn bộ vòng đời.",
+            title: "Business problem & objective - từ model rời rạc đến scoring platform",
+            message: "Chuyển từ model tĩnh, không thể chạy lại sang platform/engine quản trị end-to-end theo toàn bộ lifecycle",
+            lead: "Bài toán không dừng ở việc nâng độ chính xác của một model. A-Score hướng tới một platform/engine quản trị xuyên suốt từ Draft, Candidate, Validate, Approve, Ready, Shadow, Production đến Deprecated và Retired; hỗ trợ multi-model, replay, giải thích và giám sát có kiểm soát.",
             points: [],
             visual: "bcProblem",
           },
@@ -10979,14 +11042,9 @@
             id: "bc-scope",
             group: "Business Case",
             title: "Phạm vi dự án - A-Score làm gì và không làm gì",
-            message:
-              "A-Score đảm nhiệm bài toán chấm điểm, không thay thế các hệ thống chuyên trách khác",
+            message: "Ranh giới phạm vi dự án theo nhóm A-Score thực hiện và không thực hiện",
             lead: "Việc xác định rõ ranh giới phạm vi giúp đội ngũ tập trung đúng bài toán chấm điểm rủi ro, đồng thời làm rõ những dữ liệu và tín hiệu nào A-Score tiêu thụ như đầu vào từ các hệ thống đã có chủ sở hữu riêng.",
-            points: [
-              "A-Score đảm nhiệm: tính Score/Grade/Reason Code, định nghĩa và quản trị vòng đời feature/model, chuẩn hóa output giữa các model family.",
-              "A-Score không đảm nhiệm: xác minh giấy tờ định danh (KYC), phát hiện gian lận (Fraud), ra quyết định phê duyệt/từ chối cuối cùng, định giá tài sản bảo đảm, quản lý hạn mức và hợp đồng.",
-              "Các nghiệp vụ trên do hệ thống chuyên trách đảm nhiệm; A-Score tiêu thụ output của các hệ thống đó làm input, hoặc cung cấp Score làm tín hiệu đầu vào cho hệ thống ra quyết định.",
-            ],
+            points: [],
             visual: "bcScope",
           },
           {
@@ -11033,8 +11091,8 @@
           {
             id: "monitoring-model-dashboard",
             group: "Monitoring",
-            title: "Model Monitoring Hub — 5 dashboard con",
-            message: "5 dashboard con full khung trong một hub",
+            title: "Model Monitoring Dashboard Phase 2",
+            message: "Dashboard Model Monitoring Phase 2",
             lead: "",
             points: [],
             visual: "modelDashboard",
@@ -11572,574 +11630,9 @@
             </svg></div>`;
           if (type === "systemDashboard")
             return `<div class="architecture-image image-fill"><img src="assets/system_dashboard.png" alt="A-Score System Monitoring Phase 1 Grafana dashboard" /></div>`;
-          if (type === "modelDashboard") {
-            const hubChrome = (
-              idx,
-              total,
-              code,
-              title,
-              status,
-              sc,
-              sbg,
-              sub,
-            ) => `
-              <rect width="1100" height="640" fill="#f4f7fb"/>
-              <rect x="0" y="0" width="1100" height="58" fill="#0b2f64"/>
-              <text x="24" y="26" font-size="12" font-weight="800" fill="#9db6dd">A-Score · Model Monitoring Hub</text>
-              <text x="24" y="46" font-size="16" font-weight="900" fill="#ffffff">${code} · ${title}</text>
-              <text x="780" y="36" text-anchor="end" font-size="12" font-weight="700" fill="#cfe0f5">${idx}/${total}</text>
-              <rect x="800" y="18" width="72" height="24" rx="7" fill="${sbg}"/><text x="836" y="35" text-anchor="middle" font-size="11" font-weight="900" fill="${sc}">${status}</text>
-              <text x="1076" y="36" text-anchor="end" font-size="11" font-weight="700" fill="#9db6dd">${sub}</text>`;
-            const kpiCard = (k, v, delta, x, y, w, c, dc) =>
-              `<g><rect x="${x}" y="${y}" width="${w}" height="72" rx="8" fill="#ffffff" stroke="${c}" stroke-opacity="0.55"/><rect x="${x}" y="${y}" width="5" height="72" rx="2" fill="${c}"/><text x="${x + 14}" y="${y + 22}" font-size="9.5" font-weight="800" fill="#64748b">${k}</text><text x="${x + 14}" y="${y + 48}" font-size="20" font-weight="900" fill="${c}">${v}</text><text x="${x + w - 12}" y="${y + 48}" text-anchor="end" font-size="11" font-weight="800" fill="${dc}">${delta}</text></g>`;
-            const panels = [
-              `<svg viewBox="0 0 1100 640" role="img" aria-label="Feature Drift Dashboard">
-                ${hubChrome(1, 5, "#1", "Feature Drift", "Amber", "#db681d", "#fff3e9", "DE / DS")}
-                ${[
-                  [
-                    "PSI max (feature)",
-                    "0.18",
-                    "↑0.03",
-                    24,
-                    "#db681d",
-                    "#db681d",
-                  ],
-                  [
-                    "online_offline_mismatch",
-                    "1.8%",
-                    "↑0.4pp",
-                    208,
-                    "#db681d",
-                    "#db681d",
-                  ],
-                  [
-                    "feature_missing_rate",
-                    "0.4%",
-                    "↓0.1pp",
-                    392,
-                    "#168447",
-                    "#168447",
-                  ],
-                  [
-                    "feature_outlier_rate",
-                    "2.1%",
-                    "↑0.3pp",
-                    576,
-                    "#db681d",
-                    "#db681d",
-                  ],
-                  [
-                    "feature_store_timeout",
-                    "0.3%",
-                    "→0.0",
-                    760,
-                    "#168447",
-                    "#64748b",
-                  ],
-                  [
-                    "source_usage shift",
-                    "+6%",
-                    "↑2pp",
-                    944,
-                    "#db681d",
-                    "#db681d",
-                  ],
-                ]
-                  .map(([k, v, d, x, c, dc]) =>
-                    kpiCard(k, v, d, x, 74, 172, c, dc),
-                  )
-                  .join("")}
-                <rect x="24" y="162" width="640" height="300" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="188" font-size="13" font-weight="900" fill="#102033">feature_distribution_shift_psi (per feature)</text>
-                <line x1="200" y1="210" x2="200" y2="430" stroke="#db681d" stroke-dasharray="5 4" stroke-opacity="0.7"/>
-                <text x="204" y="222" font-size="10" font-weight="800" fill="#db681d">A 0.10</text>
-                <line x1="470" y1="210" x2="470" y2="430" stroke="#b91c1c" stroke-dasharray="5 4" stroke-opacity="0.7"/>
-                <text x="474" y="222" font-size="10" font-weight="800" fill="#b91c1c">R 0.25</text>
-                ${[
-                  ["income_proxy", 0.18, "#db681d"],
-                  ["bureau_util", 0.14, "#db681d"],
-                  ["channel_mix", 0.11, "#db681d"],
-                  ["device_trust", 0.09, "#168447"],
-                  ["geo_risk", 0.07, "#168447"],
-                  ["tenure_m", 0.05, "#168447"],
-                ]
-                  .map(([n, v, c], i) => {
-                    const y = 240 + i * 32,
-                      w = v * 1800;
-                    return `<text x="40" y="${y + 4}" font-size="12" font-weight="700" fill="#52657a">${n}</text><rect x="160" y="${y - 12}" width="${w}" height="16" rx="3" fill="${c}"/><text x="${170 + w}" y="${y + 4}" font-size="12" font-weight="900" fill="${c}">${v.toFixed(2)}</text>`;
-                  })
-                  .join("")}
-                <rect x="680" y="162" width="396" height="300" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="696" y="188" font-size="13" font-weight="900" fill="#102033">feature_source_usage vs baseline</text>
-                <rect x="696" y="204" width="10" height="10" rx="2" fill="#2368c4"/><text x="712" y="213" font-size="10" font-weight="700" fill="#52657a">current</text>
-                <rect x="780" y="204" width="10" height="10" rx="2" fill="#cbd5e1"/><text x="796" y="213" font-size="10" font-weight="700" fill="#52657a">baseline</text>
-                ${[
-                  ["Bureau", 42, 40],
-                  ["Internal FS", 28, 32],
-                  ["Partner", 18, 16],
-                  ["Request-time", 12, 12],
-                ]
-                  .map(([n, cur, base], i) => {
-                    const y = 240 + i * 48;
-                    return `<text x="696" y="${y}" font-size="12" font-weight="700" fill="#52657a">${n}</text><rect x="820" y="${y - 14}" width="${cur * 4}" height="14" rx="3" fill="#2368c4"/><rect x="820" y="${y + 4}" width="${base * 4}" height="10" rx="2" fill="#cbd5e1"/><text x="${830 + cur * 4}" y="${y}" font-size="12" font-weight="900" fill="#2368c4">${cur}% Δ${cur - base >= 0 ? "+" : ""}${cur - base}</text>`;
-                  })
-                  .join("")}
-                <rect x="24" y="478" width="1052" height="138" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="508" font-size="13" font-weight="900" fill="#102033">online_offline_mismatch · detail</text>
-                ${[
-                  ["Compared rows", "128,400"],
-                  ["Mismatch count", "2,311"],
-                  ["Mismatch rate", "1.8% ↑0.4pp"],
-                  ["Critical features fail", "3"],
-                  ["feature_store_timeout", "0.3%"],
-                  ["PSI features &gt; A", "3 / 6"],
-                ]
-                  .map(([k, v], i) => {
-                    const x = 40 + (i % 3) * 350,
-                      y = 540 + Math.floor(i / 3) * 36;
-                    return `<text x="${x}" y="${y}" font-size="12" font-weight="700" fill="#64748b">${k}</text><text x="${x + 220}" y="${y}" font-size="13" font-weight="900" fill="#102033">${v}</text>`;
-                  })
-                  .join("")}
-              </svg>`,
-              `<svg viewBox="0 0 1100 640" role="img" aria-label="Score and Grade Dashboard">
-                ${hubChrome(2, 5, "#2", "Score &amp; Grade", "Green", "#168447", "#e8f8ef", "Log PG")}
-                ${[
-                  [
-                    "scoring_coverage",
-                    "90.0%",
-                    "↓4.0pp",
-                    24,
-                    "#db681d",
-                    "#db681d",
-                  ],
-                  [
-                    "MODEL_SCORED",
-                    "96.0%",
-                    "↑1.2pp",
-                    208,
-                    "#168447",
-                    "#168447",
-                  ],
-                  [
-                    "fallback_rate",
-                    "2.4%",
-                    "↓0.3pp",
-                    392,
-                    "#168447",
-                    "#168447",
-                  ],
-                  ["NOT_SCORABLE", "1.1%", "↑0.2pp", 576, "#db681d", "#db681d"],
-                  ["DATA_FAIL", "0.5%", "→0.0", 760, "#168447", "#64748b"],
-                  ["score_psi", "0.08", "↓0.01", 944, "#168447", "#168447"],
-                ]
-                  .map(([k, v, d, x, c, dc]) =>
-                    kpiCard(k, v, d, x, 74, 172, c, dc),
-                  )
-                  .join("")}
-                <rect x="24" y="162" width="300" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="188" font-size="13" font-weight="900" fill="#102033">Scoring funnel (scope nhóm)</text>
-                <text x="40" y="208" font-size="10" font-weight="700" fill="#94a3b8">Dừng trước decision downstream</text>
-                ${[
-                  ["Applications", "120k", 100, "#0b2f64"],
-                  ["Scored (90%)", "108k", 90, "#2368c4"],
-                  ["MODEL_SCORED", "103.7k", 86, "#168447"],
-                ]
-                  .map(([n, v, pct, c], i) => {
-                    const y = 230 + i * 52,
-                      w = pct * 2.4;
-                    return `<text x="40" y="${y}" font-size="11" font-weight="800" fill="#52657a">${n}</text><rect x="40" y="${y + 8}" width="${w}" height="18" rx="4" fill="${c}"/><text x="${50 + w}" y="${y + 22}" font-size="12" font-weight="900" fill="${c}">${v}</text>`;
-                  })
-                  .join("")}
-                <text x="40" y="392" font-size="10" font-weight="700" fill="#64748b">Drop-off: DF 0.5% · NS 1.1% · Runtime 0.4%</text>
-                <rect x="340" y="162" width="420" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="356" y="188" font-size="13" font-weight="900" fill="#102033">result_mode mix over time</text>
-                ${[
-                  [0.92, 0.05, 0.02, 0.01],
-                  [0.93, 0.04, 0.02, 0.01],
-                  [0.94, 0.035, 0.015, 0.01],
-                  [0.95, 0.03, 0.015, 0.005],
-                  [0.955, 0.028, 0.012, 0.005],
-                  [0.96, 0.024, 0.011, 0.005],
-                  [0.958, 0.026, 0.011, 0.005],
-                ]
-                  .map((parts, i) => {
-                    const x = 360 + i * 54,
-                      colors = ["#168447", "#db681d", "#8b6500", "#b91c1c"];
-                    let y = 400;
-                    return (
-                      parts
-                        .map((p, j) => {
-                          const h = p * 180;
-                          y -= h;
-                          return `<rect x="${x}" y="${y}" width="42" height="${h}" fill="${colors[j]}"/>`;
-                        })
-                        .join("") +
-                      `<text x="${x + 21}" y="418" text-anchor="middle" font-size="9" font-weight="700" fill="#94a3b8">D${i + 1}</text>`
-                    );
-                  })
-                  .join("")}
-                <rect x="360" y="430" width="10" height="10" rx="2" fill="#168447"/><text x="374" y="439" font-size="9" font-weight="700" fill="#52657a">MODEL</text>
-                <rect x="430" y="430" width="10" height="10" rx="2" fill="#db681d"/><text x="444" y="439" font-size="9" font-weight="700" fill="#52657a">FALLBACK</text>
-                <rect x="520" y="430" width="10" height="10" rx="2" fill="#8b6500"/><text x="534" y="439" font-size="9" font-weight="700" fill="#52657a">NS</text>
-                <rect x="570" y="430" width="10" height="10" rx="2" fill="#b91c1c"/><text x="584" y="439" font-size="9" font-weight="700" fill="#52657a">DF</text>
-                <rect x="776" y="162" width="300" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="792" y="188" font-size="13" font-weight="900" fill="#102033">Cut by channel / segment</text>
-                <text x="792" y="214" font-size="10" font-weight="800" fill="#7b8794">channel</text>
-                <text x="920" y="214" font-size="10" font-weight="800" fill="#7b8794">cover</text>
-                <text x="980" y="214" font-size="10" font-weight="800" fill="#7b8794">MS%</text>
-                <text x="1040" y="214" font-size="10" font-weight="800" fill="#7b8794">PSI</text>
-                <line x1="792" y1="222" x2="1056" y2="222" stroke="#e6edf4"/>
-                ${[
-                  ["Branch/LOS", "92%", "97%", "0.06", "#168447"],
-                  ["MyF88 App", "91%", "96%", "0.07", "#168447"],
-                  ["Partner A", "84%", "93%", "0.14", "#db681d"],
-                  ["Partner B", "81%", "91%", "0.16", "#db681d"],
-                  ["New-to-F88", "86%", "94%", "0.12", "#db681d"],
-                  ["Returning", "95%", "98%", "0.05", "#168447"],
-                ]
-                  .map(([ch, cov, ms, psi, c], i) => {
-                    const y = 244 + i * 24;
-                    return `<text x="792" y="${y}" font-size="11" font-weight="700" fill="#26384d">${ch}</text><text x="920" y="${y}" font-size="11" font-weight="800" fill="#52657a">${cov}</text><text x="980" y="${y}" font-size="11" font-weight="800" fill="#52657a">${ms}</text><text x="1040" y="${y}" font-size="11" font-weight="900" fill="${c}">${psi}</text>`;
-                  })
-                  .join("")}
-                <rect x="24" y="428" width="520" height="188" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="456" font-size="13" font-weight="900" fill="#102033">grade_distribution vs baseline</text>
-                <rect x="40" y="468" width="10" height="10" rx="2" fill="#2368c4"/><text x="56" y="477" font-size="10" font-weight="700" fill="#52657a">current</text>
-                <rect x="120" y="468" width="10" height="10" rx="2" fill="#cbd5e1"/><text x="136" y="477" font-size="10" font-weight="700" fill="#52657a">baseline</text>
-                ${["A", "B", "C", "D", "E"]
-                  .map((g, i) => {
-                    const cur = [18, 28, 30, 16, 8][i],
-                      base = [17, 27, 31, 17, 8][i],
-                      x = 60 + i * 90;
-                    return `<g><rect x="${x}" y="${580 - cur * 3.2}" width="24" height="${cur * 3.2}" fill="#2368c4" rx="3"/><rect x="${x + 28}" y="${580 - base * 3.2}" width="24" height="${base * 3.2}" fill="#cbd5e1" rx="3"/><text x="${x + 26}" y="600" text-anchor="middle" font-size="12" font-weight="800" fill="#52657a">${g}</text></g>`;
-                  })
-                  .join("")}
-                <rect x="560" y="428" width="516" height="188" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="576" y="456" font-size="13" font-weight="900" fill="#102033">score_psi vs champion · G/A/R</text>
-                <polyline fill="none" stroke="#7245c7" stroke-width="3" points="580,580 660,572 740,568 820,558 900,548 980,542 1040,536"/>
-                <line x1="580" y1="500" x2="1040" y2="500" stroke="#b91c1c" stroke-dasharray="5 4"/>
-                <text x="1040" y="494" text-anchor="end" font-size="10" font-weight="800" fill="#b91c1c">R 0.25</text>
-                <line x1="580" y1="540" x2="1040" y2="540" stroke="#db681d" stroke-dasharray="5 4"/>
-                <text x="1040" y="558" text-anchor="end" font-size="10" font-weight="800" fill="#db681d">A 0.10</text>
-              </svg>`,
-              `<svg viewBox="0 0 1100 640" role="img" aria-label="Model Performance Dashboard">
-                ${hubChrome(3, 5, "#3", "Model Performance", "Green", "#168447", "#e8f8ef", "DS / DE")}
-                ${[
-                  ["auc_roc", "0.78", "↑0.01", 24, "#168447", "#168447"],
-                  ["ks_statistic", "0.41", "↑0.01", 208, "#168447", "#168447"],
-                  [
-                    "gini_coefficient",
-                    "0.56",
-                    "↑0.02",
-                    392,
-                    "#168447",
-                    "#168447",
-                  ],
-                  [
-                    "rank_order_stability",
-                    "0.94",
-                    "→0.00",
-                    576,
-                    "#168447",
-                    "#64748b",
-                  ],
-                  [
-                    "segment_gap max",
-                    "4.2%",
-                    "↑0.8pp",
-                    760,
-                    "#db681d",
-                    "#db681d",
-                  ],
-                  [
-                    "bad_rate grade A",
-                    "1.2%",
-                    "↓0.1pp",
-                    944,
-                    "#168447",
-                    "#168447",
-                  ],
-                ]
-                  .map(([k, v, d, x, c, dc]) =>
-                    kpiCard(k, v, d, x, 74, 172, c, dc),
-                  )
-                  .join("")}
-                <rect x="24" y="162" width="620" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="188" font-size="13" font-weight="900" fill="#102033">AUC / KS / Gini by model_version</text>
-                <line x1="56" y1="210" x2="600" y2="210" stroke="#e6edf4"/><line x1="56" y1="250" x2="600" y2="250" stroke="#e6edf4"/><line x1="56" y1="290" x2="600" y2="290" stroke="#e6edf4"/><line x1="56" y1="330" x2="600" y2="330" stroke="#e6edf4"/>
-                ${[
-                  [70, 0.74, 0.36, 0.48],
-                  [170, 0.75, 0.37, 0.5],
-                  [270, 0.76, 0.39, 0.52],
-                  [370, 0.77, 0.4, 0.54],
-                  [470, 0.78, 0.41, 0.56],
-                ]
-                  .map(([x, a, k, g], i) => {
-                    const baseY = 360,
-                      hA = (a - 0.65) * 380,
-                      hK = (k - 0.2) * 260,
-                      hG = (g - 0.3) * 280;
-                    return `<g><rect x="${x}" y="${baseY - hA}" width="18" height="${hA}" fill="#2368c4" rx="3"/><rect x="${x + 22}" y="${baseY - hK}" width="18" height="${hK}" fill="#168447" rx="3"/><rect x="${x + 44}" y="${baseY - hG}" width="18" height="${hG}" fill="#f5c518" rx="3"/><text x="${x + 30}" y="386" text-anchor="middle" font-size="11" font-weight="800" fill="#52657a">v1.${i + 1}</text></g>`;
-                  })
-                  .join("")}
-                <rect x="56" y="398" width="10" height="10" rx="2" fill="#2368c4"/><text x="72" y="407" font-size="10" font-weight="700" fill="#52657a">AUC</text>
-                <rect x="120" y="398" width="10" height="10" rx="2" fill="#168447"/><text x="136" y="407" font-size="10" font-weight="700" fill="#52657a">KS</text>
-                <rect x="176" y="398" width="10" height="10" rx="2" fill="#f5c518"/><text x="192" y="407" font-size="10" font-weight="700" fill="#52657a">Gini</text>
-                <rect x="660" y="162" width="416" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="676" y="188" font-size="13" font-weight="900" fill="#102033">Champion versions · gate</text>
-                <text x="676" y="216" font-size="11" font-weight="800" fill="#7b8794">version</text><text x="790" y="216" font-size="11" font-weight="800" fill="#7b8794">AUC</text><text x="870" y="216" font-size="11" font-weight="800" fill="#7b8794">KS</text><text x="950" y="216" font-size="11" font-weight="800" fill="#7b8794">Gini</text><text x="1030" y="216" font-size="11" font-weight="800" fill="#7b8794">gate</text>
-                <line x1="676" y1="226" x2="1050" y2="226" stroke="#e6edf4"/>
-                ${[
-                  ["v1.4.2", "0.78", "0.41", "0.56", "PASS", "#168447", 254],
-                  ["v1.3.1", "0.77", "0.40", "0.54", "PASS", "#168447", 294],
-                  ["v1.2.0", "0.73", "0.36", "0.46", "HOLD", "#db681d", 334],
-                  ["v1.1.0", "0.71", "0.34", "0.42", "FAIL", "#b91c1c", 374],
-                ]
-                  .map(
-                    ([v, a, k, g, st, c, y]) =>
-                      `<g><text x="676" y="${y}" font-size="12" font-weight="800" fill="#102033">${v}</text><text x="790" y="${y}" font-size="12" font-weight="700" fill="#26384d">${a}</text><text x="870" y="${y}" font-size="12" font-weight="700" fill="#26384d">${k}</text><text x="950" y="${y}" font-size="12" font-weight="700" fill="#26384d">${g}</text><text x="1030" y="${y}" text-anchor="middle" font-size="11" font-weight="900" fill="${c}">${st}</text></g>`,
-                  )
-                  .join("")}
-                <rect x="24" y="428" width="520" height="188" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="456" font-size="13" font-weight="900" fill="#102033">bad_rate_by_grade</text>
-                ${["A", "B", "C", "D", "E"]
-                  .map((g, i) => {
-                    const br = [1.2, 2.8, 5.4, 9.1, 14.6][i],
-                      x = 56 + i * 92;
-                    return `<g><rect x="${x}" y="${580 - br * 8}" width="48" height="${br * 8}" fill="#0b2f64" rx="3"/><text x="${x + 24}" y="598" text-anchor="middle" font-size="12" font-weight="800" fill="#52657a">${g}</text><text x="${x + 24}" y="${572 - br * 8}" text-anchor="middle" font-size="11" font-weight="900" fill="#0b2f64">${br}%</text></g>`;
-                  })
-                  .join("")}
-                <rect x="560" y="428" width="516" height="188" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="576" y="456" font-size="13" font-weight="900" fill="#102033">segment_performance_gap (AUC vs overall)</text>
-                ${[
-                  ["New", 0.74, 0.78],
-                  ["Thin", 0.76, 0.78],
-                  ["Thick", 0.79, 0.78],
-                  ["Partner", 0.71, 0.78],
-                ]
-                  .map(([n, seg, base], i) => {
-                    const y = 492 + i * 28,
-                      gap = ((base - seg) * 100).toFixed(1);
-                    const c =
-                      Math.abs(base - seg) > 0.04 ? "#db681d" : "#168447";
-                    return `<text x="576" y="${y}" font-size="12" font-weight="700" fill="#52657a">${n}</text><text x="700" y="${y}" font-size="12" font-weight="800" fill="#102033">${seg.toFixed(2)}</text><text x="820" y="${y}" font-size="12" font-weight="700" fill="#94a3b8">vs ${base.toFixed(2)}</text><text x="1000" y="${y}" text-anchor="end" font-size="12" font-weight="900" fill="${c}">Δ ${gap}pp</text>`;
-                  })
-                  .join("")}
-              </svg>`,
-              `<svg viewBox="0 0 1100 640" role="img" aria-label="Calibration Dashboard">
-                ${hubChrome(4, 5, "#4", "Calibration", "Amber", "#db681d", "#fff3e9", "DS / BI")}
-                ${[
-                  [
-                    "expected_vs_observed_gap",
-                    "1.4pp",
-                    "↑0.3pp",
-                    24,
-                    "#db681d",
-                    "#db681d",
-                  ],
-                  [
-                    "observed_bad_rate",
-                    "4.8%",
-                    "↑0.2pp",
-                    298,
-                    "#db681d",
-                    "#db681d",
-                  ],
-                  [
-                    "calibration_drift_index",
-                    "0.11",
-                    "↑0.02",
-                    572,
-                    "#db681d",
-                    "#db681d",
-                  ],
-                  [
-                    "score_band_default",
-                    "3.9%",
-                    "↓0.1pp",
-                    846,
-                    "#168447",
-                    "#168447",
-                  ],
-                ]
-                  .map(([k, v, d, x, c, dc]) =>
-                    kpiCard(k, v, d, x, 74, 230, c, dc),
-                  )
-                  .join("")}
-                <rect x="24" y="158" width="500" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="182" font-size="13" font-weight="900" fill="#102033">expected vs observed (by grade)</text>
-                <line x1="70" y1="360" x2="460" y2="210" stroke="#2368c4" stroke-width="2.2" stroke-dasharray="6 4"/>
-                <text x="430" y="200" font-size="10" font-weight="800" fill="#2368c4">expected</text>
-                ${[
-                  ["A", 90, 350, 1.2],
-                  ["B", 170, 315, 2.9],
-                  ["C", 250, 275, 5.6],
-                  ["D", 330, 235, 9.8],
-                  ["E", 410, 205, 15.2],
-                ]
-                  .map(
-                    ([g, x, y, v]) =>
-                      `<g><circle cx="${x}" cy="${y}" r="6" fill="#2368c4"/><text x="${x}" y="${y + 20}" text-anchor="middle" font-size="11" font-weight="800" fill="#64748b">${g}</text><text x="${x}" y="${y - 12}" text-anchor="middle" font-size="11" font-weight="900" fill="#0b2f64">${v}%</text></g>`,
-                  )
-                  .join("")}
-                <rect x="540" y="158" width="536" height="250" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="556" y="182" font-size="13" font-weight="900" fill="#102033">observed_bad_rate_by_grade</text>
-                <text x="556" y="208" font-size="10" font-weight="800" fill="#7b8794">grade</text>
-                <text x="640" y="208" font-size="10" font-weight="800" fill="#7b8794">expected</text>
-                <text x="760" y="208" font-size="10" font-weight="800" fill="#7b8794">observed</text>
-                <text x="880" y="208" font-size="10" font-weight="800" fill="#7b8794">gap</text>
-                <text x="980" y="208" font-size="10" font-weight="800" fill="#7b8794">vs prev</text>
-                <line x1="556" y1="216" x2="1056" y2="216" stroke="#e6edf4"/>
-                ${[
-                  ["A", "1.0%", "1.2%", "+0.2", "↑0.1"],
-                  ["B", "2.5%", "2.9%", "+0.4", "↑0.1"],
-                  ["C", "5.0%", "5.6%", "+0.6", "↑0.2"],
-                  ["D", "9.0%", "9.8%", "+0.8", "↑0.3"],
-                  ["E", "14.0%", "15.2%", "+1.2", "↑0.4"],
-                ]
-                  .map(([g, e, o, gap, prev], i) => {
-                    const y = 242 + i * 30;
-                    const gc = parseFloat(gap) >= 1 ? "#db681d" : "#168447";
-                    return `<g><text x="556" y="${y}" font-size="12" font-weight="800" fill="#102033">${g}</text><text x="640" y="${y}" font-size="12" font-weight="700" fill="#26384d">${e}</text><text x="760" y="${y}" font-size="12" font-weight="700" fill="#26384d">${o}</text><text x="880" y="${y}" font-size="12" font-weight="900" fill="${gc}">${gap}</text><text x="980" y="${y}" font-size="11" font-weight="800" fill="#db681d">${prev}</text></g>`;
-                  })
-                  .join("")}
-                <rect x="24" y="424" width="1052" height="192" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="450" font-size="13" font-weight="900" fill="#102033">calibration_gap over months</text>
-                <polyline fill="none" stroke="#db681d" stroke-width="3" points="60,560 190,550 320,540 450,528 580,520 710,512 840,508 970,502"/>
-                <line x1="60" y1="540" x2="970" y2="540" stroke="#db681d" stroke-dasharray="5 4" stroke-opacity="0.5"/>
-                <text x="980" y="544" font-size="10" font-weight="800" fill="#db681d">A 1.0pp</text>
-                ${["T-7", "T-6", "T-5", "T-4", "T-3", "T-2", "T-1", "T0"].map((m, i) => `<text x="${60 + i * 130}" y="580" text-anchor="middle" font-size="10" font-weight="700" fill="#94a3b8">${m}</text>`).join("")}
-                <text x="40" y="602" font-size="11" font-weight="700" fill="#8b6500">Note: observed chỉ đo trên tập đã giải ngân — đọc kèm approval mix, không kết luận model từ số đơn lẻ</text>
-              </svg>`,
-              `<svg viewBox="0 0 1100 640" role="img" aria-label="Portfolio Feedback Dashboard">
-                ${hubChrome(5, 5, "#5", "Portfolio Feedback", "Green", "#168447", "#e8f8ef", "BI / LOS / DS")}
-                ${[
-                  [
-                    "portfolio_bad_rate",
-                    "4.6%",
-                    "↑0.3pp",
-                    24,
-                    "#db681d",
-                    "#db681d",
-                  ],
-                  ["dpd30_rate", "7.8%", "↑0.4pp", 298, "#db681d", "#db681d"],
-                  ["loss_rate", "2.3%", "↓0.1pp", 572, "#168447", "#168447"],
-                  ["booking volume", "8.4k", "↑6%", 846, "#168447", "#168447"],
-                ]
-                  .map(([k, v, d, x, c, dc]) =>
-                    kpiCard(k, v, d, x, 74, 230, c, dc),
-                  )
-                  .join("")}
-                <rect x="24" y="158" width="1052" height="230" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="184" font-size="13" font-weight="900" fill="#102033">Grade × metric (vs baseline)</text>
-                <text x="40" y="210" font-size="10" font-weight="800" fill="#7b8794">grade</text>
-                <text x="110" y="210" font-size="10" font-weight="800" fill="#7b8794">approval</text>
-                <text x="210" y="210" font-size="10" font-weight="800" fill="#7b8794">booking</text>
-                <text x="310" y="210" font-size="10" font-weight="800" fill="#7b8794">bad rate</text>
-                <text x="420" y="210" font-size="10" font-weight="800" fill="#7b8794">vs base</text>
-                <text x="520" y="210" font-size="10" font-weight="800" fill="#7b8794">DPD30+</text>
-                <text x="630" y="210" font-size="10" font-weight="800" fill="#7b8794">vs base</text>
-                <text x="730" y="210" font-size="10" font-weight="800" fill="#7b8794">loss</text>
-                <text x="820" y="210" font-size="10" font-weight="800" fill="#7b8794">vs base</text>
-                <text x="940" y="210" font-size="10" font-weight="800" fill="#7b8794">status</text>
-                <line x1="40" y1="218" x2="1050" y2="218" stroke="#e6edf4"/>
-                ${[
-                  [
-                    "A",
-                    "18%",
-                    "1.6k",
-                    "1.4%",
-                    "−0.1",
-                    "2.1%",
-                    "−0.2",
-                    "0.6%",
-                    "−0.1",
-                    "OK",
-                    "#168447",
-                  ],
-                  [
-                    "B",
-                    "27%",
-                    "2.4k",
-                    "3.1%",
-                    "+0.1",
-                    "4.5%",
-                    "+0.2",
-                    "1.2%",
-                    "0.0",
-                    "OK",
-                    "#168447",
-                  ],
-                  [
-                    "C",
-                    "31%",
-                    "2.7k",
-                    "5.8%",
-                    "+0.4",
-                    "7.9%",
-                    "+0.5",
-                    "2.1%",
-                    "+0.2",
-                    "WATCH",
-                    "#db681d",
-                  ],
-                  [
-                    "D",
-                    "16%",
-                    "1.2k",
-                    "10.2%",
-                    "+0.8",
-                    "12.4%",
-                    "+0.9",
-                    "3.8%",
-                    "+0.4",
-                    "WATCH",
-                    "#db681d",
-                  ],
-                  [
-                    "E",
-                    "8%",
-                    "0.5k",
-                    "16.5%",
-                    "+1.4",
-                    "19.8%",
-                    "+1.6",
-                    "6.2%",
-                    "+0.8",
-                    "ALERT",
-                    "#b91c1c",
-                  ],
-                ]
-                  .map(
-                    (
-                      [g, ap, bk, br, brd, dpd, dpdd, loss, lossd, st, c],
-                      i,
-                    ) => {
-                      const y = 244 + i * 26;
-                      return `<g><text x="40" y="${y}" font-size="12" font-weight="900" fill="#102033">${g}</text><text x="110" y="${y}" font-size="12" font-weight="700" fill="#26384d">${ap}</text><text x="210" y="${y}" font-size="12" font-weight="700" fill="#26384d">${bk}</text><text x="310" y="${y}" font-size="12" font-weight="800" fill="#102033">${br}</text><text x="420" y="${y}" font-size="12" font-weight="900" fill="${c}">${brd}</text><text x="520" y="${y}" font-size="12" font-weight="800" fill="#102033">${dpd}</text><text x="630" y="${y}" font-size="12" font-weight="900" fill="${c}">${dpdd}</text><text x="730" y="${y}" font-size="12" font-weight="800" fill="#102033">${loss}</text><text x="820" y="${y}" font-size="12" font-weight="900" fill="${c}">${lossd}</text><text x="940" y="${y}" font-size="11" font-weight="900" fill="${c}">${st}</text></g>`;
-                    },
-                  )
-                  .join("")}
-                <rect x="24" y="404" width="1052" height="212" rx="10" fill="#ffffff" stroke="#d5e0eb"/>
-                <text x="40" y="430" font-size="13" font-weight="900" fill="#102033">Vintage bad rate by MOB (A / C / E)</text>
-                <rect x="700" y="418" width="10" height="10" rx="2" fill="#168447"/><text x="716" y="427" font-size="10" font-weight="700" fill="#52657a">Grade A</text>
-                <rect x="790" y="418" width="10" height="10" rx="2" fill="#db681d"/><text x="806" y="427" font-size="10" font-weight="700" fill="#52657a">Grade C</text>
-                <rect x="880" y="418" width="10" height="10" rx="2" fill="#b91c1c"/><text x="896" y="427" font-size="10" font-weight="700" fill="#52657a">Grade E</text>
-                <polyline fill="none" stroke="#168447" stroke-width="2.5" points="70,555 200,548 330,542 460,536 590,530 720,524 850,520 980,516"/>
-                <polyline fill="none" stroke="#db681d" stroke-width="2.5" points="70,540 200,528 330,514 460,500 590,488 720,478 850,470 980,462"/>
-                <polyline fill="none" stroke="#b91c1c" stroke-width="2.5" points="70,520 200,505 330,488 460,472 590,458 720,448 850,440 980,434"/>
-                ${["MOB1", "MOB2", "MOB3", "MOB4", "MOB5", "MOB6", "MOB9", "MOB12"].map((m, i) => `<text x="${70 + i * 130}" y="590" text-anchor="middle" font-size="10" font-weight="700" fill="#94a3b8">${m}</text>`).join("")}
-              </svg>`,
-            ];
-            return `<div class="model-hub" data-model-hub="1">
-              <div class="model-hub-scroll" tabindex="0" aria-label="Model Monitoring Hub">
-                ${panels.map((svg, i) => `<div class="model-hub-panel" data-hub-idx="${i}">${svg}</div>`).join("")}
-              </div>
-              <div class="model-hub-dots" aria-hidden="true">
-                ${panels.map((_, i) => `<button type="button" class="model-hub-dot${i === 0 ? " on" : ""}" data-hub-dot="${i}" title="Dashboard ${i + 1}"></button>`).join("")}
-              </div>
-            </div>`;
-          }
+          if (type === "modelDashboard")
+            return `<div class="architecture-image image-fill model-dash"><img src="assets/model_dashboard.jpg" alt="A-Score Model Monitoring Phase 2 dashboard" /></div>`;
+
           if (type === "monitorPipeline")
             return `<div class="architecture-image"><svg viewBox="0 0 980 400" role="img" aria-label="Pipeline system monitoring Phase 1">
               <defs>
@@ -12421,14 +11914,14 @@
               <g filter="url(#fsShadow)"><rect x="492" y="96" width="240" height="88" rx="13" fill="#ffffff" stroke="#cbd7e3"/><text x="612" y="122" text-anchor="middle" font-size="12.5" font-weight="900" fill="#334155">SLA PHẢN HỒI RED</text><text x="514" y="146" font-size="10.5" font-weight="700" fill="#26384d">• Ack 15 phút (24/7)</text><text x="514" y="166" font-size="10.5" font-weight="700" fill="#26384d">• Triage 1 giờ · mitigate 4 giờ</text></g>
             </svg></div>`;
           if (type === "goliveGate")
-            return `<div class="architecture-image"><svg viewBox="0 0 980 400" role="img" aria-label="Cổng go-live">
+            return `<div class="architecture-image"><svg viewBox="0 0 980 420" role="img" aria-label="Cổng go-live">
               <defs>
                 <marker id="glArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#60758c"/></marker>
                 <filter id="glShadow" x="-15%" y="-20%" width="140%" height="155%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity="0.11"/></filter>
               </defs>
-              <rect x="16" y="14" width="948" height="372" rx="18" fill="#fbfdff" stroke="#d3dfeb"/>
-              <text x="490" y="43" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">GO-LIVE GATE — ĐIỀU KIỆN MỞ PRODUCTION</text>
-              <text x="490" y="65" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">API trả score được chưa phải là go-live — phải NHÌN được lỗi và BIẾT xử lý</text>
+              <rect x="16" y="12" width="948" height="396" rx="18" fill="#fbfdff" stroke="#d3dfeb"/>
+              <text x="490" y="40" text-anchor="middle" font-size="22" font-weight="900" fill="#0b2f64">GO-LIVE GATE — ĐIỀU KIỆN MỞ PRODUCTION</text>
+              <text x="490" y="62" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">API trả score được chưa phải là go-live — phải NHÌN được lỗi và BIẾT xử lý</text>
 
               ${[
                 [
@@ -12469,30 +11962,31 @@
                 ],
               ]
                 .map(([n, t, bullets, x0, fill, color], i) => {
-                  const y = 96 + i * 92;
-                  return `<g filter="url(#glShadow)"><rect x="${x0}" y="${y}" width="380" height="80" rx="13" fill="${fill}" stroke="${color}" stroke-opacity="0.55"/><circle cx="${x0 + 34}" cy="${y + 40}" r="19" fill="${color}"/><text x="${x0 + 34}" y="${y + 46}" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">${n}</text><text x="${x0 + 66}" y="${y + 26}" font-size="12.5" font-weight="900" fill="${color}">${t}</text><text x="${x0 + 66}" y="${y + 46}" font-size="9.8" font-weight="700" fill="#26384d">• ${bullets[0]}</text><text x="${x0 + 66}" y="${y + 64}" font-size="9.8" font-weight="700" fill="#26384d">• ${bullets[1]} · ${bullets[2]}</text></g><line x1="${x0 + 380}" y1="${y + 40}" x2="470" y2="230" stroke="#60758c" stroke-width="2" marker-end="url(#glArrow)"/>`;
+                  const y = 84 + i * 86;
+                  return `<g filter="url(#glShadow)"><rect x="${x0}" y="${y}" width="380" height="76" rx="13" fill="${fill}" stroke="${color}" stroke-opacity="0.55"/><circle cx="${x0 + 34}" cy="${y + 38}" r="18" fill="${color}"/><text x="${x0 + 34}" y="${y + 44}" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">${n}</text><text x="${x0 + 66}" y="${y + 24}" font-size="12.5" font-weight="900" fill="${color}">${t}</text><text x="${x0 + 66}" y="${y + 44}" font-size="9.8" font-weight="700" fill="#26384d">• ${bullets[0]}</text><text x="${x0 + 66}" y="${y + 62}" font-size="9.8" font-weight="700" fill="#26384d">• ${bullets[1]} · ${bullets[2]}</text></g><line x1="${x0 + 380}" y1="${y + 38}" x2="470" y2="214" stroke="#60758c" stroke-width="2" marker-end="url(#glArrow)"/>`;
                 })
                 .join("")}
 
               <g filter="url(#glShadow)">
-                <rect x="486" y="150" width="176" height="160" rx="15" fill="#102f63"/>
-                <text x="574" y="196" text-anchor="middle" font-size="15" font-weight="900" fill="#fcc20e">GO-LIVE</text>
-                <text x="574" y="218" text-anchor="middle" font-size="15" font-weight="900" fill="#fcc20e">SIGN-OFF</text>
-                <text x="574" y="248" text-anchor="middle" font-size="10" font-weight="700" fill="#dce7f5">Thiếu 1 trong 3</text>
-                <text x="574" y="264" text-anchor="middle" font-size="10" font-weight="700" fill="#dce7f5">= KHÔNG go-live</text>
-                <text x="574" y="290" text-anchor="middle" font-size="9.6" font-weight="700" fill="#9db6dd">Góc observability</text>
+                <rect x="486" y="134" width="176" height="160" rx="15" fill="#102f63"/>
+                <text x="574" y="180" text-anchor="middle" font-size="15" font-weight="900" fill="#fcc20e">GO-LIVE</text>
+                <text x="574" y="202" text-anchor="middle" font-size="15" font-weight="900" fill="#fcc20e">SIGN-OFF</text>
+                <text x="574" y="232" text-anchor="middle" font-size="10" font-weight="700" fill="#dce7f5">Thiếu 1 trong 3</text>
+                <text x="574" y="248" text-anchor="middle" font-size="10" font-weight="700" fill="#dce7f5">= KHÔNG go-live</text>
+                <text x="574" y="274" text-anchor="middle" font-size="9.6" font-weight="700" fill="#9db6dd">Góc observability</text>
               </g>
-              <line x1="662" y1="230" x2="716" y2="230" stroke="#60758c" stroke-width="2.4" marker-end="url(#glArrow)"/>
+              <line x1="662" y1="214" x2="716" y2="214" stroke="#60758c" stroke-width="2.4" marker-end="url(#glArrow)"/>
               <g filter="url(#glShadow)">
-                <rect x="728" y="150" width="208" height="160" rx="15" fill="#eaf7ef" stroke="#8bd0a8"/>
-                <text x="832" y="186" text-anchor="middle" font-size="13.5" font-weight="900" fill="#007236">SANG DEPLOY</text>
-                <text x="832" y="214" text-anchor="middle" font-size="10.3" font-weight="700" fill="#26384d">Mỗi lần đổi model đi cả vòng</text>
-                <text x="832" y="232" text-anchor="middle" font-size="10.3" font-weight="700" fill="#26384d">Handoff → Shadow → Canary</text>
-                <text x="832" y="250" text-anchor="middle" font-size="10.3" font-weight="700" fill="#26384d">→ Rollback / Retirement</text>
-                <rect x="748" y="268" width="168" height="26" rx="8" fill="#ffffff" stroke="#8bd0a8"/>
-                <text x="832" y="286" text-anchor="middle" font-size="9.6" font-weight="900" fill="#007236">Go-live gate ≠ Deploy gate package</text>
+                <rect x="728" y="134" width="208" height="160" rx="15" fill="#eaf7ef" stroke="#8bd0a8"/>
+                <text x="832" y="170" text-anchor="middle" font-size="13.5" font-weight="900" fill="#007236">SANG DEPLOY</text>
+                <text x="832" y="198" text-anchor="middle" font-size="10.3" font-weight="700" fill="#26384d">Mỗi lần đổi model đi cả vòng</text>
+                <text x="832" y="216" text-anchor="middle" font-size="10.3" font-weight="700" fill="#26384d">Handoff → Shadow → Canary</text>
+                <text x="832" y="234" text-anchor="middle" font-size="10.3" font-weight="700" fill="#26384d">→ Rollback / Retirement</text>
+                <rect x="748" y="252" width="168" height="26" rx="8" fill="#ffffff" stroke="#8bd0a8"/>
+                <text x="832" y="270" text-anchor="middle" font-size="9.6" font-weight="900" fill="#007236">Go-live gate ≠ Deploy gate package</text>
               </g>
-              <text x="490" y="352" text-anchor="middle" font-size="12" font-weight="900" fill="#64748b">3 KHÔNG → KHÔNG GO-LIVE: không dashboard · không alert test · không runbook + owner</text>
+              <rect x="44" y="358" width="892" height="36" rx="10" fill="#f1f5f9" stroke="#d3dfeb"/>
+              <text x="490" y="381" text-anchor="middle" font-size="12" font-weight="900" fill="#475569">3 KHÔNG → KHÔNG GO-LIVE: không dashboard · không alert test · không runbook + owner</text>
             </svg></div>`;
           if (type === "trainArchitecture")
             return `<div class="architecture-image"><svg viewBox="0 0 980 440" role="img" aria-label="Quy trình Train Model 7 bước và xác định bộ biến tối thiểu cho Quick Offer">
@@ -12756,113 +12250,138 @@
               <text x="793" y="296" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Registered Model Version</text>
             </svg></div>`;
           if (type === "bcDefinition")
-            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="A-Score la gi">
-              <defs><marker id="bcdArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#66788d"/></marker><filter id="bcdShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
-              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
-              <text x="490" y="50" text-anchor="middle" font-size="21" font-weight="900" fill="#0b2f64">A-SCORE: MỘT SẢN PHẨM CHẤM ĐIỂM, KHÔNG PHẢI MỘT CON SỐ ĐƠN LẺ</text>
-              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Một chuỗi xử lý có kiểm soát, từ dữ liệu đầu vào đến kết quả có thể giải thích</text>
+            return `<div class="ds-diagram" style="height:440px"><svg viewBox="0 0 980 390" role="img" aria-label="A-Score la gi">
+              <defs><marker id="bcdArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#66788d"/></marker><filter id="bcdShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="6" flood-color="#102033" flood-opacity="0.14"/></filter></defs>
+              <rect x="10" y="10" width="960" height="370" rx="16" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="490" y="48" text-anchor="middle" font-size="24" font-weight="900" fill="#0b2f64">A-SCORE: MỘT SẢN PHẨM CHẤM ĐIỂM, KHÔNG PHẢI MỘT CON SỐ ĐƠN LẺ</text>
+              <text x="490" y="77" text-anchor="middle" font-size="15" font-weight="800" fill="#64748b">Một chuỗi xử lý có kiểm soát, từ dữ liệu đầu vào đến kết quả có thể giải thích</text>
 
-              <rect x="42" y="110" width="214" height="140" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcdShadow)"/>
-              <text x="149" y="138" text-anchor="middle" font-size="14" font-weight="900" fill="#0b4ea2">1. INPUT</text>
-              <text x="149" y="168" text-anchor="middle" font-size="12" font-weight="800" fill="#102033">Hồ sơ / khách hàng</text>
-              <text x="149" y="188" text-anchor="middle" font-size="11" fill="#516173">Dữ liệu đã xác minh</text>
+              <rect x="24" y="108" width="220" height="172" rx="14" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcdShadow)"/>
+              <text x="134" y="146" text-anchor="middle" font-size="18" font-weight="900" fill="#0b4ea2">1. INPUT</text>
+              <text x="134" y="184" text-anchor="middle" font-size="15" font-weight="850" fill="#102033">Hồ sơ / khách hàng</text>
+              <text x="134" y="212" text-anchor="middle" font-size="13.5" font-weight="700" fill="#516173">Dữ liệu đã xác minh</text>
 
-              <rect x="270" y="110" width="214" height="140" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcdShadow)"/>
-              <text x="377" y="138" text-anchor="middle" font-size="14" font-weight="900" fill="#c84e00">2. FEATURE</text>
-              <text x="377" y="168" text-anchor="middle" font-size="12" font-weight="800" fill="#102033">Chuẩn hóa dữ liệu</text>
-              <text x="377" y="188" text-anchor="middle" font-size="11" fill="#516173">Theo canonical schema</text>
+              <rect x="262" y="108" width="220" height="172" rx="14" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcdShadow)"/>
+              <text x="372" y="146" text-anchor="middle" font-size="18" font-weight="900" fill="#c84e00">2. FEATURE</text>
+              <text x="372" y="184" text-anchor="middle" font-size="15" font-weight="850" fill="#102033">Chuẩn hóa dữ liệu</text>
+              <text x="372" y="212" text-anchor="middle" font-size="13.5" font-weight="700" fill="#516173">Theo canonical schema</text>
 
-              <rect x="498" y="110" width="214" height="140" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#bcdShadow)"/>
-              <text x="605" y="138" text-anchor="middle" font-size="14" font-weight="900" fill="#007236">3. MODEL</text>
-              <text x="605" y="168" text-anchor="middle" font-size="12" font-weight="800" fill="#102033">Model chấm điểm</text>
-              <text x="605" y="188" text-anchor="middle" font-size="11" fill="#516173">Gắn version cụ thể</text>
+              <rect x="500" y="108" width="220" height="172" rx="14" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#bcdShadow)"/>
+              <text x="610" y="146" text-anchor="middle" font-size="18" font-weight="900" fill="#007236">3. MODEL</text>
+              <text x="610" y="184" text-anchor="middle" font-size="15" font-weight="850" fill="#102033">Model chấm điểm</text>
+              <text x="610" y="212" text-anchor="middle" font-size="13.5" font-weight="700" fill="#516173">Gắn version cụ thể</text>
 
-              <rect x="726" y="110" width="214" height="140" rx="12" fill="#102033" stroke="#102033" filter="url(#bcdShadow)"/>
-              <text x="833" y="138" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">4. OUTPUT</text>
-              <text x="833" y="168" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">Score + Grade</text>
-              <text x="833" y="188" text-anchor="middle" font-size="11" fill="#cbd5e1">+ Reason Code</text>
+              <rect x="738" y="108" width="220" height="172" rx="14" fill="#102033" stroke="#102033" filter="url(#bcdShadow)"/>
+              <text x="848" y="146" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">4. OUTPUT</text>
+              <text x="848" y="184" text-anchor="middle" font-size="15" font-weight="850" fill="#fff">Score + Grade</text>
+              <text x="848" y="212" text-anchor="middle" font-size="13.5" font-weight="700" fill="#cbd5e1">+ Reason Code</text>
 
-              <line x1="256" y1="180" x2="270" y2="180" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcdArrow)"/>
-              <line x1="484" y1="180" x2="498" y2="180" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcdArrow)"/>
-              <line x1="712" y1="180" x2="726" y2="180" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcdArrow)"/>
+              <line x1="244" y1="194" x2="262" y2="194" stroke="#66788d" stroke-width="3" marker-end="url(#bcdArrow)"/>
+              <line x1="482" y1="194" x2="500" y2="194" stroke="#66788d" stroke-width="3" marker-end="url(#bcdArrow)"/>
+              <line x1="720" y1="194" x2="738" y2="194" stroke="#66788d" stroke-width="3" marker-end="url(#bcdArrow)"/>
 
-              <rect x="90" y="278" width="800" height="38" rx="10" fill="#f8fbff" stroke="#d7e3ee"/>
-              <text x="490" y="302" text-anchor="middle" font-size="12" font-weight="800" fill="#334155">Mỗi bước đều được ghi log — kết quả có thể tái lập (replay) đúng tại bất kỳ thời điểm nào để phục vụ audit</text>
+              <rect x="40" y="312" width="900" height="46" rx="11" fill="#f4f8fc" stroke="#cbd9e6"/>
+              <text x="490" y="341" text-anchor="middle" font-size="14" font-weight="850" fill="#334155">Mỗi bước đều được ghi log — kết quả có thể tái lập đúng trạng thái lịch sử để phục vụ replay và audit</text>
             </svg></div>`;
           if (type === "bcValueChain")
-            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Value chain va vi tri Risk Assessment">
-              <defs><marker id="bcvArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#66788d"/></marker><filter id="bcvShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
-              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
-              <text x="490" y="50" text-anchor="middle" font-size="20" font-weight="900" fill="#0b2f64">VỊ TRÍ CỦA RISK ASSESSMENT (SCORING) TRONG CHUỖI GIÁ TRỊ CHO VAY</text>
-              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">Nhận dữ liệu đã xác minh từ phía trước — cung cấp tín hiệu rủi ro cho phía sau</text>
+            return `<div class="ds-diagram" style="height:500px"><svg viewBox="0 0 1100 500" role="img" aria-label="Hai diem scoring trong chuoi gia tri cho vay">
+              <defs><marker id="bcvArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#66788d"/></marker><filter id="bcvShadow" x="-15%" y="-20%" width="140%" height="155%"><feDropShadow dx="0" dy="7" stdDeviation="6" flood-color="#102033" flood-opacity="0.14"/></filter></defs>
+              <rect x="10" y="10" width="1080" height="480" rx="16" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="550" y="50" text-anchor="middle" font-size="25" font-weight="900" fill="#0b2f64">VAI TRÒ CỦA SCORING TRONG CHUỖI GIÁ TRỊ VAY</text>
+              <text x="550" y="81" text-anchor="middle" font-size="15" font-weight="800" fill="#64748b">Chấm nhanh để tư vấn sớm — chấm đầy đủ để hỗ trợ quyết định tín dụng</text>
 
-              <rect x="34" y="130" width="164" height="110" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcvShadow)"/>
-              <text x="116" y="160" text-anchor="middle" font-size="12" font-weight="900" fill="#0b4ea2">1. Phát sinh</text>
-              <text x="116" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#0b4ea2">nhu cầu</text>
-              <text x="116" y="205" text-anchor="middle" font-size="10.5" fill="#516173">Tiếp nhận hồ sơ</text>
+              <rect x="25" y="125" width="165" height="220" rx="14" fill="#fff4e5" stroke="#f2a447" stroke-width="2" filter="url(#bcvShadow)"/>
+              <rect x="43" y="106" width="129" height="36" rx="18" fill="#f59e0b" stroke="#d97706"/>
+              <text x="107" y="130" text-anchor="middle" font-size="13" font-weight="950" fill="#fff">ĐIỂM CHẤM 01</text>
+              <text x="107" y="177" text-anchor="middle" font-size="18" font-weight="950" fill="#9a4400">1. TƯ VẤN</text>
+              <text x="107" y="205" text-anchor="middle" font-size="16" font-weight="950" fill="#c05a00">PRE-SCORING</text>
+              <text x="107" y="244" text-anchor="middle" font-size="12.5" fill="#6b4b2a">Dữ liệu tối thiểu</text>
+              <text x="107" y="266" text-anchor="middle" font-size="12.5" fill="#6b4b2a">Phản hồi nhanh</text>
+              <line x1="48" y1="285" x2="166" y2="285" stroke="#e6b772"/>
+              <text x="107" y="311" text-anchor="middle" font-size="12" font-weight="850" fill="#8a4200">Sơ bộ khả năng phù hợp</text>
+              <text x="107" y="329" text-anchor="middle" font-size="11" fill="#7a5a37">Hỗ trợ tư vấn sản phẩm</text>
 
-              <rect x="214" y="130" width="164" height="110" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcvShadow)"/>
-              <text x="296" y="160" text-anchor="middle" font-size="12" font-weight="900" fill="#c84e00">2. Xác minh</text>
-              <text x="296" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#c84e00">dữ liệu</text>
-              <text x="296" y="205" text-anchor="middle" font-size="10.5" fill="#516173">Định danh, tài sản...</text>
+              <rect x="207" y="145" width="160" height="180" rx="13" fill="#ffffff" stroke="#9eb9d5" stroke-width="1.6" filter="url(#bcvShadow)"/>
+              <text x="287" y="188" text-anchor="middle" font-size="16" font-weight="900" fill="#0b4ea2">2. TIẾP NHẬN</text>
+              <text x="287" y="214" text-anchor="middle" font-size="16" font-weight="900" fill="#0b4ea2">HỒ SƠ</text>
+              <text x="287" y="258" text-anchor="middle" font-size="12.5" fill="#45627f">Thu thập thông tin</text>
+              <text x="287" y="280" text-anchor="middle" font-size="12.5" fill="#45627f">và chứng từ</text>
 
-              <rect x="394" y="112" width="192" height="146" rx="14" fill="#102033" stroke="#102033" filter="url(#bcvShadow)"/>
-              <text x="490" y="145" text-anchor="middle" font-size="13" font-weight="900" fill="#fcc20e">3. Risk Assessment</text>
-              <text x="490" y="164" text-anchor="middle" font-size="13" font-weight="900" fill="#fcc20e">(Scoring)</text>
-              <text x="490" y="188" text-anchor="middle" font-size="10.5" fill="#e2e8f0">Sinh Score / Grade /</text>
-              <text x="490" y="203" text-anchor="middle" font-size="10.5" fill="#e2e8f0">Reason Code</text>
-              <text x="490" y="240" text-anchor="middle" font-size="10" font-weight="800" fill="#9fb6d4">TRỌNG TÂM CỦA TÀI LIỆU</text>
+              <rect x="384" y="145" width="160" height="180" rx="13" fill="#ffffff" stroke="#9eb9d5" stroke-width="1.6" filter="url(#bcvShadow)"/>
+              <text x="464" y="188" text-anchor="middle" font-size="16" font-weight="900" fill="#0b4ea2">3. XÁC MINH</text>
+              <text x="464" y="214" text-anchor="middle" font-size="16" font-weight="900" fill="#0b4ea2">DỮ LIỆU</text>
+              <text x="464" y="258" text-anchor="middle" font-size="12.5" fill="#45627f">Định danh, thu nhập</text>
+              <text x="464" y="280" text-anchor="middle" font-size="12.5" fill="#45627f">tài sản, hành vi</text>
 
-              <rect x="622" y="130" width="164" height="110" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#bcvShadow)"/>
-              <text x="704" y="160" text-anchor="middle" font-size="12" font-weight="900" fill="#007236">4. Ra quyết</text>
-              <text x="704" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#007236">định</text>
-              <text x="704" y="205" text-anchor="middle" font-size="10.5" fill="#516173">Decision Engine</text>
+              <rect x="561" y="125" width="185" height="220" rx="14" fill="#eaf7ef" stroke="#5fbd86" stroke-width="2" filter="url(#bcvShadow)"/>
+              <rect x="583" y="106" width="141" height="36" rx="18" fill="#00833e" stroke="#006b32"/>
+              <text x="653" y="130" text-anchor="middle" font-size="13" font-weight="950" fill="#fff">ĐIỂM CHẤM 02</text>
+              <text x="653" y="184" text-anchor="middle" font-size="16" font-weight="950" fill="#006b32">4. RISK ASSESSMENT</text>
+              <text x="653" y="218" text-anchor="middle" font-size="16" font-weight="950" fill="#00833e">FULL SCORING</text>
+              <text x="653" y="265" text-anchor="middle" font-size="12.5" fill="#3f6650">Hồ sơ đã xác minh</text>
+              <line x1="584" y1="282" x2="722" y2="282" stroke="#9fd4b5"/>
+              <text x="653" y="309" text-anchor="middle" font-size="12" font-weight="850" fill="#006b32">Score · Grade</text>
+              <text x="653" y="329" text-anchor="middle" font-size="12" font-weight="850" fill="#006b32">Reason Code</text>
 
-              <rect x="802" y="130" width="164" height="110" rx="12" fill="#f8fbff" stroke="#b8c8da" filter="url(#bcvShadow)"/>
-              <text x="884" y="160" text-anchor="middle" font-size="12" font-weight="900" fill="#334155">5. Giải ngân &amp;</text>
-              <text x="884" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#334155">quản lý</text>
-              <text x="884" y="205" text-anchor="middle" font-size="10.5" fill="#516173">Thu hồi nợ</text>
+              <rect x="763" y="145" width="150" height="180" rx="13" fill="#ffffff" stroke="#9eb9d5" stroke-width="1.6" filter="url(#bcvShadow)"/>
+              <text x="838" y="188" text-anchor="middle" font-size="16" font-weight="900" fill="#0b4ea2">5. RA QUYẾT</text>
+              <text x="838" y="214" text-anchor="middle" font-size="16" font-weight="900" fill="#0b4ea2">ĐỊNH</text>
+              <text x="838" y="258" text-anchor="middle" font-size="12.5" fill="#45627f">Decision Engine</text>
+              <text x="838" y="280" text-anchor="middle" font-size="12.5" fill="#45627f">+ chính sách tín dụng</text>
 
-              <line x1="198" y1="185" x2="214" y2="185" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcvArrow)"/>
-              <line x1="378" y1="185" x2="394" y2="185" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcvArrow)"/>
-              <line x1="586" y1="185" x2="622" y2="185" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcvArrow)"/>
-              <line x1="786" y1="185" x2="802" y2="185" stroke="#66788d" stroke-width="2.4" marker-end="url(#bcvArrow)"/>
+              <rect x="930" y="145" width="145" height="180" rx="13" fill="#ffffff" stroke="#9eb9d5" stroke-width="1.6" filter="url(#bcvShadow)"/>
+              <text x="1002" y="188" text-anchor="middle" font-size="15" font-weight="900" fill="#0b4ea2">6. GIẢI NGÂN</text>
+              <text x="1002" y="214" text-anchor="middle" font-size="15" font-weight="900" fill="#0b4ea2">&amp; QUẢN LÝ</text>
+              <text x="1002" y="258" text-anchor="middle" font-size="12.5" fill="#45627f">Khoản vay</text>
+              <text x="1002" y="280" text-anchor="middle" font-size="12.5" fill="#45627f">và thu hồi nợ</text>
+
+              <line x1="190" y1="235" x2="207" y2="235" stroke="#66788d" stroke-width="3" marker-end="url(#bcvArrow)"/>
+              <line x1="367" y1="235" x2="384" y2="235" stroke="#66788d" stroke-width="3" marker-end="url(#bcvArrow)"/>
+              <line x1="544" y1="235" x2="561" y2="235" stroke="#66788d" stroke-width="3" marker-end="url(#bcvArrow)"/>
+              <line x1="746" y1="235" x2="763" y2="235" stroke="#66788d" stroke-width="3" marker-end="url(#bcvArrow)"/>
+              <line x1="913" y1="235" x2="930" y2="235" stroke="#66788d" stroke-width="3" marker-end="url(#bcvArrow)"/>
+
+              <rect x="54" y="390" width="992" height="62" rx="12" fill="#f1f6fb" stroke="#cbd9e6"/>
+              <text x="550" y="417" text-anchor="middle" font-size="14" font-weight="900" fill="#0b2f64">CÙNG MỘT NỀN TẢNG A-SCORE — KHÁC THỜI ĐIỂM, KHÁC ĐỘ SÂU DỮ LIỆU</text>
+              <text x="550" y="440" text-anchor="middle" font-size="12.5" font-weight="750" fill="#516173">Pre-scoring hỗ trợ tư vấn nhanh · Full scoring hỗ trợ thẩm định và ra quyết định có kiểm soát</text>
             </svg></div>`;
           if (type === "bcProblem")
-            return `<div class="ds-diagram" style="height:430px"><svg viewBox="0 0 980 430" role="img" aria-label="Business problem va objective">
-              <defs><marker id="bcpArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#64748b"/></marker><filter id="bcpShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity="0.12"/></filter></defs>
-              <rect x="18" y="18" width="944" height="394" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
-              <text x="490" y="48" text-anchor="middle" font-size="20" font-weight="900" fill="#0b2f64">BUSINESS PROBLEM → BUSINESS OBJECTIVE</text>
-              <text x="490" y="71" text-anchor="middle" font-size="12.5" font-weight="800" fill="#64748b">Bài toán hướng tới platform/engine cung cấp scoring service end-to-end — không chỉ xây một model</text>
+            return `<div class="ds-diagram" style="height:500px"><svg viewBox="0 0 1100 500" role="img" aria-label="Business problem va objective">
+              <defs><marker id="bcpArrowV2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#64748b"/></marker><filter id="bcpShadowV2" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.12"/></filter></defs>
+              <rect x="10" y="10" width="1080" height="480" rx="16" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="550" y="48" text-anchor="middle" font-size="25" font-weight="900" fill="#0b2f64">BUSINESS PROBLEM → BUSINESS OBJECTIVE</text>
+              <text x="550" y="78" text-anchor="middle" font-size="14.5" font-weight="800" fill="#64748b">Từ model tĩnh, rời rạc đến platform/engine chấm điểm có thể mở rộng, tái lập và quản trị xuyên suốt</text>
 
-              <rect x="42" y="94" width="405" height="246" rx="12" fill="#fff8f3" stroke="#ffb27d" filter="url(#bcpShadow)"/>
-              <rect x="42" y="94" width="405" height="38" rx="12" fill="#c84e00"/>
-              <text x="244" y="119" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">PROBLEM — NĂNG LỰC ĐANG PHÂN MẢNH</text>
-              <text x="66" y="160" font-size="12" font-weight="900" fill="#8a3700">1. Kiến trúc đóng cứng theo một sản phẩm</text>
-              <text x="66" y="181" font-size="10.8" fill="#516173">Mỗi sản phẩm/luồng phải xây lại pipeline, feature và API.</text>
-              <text x="66" y="215" font-size="12" font-weight="900" fill="#8a3700">2. Model tuyến tính bị giới hạn hiệu năng</text>
-              <text x="66" y="236" font-size="10.8" fill="#516173">Khó khai thác quan hệ phi tuyến trong dữ liệu hành vi/tín dụng.</text>
-              <text x="66" y="270" font-size="12" font-weight="900" fill="#8a3700">3. Runtime ~3 giây/request; thiếu Pre-Score nhanh</text>
-              <text x="66" y="291" font-size="10.8" fill="#516173">Chưa đáp ứng luồng cần phản hồi tức thời như Quick Offer.</text>
-              <text x="66" y="325" font-size="12" font-weight="900" fill="#8a3700">4. Dữ liệu phân mảnh, thiếu canonical schema dùng chung</text>
+              <rect x="35" y="103" width="465" height="288" rx="14" fill="#fff8f3" stroke="#ff9b59" filter="url(#bcpShadowV2)"/>
+              <rect x="35" y="103" width="465" height="44" rx="14" fill="#c84e00"/>
+              <text x="267" y="132" text-anchor="middle" font-size="16.5" font-weight="900" fill="#fff">PROBLEM — MODEL TĨNH, KHÓ MỞ RỘNG</text>
+              <text x="61" y="177" font-size="13.5" font-weight="900" fill="#8a3700">1. Model đóng cứng theo từng sản phẩm</text>
+              <text x="61" y="197" font-size="11.5" fill="#516173">Mỗi luồng phải xây lại dữ liệu, feature, model và API riêng.</text>
+              <text x="61" y="229" font-size="13.5" font-weight="900" fill="#8a3700">2. Không thể rerun / replay đúng kết quả lịch sử</text>
+              <text x="61" y="249" font-size="11.5" fill="#516173">Thiếu snapshot, version và lineage để chạy lại model khi audit.</text>
+              <text x="61" y="281" font-size="13.5" font-weight="900" fill="#8a3700">3. Only static model — thiếu quản trị lifecycle</text>
+              <text x="61" y="301" font-size="11.5" fill="#516173">Không có trạng thái, phê duyệt, rollout, rollback và retirement.</text>
+              <text x="61" y="333" font-size="13.5" font-weight="900" fill="#8a3700">4. Hiệu năng và dữ liệu còn phân mảnh</text>
+              <text x="61" y="353" font-size="11.5" fill="#516173">Thiếu Pre-score nhanh và canonical schema dùng chung.</text>
 
-              <line x1="458" y1="216" x2="516" y2="216" stroke="#64748b" stroke-width="3" marker-end="url(#bcpArrow)"/>
-              <text x="487" y="198" text-anchor="middle" font-size="10.5" font-weight="900" fill="#334155">CHUYỂN ĐỔI</text>
+              <text x="550" y="220" text-anchor="middle" font-size="10.5" font-weight="950" fill="#334155">CHUYỂN ĐỔI</text>
+              <line x1="512" y1="244" x2="581" y2="244" stroke="#64748b" stroke-width="3.5" marker-end="url(#bcpArrowV2)"/>
 
-              <rect x="528" y="94" width="410" height="246" rx="12" fill="#f1faf5" stroke="#8bd0a8" filter="url(#bcpShadow)"/>
-              <rect x="528" y="94" width="410" height="38" rx="12" fill="#00833e"/>
-              <text x="733" y="119" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">OBJECTIVE — SCORING SERVICE END-TO-END</text>
-              <text x="552" y="160" font-size="12" font-weight="900" fill="#007236">1. Shared scoring platform / service</text>
-              <text x="552" y="181" font-size="10.8" fill="#516173">LOS, Quick Offer, Risk, Underwriting, Partner/API dùng chung engine.</text>
-              <text x="552" y="215" font-size="12" font-weight="900" fill="#007236">2. Multi-model + routing + unified output</text>
-              <text x="552" y="236" font-size="10.8" fill="#516173">New/Thin/Thick đi đúng model; cùng Score–Grade–Reason.</text>
-              <text x="552" y="270" font-size="12" font-weight="900" fill="#007236">3. Replay scoring theo đúng trạng thái lịch sử</text>
-              <text x="552" y="291" font-size="10.8" fill="#516173">Tái lập input snapshot, FeatureSet, ModelVersion và output đã chấm.</text>
-              <text x="552" y="315" font-size="12" font-weight="900" fill="#007236">4. Explainable by design</text>
-              <text x="552" y="334" font-size="10.8" fill="#516173">Mọi score có Reason Code, lineage và bằng chứng phục vụ audit.</text>
+              <rect x="600" y="103" width="465" height="288" rx="14" fill="#f1faf5" stroke="#77c99a" filter="url(#bcpShadowV2)"/>
+              <rect x="600" y="103" width="465" height="44" rx="14" fill="#00833e"/>
+              <text x="832" y="132" text-anchor="middle" font-size="16.5" font-weight="900" fill="#fff">OBJECTIVE — PLATFORM / ENGINE END-TO-END</text>
+              <text x="626" y="177" font-size="13.5" font-weight="900" fill="#007236">1. Shared multi-model engine</text>
+              <text x="626" y="197" font-size="11.5" fill="#516173">Routing đúng model, output thống nhất cho nhiều sản phẩm và kênh.</text>
+              <text x="626" y="229" font-size="13.5" font-weight="900" fill="#007236">2. Replay scoring</text>
+              <text x="626" y="249" font-size="11.5" fill="#516173">Tái lập snapshot, FeatureSet, ModelVersion và kết quả lịch sử.</text>
+              <text x="626" y="281" font-size="13.5" font-weight="900" fill="#007236">3. Explainable by design</text>
+              <text x="626" y="301" font-size="11.5" fill="#516173">Score, Grade, Reason Code, lineage và bằng chứng audit.</text>
+              <text x="626" y="333" font-size="13.5" font-weight="900" fill="#007236">4. Lifecycle có kiểm soát</text>
+              <text x="626" y="353" font-size="11.5" fill="#516173">Approve, rollout, monitor, rollback, retrain, deprecate và retire.</text>
 
-              <rect x="90" y="362" width="800" height="34" rx="9" fill="#102033"/>
-              <text x="490" y="384" text-anchor="middle" font-size="11.5" font-weight="900" fill="#fff">END-TO-END = Data contract → Feature → Routing/Model → Unified Output → Explain/Replay → Monitor/Govern</text>
+              <rect x="75" y="419" width="950" height="48" rx="11" fill="#102033"/>
+              <text x="550" y="439" text-anchor="middle" font-size="11.5" font-weight="900" fill="#fcc20e">END-TO-END</text>
+              <text x="550" y="457" text-anchor="middle" font-size="10.5" font-weight="850" fill="#fff">DRAFT → CANDIDATE → VALIDATED → APPROVED → READY → SHADOW_ACTIVE → PRODUCTION_ACTIVE → DEPRECATED → RETIRED</text>
             </svg></div>`;
           if (type === "bcObjective")
             return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Business objective">
@@ -12895,28 +12414,26 @@
               <text x="490" y="322" text-anchor="middle" font-size="11.5" font-weight="800" fill="#334155">Bốn năng lực bổ sung cho nhau — thiếu một trong bốn, nền tảng vẫn chưa đạt chuẩn vận hành</text>
             </svg></div>`;
           if (type === "bcScope")
-            return `<div class="ds-diagram"><svg viewBox="0 0 980 360" role="img" aria-label="Pham vi du an DO va DONT">
-              <rect x="18" y="20" width="944" height="318" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
-              <text x="490" y="50" text-anchor="middle" font-size="20" font-weight="900" fill="#0b2f64">RANH GIỚI PHẠM VI DỰ ÁN</text>
-              <text x="490" y="73" text-anchor="middle" font-size="13" font-weight="800" fill="#64748b">A-Score đảm nhiệm bài toán chấm điểm — các nghiệp vụ khác do hệ thống chuyên trách đảm nhiệm</text>
-
-              <rect x="42" y="98" width="418" height="222" rx="12" fill="#eaf7ef" stroke="#8bd0a8"/>
-              <rect x="42" y="98" width="418" height="38" rx="12" fill="#00833e"/>
-              <text x="251" y="122" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">A-SCORE ĐẢM NHIỆM (DO)</text>
-              <text x="66" y="166" font-size="12" font-weight="800" fill="#0f5132">•  Tính Score / Grade / Reason Code</text>
-              <text x="66" y="200" font-size="12" font-weight="800" fill="#0f5132">•  Quản trị vòng đời Feature &amp; Model</text>
-              <text x="66" y="234" font-size="12" font-weight="800" fill="#0f5132">•  Chuẩn hóa output giữa các model</text>
-              <text x="66" y="268" font-size="12" font-weight="800" fill="#0f5132">•  Định tuyến hồ sơ theo phân khúc</text>
-              <text x="66" y="302" font-size="12" font-weight="800" fill="#0f5132">•  Giám sát chất lượng model liên tục</text>
-
-              <rect x="520" y="98" width="418" height="222" rx="12" fill="#fff1e9" stroke="#ffb27d"/>
-              <rect x="520" y="98" width="418" height="38" rx="12" fill="#c84e00"/>
-              <text x="729" y="122" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">A-SCORE KHÔNG ĐẢM NHIỆM (DON'T)</text>
-              <text x="544" y="166" font-size="12" font-weight="800" fill="#8a3700">•  Xác minh định danh (KYC)</text>
-              <text x="544" y="200" font-size="12" font-weight="800" fill="#8a3700">•  Phát hiện gian lận (Fraud)</text>
-              <text x="544" y="234" font-size="12" font-weight="800" fill="#8a3700">•  Ra quyết định phê duyệt cuối cùng</text>
-              <text x="544" y="268" font-size="12" font-weight="800" fill="#8a3700">•  Định giá tài sản bảo đảm</text>
-              <text x="544" y="302" font-size="12" font-weight="800" fill="#8a3700">•  Quản lý hạn mức &amp; hợp đồng</text>
+            return `<div class="ds-diagram" style="height:560px"><svg viewBox="0 0 1100 560" role="img" aria-label="Ranh giới phạm vi dự án DO và DONT">
+              <rect x="10" y="10" width="1080" height="540" rx="16" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="550" y="52" text-anchor="middle" font-size="26" font-weight="900" fill="#0b2f64">RANH GIỚI PHẠM VI DỰ ÁN</text>
+              <text x="550" y="84" text-anchor="middle" font-size="15" font-weight="800" fill="#64748b">A-Score đảm nhiệm bài toán chấm điểm — các nghiệp vụ khác do hệ thống chuyên trách đảm nhiệm</text>
+              <rect x="30" y="110" width="505" height="410" rx="14" fill="#eaf7ef" stroke="#79c999"/>
+              <rect x="30" y="110" width="505" height="52" rx="14" fill="#00833e"/>
+              <text x="282" y="144" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">A-SCORE ĐẢM NHIỆM (DO)</text>
+              <text x="58" y="210" font-size="16" font-weight="850" fill="#0f5132">• Tính Score / Grade / Reason Code</text>
+              <text x="58" y="268" font-size="16" font-weight="850" fill="#0f5132">• Quản trị vòng đời Feature &amp; Model</text>
+              <text x="58" y="326" font-size="16" font-weight="850" fill="#0f5132">• Chuẩn hóa output giữa các model</text>
+              <text x="58" y="384" font-size="16" font-weight="850" fill="#0f5132">• Định tuyến hồ sơ theo phân khúc</text>
+              <text x="58" y="442" font-size="16" font-weight="850" fill="#0f5132">• Giám sát chất lượng model liên tục</text>
+              <rect x="565" y="110" width="505" height="410" rx="14" fill="#fff1e9" stroke="#ff9b59"/>
+              <rect x="565" y="110" width="505" height="52" rx="14" fill="#c84e00"/>
+              <text x="817" y="144" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">A-SCORE KHÔNG ĐẢM NHIỆM (DON'T)</text>
+              <text x="593" y="210" font-size="16" font-weight="850" fill="#8a3700">• Xác minh định danh (KYC)</text>
+              <text x="593" y="268" font-size="16" font-weight="850" fill="#8a3700">• Phát hiện gian lận (Fraud)</text>
+              <text x="593" y="326" font-size="16" font-weight="850" fill="#8a3700">• Ra quyết định phê duyệt cuối cùng</text>
+              <text x="593" y="384" font-size="16" font-weight="850" fill="#8a3700">• Định giá tài sản bảo đảm</text>
+              <text x="593" y="442" font-size="16" font-weight="850" fill="#8a3700">• Quản lý hạn mức &amp; hợp đồng</text>
             </svg></div>`;
           if (type === "bcSuccess")
             return `<div class="ds-diagram" style="height:470px"><svg viewBox="0 0 980 470" role="img" aria-label="Success criteria va chi tiet KPI">
@@ -13015,17 +12532,12 @@
                   !coreNames.includes(name) && !directNames.includes(name),
               );
             const positions = new Map([
-              [coreNames[0], { cx: 385, cy: 340, ring: "core" }],
-              [coreNames[1], { cx: 535, cy: 340, ring: "core" }],
+              [coreNames[0], { cx: 370, cy: 340, ring: "core" }],
+              [coreNames[1], { cx: 550, cy: 340, ring: "core" }],
             ]);
             directNames.forEach((name, index) => {
-              const angle =
-                -Math.PI / 2 + index * ((Math.PI * 2) / directNames.length);
-              positions.set(name, {
-                cx: 460 + Math.cos(angle) * 220,
-                cy: 340 + Math.sin(angle) * 160,
-                ring: "inner",
-              });
+              const angle = -Math.PI / 2 + index * (Math.PI * 2 / directNames.length);
+              positions.set(name, { cx: 460 + Math.cos(angle) * 230, cy: 340 + Math.sin(angle) * 172, ring: "inner" });
             });
             outerNames.forEach((name, index) => {
               const angle =
@@ -13036,8 +12548,7 @@
                 ring: "outer",
               });
             });
-            const nodeW = 132,
-              nodeH = 50;
+            const nodeW = 150, nodeH = 58;
             const boundaryPoint = (from, to) => {
               const dx = to.cx - from.cx,
                 dy = to.cy - from.cy;
@@ -13115,62 +12626,32 @@
                 words.slice(best).join(" "),
               ];
             };
-            const palette = [
-              "#0b4ea2",
-              "#00833e",
-              "#c84e00",
-              "#6f42a5",
-              "#a9790a",
-              "#087f8c",
-            ];
-            const nodesSvg = source.domains
-              .map((domain, index) => {
-                const position = positions.get(domain.name),
-                  lines = splitName(domain.name);
-                const color =
-                  domain.name === coreNames[0]
-                    ? "#c84e00"
-                    : domain.name === coreNames[1]
-                      ? "#00833e"
-                      : palette[index % palette.length];
-                const propertyCount = domain.objects.reduce(
-                  (total, object) => total + object.properties.length,
-                  0,
-                );
-                const representative = [];
-                const properties = domain.objects.flatMap(
-                  (object) => object.properties,
-                );
-                [
-                  ...properties.filter((property) =>
-                    ["Yes", "Derived"].includes(property.ascoreFeature),
-                  ),
-                  ...properties,
-                ].forEach((property) => {
-                  if (
-                    representative.length < 3 &&
-                    !representative.some((item) => item.name === property.name)
-                  )
-                    representative.push(property);
-                });
-                const nameText =
-                  lines.length === 1
-                    ? `<text x="${position.cx}" y="${position.cy + 3}" text-anchor="middle">${esc2(lines[0])}</text>`
-                    : `<text x="${position.cx}" y="${position.cy - 5}" text-anchor="middle"><tspan x="${position.cx}">${esc2(lines[0])}</tspan><tspan x="${position.cx}" dy="12">${esc2(lines[1])}</tspan></text>`;
-                return `<g class="enterprise-domain-node${coreNames.includes(domain.name) ? " core-node" : ""}" tabindex="0" role="button" aria-label="Xem ${esc2(domain.name)}" data-domain="${esc2(domain.name)}" style="--node-color:${color}"><rect x="${position.cx - nodeW / 2}" y="${position.cy - nodeH / 2}" width="${nodeW}" height="${nodeH}" rx="9"/>${nameText}<title>${esc2(domain.name)} · Property đại diện: ${esc2(representative.map((property) => property.name).join(", "))}</title></g>`;
-              })
-              .join("");
-            return `<div class="enterprise-map-split">
+            const palette = ["#0b4ea2", "#00833e", "#c84e00", "#6f42a5", "#a9790a", "#087f8c"];
+            const nodesSvg = source.domains.map((domain, index) => {
+              const position = positions.get(domain.name), lines = splitName(domain.name);
+              const color = domain.name === coreNames[0] ? "#c84e00" : domain.name === coreNames[1] ? "#00833e" : palette[index % palette.length];
+              const propertyCount = domain.objects.reduce((total, object) => total + object.properties.length, 0);
+              const representative = [];
+              const properties = domain.objects.flatMap((object) => object.properties);
+              [...properties.filter((property) => ["Yes", "Derived"].includes(property.ascoreFeature)), ...properties].forEach((property) => {
+                if (representative.length < 3 && !representative.some((item) => item.name === property.name)) representative.push(property);
+              });
+              const nameText = lines.length === 1
+                ? `<text x="${position.cx}" y="${position.cy + 3}" text-anchor="middle">${esc2(lines[0])}</text>`
+                : `<text x="${position.cx}" y="${position.cy - 5}" text-anchor="middle"><tspan x="${position.cx}">${esc2(lines[0])}</tspan><tspan x="${position.cx}" dy="12">${esc2(lines[1])}</tspan></text>`;
+              return `<g class="enterprise-domain-node${coreNames.includes(domain.name) ? " core-node" : ""}" tabindex="0" role="button" aria-label="Xem ${esc2(domain.name)}" data-domain="${esc2(domain.name)}" style="--node-color:${color}"><rect x="${position.cx - nodeW / 2}" y="${position.cy - nodeH / 2}" width="${nodeW}" height="${nodeH}" rx="9"/>${nameText}</g>`;
+            }).join("");
+            return `<div class="enterprise-graph-only">
               <div class="enterprise-network-board">
-                <div class="enterprise-network-head"><b>${source.domainCount} domains · 2 core hubs</b><span>Nét đứt: liên kết về domain lõi · Bấm node để xem mô tả</span></div>
-                <svg class="enterprise-network-svg enterprise-compact-graph" style="height:610px" viewBox="0 0 920 680" role="img" aria-label="Enterprise domain network graph"><defs><marker id="enterpriseGraphArrow" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#526b85"/></marker></defs>
-                  <ellipse cx="460" cy="340" rx="220" ry="160" fill="none" stroke="#aab9c8" stroke-dasharray="5 7" opacity=".38"/>
+                <div class="enterprise-network-head"><b>${source.domainCount} domains · 2 core hubs</b><span>Nét đứt: liên kết về domain lõi · Rê chuột hoặc bấm node để xem phụ lục</span></div>
+                <svg class="enterprise-network-svg enterprise-compact-graph" viewBox="0 0 920 680" role="img" aria-label="Enterprise domain network graph"><defs><marker id="enterpriseGraphArrow" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#526b85"/></marker></defs>
+                  <ellipse cx="460" cy="340" rx="230" ry="172" fill="none" stroke="#aab9c8" stroke-dasharray="5 7" opacity=".38"/>
                   <ellipse cx="460" cy="340" rx="385" ry="295" fill="none" stroke="#c5d0db" stroke-dasharray="4 8" opacity=".32"/>
                   <text x="460" y="290" text-anchor="middle" font-size="10" font-weight="900" fill="#7b8da1">TWO CORE DOMAINS</text>
                   ${linksSvg}${nodesSvg}
                 </svg>
               </div>
-              <aside class="enterprise-quick-detail" id="ontologyDomainQuickDetail"><div class="quick-detail-empty">Chọn một domain trên graph để xem mô tả, object và property đại diện.</div></aside>
+              <aside class="enterprise-quick-detail enterprise-domain-popover" id="ontologyDomainQuickDetail" aria-live="polite"></aside>
             </div>`;
           }
           if (type === "ontEnterpriseFlat") {
@@ -13547,6 +13028,41 @@
               <text x="490" y="423" text-anchor="middle" font-size="10.5" font-weight="900" fill="#fff">Replay key = model_version_id + feature_set_version + input snapshot + policy version + timestamp</text>
             </svg></div>`;
           if (type === "ontProblemScope")
+            return `<div class="ds-diagram" style="height:500px"><svg viewBox="0 0 1100 500" role="img" aria-label="Phạm vi và Input Output A-Score">
+              <defs><marker id="scopeIoArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#66788d"/></marker><filter id="scopeIoShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity=".12"/></filter></defs>
+              <rect x="10" y="10" width="1080" height="480" rx="16" fill="#fbfdff" stroke="#cbd7e3"/>
+              <text x="550" y="48" text-anchor="middle" font-size="24" font-weight="900" fill="#0b2f64">PHẠM VI &amp; INPUT / OUTPUT CỦA A-SCORE</text>
+              <text x="550" y="76" text-anchor="middle" font-size="14" font-weight="800" fill="#64748b">Hai domain lõi tạo một scoring contract xuyên suốt và có thể replay</text>
+
+              <rect x="32" y="105" width="260" height="300" rx="14" fill="#eef6ff" stroke="#8ab8ec" filter="url(#scopeIoShadow)"/>
+              <rect x="32" y="105" width="260" height="44" rx="14" fill="#0b4ea2"/><text x="162" y="134" text-anchor="middle" font-size="16" font-weight="900" fill="#fff">INPUT ĐÃ CHUẨN HÓA</text>
+              <text x="57" y="183" font-size="13" font-weight="850" fill="#0b2f64">• Application / customer context</text>
+              <text x="57" y="218" font-size="13" font-weight="850" fill="#0b2f64">• KYC, Fraud và DQ result</text>
+              <text x="57" y="253" font-size="13" font-weight="850" fill="#0b2f64">• Collateral, income, behavior</text>
+              <text x="57" y="288" font-size="13" font-weight="850" fill="#0b2f64">• Feature snapshot tại thời điểm T</text>
+              <text x="57" y="323" font-size="13" font-weight="850" fill="#0b2f64">• Product, channel, policy context</text>
+              <rect x="55" y="352" width="214" height="33" rx="8" fill="#fff" stroke="#8ab8ec"/><text x="162" y="374" text-anchor="middle" font-size="11" font-weight="900" fill="#0b4ea2">Input contract có version</text>
+
+              <line x1="292" y1="255" x2="342" y2="255" stroke="#66788d" stroke-width="3" marker-end="url(#scopeIoArrow)"/>
+              <rect x="354" y="105" width="392" height="300" rx="14" fill="#fff" stroke="#b7c9dc" filter="url(#scopeIoShadow)"/>
+              <text x="550" y="137" text-anchor="middle" font-size="14" font-weight="900" fill="#0b2f64">PHẠM VI XỬ LÝ LÕI</text>
+              <rect x="378" y="160" width="344" height="91" rx="11" fill="#eaf7ef" stroke="#8bd0a8"/><text x="550" y="189" text-anchor="middle" font-size="15" font-weight="900" fill="#007236">MODEL MANAGEMENT</text><text x="550" y="214" text-anchor="middle" font-size="11.5" fill="#40546a">ModelVersion · FeatureSet · Registry · RunLog</text><text x="550" y="234" text-anchor="middle" font-size="11.5" fill="#40546a">version · lineage · rollback · replay</text>
+              <line x1="550" y1="251" x2="550" y2="275" stroke="#66788d" stroke-width="2.5" marker-end="url(#scopeIoArrow)"/>
+              <rect x="378" y="280" width="344" height="99" rx="11" fill="#fff1e9" stroke="#ffb27d"/><text x="550" y="310" text-anchor="middle" font-size="15" font-weight="900" fill="#c84e00">CREDIT SCORING &amp; RISK ASSESSMENT</text><text x="550" y="337" text-anchor="middle" font-size="11.5" fill="#40546a">Assessment · ScoreResult · RiskSignal</text><text x="550" y="357" text-anchor="middle" font-size="11.5" fill="#40546a">validate → route → score → explain → log</text>
+
+              <line x1="746" y1="255" x2="796" y2="255" stroke="#66788d" stroke-width="3" marker-end="url(#scopeIoArrow)"/>
+              <rect x="808" y="105" width="260" height="300" rx="14" fill="#fff8f3" stroke="#ffb27d" filter="url(#scopeIoShadow)"/>
+              <rect x="808" y="105" width="260" height="44" rx="14" fill="#c84e00"/><text x="938" y="134" text-anchor="middle" font-size="16" font-weight="900" fill="#fff">OUTPUT THỐNG NHẤT</text>
+              <text x="833" y="183" font-size="13" font-weight="850" fill="#8a3700">• Score và Grade / Risk Band</text>
+              <text x="833" y="218" font-size="13" font-weight="850" fill="#8a3700">• Reason Code / Risk Signal</text>
+              <text x="833" y="253" font-size="13" font-weight="850" fill="#8a3700">• Model và FeatureSet version</text>
+              <text x="833" y="288" font-size="13" font-weight="850" fill="#8a3700">• Assessment / log / audit trail</text>
+              <text x="833" y="323" font-size="13" font-weight="850" fill="#8a3700">• Decision input qua policy/rule</text>
+              <rect x="831" y="352" width="214" height="33" rx="8" fill="#fff" stroke="#ffb27d"/><text x="938" y="374" text-anchor="middle" font-size="11" font-weight="900" fill="#c84e00">Không phải quyết định cuối</text>
+
+              <rect x="108" y="435" width="884" height="35" rx="9" fill="#102033"/><text x="550" y="458" text-anchor="middle" font-size="11.5" font-weight="900" fill="#fff">REPLAY KEY = model_version + feature_set_version + input snapshot + policy version + timestamp</text>
+            </svg></div>`;
+          if (type === "ontProblemScopeLegacy")
             return `<div class="ont-scope-grid">
               <div class="ont-scope-card">
                 <h4 style="color:#007236">Model Management</h4>
@@ -13595,8 +13111,39 @@
             </svg></div>`;
           if (type === "ontKeyObjects") {
             const source = window.ONTOLOGY_XLSX;
-            if (!source)
-              return `<div class="callout">Không tải được dữ liệu Ontology version2.xlsx.</div>`;
+            if (!source) return `<div class="callout">Không tải được dữ liệu Ontology version2.xlsx.</div>`;
+            const objectNames = ["FeatureSet", "TrainingDataset", "ModelVersion", "Assessment", "ScoreResult", "RiskSignal", "APIEndpoint", "IntegrationEvent", "ModelRunLog", "AuditLog"];
+            const colorByDomain = { "Loan Application":"#0b4ea2", "Credit Scoring & Risk Assessment":"#c84e00", "Model Management":"#00833e", "Loan Approval & Underwriting":"#6f42a5", "Data Governance & Metadata":"#087f8c", "System Integration & API":"#52657a" };
+            const layout = new Map([
+              ["FeatureSet",{x:130,y:130}],["TrainingDataset",{x:130,y:250}],["ModelVersion",{x:130,y:370}],
+              ["Assessment",{x:400,y:190}],["ScoreResult",{x:400,y:320}],
+              ["RiskSignal",{x:665,y:190}],["APIEndpoint",{x:665,y:320}],
+              ["IntegrationEvent",{x:930,y:130}],["ModelRunLog",{x:930,y:250}],["AuditLog",{x:930,y:370}],
+            ]);
+            const objectIndex = new Map();
+            source.domains.forEach((domain) => domain.objects.forEach((object) => objectIndex.set(object.name, { object, domain })));
+            const nodeW = 160, nodeH = 56;
+            const boundary = (from, to) => { const dx = to.x - from.x, dy = to.y - from.y; const scale = 1 / Math.max(Math.abs(dx) / (nodeW / 2), Math.abs(dy) / (nodeH / 2)); return { x: from.x + dx * scale, y: from.y + dy * scale }; };
+            const edges = [["FeatureSet","Assessment"],["TrainingDataset","ModelVersion"],["ModelVersion","Assessment"],["Assessment","ScoreResult"],["ScoreResult","RiskSignal"],["ScoreResult","APIEndpoint"],["APIEndpoint","IntegrationEvent"],["Assessment","ModelRunLog"],["ModelVersion","ModelRunLog"],["ModelRunLog","AuditLog"],["IntegrationEvent","AuditLog"]];
+            const edgeSvg = edges.map(([fromName,toName]) => { const from=layout.get(fromName),to=layout.get(toName),a=boundary(from,to),b=boundary(to,from); return `<line x1="${a.x.toFixed(1)}" y1="${a.y.toFixed(1)}" x2="${b.x.toFixed(1)}" y2="${b.y.toFixed(1)}" stroke="#9aabba" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#ascoreObjectArrow)"/>`; }).join("");
+            const nodeSvg = objectNames.map((name) => {
+              const item=objectIndex.get(name),p=layout.get(name); if(!item||!p) return "";
+              const representative=[]; [...item.object.properties.filter((property)=>["Yes","Derived"].includes(property.ascoreFeature)),...item.object.properties].forEach((property)=>{if(representative.length<6&&!representative.some((x)=>x.name===property.name)) representative.push(property);});
+              const color=colorByDomain[item.domain.name]||"#0b4ea2";
+              return `<g class="ascore-object-node" tabindex="0" role="button" data-ascore-object="${esc2(name)}" data-object-domain="${esc2(item.domain.name)}" data-object-description="${esc2(item.object.description || "Object trong luồng A-Score.")}" data-object-properties="${esc2(representative.map((property)=>property.name).join("|"))}" data-object-color="${color}" style="--object-color:${color}"><rect x="${p.x-nodeW/2}" y="${p.y-nodeH/2}" width="${nodeW}" height="${nodeH}" rx="10"/><text x="${p.x}" y="${p.y+4}" text-anchor="middle">${esc2(name)}</text></g>`;
+            }).join("");
+            return `<div class="ascore-object-graph">
+              <svg viewBox="0 0 1100 500" role="img" aria-label="Object chính trong luồng A-Score"><defs><marker id="ascoreObjectArrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8799aa"/></marker></defs>
+                <text x="130" y="62" text-anchor="middle" font-size="12" font-weight="900" fill="#00833e">MODEL ASSET</text><text x="400" y="62" text-anchor="middle" font-size="12" font-weight="900" fill="#c84e00">SCORING CORE</text><text x="665" y="62" text-anchor="middle" font-size="12" font-weight="900" fill="#0b4ea2">RESULT &amp; SERVICE</text><text x="930" y="62" text-anchor="middle" font-size="12" font-weight="900" fill="#087f8c">INTEGRATION &amp; AUDIT</text>
+                ${edgeSvg}${nodeSvg}
+                <rect x="160" y="447" width="780" height="32" rx="9" fill="#102033"/><text x="550" y="468" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">Model asset → Assessment → Score / Risk signal → API / Event → Run log &amp; Audit</text>
+              </svg>
+              <aside class="ascore-object-popover" id="ascoreObjectPopover"></aside>
+            </div>`;
+          }
+          if (type === "ontKeyObjectsLegacy") {
+            const source = window.ONTOLOGY_XLSX;
+            if (!source) return `<div class="callout">Không tải được dữ liệu Ontology version2.xlsx.</div>`;
             const profileObjectNames = [
               "Application",
               "Assessment",
@@ -13706,7 +13253,80 @@
               <section class="label-window-flow"><div class="label-window-step"><b>5C FEATURE SELECTION</b><span>Risk driver → object/property → feature X</span></div><div class="label-window-arrow">→</div><div class="label-window-step"><b>T — FEATURE SNAPSHOT</b><span>Request-time + T-1 + intraday, không leakage</span></div><div class="label-window-arrow">→</div><div class="label-window-step"><b>PERFORMANCE WINDOW</b><span>Payment · DPD · Delinquency · Write-off</span></div><div class="label-window-arrow">→</div><div class="label-window-step"><b>LABEL RULE VERSION</b><span>GOOD / GRAY / BAD / INDETERMINATE</span></div><div class="label-window-arrow">→</div><div class="label-window-step label-model-result"><b>BINARY TRAINING COHORT</b><span>GOOD vs BAD → AUC · KS · Gini · rank ordering</span></div></section>
               <div class="label-taxonomy-note">Taxonomy mở rộng trong training governance có thể tách FRAUD_BAD · HARDSHIP/RESTRUCTURE · EXCLUDED; không trộn cơ học vào GOOD/BAD nếu chưa có rule đã duyệt.</div>
             </div>`;
+          if (type === "ontCustomerProfileCompact")
+            return `<div class="label-profile-board compact-label">
+              <div class="label-profile-header"><div><span class="badge">CUSTOMER LABEL DESIGN</span><h4>5C chọn biến X · Outcome sau T tạo label Y</h4><p>Không dùng dữ liệu tương lai; mục tiêu là giữ ranh giới GOOD–BAD rõ cho model.</p></div><div class="label-target-note"><b>FOCUS</b><br>5C chọn Risk Driver và feature X.<br>Outcome đã trưởng thành mới gán label Y.</div></div>
+              <div class="label-design-main">
+                <section class="label-rule-panel"><h5>1. LOGIC TẠO LABEL</h5><div class="label-rule-body">
+                  <div class="label-rule-step"><b>1</b><div><strong>5C → Feature X</strong><span>Character · Capacity · Capital · Collateral · Conditions.</span></div></div>
+                  <div class="label-rule-step"><b>2</b><div><strong>Chốt snapshot tại T</strong><span>Feature đúng thời điểm scoring, không leakage.</span></div></div>
+                  <div class="label-rule-step"><b>3</b><div><strong>Quan sát outcome sau T</strong><span>Payment · DPD · Default đủ performance window.</span></div></div>
+                  <div class="label-rule-step"><b>4</b><div><strong>Áp dụng rule có version</strong><span>Gán GOOD/BAD; GRAY tách riêng; chưa chín thì chờ.</span></div></div>
+                </div></section>
+                <section class="label-classification-panel"><h5>2. LABEL PROFILE</h5><div class="label-class-grid">
+                  <article class="label-class-card" style="--label-color:#00833e;--label-bg:#eef9f2"><header><div class="label-class-badge">G</div><h6>GOOD</h6></header><p>Outcome tốt, trả nợ ổn định.</p><ul><li>Window đã đóng</li><li>Không chạm bad rule</li></ul><div class="label-train-use">TARGET 0 · TRAIN</div></article>
+                  <article class="label-class-card" style="--label-color:#d98500;--label-bg:#fff9e8"><header><div class="label-class-badge">?</div><h6>GRAY</h6></header><p>Outcome ở vùng biên.</p><ul><li>Tín hiệu chưa đủ mạnh</li><li>Tách cohort riêng</li></ul><div class="label-train-use">EXCLUDE / SEPARATE</div></article>
+                  <article class="label-class-card" style="--label-color:#d62828;--label-bg:#fff2f2"><header><div class="label-class-badge">B</div><h6>BAD</h6></header><p>Chạm bad definition đã duyệt.</p><ul><li>FPD / DPD / Default</li><li>Window đã matured</li></ul><div class="label-train-use">TARGET 1 · TRAIN</div></article>
+                  <article class="label-class-card" style="--label-color:#60758c;--label-bg:#f2f5f8"><header><div class="label-class-badge">I</div><h6>INDETERMINATE</h6></header><p>Chưa đủ dữ liệu hoặc thời gian.</p><ul><li>Window chưa đóng</li><li>Không ép gán label</li></ul><div class="label-train-use">WAIT / EXCLUDE</div></article>
+                </div></section>
+              </div>
+              <section class="label-window-flow"><div class="label-window-step"><b>5C / FEATURE X</b><span>Risk evidence</span></div><div class="label-window-arrow">→</div><div class="label-window-step"><b>T — SNAPSHOT</b><span>No leakage</span></div><div class="label-window-arrow">→</div><div class="label-window-step"><b>OUTCOME WINDOW</b><span>Payment · DPD</span></div><div class="label-window-arrow">→</div><div class="label-window-step"><b>LABEL RULE</b><span>Good · Gray · Bad · I</span></div><div class="label-window-arrow">→</div><div class="label-window-step label-model-result"><b>TRAINING COHORT</b><span>GOOD vs BAD</span></div></section>
+            </div>`;
+          if (type === "ontCustomerProfileProfileOnly")
+            return `<div class="label-profile-board compact-label profile-only-v2">
+              <div class="profile-only-title">CUSTOMER LABEL PROFILE</div>
+              <div class="label-class-grid">
+                <article class="label-class-card" style="--label-color:#00833e;--label-bg:#eef9f2"><header><div class="label-class-badge">G</div><h6>GOOD — KHÁCH TỐT</h6></header><p>Outcome tích cực, hành vi trả nợ đúng hạn và ổn định trong cửa sổ theo dõi.</p><ul><li>Performance window đã khép lại</li><li>Không chạm bad definition</li><li>Không có quá hạn nghiêm trọng</li><li>Đủ dữ liệu để kết luận</li></ul><div class="label-train-use">TARGET = 0 · INCLUDE TRAIN</div></article>
+                <article class="label-class-card" style="--label-color:#d98500;--label-bg:#fff9e8"><header><div class="label-class-badge">?</div><h6>GRAY — KHÁCH XÁM</h6></header><p>Nằm sát ranh giới Good/Bad; có tín hiệu rủi ro nhưng chưa đạt ngưỡng Bad đã duyệt.</p><ul><li>Outcome ở vùng biên</li><li>Quá hạn nhẹ hoặc tín hiệu chưa đủ mạnh</li><li>Dễ làm mờ decision boundary</li><li>Cần cohort/rule xử lý riêng</li></ul><div class="label-train-use">EXCLUDE / SEPARATE COHORT</div></article>
+                <article class="label-class-card" style="--label-color:#d62828;--label-bg:#fff2f2"><header><div class="label-class-badge">B</div><h6>BAD — KHÁCH XẤU</h6></header><p>Outcome đạt đúng định nghĩa vỡ nợ/quá hạn nghiêm trọng được governance phê duyệt.</p><ul><li>Ví dụ DPD30+ trong 90 ngày</li><li>Hoặc FPD/Default theo label_name</li><li>Có thể gồm write-off nghiêm trọng</li><li>Performance window đã matured</li></ul><div class="label-train-use">TARGET = 1 · INCLUDE TRAIN</div></article>
+                <article class="label-class-card" style="--label-color:#60758c;--label-bg:#f2f5f8"><header><div class="label-class-badge">I</div><h6>INDETERMINATE</h6></header><p>Chưa đủ thời gian quan sát hoặc thiếu dữ liệu để kết luận khách tốt hay khách xấu.</p><ul><li>label_status chưa MATURED</li><li>Performance window chưa đóng</li><li>Outcome data chưa đầy đủ</li><li>Không được ép gán label tạm</li></ul><div class="label-train-use">WAIT / EXCLUDE TRAIN</div></article>
+              </div>
+            </div>`;
           if (type === "ontRiskDriver")
+            return `<div class="ds-diagram" style="height:530px"><svg viewBox="0 0 1100 620" role="img" aria-label="Risk Driver visual flow">
+              <defs><marker id="riskV3Arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#66788d"/></marker><filter id="riskV3Shadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity=".12"/></filter></defs>
+              <rect x="10" y="10" width="1080" height="600" rx="16" fill="#fbfdff" stroke="#cbd7e3"/>
+              <rect x="105" y="25" width="890" height="54" rx="10" fill="#102033"/>
+              <text x="550" y="46" text-anchor="middle" font-size="12.5" font-weight="900" fill="#fcc20e">FOCUS: RISK DRIVER LÀ GIẢ THUYẾT NGHIỆP VỤ — KHÔNG PHẢI FEATURE</text>
+              <text x="550" y="65" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">Feature là bằng chứng dữ liệu dùng để kiểm chứng câu hỏi rủi ro</text>
+
+              <rect x="35" y="112" width="180" height="132" rx="13" fill="#eef6ff" stroke="#8ab8ec" filter="url(#riskV3Shadow)"/><text x="125" y="143" text-anchor="middle" font-size="14" font-weight="900" fill="#0b4ea2">1. RISK QUESTION</text><text x="125" y="174" text-anchor="middle" font-size="11.5" fill="#40546a">Cơ chế nào có thể</text><text x="125" y="194" text-anchor="middle" font-size="11.5" fill="#40546a">khiến khách hàng BAD?</text><text x="125" y="224" text-anchor="middle" font-size="10.5" font-weight="850" fill="#0b4ea2">CÂU HỎI NGHIỆP VỤ</text>
+              <rect x="250" y="112" width="180" height="132" rx="13" fill="#fff2f2" stroke="#e89595" filter="url(#riskV3Shadow)"/><text x="340" y="143" text-anchor="middle" font-size="14" font-weight="900" fill="#b42323">2. OUTCOME LINK</text><text x="340" y="177" text-anchor="middle" font-size="11.5" fill="#40546a">FPD · DPD · Default</text><text x="340" y="198" text-anchor="middle" font-size="11.5" fill="#40546a">Fraud · Loss</text><text x="340" y="224" text-anchor="middle" font-size="10.5" font-weight="850" fill="#b42323">TARGET CẦN DỰ BÁO</text>
+              <rect x="465" y="112" width="180" height="132" rx="13" fill="#fff9e8" stroke="#e4bd64" filter="url(#riskV3Shadow)"/><text x="555" y="143" text-anchor="middle" font-size="14" font-weight="900" fill="#9a6500">3. DATA EVIDENCE</text><text x="555" y="177" text-anchor="middle" font-size="11.5" fill="#40546a">5C · object · property</text><text x="555" y="198" text-anchor="middle" font-size="11.5" fill="#40546a">as-of time · coverage</text><text x="555" y="224" text-anchor="middle" font-size="10.5" font-weight="850" fill="#9a6500">BẰNG CHỨNG DỮ LIỆU</text>
+              <rect x="680" y="112" width="180" height="132" rx="13" fill="#f3effb" stroke="#bda8dd" filter="url(#riskV3Shadow)"/><text x="770" y="143" text-anchor="middle" font-size="14" font-weight="900" fill="#6f42a5">4. FEATURE LOGIC</text><text x="770" y="177" text-anchor="middle" font-size="11.5" fill="#40546a">Window · transform</text><text x="770" y="198" text-anchor="middle" font-size="11.5" fill="#40546a">missing rule · version</text><text x="770" y="224" text-anchor="middle" font-size="10.5" font-weight="850" fill="#6f42a5">FEATURE CANDIDATE</text>
+              <rect x="895" y="112" width="170" height="132" rx="13" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#riskV3Shadow)"/><text x="980" y="143" text-anchor="middle" font-size="14" font-weight="900" fill="#007236">5. CONTROL</text><text x="980" y="177" text-anchor="middle" font-size="11.5" fill="#40546a">Validate · monitor</text><text x="980" y="198" text-anchor="middle" font-size="11.5" fill="#40546a">reason code · owner</text><text x="980" y="224" text-anchor="middle" font-size="10.5" font-weight="850" fill="#007236">ĐƯA VÀO VẬN HÀNH</text>
+              <line x1="215" y1="178" x2="250" y2="178" stroke="#66788d" stroke-width="3" marker-end="url(#riskV3Arrow)"/><line x1="430" y1="178" x2="465" y2="178" stroke="#66788d" stroke-width="3" marker-end="url(#riskV3Arrow)"/><line x1="645" y1="178" x2="680" y2="178" stroke="#66788d" stroke-width="3" marker-end="url(#riskV3Arrow)"/><line x1="860" y1="178" x2="895" y2="178" stroke="#66788d" stroke-width="3" marker-end="url(#riskV3Arrow)"/>
+
+              <text x="550" y="286" text-anchor="middle" font-size="14" font-weight="900" fill="#0b2f64">BA VÍ DỤ ĐỂ PHÂN BIỆT DRIVER VÀ FEATURE</text>
+              <rect x="35" y="306" width="330" height="190" rx="13" fill="#eef6ff" stroke="#8ab8ec"/><rect x="35" y="306" width="330" height="39" rx="13" fill="#0b4ea2"/><text x="200" y="332" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">CHARACTER</text><text x="55" y="375" font-size="12.5" font-weight="900" fill="#0b2f64">Driver</text><text x="112" y="375" font-size="12" fill="#40546a">Danh tính/hành vi có nhất quán?</text><text x="55" y="410" font-size="12.5" font-weight="900" fill="#0b2f64">Feature</text><text x="112" y="410" font-size="12" fill="#40546a">KYC status · identity conflict</text><text x="55" y="445" font-size="12.5" font-weight="900" fill="#0b2f64">Outcome</text><text x="112" y="445" font-size="12" fill="#40546a">Fraud / Default</text>
+              <rect x="385" y="306" width="330" height="190" rx="13" fill="#eaf7ef" stroke="#8bd0a8"/><rect x="385" y="306" width="330" height="39" rx="13" fill="#00833e"/><text x="550" y="332" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">CAPACITY</text><text x="405" y="375" font-size="12.5" font-weight="900" fill="#006b32">Driver</text><text x="462" y="375" font-size="12" fill="#40546a">Dòng tiền có đủ trả nợ?</text><text x="405" y="410" font-size="12.5" font-weight="900" fill="#006b32">Feature</text><text x="462" y="410" font-size="12" fill="#40546a">Income · DTI · affordability</text><text x="405" y="445" font-size="12.5" font-weight="900" fill="#006b32">Outcome</text><text x="462" y="445" font-size="12" fill="#40546a">FPD / DPD</text>
+              <rect x="735" y="306" width="330" height="190" rx="13" fill="#fff1e9" stroke="#ffb27d"/><rect x="735" y="306" width="330" height="39" rx="13" fill="#c84e00"/><text x="900" y="332" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">COLLATERAL</text><text x="755" y="375" font-size="12.5" font-weight="900" fill="#8a3700">Driver</text><text x="812" y="375" font-size="12" fill="#40546a">Tài sản có đủ biên an toàn?</text><text x="755" y="410" font-size="12.5" font-weight="900" fill="#8a3700">Feature</text><text x="812" y="410" font-size="12" fill="#40546a">LTV · valuation · ownership</text><text x="755" y="445" font-size="12.5" font-weight="900" fill="#8a3700">Outcome</text><text x="812" y="445" font-size="12" fill="#40546a">Default / Loss</text>
+              <rect x="120" y="532" width="860" height="48" rx="10" fill="#102033"/><text x="550" y="553" text-anchor="middle" font-size="12" font-weight="900" fill="#fcc20e">OUTPUT</text><text x="550" y="570" text-anchor="middle" font-size="11.5" font-weight="850" fill="#fff">Feature backlog · Routing rule · Reason Code · Validation &amp; Monitoring</text>
+            </svg></div>`;
+          if (type === "ontRiskDriverCompact")
+            return `<div class="risk-driver-board risk-driver-v2">
+              <div class="focus-banner"><b>FOCUS: RISK DRIVER LÀ CÂU HỎI RỦI RO — KHÔNG PHẢI FEATURE</b><span>Driver giải thích điều gì có thể dẫn tới BAD; feature là bằng chứng để trả lời.</span></div>
+              <section class="risk-driver-process">
+                <div class="risk-process-step"><b>1. RISK QUESTION</b><span>Điều gì có thể gây BAD?</span></div>
+                <div class="risk-process-step"><b>2. OUTCOME</b><span>FPD · DPD · Default · Loss</span></div>
+                <div class="risk-process-step"><b>3. SCOPE</b><span>Segment · product · priority</span></div>
+                <div class="risk-process-step"><b>4. EVIDENCE</b><span>Object · property · as-of time</span></div>
+                <div class="risk-process-step"><b>5. FEATURE</b><span>Window · transform · missing</span></div>
+                <div class="risk-process-step"><b>6. CONTROL</b><span>Validate · monitor · owner</span></div>
+              </section>
+              <section class="risk-example-cards">
+                <article class="risk-example-card" style="--driver-color:#0b4ea2"><h5>CHARACTER</h5><strong>Danh tính và hành vi có nhất quán không?</strong><p><b>Outcome:</b> Fraud / Default<br><b>Evidence:</b> KYC, identity conflict, blacklist</p></article>
+                <article class="risk-example-card" style="--driver-color:#00833e"><h5>CAPACITY</h5><strong>Dòng tiền có đủ trả nợ đúng hạn không?</strong><p><b>Outcome:</b> FPD / DPD<br><b>Evidence:</b> Income, DTI, affordability</p></article>
+                <article class="risk-example-card" style="--driver-color:#c84e00"><h5>COLLATERAL</h5><strong>Tài sản có hợp lệ và đủ biên an toàn không?</strong><p><b>Outcome:</b> Default / Loss<br><b>Evidence:</b> LTV, valuation, ownership</p></article>
+              </section>
+              <section class="risk-driver-outputs">
+                <div class="risk-driver-output" style="--output-color:#0b4ea2"><b>FEATURE BACKLOG</b><span>Biến có giả thuyết</span></div>
+                <div class="risk-driver-output" style="--output-color:#6f42a5"><b>ROUTING</b><span>Đúng segment/product</span></div>
+                <div class="risk-driver-output" style="--output-color:#c84e00"><b>REASON CODE</b><span>Giải thích score</span></div>
+                <div class="risk-driver-output" style="--output-color:#00833e"><b>MONITORING</b><span>Coverage · stability · owner</span></div>
+              </section>
+            </div>`;
+          if (type === "ontRiskDriverLegacy")
             return `<div class="risk-driver-board risk-driver-v2">
               <section class="risk-driver-definition">
                 <div class="risk-driver-question"><b>RISK DRIVER LÀ GÌ?</b><strong>Một câu hỏi nghiệp vụ về cơ chế có thể dẫn tới bad outcome.</strong><span>Ví dụ: “Thu nhập và dòng tiền có đủ để khách hàng trả nợ đúng hạn không?” — đây là risk driver; monthly_income hay DTI chỉ là các feature dùng để trả lời câu hỏi đó.</span></div>
@@ -13741,6 +13361,43 @@
               </section>
             </div>`;
           if (type === "ontRoutingMatrix")
+            return `<div class="ds-diagram" style="height:530px"><svg viewBox="0 0 1100 620" role="img" aria-label="Customer routing matrix">
+              <defs><marker id="routingV3Arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#66788d"/></marker><filter id="routingV3Shadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#102033" flood-opacity=".12"/></filter></defs>
+              <rect x="10" y="10" width="1080" height="600" rx="16" fill="#fbfdff" stroke="#cbd7e3"/>
+              <rect x="105" y="25" width="890" height="54" rx="10" fill="#102033"/><text x="550" y="46" text-anchor="middle" font-size="12" font-weight="900" fill="#fcc20e">FOCUS: DATA DEPTH QUYẾT ĐỊNH MODEL ROUTE</text><text x="550" y="65" text-anchor="middle" font-size="10.8" font-weight="800" fill="#fff">Routing không gán GOOD/BAD · Thiếu lịch sử không đồng nghĩa với rủi ro cao</text>
+
+              <rect x="145" y="132" width="220" height="58" rx="11" fill="#eef6ff" stroke="#8ab8ec" filter="url(#routingV3Shadow)"/><text x="255" y="156" text-anchor="middle" font-size="13" font-weight="900" fill="#0b4ea2">1. NHẬN DIỆN NHÓM</text><text x="255" y="176" text-anchor="middle" font-size="11" fill="#40546a">NEW · THIN · THICK</text>
+              <rect x="440" y="132" width="220" height="58" rx="11" fill="#fff9e8" stroke="#e4bd64" filter="url(#routingV3Shadow)"/><text x="550" y="156" text-anchor="middle" font-size="13" font-weight="900" fill="#9a6500">2. ĐO DATA DEPTH</text><text x="550" y="176" text-anchor="middle" font-size="11" fill="#40546a">Loại dữ liệu · số kỳ · thời gian</text>
+              <rect x="735" y="132" width="220" height="58" rx="11" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#routingV3Shadow)"/><text x="845" y="156" text-anchor="middle" font-size="13" font-weight="900" fill="#007236">3. CHỌN ROUTE</text><text x="845" y="176" text-anchor="middle" font-size="11" fill="#40546a">Model · FeatureSet · fallback</text>
+              <line x1="365" y1="161" x2="440" y2="161" stroke="#66788d" stroke-width="3" marker-end="url(#routingV3Arrow)"/><line x1="660" y1="161" x2="735" y2="161" stroke="#66788d" stroke-width="3" marker-end="url(#routingV3Arrow)"/>
+
+              <rect x="30" y="218" width="1040" height="46" rx="9" fill="#0b2f64"/>
+              <text x="105" y="247" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">SEGMENT</text><text x="290" y="247" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">NHẬN DIỆN</text><text x="505" y="247" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">DỮ LIỆU TRỌNG TÂM</text><text x="760" y="247" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">MODEL ROUTE</text><text x="965" y="247" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">FALLBACK / CONTROL</text>
+
+              <rect x="30" y="273" width="1040" height="84" rx="10" fill="#fff9e8" stroke="#e1b95b"/><rect x="30" y="273" width="150" height="84" rx="10" fill="#d98500"/><text x="105" y="307" text-anchor="middle" font-size="16" font-weight="900" fill="#fff">NEW</text><text x="105" y="330" text-anchor="middle" font-size="10.5" font-weight="850" fill="#fff7db">DATA DEPTH 1/3</text><text x="290" y="307" text-anchor="middle" font-size="11.5" fill="#40546a">Chưa có repayment history</text><text x="505" y="299" text-anchor="middle" font-size="11" fill="#40546a">KYC · application · fraud</text><text x="505" y="321" text-anchor="middle" font-size="11" fill="#40546a">collateral · product</text><rect x="665" y="290" width="190" height="48" rx="8" fill="#d98500"/><text x="760" y="309" text-anchor="middle" font-size="11.5" font-weight="900" fill="#fff">NEW MODEL</text><text x="760" y="326" text-anchor="middle" font-size="10" fill="#fff">PRE A-SCORE</text><text x="965" y="299" text-anchor="middle" font-size="10.8" fill="#40546a">Thiếu dữ liệu tối thiểu</text><text x="965" y="321" text-anchor="middle" font-size="10.8" fill="#40546a">→ rule / manual review</text>
+
+              <rect x="30" y="367" width="1040" height="84" rx="10" fill="#eef6ff" stroke="#8ab8ec"/><rect x="30" y="367" width="150" height="84" rx="10" fill="#0b4ea2"/><text x="105" y="401" text-anchor="middle" font-size="16" font-weight="900" fill="#fff">THIN</text><text x="105" y="424" text-anchor="middle" font-size="10.5" font-weight="850" fill="#dceaff">DATA DEPTH 2/3</text><text x="290" y="401" text-anchor="middle" font-size="11.5" fill="#40546a">Có lịch sử nhưng chưa đủ kỳ</text><text x="505" y="393" text-anchor="middle" font-size="11" fill="#40546a">NEW bundle + payment</text><text x="505" y="415" text-anchor="middle" font-size="11" fill="#40546a">DPD · exposure hiện có</text><rect x="665" y="384" width="190" height="48" rx="8" fill="#0b4ea2"/><text x="760" y="403" text-anchor="middle" font-size="11.5" font-weight="900" fill="#fff">THIN MODEL</text><text x="760" y="420" text-anchor="middle" font-size="10" fill="#fff">LIMITED HISTORY</text><text x="965" y="393" text-anchor="middle" font-size="10.8" fill="#40546a">THIN FeatureSet</text><text x="965" y="415" text-anchor="middle" font-size="10.8" fill="#40546a">missing history ≠ high risk</text>
+
+              <rect x="30" y="461" width="1040" height="84" rx="10" fill="#eaf7ef" stroke="#8bd0a8"/><rect x="30" y="461" width="150" height="84" rx="10" fill="#00833e"/><text x="105" y="495" text-anchor="middle" font-size="16" font-weight="900" fill="#fff">THICK</text><text x="105" y="518" text-anchor="middle" font-size="10.5" font-weight="850" fill="#dff5e8">DATA DEPTH 3/3</text><text x="290" y="495" text-anchor="middle" font-size="11.5" fill="#40546a">Đủ số kỳ và observation time</text><text x="505" y="487" text-anchor="middle" font-size="11" fill="#40546a">5C · behavior · repayment</text><text x="505" y="509" text-anchor="middle" font-size="11" fill="#40546a">delinquency · exposure</text><rect x="665" y="478" width="190" height="48" rx="8" fill="#00833e"/><text x="760" y="497" text-anchor="middle" font-size="11.5" font-weight="900" fill="#fff">THICK MODEL</text><text x="760" y="514" text-anchor="middle" font-size="10" fill="#fff">RICH HISTORY</text><text x="965" y="487" text-anchor="middle" font-size="10.8" fill="#40546a">Champion / challenger</text><text x="965" y="509" text-anchor="middle" font-size="10.8" fill="#40546a">DQ guardrail · monitoring</text>
+
+              <rect x="115" y="565" width="870" height="34" rx="9" fill="#102033"/><text x="550" y="587" text-anchor="middle" font-size="11.2" font-weight="900" fill="#fff">UNIFIED OUTPUT: Score · Grade · Risk Band · Reason Code · model_version · feature_set_version · result_mode</text>
+            </svg></div>`;
+          if (type === "ontRoutingMatrixCompact")
+            return `<div class="routing-board routing-v2 routing-v3">
+              <div class="routing-principle"><b>FOCUS: DATA DEPTH QUYẾT ĐỊNH MODEL ROUTE</b><span><strong>Thiếu lịch sử ≠ rủi ro cao.</strong> Routing không gán GOOD/BAD.</span></div>
+              <section class="routing-step-strip">
+                <div class="routing-step-card"><b>1. NHẬN DIỆN</b><span>NEW · THIN · THICK</span></div><div class="routing-step-arrow">→</div>
+                <div class="routing-step-card"><b>2. ĐO DATA DEPTH</b><span>Loại dữ liệu · số kỳ · observation time</span></div><div class="routing-step-arrow">→</div>
+                <div class="routing-step-card"><b>3. ROUTE</b><span>Model family · FeatureSet · fallback</span></div>
+              </section>
+              <section class="routing-segment-grid">
+                <article class="routing-segment-card" style="--route-color:#d98500;--route-bg:#fff9e8"><header><h5>NEW — Khách mới</h5><span class="routing-depth">DEPTH 1/3</span></header><p class="routing-recognition">Chưa có lịch sử repayment.</p><div class="routing-card-section"><b>Dữ liệu trọng tâm</b><span>KYC · application · fraud · collateral · product.</span></div><div class="routing-model-route"><b>NEW MODEL / PRE A-SCORE</b><span>Thiếu tối thiểu → fallback/manual review</span></div></article>
+                <article class="routing-segment-card" style="--route-color:#0b4ea2;--route-bg:#eef6ff"><header><h5>THIN — Lịch sử mỏng</h5><span class="routing-depth">DEPTH 2/3</span></header><p class="routing-recognition">Có quan hệ nhưng chưa đủ kỳ quan sát.</p><div class="routing-card-section"><b>Dữ liệu trọng tâm</b><span>NEW bundle + payment, DPD và exposure hiện có.</span></div><div class="routing-model-route"><b>THIN MODEL</b><span>FeatureSet cho limited history</span></div></article>
+                <article class="routing-segment-card" style="--route-color:#00833e;--route-bg:#eef9f2"><header><h5>THICK — Lịch sử đầy đủ</h5><span class="routing-depth">DEPTH 3/3</span></header><p class="routing-recognition">Đủ số kỳ và observation time.</p><div class="routing-card-section"><b>Dữ liệu trọng tâm</b><span>5C + behavior · repayment · delinquency · exposure.</span></div><div class="routing-model-route"><b>THICK / RETURNING MODEL</b><span>FeatureSet giàu lịch sử</span></div></article>
+              </section>
+              <section class="routing-output-contract"><b>MỌI NHÁNH TRẢ CÙNG CONTRACT</b><span>Score · Grade · Risk Band · Reason Code · model_version · feature_set_version · result_mode</span></section>
+            </div>`;
+          if (type === "ontRoutingMatrixLegacy")
             return `<div class="routing-board routing-v2">
               <div class="routing-principle"><b>Routing trả lời: “Hồ sơ này có đủ loại dữ liệu nào để chạy model nào?”</b><span><strong>Không trả lời:</strong> “Khách hàng tốt hay xấu?”</span></div>
               <section class="routing-step-strip">
@@ -13762,26 +13419,31 @@
                 <section class="lifecycle-state-section">
                   <div class="lifecycle-state-head"><b>CHUỖI 9 TRẠNG THÁI TRONG MODEL ARTIFACT REGISTRY</b><span>Mọi bước chuyển lưu package_id · model_version · status · approved_by · effective time · checksum</span></div>
                   <div class="lifecycle-state-rail">
-                    <div class="lifecycle-state-node" style="--state-color:#0b4ea2">DRAFT<small>Design yêu cầu</small></div>
-                    <div class="lifecycle-state-node" style="--state-color:#0b4ea2">CANDIDATE<small>Train &amp; đóng gói</small></div>
-                    <div class="lifecycle-state-node" style="--state-color:#7b5500">VALIDATED<small>Kiểm định độc lập</small></div>
-                    <div class="lifecycle-state-node" style="--state-color:#7b5500">APPROVED<small>Phê duyệt quản trị</small></div>
-                    <div class="lifecycle-state-node" style="--state-color:#7b5500">READY<small>Sẵn sàng phát hành</small></div>
-                    <div class="lifecycle-state-node" style="--state-color:#00833e">SHADOW_ACTIVE<small>Shadow · C/C · Canary</small></div>
-                    <div class="lifecycle-state-node" style="--state-color:#00833e">PRODUCTION_ACTIVE<small>Quyết định thật</small></div>
-                    <div class="lifecycle-state-node" style="--state-color:#60758c">DEPRECATED<small>Chỉ replay lịch sử</small></div>
-                    <div class="lifecycle-state-node" style="--state-color:#455568">RETIRED<small>Lưu trữ theo retention</small></div>
+                    <button type="button" class="lifecycle-state-node active" style="--state-color:#0b4ea2" data-lifecycle-state="DRAFT" data-index="1" data-subtitle="Thiết kế yêu cầu" data-description="Khởi tạo yêu cầu; thiết kế population, outcome/label, Risk Driver, Feature Definition, nguồn dữ liệu và lineage." aria-expanded="true">DRAFT<small>Thiết kế yêu cầu</small></button>
+                    <button type="button" class="lifecycle-state-node" style="--state-color:#0b4ea2" data-lifecycle-state="CANDIDATE" data-index="2" data-subtitle="Huấn luyện và đóng gói" data-description="Tạo dữ liệu point-in-time, huấn luyện và đóng gói model, feature set, calibration, mapping và cấu hình." aria-expanded="false">CANDIDATE<small>Huấn luyện &amp; đóng gói</small></button>
+                    <button type="button" class="lifecycle-state-node" style="--state-color:#7b5500" data-lifecycle-state="VALIDATED" data-index="3" data-subtitle="Kiểm định độc lập" data-description="Đạt kiểm định kỹ thuật và nghiệp vụ: AUC/KS, stability, calibration, explainability, leakage và UAT." aria-expanded="false">VALIDATED<small>Kiểm định độc lập</small></button>
+                    <button type="button" class="lifecycle-state-node" style="--state-color:#7b5500" data-lifecycle-state="APPROVED" data-index="4" data-subtitle="Phê duyệt quản trị" data-description="Model Owner, Risk và Governance phê duyệt bằng chứng kiểm định, giới hạn sử dụng và kế hoạch rollback." aria-expanded="false">APPROVED<small>Phê duyệt quản trị</small></button>
+                    <button type="button" class="lifecycle-state-node" style="--state-color:#7b5500" data-lifecycle-state="READY" data-index="5" data-subtitle="Sẵn sàng phát hành" data-description="Release package hoàn chỉnh, version và checksum cố định; API, routing, giám sát và rollback đã sẵn sàng." aria-expanded="false">READY<small>Sẵn sàng phát hành</small></button>
+                    <button type="button" class="lifecycle-state-node" style="--state-color:#00833e" data-lifecycle-state="SHADOW_ACTIVE" data-index="6" data-subtitle="Kiểm chứng trên luồng thật" data-description="Chạy trên traffic thật nhưng chưa tham gia quyết định; so sánh Champion/Challenger rồi Canary từ 5% đến 100%." aria-expanded="false">SHADOW_<br>ACTIVE<small>Shadow · C/C · Canary</small></button>
+                    <button type="button" class="lifecycle-state-node" style="--state-color:#00833e" data-lifecycle-state="PRODUCTION_ACTIVE" data-index="7" data-subtitle="Chấm điểm chính thức" data-description="Được promote để chấm điểm chính thức; theo dõi drift, bad rate, calibration, latency và KPI nghiệp vụ." aria-expanded="false">PRODUCTION_<br>ACTIVE<small>Quyết định thật</small></button>
+                    <button type="button" class="lifecycle-state-node" style="--state-color:#60758c" data-lifecycle-state="DEPRECATED" data-index="8" data-subtitle="Ngừng quyết định mới" data-description="Khi package mới lên Production, bản cũ ngừng quyết định mới nhưng vẫn được giữ để replay và audit." aria-expanded="false">DEPRECATED<small>Chỉ replay lịch sử</small></button>
+                    <button type="button" class="lifecycle-state-node" style="--state-color:#455568" data-lifecycle-state="RETIRED" data-index="9" data-subtitle="Kết thúc phục vụ" data-description="Sau thời gian retention, package kết thúc phục vụ; artifact và audit trail vẫn được lưu theo chính sách." aria-expanded="false">RETIRED<small>Lưu trữ theo retention</small></button>
                   </div>
-                  <div class="lifecycle-state-descriptions">
-                    <div class="lifecycle-state-desc" style="--state-color:#0b4ea2"><b>1 · DRAFT</b><span>Khởi tạo yêu cầu; thiết kế population, outcome/label, Risk Driver, Feature Definition, nguồn và lineage.</span></div>
-                    <div class="lifecycle-state-desc" style="--state-color:#0b4ea2"><b>2 · CANDIDATE</b><span>Tạo dữ liệu point-in-time, huấn luyện và đóng gói model, feature set, calibration, mapping, cấu hình.</span></div>
-                    <div class="lifecycle-state-desc" style="--state-color:#7b5500"><b>3 · VALIDATED</b><span>Đạt kiểm định kỹ thuật và nghiệp vụ: AUC/KS, stability, calibration, explainability, leakage và UAT.</span></div>
-                    <div class="lifecycle-state-desc" style="--state-color:#7b5500"><b>4 · APPROVED</b><span>Model Owner, Risk và Governance phê duyệt bằng chứng kiểm định, giới hạn dùng và kế hoạch rollback.</span></div>
-                    <div class="lifecycle-state-desc" style="--state-color:#7b5500"><b>5 · READY</b><span>Release package hoàn chỉnh, version và checksum cố định; API, routing, giám sát và rollback đã sẵn sàng.</span></div>
-                    <div class="lifecycle-state-desc" style="--state-color:#00833e"><b>6 · SHADOW_ACTIVE</b><span>Chạy trên traffic thật nhưng chưa quyết định; so Champion/Challenger rồi Canary 5% → 100%.</span></div>
-                    <div class="lifecycle-state-desc" style="--state-color:#00833e"><b>7 · PRODUCTION_ACTIVE</b><span>Được promote để chấm điểm chính thức; theo dõi drift, bad rate, calibration, latency và KPI nghiệp vụ.</span></div>
-                    <div class="lifecycle-state-desc" style="--state-color:#60758c"><b>8 · DEPRECATED</b><span>Khi package mới lên Production, bản cũ ngừng quyết định mới nhưng vẫn được giữ để replay và audit.</span></div>
-                    <div class="lifecycle-state-desc" style="--state-color:#455568"><b>9 · RETIRED</b><span>Sau thời gian retention, package kết thúc phục vụ; artifact và audit trail vẫn được lưu theo chính sách.</span></div>
+                  <div class="lifecycle-state-dropdown open" id="lifecycleStateDropdown" style="--state-color:#0b4ea2">
+                    <div class="lifecycle-state-dropdown-head" role="button" tabindex="0" aria-expanded="true">
+                      <span class="lifecycle-state-index" id="lifecycleStateIndex">1</span>
+                      <div class="lifecycle-state-dropdown-title"><b id="lifecycleStateTitle">DRAFT</b><small id="lifecycleStateSubtitle">Thiết kế yêu cầu</small></div>
+                      <span class="lifecycle-state-chevron">⌄</span>
+                    </div>
+                    <div class="lifecycle-state-dropdown-body" id="lifecycleStateBody">
+                      <div class="lifecycle-state-summary"><b>MÔ TẢ STATE</b><p id="lifecycleStateDescription">Khởi tạo yêu cầu và thiết kế đầy đủ phạm vi của model artifact trước khi phát triển.</p></div>
+                      <div class="lifecycle-state-detail-grid">
+                        <article class="lifecycle-state-detail"><b>INPUT</b><span id="lifecycleStateInput">Yêu cầu nghiệp vụ · use case · chính sách rủi ro · danh mục nguồn dữ liệu.</span></article>
+                        <article class="lifecycle-state-detail"><b>HOẠT ĐỘNG CHÍNH</b><span id="lifecycleStateActivity">Thiết kế population, outcome/label, Risk Driver, Feature Definition và lineage.</span></article>
+                        <article class="lifecycle-state-detail output"><b>OUTPUT</b><span id="lifecycleStateOutput">Design specification · feature definition bản nháp · owner và phạm vi sử dụng.</span></article>
+                        <article class="lifecycle-state-detail"><b>ĐIỀU KIỆN CHUYỂN STATE</b><span id="lifecycleStateGate">Thiết kế đủ thông tin, có owner và được chấp thuận để bắt đầu huấn luyện.</span></article>
+                      </div>
+                    </div>
                   </div>
                   <div class="lifecycle-control-loop"><b>VÒNG KIỂM SOÁT SAU PHÁT HÀNH</b><div class="lifecycle-control-item"><b>Sự cố khi Canary/Production</b> → rollback đồng bộ về Champion ổn định.</div><div class="lifecycle-control-item"><b>Drift hoặc giảm hiệu năng</b> → recalibrate hoặc retrain thành Candidate phiên bản mới.</div><div class="lifecycle-control-item"><b>Challenger được promote</b> → bản Champion cũ tự chuyển Deprecated rồi Retired.</div></div>
                 </section>
@@ -13913,7 +13575,7 @@
               "monitoring-system-phase1": "Giám sát hệ thống Phase 1",
               "monitoring-grafana-dashboard": "Dashboard Grafana Phase 1",
               "monitoring-model-kpi": "Giám sát hiệu quả model",
-              "monitoring-model-dashboard": "Model Monitoring Hub",
+              "monitoring-model-dashboard": "Dashboard Model Phase 2",
               "governance-incident-response": "Xử lý sự cố",
               "governance-failsafe-raci": "Failsafe và phân quyền",
               "governance-golive-gate": "Cổng go-live",
@@ -14017,7 +13679,7 @@
             "train-time": ["train-model-overview", "train-step-1-dataset", "train-step-2-screening", "train-step-3-selection", "train-step-4-training", "train-step-5-validation", "train-step-6-calibration", "train-step-7-registry", "design-train-traceability"],
             monitoring: ["monitoring-system-phase1", "monitoring-grafana-dashboard", "monitoring-model-kpi", "monitoring-model-dashboard"],
             governance: ["governance-incident-response", "governance-golive-gate"],
-            deployment: ["deployment-release-handoff", "deployment-validation-gate", "deployment-shadow", "deployment-champion-challenger", "deployment-canary", "deployment-rollback"],
+            deployment: ["dp-8steps", "dp-rollback3", "dp-times3", "dp-compare", "dp-dashboard", "dp-canary"],
           };
           const ontMap = {
             ontology: [
@@ -14611,6 +14273,166 @@
           });
           if (pool[0]) show(pool[0].object);
         }
+        function initLifecycleStateDropdown() {
+          const lifecycle = document.querySelector(".lifecycle-workflow.lifecycle-v4");
+          const dropdown = document.getElementById("lifecycleStateDropdown");
+          if (!lifecycle || !dropdown) return;
+          const nodes = [...lifecycle.querySelectorAll("[data-lifecycle-state]")];
+          const head = dropdown.querySelector(".lifecycle-state-dropdown-head");
+          const index = document.getElementById("lifecycleStateIndex");
+          const title = document.getElementById("lifecycleStateTitle");
+          const subtitle = document.getElementById("lifecycleStateSubtitle");
+          const description = document.getElementById("lifecycleStateDescription");
+          const input = document.getElementById("lifecycleStateInput");
+          const activity = document.getElementById("lifecycleStateActivity");
+          const output = document.getElementById("lifecycleStateOutput");
+          const gate = document.getElementById("lifecycleStateGate");
+          const stateDetails = {
+            DRAFT: {
+              description: "Khởi tạo yêu cầu và thiết kế đầy đủ phạm vi của model artifact trước khi phát triển.",
+              input: "Yêu cầu nghiệp vụ · use case · chính sách rủi ro · danh mục nguồn dữ liệu.",
+              activity: "Thiết kế population, outcome/label, Risk Driver, Feature Definition và lineage.",
+              output: "Design specification · feature definition bản nháp · owner và phạm vi sử dụng.",
+              gate: "Thiết kế đủ thông tin, có owner và được chấp thuận để bắt đầu huấn luyện."
+            },
+            CANDIDATE: {
+              description: "Tạo phiên bản mô hình có thể tái lập để đưa sang kiểm định độc lập.",
+              input: "Thiết kế đã chốt · dữ liệu point-in-time · label rule · feature definition.",
+              activity: "Tạo training dataset, huấn luyện, tinh chỉnh, hiệu chỉnh và đóng gói cấu hình.",
+              output: "Candidate model package · training report · FeatureSet và ModelVersion.",
+              gate: "Pipeline chạy tái lập, không leakage và đạt ngưỡng kỹ thuật tối thiểu."
+            },
+            VALIDATED: {
+              description: "Xác nhận độc lập rằng mô hình đạt yêu cầu kỹ thuật, nghiệp vụ và kiểm soát rủi ro.",
+              input: "Candidate package · validation dataset · bộ ngưỡng KPI và tiêu chí UAT.",
+              activity: "Kiểm định AUC/KS, stability, calibration, explainability, leakage và UAT.",
+              output: "Validation report · danh sách phát hiện · khuyến nghị phê duyệt hoặc chỉnh sửa.",
+              gate: "Đạt các ngưỡng bắt buộc và đóng toàn bộ phát hiện mức nghiêm trọng."
+            },
+            APPROVED: {
+              description: "Ghi nhận quyết định quản trị cho phép mô hình được chuẩn bị phát hành.",
+              input: "Model package · validation report · giới hạn sử dụng · kế hoạch rollback.",
+              activity: "Model Owner, Risk và Governance rà soát bằng chứng, phạm vi và trách nhiệm.",
+              output: "Approval record · phạm vi hiệu lực · điều kiện sử dụng · đầy đủ sign-off.",
+              gate: "Đủ phê duyệt từ các vai trò bắt buộc theo chính sách quản trị mô hình."
+            },
+            READY: {
+              description: "Hoàn thiện gói phát hành bất biến và xác nhận hệ thống đã sẵn sàng triển khai.",
+              input: "Model đã duyệt · artifact có version · API, routing, monitoring và rollback config.",
+              activity: "Khóa checksum, run preparation, kiểm thử triển khai, giám sát và rollback.",
+              output: "Immutable release package · deployment plan · operational readiness record.",
+              gate: "Gói phát hành đầy đủ và vượt kiểm tra sẵn sàng vận hành."
+            },
+            SHADOW_ACTIVE: {
+              description: "Kiểm chứng mô hình trên luồng dữ liệu thật nhưng chưa dùng kết quả để ra quyết định.",
+              input: "Ready package · production traffic · Champion baseline · guardrail và KPI.",
+              activity: "Shadow scoring, so Champion/Challenger và mở Canary theo tỷ lệ 5% → 100%.",
+              output: "Shadow/Canary report · bằng chứng so sánh · đề xuất promote hoặc rollback.",
+              gate: "KPI, chất lượng dữ liệu và guardrail đạt ngưỡng trong thời gian quan sát."
+            },
+            PRODUCTION_ACTIVE: {
+              description: "Mô hình chính thức tham gia chấm điểm và phục vụ quyết định nghiệp vụ.",
+              input: "Canary đã đạt · routing được kích hoạt · policy threshold · SLA/SLO.",
+              activity: "Scoring chính thức; theo dõi drift, bad rate, calibration, latency và explainability.",
+              output: "Score · Grade · Reason Code · log/lineage · feedback và monitoring metrics.",
+              gate: "Duy trì SLA và guardrail; sự cố kích hoạt rollback, recalibrate hoặc retrain."
+            },
+            DEPRECATED: {
+              description: "Ngừng dùng phiên bản cũ cho quyết định mới nhưng vẫn giữ để tái hiện lịch sử và kiểm toán.",
+              input: "Model thay thế đã active · retention policy · danh sách phụ thuộc còn lại.",
+              activity: "Tắt routing mới, khóa thay đổi và duy trì khả năng replay, explain và audit.",
+              output: "Phiên bản ngừng phục vụ nhưng vẫn truy xuất được cùng artifact lịch sử.",
+              gate: "Hết thời gian retention và không còn luồng nghiệp vụ phụ thuộc."
+            },
+            RETIRED: {
+              description: "Kết thúc hoàn toàn việc phục vụ của model package sau thời gian lưu giữ quy định.",
+              input: "Deprecated package · xác nhận hết retention · kết quả kiểm tra dependency.",
+              activity: "Dừng serving, lưu trữ artifact, audit trail, lineage và kiểm soát quyền truy cập.",
+              output: "Archival record · artifact và bằng chứng kiểm toán được lưu theo chính sách.",
+              gate: "Trạng thái cuối; chỉ cho phép truy xuất phục vụ kiểm toán và tuân thủ."
+            }
+          };
+
+          function setOpen(open) {
+            dropdown.classList.toggle("open", open);
+            head?.setAttribute("aria-expanded", String(open));
+            const active = nodes.find((node) => node.classList.contains("active"));
+            if (active) active.setAttribute("aria-expanded", String(open));
+          }
+
+          function selectState(node) {
+            const wasActive = node.classList.contains("active");
+            nodes.forEach((item) => {
+              item.classList.toggle("active", item === node);
+              item.setAttribute("aria-expanded", "false");
+            });
+            dropdown.style.setProperty("--state-color", node.style.getPropertyValue("--state-color") || "#0b4ea2");
+            index.textContent = node.dataset.index || "";
+            title.textContent = node.dataset.lifecycleState || "";
+            subtitle.textContent = node.dataset.subtitle || "";
+            const detail = stateDetails[node.dataset.lifecycleState] || {};
+            description.textContent = detail.description || node.dataset.description || "";
+            input.textContent = detail.input || "";
+            activity.textContent = detail.activity || "";
+            output.textContent = detail.output || "";
+            gate.textContent = detail.gate || "";
+            setOpen(!wasActive || !dropdown.classList.contains("open"));
+          }
+
+          nodes.forEach((node) => node.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            selectState(node);
+          }));
+          const toggle = (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            setOpen(!dropdown.classList.contains("open"));
+          };
+          head?.addEventListener("click", toggle);
+          head?.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") toggle(event);
+          });
+        }
+        function initAscoreObjectGraph() {
+          const graph = document.querySelector(".ascore-object-graph");
+          const popup = document.getElementById("ascoreObjectPopover");
+          if (!graph || !popup) return;
+          const nodes = [...graph.querySelectorAll("[data-ascore-object]")];
+          let pinned = false, activeName = "", closeTimer = 0;
+          function closePopup() {
+            popup.classList.remove("open");
+            nodes.forEach((node) => node.classList.remove("active"));
+            pinned = false; activeName = "";
+          }
+          function positionPopup(node) {
+            const graphBox=graph.getBoundingClientRect(),nodeBox=node.getBoundingClientRect(),width=330,height=Math.min(popup.scrollHeight||250,310);
+            let left=nodeBox.right-graphBox.left+12;
+            if(left+width>graphBox.width-8) left=nodeBox.left-graphBox.left-width-12;
+            left=Math.max(8,Math.min(left,graphBox.width-width-8));
+            let top=nodeBox.top-graphBox.top-30;
+            top=Math.max(8,Math.min(top,graphBox.height-height-8));
+            popup.style.left=`${left}px`; popup.style.top=`${top}px`;
+          }
+          function openPopup(node, pin) {
+            window.clearTimeout(closeTimer);
+            const properties=(node.dataset.objectProperties||"").split("|").filter(Boolean);
+            popup.style.setProperty("--popup-color",node.dataset.objectColor||"#0b4ea2");
+            popup.innerHTML=`<h4>${esc2(node.dataset.ascoreObject)}</h4><p><b>${esc2(node.dataset.objectDomain)}</b><br>${esc2(node.dataset.objectDescription)}</p><b>Property đại diện</b><ul>${properties.map((property)=>`<li>${esc2(property)}</li>`).join("")||"<li>Chưa có property</li>"}</ul>`;
+            nodes.forEach((item)=>item.classList.toggle("active",item===node));
+            popup.classList.add("open"); pinned=!!pin; activeName=node.dataset.ascoreObject;
+            requestAnimationFrame(()=>positionPopup(node));
+          }
+          nodes.forEach((node)=>{
+            node.addEventListener("pointerenter",()=>{if(!pinned)openPopup(node,false);});
+            node.addEventListener("pointerleave",()=>{if(!pinned)closeTimer=window.setTimeout(closePopup,180);});
+            node.addEventListener("click",(event)=>{event.preventDefault();event.stopPropagation();if(pinned&&activeName===node.dataset.ascoreObject)closePopup();else openPopup(node,true);});
+            node.addEventListener("keydown",(event)=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();openPopup(node,true);}});
+          });
+          popup.addEventListener("pointerenter",()=>window.clearTimeout(closeTimer));
+          popup.addEventListener("pointerleave",()=>{if(!pinned)closeTimer=window.setTimeout(closePopup,180);});
+          popup.addEventListener("click",(event)=>event.stopPropagation());
+        }
         function initOntologyEnterpriseExplorer() {
           const source = window.ONTOLOGY_XLSX;
           const detail = document.getElementById("ontologyDomainDetail");
@@ -14618,6 +14440,7 @@
             "ontologyDomainQuickDetail",
           );
           if (!source || (!detail && !quickDetail)) return;
+          const graphOnly = quickDetail?.closest(".enterprise-graph-only");
           const nodeList = [...document.querySelectorAll("[data-domain]")];
           const stripButtons = [
             ...document.querySelectorAll("[data-detail-domain]"),
@@ -14762,26 +14585,58 @@
             requestAnimationFrame(() => window.scrollTo(scrollLeft, scrollTop));
           }
 
+          let popupPinned = false;
+          let popupDomain = "";
+          let popupCloseTimer = 0;
+          function closeDomainPopup() {
+            if (!quickDetail) return;
+            quickDetail.classList.remove("open");
+            popupPinned = false;
+            popupDomain = "";
+          }
+          function positionDomainPopup(node) {
+            if (!quickDetail || !graphOnly || !node) return;
+            quickDetail.style.left = "auto";
+            quickDetail.style.right = "18px";
+            quickDetail.style.top = "72px";
+          }
+          function openDomainPopup(node, pin) {
+            if (!quickDetail || !node) return;
+            window.clearTimeout(popupCloseTimer);
+            selectDomainWithoutScroll(node.dataset.domain);
+            quickDetail.classList.add("open");
+            popupPinned = !!pin;
+            popupDomain = node.dataset.domain;
+            requestAnimationFrame(() => positionDomainPopup(node));
+          }
+
           nodeList.forEach((node) => {
-            node.addEventListener("pointerdown", (event) =>
-              event.preventDefault(),
-            );
+            node.addEventListener("pointerdown", (event) => event.preventDefault());
+            node.addEventListener("pointerenter", () => {
+              if (!popupPinned) openDomainPopup(node, false);
+            });
+            node.addEventListener("pointerleave", () => {
+              if (!popupPinned) popupCloseTimer = window.setTimeout(closeDomainPopup, 180);
+            });
             node.addEventListener("click", (event) => {
               event.preventDefault();
-              selectDomainWithoutScroll(node.dataset.domain);
+              event.stopPropagation();
+              if (popupPinned && popupDomain === node.dataset.domain) closeDomainPopup();
+              else openDomainPopup(node, true);
             });
             node.addEventListener("keydown", (event) => {
               if (event.key === "Enter" || event.key === " ") {
                 event.preventDefault();
-                selectDomainWithoutScroll(node.dataset.domain);
+                openDomainPopup(node, true);
               }
             });
           });
-          stripButtons.forEach((button) =>
-            button.addEventListener("click", () =>
-              renderDomain(button.dataset.detailDomain, false),
-            ),
-          );
+          quickDetail?.addEventListener("pointerenter", () => window.clearTimeout(popupCloseTimer));
+          quickDetail?.addEventListener("pointerleave", () => {
+            if (!popupPinned) popupCloseTimer = window.setTimeout(closeDomainPopup, 180);
+          });
+          quickDetail?.addEventListener("click", (event) => event.stopPropagation());
+          stripButtons.forEach((button) => button.addEventListener("click", () => renderDomain(button.dataset.detailDomain, false)));
           detail?.addEventListener("click", (event) => {
             const button = event.target.closest("[data-detail-object]");
             if (!button) return;
@@ -14790,7 +14645,7 @@
               button.dataset.detailObject,
             );
           });
-          renderDomain(selectedDomainName, false);
+          if (detail) renderDomain(selectedDomainName, false);
         }
         function renderGraph2() {
           const svg = document.getElementById("ctiGraph");
@@ -14859,12 +14714,21 @@
       <section class="section"><div class="section-head"><div><h3>Flow trình bày</h3><p class="sub">8 section chính: Business Case, Ontology, Design Time, Train Model, Runtime, Monitoring, Governance, Deploy. Các nội dung DS chi tiết là subsection trong luồng.</p></div></div><div class="flow-strip">${mainFlow.map((x, i) => `<div class="flow-step"><b>${i + 1}. ${esc2(x.title)}</b><span style="color:#65758b;font-size:13px">${esc2(x.short)}</span></div>`).join("")}</div></section>
       <section class="section"><div class="section-head"><div><h3>Kiến trúc tổng quan</h3><p class="sub">A-Score/CTI được nhìn như một tài sản mô hình có lifecycle, không chỉ là công thức tính điểm. Sơ đồ dưới đây cho thấy cách business problem, ontology, model lifecycle và governance liên kết với nhau.</p></div></div><div class="graph-wrap"><svg id="ctiGraph" aria-label="A-Score architecture flow"></svg></div></section>
       ${renderMainSections()}
+      <section class="section thankyou-slide" id="thankyou">
+        <div>
+          <div class="thankyou-kicker">Customer Trust Index · A-Score</div>
+          <h2>Thank you</h2>
+          <p class="thankyou-sub">Cảm ơn quý vị đã lắng nghe</p>
+        </div>
+      </section>
       <div class="section" id="object-reference"><div class="section-head"><div><h3>Object tham chiếu trong ontology</h3><p class="sub">Các object dưới đây là lớp bằng chứng giúp A-Score truy vết từ dữ liệu, model, score tới quyết định.</p></div><span class="badge">Reference layer</span></div><div class="object-detail"><div class="object-list" id="ctiObjectList"></div><div class="object-view" id="ctiObjectView"></div></div></div>
       <div class="footer">Customer Trust Index (CTI) · A-Score Architecture · Leader: Đinh Gia Hiếu · Standalone HTML</div>`;
           renderDomainCloud2();
           renderObjects2();
           renderGraph2();
           initOntologyEnterpriseExplorer();
+          initAscoreObjectGraph();
+          initLifecycleStateDropdown();
           const links = [...document.querySelectorAll(".nav a")];
           const sections = links
             .map((a) => document.querySelector(a.getAttribute("href")))
@@ -14935,12 +14799,10 @@
         inset: 0;
         width: 1280px;
         height: 720px;
-        border-radius: 20px;
+        border-radius: 0;
         overflow: hidden;
         background: #f6f8fb;
-        box-shadow:
-          0 40px 120px rgba(0, 0, 0, 0.55),
-          0 0 0 1px rgba(255, 255, 255, 0.05);
+        box-shadow: none;
       }
       #deck.fs #deckScaler {
         border-radius: 0;
@@ -14950,14 +14812,9 @@
         position: absolute;
         inset: 0;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(
-          135deg,
-          #f8fbff 0%,
-          #fffdf4 55%,
-          #f4fff8 100%
-        );
+        align-items: stretch;
+        justify-content: stretch;
+        background: #f6f8fb;
         opacity: 0;
         visibility: hidden;
         transition:
@@ -14974,29 +14831,44 @@
       }
       .d-window {
         position: relative;
-        width: 1184px;
-        height: 660px;
+        width: 1280px;
+        height: 720px;
         overflow: hidden;
       }
       .d-holder {
         position: absolute;
         top: 0;
         left: 0;
-        width: 1184px;
+        width: 1280px;
         transform-origin: top left;
         transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
         will-change: transform;
       }
       .d-holder > .section,
       .d-holder > .hero {
-        width: 1184px !important;
-        max-width: 1184px !important;
+        width: 1280px !important;
+        max-width: 1280px !important;
         margin: 0 !important;
         position: relative;
-        box-shadow: 0 14px 40px rgba(16, 32, 51, 0.1) !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        box-sizing: border-box;
+        min-height: 720px;
       }
       .d-holder > .hero {
-        border-radius: 26px;
+        border-radius: 0 !important;
+      }
+      .d-holder > .section.deck-center {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .d-holder > .section.deck-center > .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
       }
       #deckProg {
         position: fixed;
@@ -15212,8 +15084,8 @@
     <script>
       (function () {
         "use strict";
-        var USABLE = 660,
-          WINW = 1184;
+        var USABLE = 720,
+          WINW = 1280;
         function paginateCalc(kids, totalH, usableH) {
           if (totalH <= usableH)
             return {
@@ -15414,19 +15286,30 @@
             document.body.appendChild(deck);
 
             function measureGroup(g) {
+              g.sec.classList.remove("deck-center");
+              void g.sec.offsetHeight;
               var kids = Array.prototype.filter
                 .call(g.sec.children, function (k) {
-                  return k.nodeType === 1;
+                  return k.nodeType === 1 && !k.classList.contains("visually-hidden");
                 })
                 .map(function (k) {
                   return { top: k.offsetTop, height: k.offsetHeight };
                 });
-              var totalH = g.sec.offsetHeight || 0;
+              var contentH = 0;
+              kids.forEach(function (k) {
+                contentH = Math.max(contentH, k.top + k.height);
+              });
+              var totalH = contentH || g.sec.offsetHeight || 0;
               var r = paginateCalc(kids, totalH, USABLE);
               g.starts = r.starts;
               g.scales = r.scales;
-              g.pad = r.pad;
               g.pages = r.starts.length;
+              if (g.pages === 1 && totalH < USABLE * 0.98) {
+                g.pad = 0;
+                g.sec.classList.add("deck-center");
+              } else {
+                g.pad = r.pad;
+              }
             }
             function applyHolder(g, p) {
               if (p >= g.pages) p = g.pages - 1;
