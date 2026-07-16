@@ -7657,6 +7657,15 @@
         gap: 6px;
         padding: 9px;
       }
+      .cti-v2 .runtime-object-board {
+        grid-template-columns: 180px minmax(0, 1fr);
+      }
+      .cti-v2 .runtime-object-board .runtime-stages {
+        grid-template-columns: minmax(205px, 0.86fr) minmax(0, 3.45fr);
+      }
+      .cti-v2 .runtime-object-board .runtime-action summary {
+        min-height: 46px;
+      }
       .cti-v2 .runtime-action {
         border: 1px solid #e1eaf3;
         border-radius: 10px;
@@ -7674,6 +7683,30 @@
         color: #102033;
         font-size: 12px;
         font-weight: 900;
+      }
+      .cti-v2 .runtime-action-label {
+        min-width: 0;
+      }
+      .cti-v2 .runtime-action-label span {
+        display: block;
+      }
+      .cti-v2 .runtime-action-label em {
+        display: block;
+        margin-top: 2px;
+        color: #0b4ea2;
+        font-size: 9px;
+        font-style: normal;
+        font-weight: 900;
+        line-height: 1.2;
+      }
+      .cti-v2 .runtime-stage.feature .runtime-action-label em {
+        color: #007236;
+      }
+      .cti-v2 .runtime-stage.model .runtime-action-label em {
+        color: #5b35a5;
+      }
+      .cti-v2 .runtime-stage.audit .runtime-action-label em {
+        color: #8a5b00;
       }
       .cti-v2 .runtime-action summary::-webkit-details-marker {
         display: none;
@@ -7742,13 +7775,123 @@
         font-size: 11px;
         line-height: 1.45;
       }
+      .cti-v2 .runtime-action li {
+        margin: 2px 0;
+      }
+      .cti-v2 .runtime-action li b {
+        color: #0b2f64;
+      }
+      .cti-v2 .runtime-object-groups {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 8px;
+      }
+      .cti-v2 .runtime-object-groups span {
+        display: inline-flex;
+        padding: 4px 7px;
+        border-radius: 999px;
+        background: #eef6ff;
+        color: #0b4ea2;
+        font-size: 10px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-compact-note {
+        border: 1px solid #e1eaf3;
+        border-radius: 10px;
+        background: #fff;
+        padding: 8px 9px;
+        color: #516173;
+        font-size: 11px;
+        font-weight: 800;
+        line-height: 1.4;
+      }
+      .cti-v2 .runtime-compact-note b {
+        display: block;
+        margin-bottom: 3px;
+        color: #102033;
+        font-size: 12px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-main-task {
+        border: 2px solid #b7dac7;
+        border-radius: 10px;
+        background: #f2fff7;
+        padding: 9px 10px;
+        color: #0b3f22;
+        font-size: 11px;
+        font-weight: 850;
+        line-height: 1.35;
+      }
+      .cti-v2 .runtime-main-task b {
+        display: block;
+        margin-bottom: 4px;
+        color: #00833e;
+        font-size: 15px;
+        font-weight: 1000;
+      }
+      .cti-v2 .runtime-stage.model .runtime-main-task {
+        border-color: #c8b9eb;
+        background: #f7f3ff;
+        color: #3d2475;
+      }
+      .cti-v2 .runtime-stage.model .runtime-main-task b {
+        color: #5b35a5;
+      }
+      .cti-v2 .runtime-stage.audit .runtime-main-task {
+        border-color: #efca77;
+        background: #fffaf0;
+        color: #664300;
+      }
+      .cti-v2 .runtime-stage.audit .runtime-main-task b {
+        color: #b06e00;
+      }
+      .cti-v2 .runtime-audit-flow {
+        display: grid;
+        gap: 5px;
+        margin-top: 7px;
+      }
+      .cti-v2 .runtime-audit-flow span {
+        display: block;
+        border: 1px solid #f0d49b;
+        border-radius: 8px;
+        background: #fff;
+        padding: 5px 7px;
+        color: #6f4a00;
+        font-size: 10px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-inline-objects {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 7px;
+      }
+      .cti-v2 .runtime-inline-objects span {
+        display: inline-flex;
+        padding: 4px 7px;
+        border-radius: 999px;
+        background: #ffffff;
+        border: 1px solid rgba(0, 131, 62, 0.24);
+        color: #007236;
+        font-size: 10px;
+        font-weight: 900;
+        line-height: 1.2;
+      }
+      .cti-v2 .runtime-stage.model .runtime-inline-objects span {
+        border-color: rgba(91, 53, 165, 0.24);
+        color: #5b35a5;
+      }
+      .cti-v2 .runtime-stage.audit .runtime-inline-objects span {
+        border-color: rgba(216, 145, 0, 0.28);
+        color: #8a5b00;
+      }
       .cti-v2 .runtime-bottom {
         grid-column: 1 / -1;
         display: grid;
-        grid-template-columns: minmax(235px, 0.9fr) minmax(
-            290px,
-            1.15fr
-          ) minmax(260px, 1fr);
+        grid-template-columns:
+          minmax(235px, 0.9fr) minmax(290px, 1.15fr)
+          minmax(260px, 1fr);
         gap: 10px;
         align-items: stretch;
       }
@@ -7789,10 +7932,9 @@
       }
       .cti-v2 .runtime-simple-flow {
         display: grid;
-        grid-template-columns: minmax(135px, 0.8fr) 32px minmax(
-            190px,
-            1.05fr
-          ) 32px minmax(210px, 1.25fr) 32px minmax(175px, 0.95fr);
+        grid-template-columns:
+          minmax(135px, 0.8fr) 32px minmax(190px, 1.05fr)
+          32px minmax(210px, 1.25fr) 32px minmax(175px, 0.95fr);
         gap: 8px;
         align-items: stretch;
       }
@@ -7921,6 +8063,258 @@
         gap: 10px;
       }
       .cti-v2 .runtime-simple-footer div {
+        border: 1px dashed #9bb7d6;
+        border-radius: 12px;
+        background: #f8fbff;
+        padding: 10px 12px;
+        color: #0b2f64;
+        font-size: 12px;
+        font-weight: 900;
+        line-height: 1.45;
+      }
+      .cti-v2 .runtime-trace-board {
+        display: grid;
+        gap: 14px;
+        margin-top: 12px;
+      }
+      .cti-v2 .runtime-trace-path {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 14px;
+        align-items: stretch;
+      }
+      .cti-v2 .runtime-trace-card {
+        position: relative;
+        min-width: 0;
+        border: 1px solid #d7e3ef;
+        border-top: 5px solid #0b4ea2;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #ffffff, #fbfdff);
+        padding: 11px;
+        min-height: 174px;
+        box-shadow: 0 8px 18px rgba(16, 32, 51, 0.06);
+      }
+      .cti-v2 .runtime-trace-card.flow-next::after {
+        content: "\2192";
+        position: absolute;
+        right: -14px;
+        top: 50%;
+        transform: translate(50%, -50%);
+        z-index: 2;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: #0b2f64;
+        background: #fff;
+        border: 1px solid #cbd7e3;
+        box-shadow: 0 5px 14px rgba(16, 32, 51, 0.12);
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-trace-card.lookup {
+        border-top-color: #60758c;
+      }
+      .cti-v2 .runtime-trace-card.logs {
+        border-top-color: #0b4ea2;
+      }
+      .cti-v2 .runtime-trace-card.path {
+        border-top-color: #00833e;
+      }
+      .cti-v2 .runtime-trace-card.result {
+        border-top-color: #5b35a5;
+      }
+      .cti-v2 .runtime-trace-card.audit {
+        border-top-color: #d89100;
+      }
+      .cti-v2 .runtime-trace-card h4 {
+        margin: 0 0 7px;
+        color: #102033;
+        font-size: 13.5px;
+        font-weight: 1000;
+        line-height: 1.2;
+      }
+      .cti-v2 .runtime-trace-card p {
+        margin: 0 0 8px;
+        color: #64748b;
+        font-size: 10.25px;
+        font-weight: 800;
+        line-height: 1.35;
+      }
+      .cti-v2 .runtime-trace-card .trace-label {
+        display: block;
+        margin-top: 7px;
+        color: #0b2f64;
+        font-size: 10px;
+        font-weight: 1000;
+      }
+      .cti-v2 .runtime-trace-card code {
+        display: inline-flex;
+        margin: 3px 3px 0 0;
+        padding: 3px 6px;
+        border-radius: 999px;
+        background: #eef6ff;
+        color: #0b4ea2;
+        font-family: inherit;
+        font-size: 9.5px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-trace-card.path code {
+        background: #eaf7ef;
+        color: #007236;
+      }
+      .cti-v2 .runtime-trace-card.result code {
+        background: #f4efff;
+        color: #5b35a5;
+      }
+      .cti-v2 .runtime-trace-card.audit code {
+        background: #fff7db;
+        color: #8a5b00;
+      }
+      .cti-v2 .runtime-trace-lookup-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .cti-v2 .runtime-trace-panel {
+        border: 1px solid #d7e3ef;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #ffffff, #fbfdff);
+        padding: 13px;
+        min-width: 0;
+      }
+      .cti-v2 .runtime-trace-panel h4 {
+        margin: 0 0 10px;
+        color: #102033;
+        font-size: 15.5px;
+        font-weight: 1000;
+      }
+      .cti-v2 .runtime-header-fields {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .cti-v2 .runtime-header-field {
+        border: 1px solid #e1eaf3;
+        border-radius: 9px;
+        background: #fbfdff;
+        padding: 9px 10px;
+        color: #102033;
+        font-size: 11.5px;
+        font-weight: 900;
+        line-height: 1.35;
+        min-height: 78px;
+      }
+      .cti-v2 .runtime-header-field b {
+        display: block;
+        margin-bottom: 4px;
+        color: #0b4ea2;
+        font-size: 12px;
+        font-weight: 1000;
+      }
+      .cti-v2 .runtime-header-field small {
+        display: block;
+        margin-top: 2px;
+        color: #64748b;
+        font-size: 10px;
+        font-weight: 800;
+      }
+      .cti-v2 .runtime-header-note {
+        margin: 10px 0 0;
+        color: #0b2f64;
+        font-size: 11.5px;
+        font-weight: 900;
+        line-height: 1.35;
+      }
+      .cti-v2 .runtime-lifecycle-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.92fr 0.98fr;
+        gap: 18px;
+        align-items: stretch;
+      }
+      .cti-v2 .runtime-lifecycle-lane {
+        border: 1px solid #d7e3ef;
+        border-radius: 13px;
+        background: linear-gradient(180deg, #ffffff, #fbfdff);
+        padding: 12px;
+        min-width: 0;
+        box-shadow: 0 8px 18px rgba(16, 32, 51, 0.06);
+        position: relative;
+      }
+      .cti-v2 .runtime-lifecycle-lane.flow-next::after {
+        content: "\2192";
+        position: absolute;
+        right: -18px;
+        top: 50%;
+        transform: translate(50%, -50%);
+        z-index: 2;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: #0b2f64;
+        background: #fff;
+        border: 1px solid #cbd7e3;
+        box-shadow: 0 5px 14px rgba(16, 32, 51, 0.12);
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-lifecycle-lane.be {
+        border-top: 5px solid #0b4ea2;
+      }
+      .cti-v2 .runtime-lifecycle-lane.engine {
+        border-top: 5px solid #00833e;
+      }
+      .cti-v2 .runtime-lifecycle-lane.audit {
+        border-top: 5px solid #d89100;
+      }
+      .cti-v2 .runtime-lifecycle-lane h4 {
+        margin: 0 0 9px;
+        color: #102033;
+        font-size: 15px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-lifecycle-steps {
+        display: grid;
+        gap: 7px;
+      }
+      .cti-v2 .runtime-lifecycle-step {
+        border: 1px solid #e1eaf3;
+        border-radius: 9px;
+        background: #ffffff;
+        padding: 8px 9px;
+        color: #102033;
+        font-size: 12px;
+        font-weight: 900;
+        line-height: 1.28;
+      }
+      .cti-v2 .runtime-lifecycle-step small {
+        display: block;
+        margin-top: 3px;
+        color: #65758b;
+        font-size: 10px;
+        font-weight: 800;
+        line-height: 1.3;
+      }
+      .cti-v2 .runtime-lifecycle-step .obj {
+        display: inline-flex;
+        margin-top: 5px;
+        padding: 3px 7px;
+        border-radius: 999px;
+        background: #eef6ff;
+        color: #0b4ea2;
+        font-size: 10px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-lifecycle-lane.engine .obj {
+        background: #eaf7ef;
+        color: #007236;
+      }
+      .cti-v2 .runtime-lifecycle-lane.audit .obj {
+        background: #fff7db;
+        color: #8a5b00;
+      }
+      .cti-v2 .runtime-lifecycle-callout {
         border: 1px dashed #9bb7d6;
         border-radius: 12px;
         background: #f8fbff;
@@ -8173,7 +8567,9 @@
         margin: 0 auto;
         overflow-anchor: none;
       }
-      .cti-v2 .enterprise-map-split .enterprise-network-board { min-width: 0; }
+      .cti-v2 .enterprise-map-split .enterprise-network-board {
+        min-width: 0;
+      }
       .cti-v2 .enterprise-graph-only {
         position: relative;
         width: min(100%, 1180px);
@@ -8207,34 +8603,140 @@
         height: auto;
         max-height: 430px;
         border: 1px solid #b9cce0;
-        box-shadow: 0 18px 48px rgba(16,32,51,.2);
+        box-shadow: 0 18px 48px rgba(16, 32, 51, 0.2);
         overflow: auto;
       }
-      .cti-v2 .enterprise-domain-popover.open { display: block; }
-      .cti-v2 .enterprise-domain-popover .quick-domain-head h4 { font-size: 19px; }
-      .cti-v2 .enterprise-domain-popover .quick-domain-head p { font-size: 12px; }
-      .cti-v2 .enterprise-domain-popover .quick-object-card h6 { font-size: 12px; }
-      .cti-v2 .enterprise-domain-popover .quick-object-card ul { font-size: 10px; }
-      .cti-v2 .enterprise-quick-detail .quick-detail-empty { padding: 22px; color: #65758b; font-size: 12px; line-height: 1.55; }
-      .cti-v2 .quick-domain-head { padding: 16px; color: #fff; background: linear-gradient(135deg, #0b2f64, #0b4ea2); }
-      .cti-v2 .quick-domain-head h4 { margin: 0 0 7px; font-size: 18px; }
-      .cti-v2 .quick-domain-head p { margin: 0; color: #e6eef8; font-size: 11.5px; line-height: 1.55; }
-      .cti-v2 .quick-domain-body { padding: 13px 14px; }
-      .cti-v2 .quick-domain-counts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
-      .cti-v2 .quick-domain-counts div { border-radius: 7px; padding: 8px 5px; text-align: center; color: #40546a; background: #f2f7fb; font-size: 9px; font-weight: 800; }
-      .cti-v2 .quick-domain-counts b { display: block; color: #0b4ea2; font-size: 15px; }
-      .cti-v2 .quick-domain-section { margin-top: 11px; }
-      .cti-v2 .quick-domain-section h5 { margin: 0 0 8px; color: #0b2f64; font-size: 12.5px; }
-      .cti-v2 .quick-domain-chips { display: flex; flex-wrap: wrap; gap: 5px; }
-      .cti-v2 .quick-domain-chips span { border: 1px solid #d8e3ed; border-radius: 6px; padding: 5px 7px; color: #4c6075; background: #fbfdff; font-size: 9px; font-weight: 800; }
-      .cti-v2 .quick-object-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-      .cti-v2 .quick-object-card { min-width: 0; border: 1.5px solid #b9d5f7; border-radius: 9px; padding: 8px 9px; background: #fbfdff; box-shadow: 0 1px 2px rgba(11,78,162,.04); }
-      .cti-v2 .quick-object-card h6 { margin: 0 0 6px; color: #0b4ea2; font-size: 11px; font-weight: 950; line-height: 1.3; overflow-wrap: anywhere; }
-      .cti-v2 .quick-object-card ul { margin: 0; padding-left: 15px; color: #4c6075; font-size: 9.5px; line-height: 1.45; }
-      .cti-v2 .quick-object-card li { overflow-wrap: anywhere; }
-      .cti-v2 .quick-domain-link { width: 100%; margin-top: 14px; border: 0; border-radius: 8px; padding: 9px 12px; color: #fff; background: #00833e; font: inherit; font-size: 10px; font-weight: 900; cursor: pointer; }
-      .cti-v2 .enterprise-compact-graph .enterprise-domain-node text { font-size: 11.5px; }
-      .cti-v2 .enterprise-compact-graph .enterprise-domain-node .node-count { font-size: 7.2px; }
+      .cti-v2 .enterprise-domain-popover.open {
+        display: block;
+      }
+      .cti-v2 .enterprise-domain-popover .quick-domain-head h4 {
+        font-size: 19px;
+      }
+      .cti-v2 .enterprise-domain-popover .quick-domain-head p {
+        font-size: 12px;
+      }
+      .cti-v2 .enterprise-domain-popover .quick-object-card h6 {
+        font-size: 12px;
+      }
+      .cti-v2 .enterprise-domain-popover .quick-object-card ul {
+        font-size: 10px;
+      }
+      .cti-v2 .enterprise-quick-detail .quick-detail-empty {
+        padding: 22px;
+        color: #65758b;
+        font-size: 12px;
+        line-height: 1.55;
+      }
+      .cti-v2 .quick-domain-head {
+        padding: 16px;
+        color: #fff;
+        background: linear-gradient(135deg, #0b2f64, #0b4ea2);
+      }
+      .cti-v2 .quick-domain-head h4 {
+        margin: 0 0 7px;
+        font-size: 18px;
+      }
+      .cti-v2 .quick-domain-head p {
+        margin: 0;
+        color: #e6eef8;
+        font-size: 11.5px;
+        line-height: 1.55;
+      }
+      .cti-v2 .quick-domain-body {
+        padding: 13px 14px;
+      }
+      .cti-v2 .quick-domain-counts {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+      .cti-v2 .quick-domain-counts div {
+        border-radius: 7px;
+        padding: 8px 5px;
+        text-align: center;
+        color: #40546a;
+        background: #f2f7fb;
+        font-size: 9px;
+        font-weight: 800;
+      }
+      .cti-v2 .quick-domain-counts b {
+        display: block;
+        color: #0b4ea2;
+        font-size: 15px;
+      }
+      .cti-v2 .quick-domain-section {
+        margin-top: 11px;
+      }
+      .cti-v2 .quick-domain-section h5 {
+        margin: 0 0 8px;
+        color: #0b2f64;
+        font-size: 12.5px;
+      }
+      .cti-v2 .quick-domain-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      .cti-v2 .quick-domain-chips span {
+        border: 1px solid #d8e3ed;
+        border-radius: 6px;
+        padding: 5px 7px;
+        color: #4c6075;
+        background: #fbfdff;
+        font-size: 9px;
+        font-weight: 800;
+      }
+      .cti-v2 .quick-object-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .cti-v2 .quick-object-card {
+        min-width: 0;
+        border: 1.5px solid #b9d5f7;
+        border-radius: 9px;
+        padding: 8px 9px;
+        background: #fbfdff;
+        box-shadow: 0 1px 2px rgba(11, 78, 162, 0.04);
+      }
+      .cti-v2 .quick-object-card h6 {
+        margin: 0 0 6px;
+        color: #0b4ea2;
+        font-size: 11px;
+        font-weight: 950;
+        line-height: 1.3;
+        overflow-wrap: anywhere;
+      }
+      .cti-v2 .quick-object-card ul {
+        margin: 0;
+        padding-left: 15px;
+        color: #4c6075;
+        font-size: 9.5px;
+        line-height: 1.45;
+      }
+      .cti-v2 .quick-object-card li {
+        overflow-wrap: anywhere;
+      }
+      .cti-v2 .quick-domain-link {
+        width: 100%;
+        margin-top: 14px;
+        border: 0;
+        border-radius: 8px;
+        padding: 9px 12px;
+        color: #fff;
+        background: #00833e;
+        font: inherit;
+        font-size: 10px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .cti-v2 .enterprise-compact-graph .enterprise-domain-node text {
+        font-size: 11.5px;
+      }
+      .cti-v2 .enterprise-compact-graph .enterprise-domain-node .node-count {
+        font-size: 7.2px;
+      }
       .cti-v2 .enterprise-domain-card-grid {
         display: grid;
         grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -10258,37 +10760,215 @@
         width: 100%;
         height: 390px;
       }
-      .cti-v2 .lifecycle-workflow.lifecycle-v4 { padding: 14px 16px; }
-      .cti-v2 .lifecycle-v4-head h4 { margin: 0; color: #0b2f64; font-size: 19px; }
-      .cti-v2 .lifecycle-v4-head p { margin: 4px 0 0; color: #52657a; font-size: 11px; line-height: 1.4; }
-      .cti-v2 .lifecycle-v4-rule { border-radius: 8px; padding: 9px 11px; color: #fff; background: #0b2f64; font-size: 10px; font-weight: 780; line-height: 1.4; }
-      .cti-v2 .lifecycle-state-section { margin-top: 10px; }
-      .cti-v2 .lifecycle-state-head b { color: #0b2f64; font-size: 11px; }
-      .cti-v2 .lifecycle-state-head span { color: #60758c; font-size: 9px; font-weight: 800; }
-      .cti-v2 .lifecycle-state-node { appearance: none; position: relative; min-width: 0; min-height: 72px; border: 1px solid var(--state-color); border-top: 6px solid var(--state-color); border-radius: 8px; padding: 9px 4px 7px; color: var(--state-color); background: color-mix(in srgb, var(--state-color) 6%, white); text-align: center; font-family: inherit; font-size: 9.4px; font-weight: 950; line-height: 1.15; cursor: pointer; transition: transform .16s ease, box-shadow .16s ease, background .16s ease, color .16s ease; overflow-wrap: anywhere; }
-      .cti-v2 .lifecycle-state-node small { display: block; min-height: 23px; margin-top: 6px; color: #5e7186; font-size: 7.8px; font-weight: 750; line-height: 1.3; }
-      .cti-v2 .lifecycle-state-node:hover { transform: translateY(-2px); box-shadow: 0 7px 14px rgba(21, 50, 82, .14); }
-      .cti-v2 .lifecycle-state-node.active { color: #fff; background: var(--state-color); box-shadow: 0 7px 16px color-mix(in srgb, var(--state-color) 24%, transparent); }
-      .cti-v2 .lifecycle-state-node.active small { color: rgba(255,255,255,.88); }
-      .cti-v2 .lifecycle-state-dropdown { --state-color: #0b4ea2; margin-top: 10px; border: 1px solid #cbd9e7; border-left: 6px solid var(--state-color); border-radius: 9px; background: #fff; box-shadow: 0 5px 14px rgba(20, 48, 78, .08); overflow: hidden; }
-      .cti-v2 .lifecycle-state-dropdown-head { display: grid; grid-template-columns: 34px 1fr auto; gap: 10px; align-items: center; padding: 10px 13px; background: color-mix(in srgb, var(--state-color) 7%, white); cursor: pointer; }
-      .cti-v2 .lifecycle-state-index { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 7px; color: #fff; background: var(--state-color); font-size: 13px; font-weight: 950; }
-      .cti-v2 .lifecycle-state-dropdown-title b { display: block; color: var(--state-color); font-size: 14px; line-height: 1.2; }
-      .cti-v2 .lifecycle-state-dropdown-title small { display: block; margin-top: 2px; color: #5e7186; font-size: 10px; font-weight: 750; }
-      .cti-v2 .lifecycle-state-chevron { color: var(--state-color); font-size: 20px; font-weight: 950; line-height: 1; transition: transform .18s ease; }
-      .cti-v2 .lifecycle-state-dropdown.open .lifecycle-state-chevron { transform: rotate(180deg); }
-      .cti-v2 .lifecycle-state-dropdown-body { display: none; padding: 11px 13px 12px; color: #334b63; border-top: 1px solid #e0e8f0; font-size: 11px; font-weight: 650; line-height: 1.42; }
-      .cti-v2 .lifecycle-state-dropdown.open .lifecycle-state-dropdown-body { display: block; }
-      .cti-v2 .lifecycle-state-summary { display: grid; grid-template-columns: 112px 1fr; gap: 10px; align-items: start; margin-bottom: 9px; }
-      .cti-v2 .lifecycle-state-summary b { color: var(--state-color); font-size: 10px; }
-      .cti-v2 .lifecycle-state-summary p { margin: 0; color: #334b63; font-size: 12px; line-height: 1.42; }
-      .cti-v2 .lifecycle-state-detail-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
-      .cti-v2 .lifecycle-state-detail { min-width: 0; border: 1px solid #dce6ef; border-radius: 7px; padding: 8px 9px; background: #f9fbfd; }
-      .cti-v2 .lifecycle-state-detail b { display: block; margin-bottom: 4px; color: var(--state-color); font-size: 9.5px; }
-      .cti-v2 .lifecycle-state-detail span { display: block; color: #465b72; font-size: 10px; line-height: 1.38; }
-      .cti-v2 .lifecycle-state-detail.output { background: color-mix(in srgb, var(--state-color) 6%, white); }
-      .cti-v2 .lifecycle-control-loop { display: grid; grid-template-columns: 155px repeat(3, minmax(0, 1fr)); gap: 7px; align-items: stretch; margin-top: 9px; border-radius: 8px; padding: 7px; background: #eef4fa; border: 1px solid #cad9e8; }
-      .cti-v2 .lifecycle-control-item { border-radius: 6px; padding: 7px 8px; background: #fff; color: #465b72; font-size: 9px; line-height: 1.35; }
+      .cti-v2 .lifecycle-workflow.lifecycle-v4 {
+        padding: 14px 16px;
+      }
+      .cti-v2 .lifecycle-v4-head h4 {
+        margin: 0;
+        color: #0b2f64;
+        font-size: 19px;
+      }
+      .cti-v2 .lifecycle-v4-head p {
+        margin: 4px 0 0;
+        color: #52657a;
+        font-size: 11px;
+        line-height: 1.4;
+      }
+      .cti-v2 .lifecycle-v4-rule {
+        border-radius: 8px;
+        padding: 9px 11px;
+        color: #fff;
+        background: #0b2f64;
+        font-size: 10px;
+        font-weight: 780;
+        line-height: 1.4;
+      }
+      .cti-v2 .lifecycle-state-section {
+        margin-top: 10px;
+      }
+      .cti-v2 .lifecycle-state-head b {
+        color: #0b2f64;
+        font-size: 11px;
+      }
+      .cti-v2 .lifecycle-state-head span {
+        color: #60758c;
+        font-size: 9px;
+        font-weight: 800;
+      }
+      .cti-v2 .lifecycle-state-node {
+        appearance: none;
+        position: relative;
+        min-width: 0;
+        min-height: 72px;
+        border: 1px solid var(--state-color);
+        border-top: 6px solid var(--state-color);
+        border-radius: 8px;
+        padding: 9px 4px 7px;
+        color: var(--state-color);
+        background: color-mix(in srgb, var(--state-color) 6%, white);
+        text-align: center;
+        font-family: inherit;
+        font-size: 9.4px;
+        font-weight: 950;
+        line-height: 1.15;
+        cursor: pointer;
+        transition:
+          transform 0.16s ease,
+          box-shadow 0.16s ease,
+          background 0.16s ease,
+          color 0.16s ease;
+        overflow-wrap: anywhere;
+      }
+      .cti-v2 .lifecycle-state-node small {
+        display: block;
+        min-height: 23px;
+        margin-top: 6px;
+        color: #5e7186;
+        font-size: 7.8px;
+        font-weight: 750;
+        line-height: 1.3;
+      }
+      .cti-v2 .lifecycle-state-node:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 7px 14px rgba(21, 50, 82, 0.14);
+      }
+      .cti-v2 .lifecycle-state-node.active {
+        color: #fff;
+        background: var(--state-color);
+        box-shadow: 0 7px 16px
+          color-mix(in srgb, var(--state-color) 24%, transparent);
+      }
+      .cti-v2 .lifecycle-state-node.active small {
+        color: rgba(255, 255, 255, 0.88);
+      }
+      .cti-v2 .lifecycle-state-dropdown {
+        --state-color: #0b4ea2;
+        margin-top: 10px;
+        border: 1px solid #cbd9e7;
+        border-left: 6px solid var(--state-color);
+        border-radius: 9px;
+        background: #fff;
+        box-shadow: 0 5px 14px rgba(20, 48, 78, 0.08);
+        overflow: hidden;
+      }
+      .cti-v2 .lifecycle-state-dropdown-head {
+        display: grid;
+        grid-template-columns: 34px 1fr auto;
+        gap: 10px;
+        align-items: center;
+        padding: 10px 13px;
+        background: color-mix(in srgb, var(--state-color) 7%, white);
+        cursor: pointer;
+      }
+      .cti-v2 .lifecycle-state-index {
+        display: grid;
+        place-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 7px;
+        color: #fff;
+        background: var(--state-color);
+        font-size: 13px;
+        font-weight: 950;
+      }
+      .cti-v2 .lifecycle-state-dropdown-title b {
+        display: block;
+        color: var(--state-color);
+        font-size: 14px;
+        line-height: 1.2;
+      }
+      .cti-v2 .lifecycle-state-dropdown-title small {
+        display: block;
+        margin-top: 2px;
+        color: #5e7186;
+        font-size: 10px;
+        font-weight: 750;
+      }
+      .cti-v2 .lifecycle-state-chevron {
+        color: var(--state-color);
+        font-size: 20px;
+        font-weight: 950;
+        line-height: 1;
+        transition: transform 0.18s ease;
+      }
+      .cti-v2 .lifecycle-state-dropdown.open .lifecycle-state-chevron {
+        transform: rotate(180deg);
+      }
+      .cti-v2 .lifecycle-state-dropdown-body {
+        display: none;
+        padding: 11px 13px 12px;
+        color: #334b63;
+        border-top: 1px solid #e0e8f0;
+        font-size: 11px;
+        font-weight: 650;
+        line-height: 1.42;
+      }
+      .cti-v2 .lifecycle-state-dropdown.open .lifecycle-state-dropdown-body {
+        display: block;
+      }
+      .cti-v2 .lifecycle-state-summary {
+        display: grid;
+        grid-template-columns: 112px 1fr;
+        gap: 10px;
+        align-items: start;
+        margin-bottom: 9px;
+      }
+      .cti-v2 .lifecycle-state-summary b {
+        color: var(--state-color);
+        font-size: 10px;
+      }
+      .cti-v2 .lifecycle-state-summary p {
+        margin: 0;
+        color: #334b63;
+        font-size: 12px;
+        line-height: 1.42;
+      }
+      .cti-v2 .lifecycle-state-detail-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .cti-v2 .lifecycle-state-detail {
+        min-width: 0;
+        border: 1px solid #dce6ef;
+        border-radius: 7px;
+        padding: 8px 9px;
+        background: #f9fbfd;
+      }
+      .cti-v2 .lifecycle-state-detail b {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--state-color);
+        font-size: 9.5px;
+      }
+      .cti-v2 .lifecycle-state-detail span {
+        display: block;
+        color: #465b72;
+        font-size: 10px;
+        line-height: 1.38;
+      }
+      .cti-v2 .lifecycle-state-detail.output {
+        background: color-mix(in srgb, var(--state-color) 6%, white);
+      }
+      .cti-v2 .lifecycle-control-loop {
+        display: grid;
+        grid-template-columns: 155px repeat(3, minmax(0, 1fr));
+        gap: 7px;
+        align-items: stretch;
+        margin-top: 9px;
+        border-radius: 8px;
+        padding: 7px;
+        background: #eef4fa;
+        border: 1px solid #cad9e8;
+      }
+      .cti-v2 .lifecycle-control-item {
+        border-radius: 6px;
+        padding: 7px 8px;
+        background: #fff;
+        color: #465b72;
+        font-size: 9px;
+        line-height: 1.35;
+      }
       .cti-v2 .ascore-object-graph {
         position: relative;
         width: 100%;
@@ -10298,14 +10978,40 @@
         background: radial-gradient(circle at 50% 48%, #fff, #f4f8fc);
         overflow: visible;
       }
-      .cti-v2 .ascore-object-graph svg { width: 100%; height: 100%; display: block; }
-      .cti-v2 .ascore-object-node { cursor: pointer; outline: none; }
-      .cti-v2 .ascore-object-node rect { fill: #fff; stroke: var(--object-color); stroke-width: 1.6; filter: drop-shadow(0 3px 4px rgba(16,32,51,.09)); transition: .18s ease; }
-      .cti-v2 .ascore-object-node text { fill: var(--object-color); font-size: 11px; font-weight: 900; pointer-events: none; }
+      .cti-v2 .ascore-object-graph svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .cti-v2 .ascore-object-node {
+        cursor: pointer;
+        outline: none;
+      }
+      .cti-v2 .ascore-object-node rect {
+        fill: #fff;
+        stroke: var(--object-color);
+        stroke-width: 1.6;
+        filter: drop-shadow(0 3px 4px rgba(16, 32, 51, 0.09));
+        transition: 0.18s ease;
+      }
+      .cti-v2 .ascore-object-node text {
+        fill: var(--object-color);
+        font-size: 11px;
+        font-weight: 900;
+        pointer-events: none;
+      }
       .cti-v2 .ascore-object-node:hover rect,
-      .cti-v2 .ascore-object-node.active rect { fill: var(--object-color); stroke-width: 2.2; transform: translateY(-2px); transform-box: fill-box; transform-origin: center; }
+      .cti-v2 .ascore-object-node.active rect {
+        fill: var(--object-color);
+        stroke-width: 2.2;
+        transform: translateY(-2px);
+        transform-box: fill-box;
+        transform-origin: center;
+      }
       .cti-v2 .ascore-object-node:hover text,
-      .cti-v2 .ascore-object-node.active text { fill: #fff; }
+      .cti-v2 .ascore-object-node.active text {
+        fill: #fff;
+      }
       .cti-v2 .ascore-object-popover {
         position: absolute;
         z-index: 20;
@@ -10317,13 +11023,35 @@
         border-radius: 10px;
         padding: 13px 14px;
         background: #fff;
-        box-shadow: 0 18px 46px rgba(16,32,51,.2);
+        box-shadow: 0 18px 46px rgba(16, 32, 51, 0.2);
       }
-      .cti-v2 .ascore-object-popover.open { display: block; }
-      .cti-v2 .ascore-object-popover h4 { margin: 0 0 4px; color: var(--popup-color, #0b4ea2); font-size: 16px; }
-      .cti-v2 .ascore-object-popover p { margin: 0 0 8px; color: #52657a; font-size: 10.5px; line-height: 1.45; }
-      .cti-v2 .ascore-object-popover b { color: #0b2f64; font-size: 9px; text-transform: uppercase; }
-      .cti-v2 .ascore-object-popover ul { columns: 2; margin: 6px 0 0; padding-left: 17px; color: #40546a; font-size: 9.5px; line-height: 1.45; }
+      .cti-v2 .ascore-object-popover.open {
+        display: block;
+      }
+      .cti-v2 .ascore-object-popover h4 {
+        margin: 0 0 4px;
+        color: var(--popup-color, #0b4ea2);
+        font-size: 16px;
+      }
+      .cti-v2 .ascore-object-popover p {
+        margin: 0 0 8px;
+        color: #52657a;
+        font-size: 10.5px;
+        line-height: 1.45;
+      }
+      .cti-v2 .ascore-object-popover b {
+        color: #0b2f64;
+        font-size: 9px;
+        text-transform: uppercase;
+      }
+      .cti-v2 .ascore-object-popover ul {
+        columns: 2;
+        margin: 6px 0 0;
+        padding-left: 17px;
+        color: #40546a;
+        font-size: 9.5px;
+        line-height: 1.45;
+      }
       .cti-v2 .architecture-image {
         border: 1px solid #d7e3ee;
         border-radius: 8px;
@@ -10507,6 +11235,10 @@
         .cti-v2 .runtime-simple-flow,
         .cti-v2 .runtime-support-grid,
         .cti-v2 .runtime-simple-footer,
+        .cti-v2 .runtime-lifecycle-grid,
+        .cti-v2 .runtime-trace-path,
+        .cti-v2 .runtime-trace-lookup-grid,
+        .cti-v2 .runtime-header-fields,
         .cti-v2 .feature-merge-sources,
         .cti-v2 .flow-strip,
         .cti-v2 .ds-flow {
@@ -10529,6 +11261,29 @@
         .cti-v2 .runtime-simple-arrow::before {
           content: "\2193";
         }
+        .cti-v2 .runtime-object-board,
+        .cti-v2 .runtime-object-board .runtime-stages,
+        .cti-v2 .runtime-object-board .runtime-engine-stages {
+          grid-template-columns: 1fr;
+        }
+        .cti-v2 .runtime-engine-title {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .cti-v2 .runtime-lifecycle-lane.flow-next::after {
+          content: "\2193";
+          right: 50%;
+          top: auto;
+          bottom: -20px;
+          transform: translate(50%, 50%);
+        }
+        .cti-v2 .runtime-trace-card.flow-next::after {
+          content: "\2193";
+          right: 50%;
+          top: auto;
+          bottom: -20px;
+          transform: translate(50%, 50%);
+        }
         .cti-v2 .hero h2 {
           font-size: 31px;
         }
@@ -10543,22 +11298,456 @@
         }
       }
 
-      .cti-v2 .brief-board{display:grid;gap:14px;height:100%;padding:4px}
-      .cti-v2 .brief-message{display:grid;grid-template-columns:290px 1fr;gap:20px;align-items:center;background:linear-gradient(135deg,#063b2a,#08753f);color:#fff;border-radius:16px;padding:18px 22px;box-shadow:0 12px 30px rgba(0,83,43,.18)}
-      .cti-v2 .brief-message b{font-size:20px;line-height:1.25}.cti-v2 .brief-message p{margin:0;color:rgba(255,255,255,.88);font-size:13px;line-height:1.55}
-      .cti-v2 .brief-flow{display:flex;align-items:stretch;gap:7px;padding:13px;background:#fff;border:1px solid #dce8e1;border-radius:16px;overflow:hidden}
-      .cti-v2 .brief-step{min-width:0;flex:1;display:flex;flex-direction:column;justify-content:center;gap:7px;border-radius:12px;padding:11px 9px;background:#f1f8f4;border:1px solid #cfe5d7;text-align:center}
-      .cti-v2 .brief-step span{font-size:10px;font-weight:900;color:#00833e;letter-spacing:.08em}.cti-v2 .brief-step b{font-size:11.5px;line-height:1.25;color:#123b27}.cti-v2 .brief-arrow{align-self:center;color:#6a7e72;font-weight:900}
-      .cti-v2 .brief-details{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.cti-v2 .brief-detail{background:#fff;border:1px solid #dfe9e3;border-radius:15px;padding:14px 16px;box-shadow:0 8px 20px rgba(16,32,51,.045)}
-      .cti-v2 .brief-detail h5{margin:0 0 9px;color:#08753f;font-size:14px}.cti-v2 .brief-detail ul{margin:0;padding-left:17px;display:grid;gap:5px}.cti-v2 .brief-detail li{font-size:11.5px;line-height:1.35;color:#40564a}
-      .cti-v2 .brief-output{display:grid;grid-template-columns:240px 1fr;gap:14px;align-items:center;background:#fff9e8;border:1px solid #f1d778;border-radius:15px;padding:13px 17px}.cti-v2 .brief-output strong{color:#755600;font-size:14px}.cti-v2 .brief-output div{display:flex;gap:7px;flex-wrap:wrap}.cti-v2 .brief-output span{font-size:10.5px;font-weight:800;background:#fff;border:1px solid #eddc9c;border-radius:999px;padding:6px 9px;color:#5f552d}
-      .cti-v2 .life-brief{display:grid;grid-template-columns:1fr;gap:7px;height:100%;padding:0 10px}.cti-v2 .life-request,.cti-v2 .life-registry{justify-self:center;text-align:center;border-radius:12px;font-weight:900}.cti-v2 .life-request{min-width:310px;padding:10px 22px;background:#0b4ea2;color:#fff}.cti-v2 .life-registry{width:96%;padding:10px 14px;background:#102033;color:#fff;display:flex;flex-direction:column;gap:7px}.cti-v2 .life-registry>div{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}.cti-v2 .life-registry span{font-size:9.2px;color:#d8e2ed;border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:4px 7px;background:rgba(255,255,255,.07)}.cti-v2 .life-down{text-align:center;color:#00833e;font-size:19px;font-weight:900;line-height:1}
-      .cti-v2 .life-phase{border-radius:16px;padding:13px 16px;border:1px solid}.cti-v2 .life-phase.design{background:#edf8f1;border-color:#a9d8ba}.cti-v2 .life-phase.train{background:#fff8e5;border-color:#ecd276}.cti-v2 .life-phase header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.cti-v2 .life-phase header b{font-size:17px;color:#063b2a}.cti-v2 .life-phase header span{font-size:11px;color:#5e7166;font-weight:700}
-      .cti-v2 .life-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.cti-v2 .life-cards article,.cti-v2 .life-train-steps article{background:#fff;border-radius:11px;border:1px solid #d7e5dc;padding:10px;text-align:center;display:grid;gap:5px}.cti-v2 .life-cards span,.cti-v2 .life-train-steps span{width:23px;height:23px;border-radius:50%;display:grid;place-items:center;margin:auto;background:#00833e;color:#fff;font-size:10px;font-weight:900}.cti-v2 .life-cards b,.cti-v2 .life-train-steps b{font-size:11px;color:#243b2d}
-      .cti-v2 .life-assets{display:flex;align-items:center;gap:7px;justify-content:center;flex-wrap:wrap;background:#f7faf8;border:1px dashed #9eb2a6;border-radius:12px;padding:9px}.cti-v2 .life-assets b{font-size:11.5px;color:#2a4836;margin-right:5px}.cti-v2 .life-assets span{font-size:9.5px;font-weight:800;background:#fff;border:1px solid #d9e3dc;border-radius:999px;padding:5px 8px}
-      .cti-v2 .life-minimal{justify-self:center;width:92%;border:1px solid #e7c56d;background:#fff8e6;border-radius:11px;padding:8px 12px;display:flex;align-items:center;gap:12px;justify-content:center}.cti-v2 .life-minimal b{color:#8a6500;font-size:11.5px}.cti-v2 .life-minimal span{color:#5d5340;font-size:9.8px;font-weight:800;text-align:center}.cti-v2 .life-train-steps{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.cti-v2 .life-train-steps article{padding:8px 5px;border-color:#eadca7}.cti-v2 .life-train-steps span{background:#c99100}.cti-v2 .life-products{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}.cti-v2 .life-product{border-radius:11px;padding:9px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #cbd8e7;background:#f7fbff}.cti-v2 .life-product b{font-size:11px;color:#0b2f64}.cti-v2 .life-product span{font-size:9.5px;color:#5d6f83;font-weight:800}.cti-v2 .life-product.prea{background:#fff8e8;border-color:#e8c96d}.cti-v2 .life-product.prea b{color:#8a6500}.cti-v2 .life-score-branch{display:grid;grid-template-columns:1fr 42px 1fr;align-items:center;gap:8px;margin-top:8px}.cti-v2 .life-score-main,.cti-v2 .life-score-prea{border-radius:12px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:54px}.cti-v2 .life-score-main{background:#eaf7ef;border:2px solid #15924f}.cti-v2 .life-score-main b{color:#08753f;font-size:13px}.cti-v2 .life-score-main span{color:#4c6576;font-size:9.5px;font-weight:800;text-align:right}.cti-v2 .life-score-prea{background:#fff4d6;border:2px solid #d9a500;box-shadow:0 7px 18px rgba(201,145,0,.14)}.cti-v2 .life-score-prea b{color:#8a6500;font-size:13px}.cti-v2 .life-score-prea span{color:#66531b;font-size:9.5px;font-weight:800;text-align:right}.cti-v2 .life-branch-arrow{text-align:center;color:#d18d00;font-size:24px;font-weight:900}.cti-v2 .life-back{text-align:center;color:#08753f;font-size:11px;font-weight:900}
-      .cti-v2 .trace-board{display:grid;grid-template-rows:auto repeat(9,1fr) auto;height:100%;background:#fff;border:1px solid #d7e3dc;border-radius:16px;overflow:hidden}.cti-v2 .trace-head,.cti-v2 .trace-row{display:grid;grid-template-columns:1fr 1.18fr 1fr}.cti-v2 .trace-head span{background:#063b2a;color:#fff;padding:12px 14px;font-size:11px;font-weight:900;text-align:center;border-right:1px solid rgba(255,255,255,.18)}.cti-v2 .trace-row div{padding:8px 12px;font-size:10.5px;line-height:1.25;border-right:1px solid #e3ebe6;border-top:1px solid #e3ebe6;display:flex;align-items:center}.cti-v2 .trace-row:nth-child(odd){background:#f7fbf8}.cti-v2 .trace-row div:first-child{font-weight:800;color:#0b4ea2}.cti-v2 .trace-row div:last-child{font-weight:800;color:#08753f}.cti-v2 .trace-close{background:#fff7db;border-top:1px solid #ecd57d;text-align:center;padding:10px;font-size:11px;font-weight:900;color:#655000}
-      @media(max-width:1100px){.cti-v2 .brief-message{grid-template-columns:1fr}.cti-v2 .brief-details{grid-template-columns:1fr}.cti-v2 .brief-flow{flex-wrap:wrap}.cti-v2 .brief-step{min-width:140px}.cti-v2 .life-train-steps{grid-template-columns:repeat(2,1fr)}}
+      .cti-v2 .brief-board {
+        display: grid;
+        gap: 14px;
+        height: 100%;
+        padding: 4px;
+      }
+      .cti-v2 .brief-message {
+        display: grid;
+        grid-template-columns: 290px 1fr;
+        gap: 20px;
+        align-items: center;
+        background: linear-gradient(135deg, #063b2a, #08753f);
+        color: #fff;
+        border-radius: 16px;
+        padding: 18px 22px;
+        box-shadow: 0 12px 30px rgba(0, 83, 43, 0.18);
+      }
+      .cti-v2 .brief-message b {
+        font-size: 20px;
+        line-height: 1.25;
+      }
+      .cti-v2 .brief-message p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.88);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+      .cti-v2 .brief-flow {
+        display: flex;
+        align-items: stretch;
+        gap: 7px;
+        padding: 13px;
+        background: #fff;
+        border: 1px solid #dce8e1;
+        border-radius: 16px;
+        overflow: hidden;
+      }
+      .cti-v2 .brief-step {
+        min-width: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 7px;
+        border-radius: 12px;
+        padding: 11px 9px;
+        background: #f1f8f4;
+        border: 1px solid #cfe5d7;
+        text-align: center;
+      }
+      .cti-v2 .brief-step span {
+        font-size: 10px;
+        font-weight: 900;
+        color: #00833e;
+        letter-spacing: 0.08em;
+      }
+      .cti-v2 .brief-step b {
+        font-size: 11.5px;
+        line-height: 1.25;
+        color: #123b27;
+      }
+      .cti-v2 .brief-arrow {
+        align-self: center;
+        color: #6a7e72;
+        font-weight: 900;
+      }
+      .cti-v2 .brief-details {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .cti-v2 .brief-detail {
+        background: #fff;
+        border: 1px solid #dfe9e3;
+        border-radius: 15px;
+        padding: 14px 16px;
+        box-shadow: 0 8px 20px rgba(16, 32, 51, 0.045);
+      }
+      .cti-v2 .brief-detail h5 {
+        margin: 0 0 9px;
+        color: #08753f;
+        font-size: 14px;
+      }
+      .cti-v2 .brief-detail ul {
+        margin: 0;
+        padding-left: 17px;
+        display: grid;
+        gap: 5px;
+      }
+      .cti-v2 .brief-detail li {
+        font-size: 11.5px;
+        line-height: 1.35;
+        color: #40564a;
+      }
+      .cti-v2 .brief-output {
+        display: grid;
+        grid-template-columns: 240px 1fr;
+        gap: 14px;
+        align-items: center;
+        background: #fff9e8;
+        border: 1px solid #f1d778;
+        border-radius: 15px;
+        padding: 13px 17px;
+      }
+      .cti-v2 .brief-output strong {
+        color: #755600;
+        font-size: 14px;
+      }
+      .cti-v2 .brief-output div {
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+      }
+      .cti-v2 .brief-output span {
+        font-size: 10.5px;
+        font-weight: 800;
+        background: #fff;
+        border: 1px solid #eddc9c;
+        border-radius: 999px;
+        padding: 6px 9px;
+        color: #5f552d;
+      }
+      .cti-v2 .life-brief {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 7px;
+        height: 100%;
+        padding: 0 10px;
+      }
+      .cti-v2 .life-request,
+      .cti-v2 .life-registry {
+        justify-self: center;
+        text-align: center;
+        border-radius: 12px;
+        font-weight: 900;
+      }
+      .cti-v2 .life-request {
+        min-width: 310px;
+        padding: 10px 22px;
+        background: #0b4ea2;
+        color: #fff;
+      }
+      .cti-v2 .life-registry {
+        width: 96%;
+        padding: 10px 14px;
+        background: #102033;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+      .cti-v2 .life-registry > div {
+        display: flex;
+        gap: 6px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .cti-v2 .life-registry span {
+        font-size: 9.2px;
+        color: #d8e2ed;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 999px;
+        padding: 4px 7px;
+        background: rgba(255, 255, 255, 0.07);
+      }
+      .cti-v2 .life-down {
+        text-align: center;
+        color: #00833e;
+        font-size: 19px;
+        font-weight: 900;
+        line-height: 1;
+      }
+      .cti-v2 .life-phase {
+        border-radius: 16px;
+        padding: 13px 16px;
+        border: 1px solid;
+      }
+      .cti-v2 .life-phase.design {
+        background: #edf8f1;
+        border-color: #a9d8ba;
+      }
+      .cti-v2 .life-phase.train {
+        background: #fff8e5;
+        border-color: #ecd276;
+      }
+      .cti-v2 .life-phase header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .cti-v2 .life-phase header b {
+        font-size: 17px;
+        color: #063b2a;
+      }
+      .cti-v2 .life-phase header span {
+        font-size: 11px;
+        color: #5e7166;
+        font-weight: 700;
+      }
+      .cti-v2 .life-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      .cti-v2 .life-cards article,
+      .cti-v2 .life-train-steps article {
+        background: #fff;
+        border-radius: 11px;
+        border: 1px solid #d7e5dc;
+        padding: 10px;
+        text-align: center;
+        display: grid;
+        gap: 5px;
+      }
+      .cti-v2 .life-cards span,
+      .cti-v2 .life-train-steps span {
+        width: 23px;
+        height: 23px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        margin: auto;
+        background: #00833e;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 900;
+      }
+      .cti-v2 .life-cards b,
+      .cti-v2 .life-train-steps b {
+        font-size: 11px;
+        color: #243b2d;
+      }
+      .cti-v2 .life-assets {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        justify-content: center;
+        flex-wrap: wrap;
+        background: #f7faf8;
+        border: 1px dashed #9eb2a6;
+        border-radius: 12px;
+        padding: 9px;
+      }
+      .cti-v2 .life-assets b {
+        font-size: 11.5px;
+        color: #2a4836;
+        margin-right: 5px;
+      }
+      .cti-v2 .life-assets span {
+        font-size: 9.5px;
+        font-weight: 800;
+        background: #fff;
+        border: 1px solid #d9e3dc;
+        border-radius: 999px;
+        padding: 5px 8px;
+      }
+      .cti-v2 .life-minimal {
+        justify-self: center;
+        width: 92%;
+        border: 1px solid #e7c56d;
+        background: #fff8e6;
+        border-radius: 11px;
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        justify-content: center;
+      }
+      .cti-v2 .life-minimal b {
+        color: #8a6500;
+        font-size: 11.5px;
+      }
+      .cti-v2 .life-minimal span {
+        color: #5d5340;
+        font-size: 9.8px;
+        font-weight: 800;
+        text-align: center;
+      }
+      .cti-v2 .life-train-steps {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 7px;
+      }
+      .cti-v2 .life-train-steps article {
+        padding: 8px 5px;
+        border-color: #eadca7;
+      }
+      .cti-v2 .life-train-steps span {
+        background: #c99100;
+      }
+      .cti-v2 .life-products {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 8px;
+      }
+      .cti-v2 .life-product {
+        border-radius: 11px;
+        padding: 9px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border: 1px solid #cbd8e7;
+        background: #f7fbff;
+      }
+      .cti-v2 .life-product b {
+        font-size: 11px;
+        color: #0b2f64;
+      }
+      .cti-v2 .life-product span {
+        font-size: 9.5px;
+        color: #5d6f83;
+        font-weight: 800;
+      }
+      .cti-v2 .life-product.prea {
+        background: #fff8e8;
+        border-color: #e8c96d;
+      }
+      .cti-v2 .life-product.prea b {
+        color: #8a6500;
+      }
+      .cti-v2 .life-score-branch {
+        display: grid;
+        grid-template-columns: 1fr 42px 1fr;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .cti-v2 .life-score-main,
+      .cti-v2 .life-score-prea {
+        border-radius: 12px;
+        padding: 11px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 54px;
+      }
+      .cti-v2 .life-score-main {
+        background: #eaf7ef;
+        border: 2px solid #15924f;
+      }
+      .cti-v2 .life-score-main b {
+        color: #08753f;
+        font-size: 13px;
+      }
+      .cti-v2 .life-score-main span {
+        color: #4c6576;
+        font-size: 9.5px;
+        font-weight: 800;
+        text-align: right;
+      }
+      .cti-v2 .life-score-prea {
+        background: #fff4d6;
+        border: 2px solid #d9a500;
+        box-shadow: 0 7px 18px rgba(201, 145, 0, 0.14);
+      }
+      .cti-v2 .life-score-prea b {
+        color: #8a6500;
+        font-size: 13px;
+      }
+      .cti-v2 .life-score-prea span {
+        color: #66531b;
+        font-size: 9.5px;
+        font-weight: 800;
+        text-align: right;
+      }
+      .cti-v2 .life-branch-arrow {
+        text-align: center;
+        color: #d18d00;
+        font-size: 24px;
+        font-weight: 900;
+      }
+      .cti-v2 .life-back {
+        text-align: center;
+        color: #08753f;
+        font-size: 11px;
+        font-weight: 900;
+      }
+      .cti-v2 .trace-board {
+        display: grid;
+        grid-template-rows: auto repeat(9, 1fr) auto;
+        height: 100%;
+        background: #fff;
+        border: 1px solid #d7e3dc;
+        border-radius: 16px;
+        overflow: hidden;
+      }
+      .cti-v2 .trace-head,
+      .cti-v2 .trace-row {
+        display: grid;
+        grid-template-columns: 1fr 1.18fr 1fr;
+      }
+      .cti-v2 .trace-head span {
+        background: #063b2a;
+        color: #fff;
+        padding: 12px 14px;
+        font-size: 11px;
+        font-weight: 900;
+        text-align: center;
+        border-right: 1px solid rgba(255, 255, 255, 0.18);
+      }
+      .cti-v2 .trace-row div {
+        padding: 8px 12px;
+        font-size: 10.5px;
+        line-height: 1.25;
+        border-right: 1px solid #e3ebe6;
+        border-top: 1px solid #e3ebe6;
+        display: flex;
+        align-items: center;
+      }
+      .cti-v2 .trace-row:nth-child(odd) {
+        background: #f7fbf8;
+      }
+      .cti-v2 .trace-row div:first-child {
+        font-weight: 800;
+        color: #0b4ea2;
+      }
+      .cti-v2 .trace-row div:last-child {
+        font-weight: 800;
+        color: #08753f;
+      }
+      .cti-v2 .trace-close {
+        background: #fff7db;
+        border-top: 1px solid #ecd57d;
+        text-align: center;
+        padding: 10px;
+        font-size: 11px;
+        font-weight: 900;
+        color: #655000;
+      }
+      @media (max-width: 1100px) {
+        .cti-v2 .brief-message {
+          grid-template-columns: 1fr;
+        }
+        .cti-v2 .brief-details {
+          grid-template-columns: 1fr;
+        }
+        .cti-v2 .brief-flow {
+          flex-wrap: wrap;
+        }
+        .cti-v2 .brief-step {
+          min-width: 140px;
+        }
+        .cti-v2 .life-train-steps {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
     </style>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -10628,7 +11817,7 @@
               "Business Risk xác định phạm vi, kết quả dự báo, Risk Driver, quy tắc nhãn và nhóm mô hình.",
               "Feature Blueprint xây dựng danh sách ứng viên, kiểm tra độ bao phủ và chuẩn hóa feature asset.",
               "Model & Contract cùng Governance Blueprint quy định cách huấn luyện, kiểm định, đăng ký và phê duyệt.",
-            ]
+            ],
           },
           {
             id: "train-time",
@@ -10639,7 +11828,8 @@
               "Giai đoạn 1 tạo tập dữ liệu và rút gọn danh sách biến ứng viên.",
               "Giai đoạn 2 huấn luyện, kiểm định, hiệu chỉnh và chuẩn hóa đầu ra.",
               "Bước cuối đóng gói toàn bộ thành phần và commit vào Model Registry.",
-            ]},
+            ],
+          },
           {
             id: "runtime",
             title: "Runtime",
@@ -10713,7 +11903,8 @@
             group: "Lifecycle tổng thể",
             title: "Design Time và Train Model",
             subsection: "Luồng tổng thể",
-            message: "Từ yêu cầu nghiệp vụ đến phiên bản mô hình đã được đăng ký",
+            message:
+              "Từ yêu cầu nghiệp vụ đến phiên bản mô hình đã được đăng ký",
             lead: "Slide này là luồng tổng thể, không thuộc riêng Design Time. Design Time tạo tài sản thiết kế có phiên bản; Train Model sử dụng các tài sản đã phê duyệt để tạo phiên bản mô hình cụ thể. Sau huấn luyện, Model Registry ghi nhận đầy đủ artifact, dữ liệu, feature, nhãn, ánh xạ, kiểm định và trạng thái phê duyệt để truy nguyên.",
             points: [],
             visual: "lifecycleBrief",
@@ -10723,16 +11914,54 @@
             group: "Design Time",
             title: "Design Time · Business Risk",
             subsection: "Business Risk",
-            message: "Chuyển yêu cầu nghiệp vụ thành đường cơ sở rủi ro được phê duyệt",
+            message:
+              "Chuyển yêu cầu nghiệp vụ thành đường cơ sở rủi ro được phê duyệt",
             lead: "Khung Business Risk xác định đối tượng chấm điểm, mục tiêu dự báo, nhóm rủi ro cần đo, quy tắc nhãn và cách định tuyến theo nhóm khách hàng. Kết quả là bộ yêu cầu có phiên bản để các bước thiết kế và huấn luyện sử dụng thống nhất.",
-            flow: ["Vấn đề nghiệp vụ", "Phạm vi khách hàng và sản phẩm", "Kết quả cần dự báo", "Nhóm nguyên nhân rủi ro", "Quy tắc nhãn và quan sát", "Nhóm khách hàng và họ mô hình"],
+            flow: [
+              "Vấn đề nghiệp vụ",
+              "Phạm vi khách hàng và sản phẩm",
+              "Kết quả cần dự báo",
+              "Nhóm nguyên nhân rủi ro",
+              "Quy tắc nhãn và quan sát",
+              "Nhóm khách hàng và họ mô hình",
+            ],
             detailGroups: [
-              {title:"Phạm vi", items:["Đối tượng chấm điểm", "Sản phẩm áp dụng", "Điều kiện đủ dữ liệu", "Trường hợp không chấm được"]},
-              {title:"Kết quả và nhãn", items:["Tốt / Xấu / Xám / Chưa đủ quan sát", "Thời điểm quan sát", "Khoảng theo dõi kết quả", "Quy tắc loại trừ"]},
-              {title:"Định tuyến", items:["Khách mới / lịch sử mỏng / lịch sử đầy đủ", "Họ mô hình tương ứng", "Tiêu chí thành công", "Phiên bản quy tắc"]},
+              {
+                title: "Phạm vi",
+                items: [
+                  "Đối tượng chấm điểm",
+                  "Sản phẩm áp dụng",
+                  "Điều kiện đủ dữ liệu",
+                  "Trường hợp không chấm được",
+                ],
+              },
+              {
+                title: "Kết quả và nhãn",
+                items: [
+                  "Tốt / Xấu / Xám / Chưa đủ quan sát",
+                  "Thời điểm quan sát",
+                  "Khoảng theo dõi kết quả",
+                  "Quy tắc loại trừ",
+                ],
+              },
+              {
+                title: "Định tuyến",
+                items: [
+                  "Khách mới / lịch sử mỏng / lịch sử đầy đủ",
+                  "Họ mô hình tương ứng",
+                  "Tiêu chí thành công",
+                  "Phiên bản quy tắc",
+                ],
+              },
             ],
             output: "Đường cơ sở Business Risk đã phê duyệt",
-            outputItems: ["Phạm vi khách hàng", "Danh mục nhóm rủi ro", "Phiên bản quy tắc nhãn", "Ánh xạ nhóm khách hàng - họ mô hình", "Tiêu chí thành công"],
+            outputItems: [
+              "Phạm vi khách hàng",
+              "Danh mục nhóm rủi ro",
+              "Phiên bản quy tắc nhãn",
+              "Ánh xạ nhóm khách hàng - họ mô hình",
+              "Tiêu chí thành công",
+            ],
             visual: "brief",
           },
           {
@@ -10740,16 +11969,57 @@
             group: "Design Time",
             title: "Design Time · Feature Blueprint",
             subsection: "Feature Blueprint",
-            message: "Thiết kế hệ thống biến đầu vào có định nghĩa, độ bao phủ và phiên bản",
+            message:
+              "Thiết kế hệ thống biến đầu vào có định nghĩa, độ bao phủ và phiên bản",
             lead: "Mỗi nhóm biến được hình thành từ một nhóm nguyên nhân rủi ro. Các biến dẫn xuất được tập hợp thành danh sách ứng viên, kiểm tra độ bao phủ, đóng gói theo họ mô hình và quản trị trong Dictionary, Registry cùng Offline Feature Store.",
-            flow: ["Feature Group", "Derived Feature", "Feature Candidate Pool", "Coverage Check", "Feature Bundle", "Dictionary", "Registry", "Offline Feature Store"],
+            flow: [
+              "Feature Group",
+              "Derived Feature",
+              "Feature Candidate Pool",
+              "Coverage Check",
+              "Feature Bundle",
+              "Dictionary",
+              "Registry",
+              "Offline Feature Store",
+            ],
             detailGroups: [
-              {title:"Hình thành biến", items:["Risk Driver → Feature Group", "Công thức và cửa sổ thời gian", "Xử lý thiếu dữ liệu", "Phạm vi áp dụng"]},
-              {title:"Kiểm tra thiết kế", items:["Độ bao phủ theo nhóm khách hàng", "Độ bao phủ theo sản phẩm và nguồn", "Ngoại lệ có lý do", "Không sử dụng dữ liệu tương lai"]},
-              {title:"Chuẩn hóa tài sản", items:["Định nghĩa nghiệp vụ và kỹ thuật", "Chủ sở hữu và trạng thái", "Dòng dữ liệu và ngày hiệu lực", "Snapshot phục vụ huấn luyện và tái tạo"]},
+              {
+                title: "Hình thành biến",
+                items: [
+                  "Risk Driver → Feature Group",
+                  "Công thức và cửa sổ thời gian",
+                  "Xử lý thiếu dữ liệu",
+                  "Phạm vi áp dụng",
+                ],
+              },
+              {
+                title: "Kiểm tra thiết kế",
+                items: [
+                  "Độ bao phủ theo nhóm khách hàng",
+                  "Độ bao phủ theo sản phẩm và nguồn",
+                  "Ngoại lệ có lý do",
+                  "Không sử dụng dữ liệu tương lai",
+                ],
+              },
+              {
+                title: "Chuẩn hóa tài sản",
+                items: [
+                  "Định nghĩa nghiệp vụ và kỹ thuật",
+                  "Chủ sở hữu và trạng thái",
+                  "Dòng dữ liệu và ngày hiệu lực",
+                  "Snapshot phục vụ huấn luyện và tái tạo",
+                ],
+              },
             ],
             output: "Đường cơ sở Feature Design",
-            outputItems: ["Danh sách nhóm biến", "Danh sách ứng viên", "Kết quả độ bao phủ", "Feature Bundle", "Dictionary và Registry", "Offline Feature Store"],
+            outputItems: [
+              "Danh sách nhóm biến",
+              "Danh sách ứng viên",
+              "Kết quả độ bao phủ",
+              "Feature Bundle",
+              "Dictionary và Registry",
+              "Offline Feature Store",
+            ],
             visual: "brief",
           },
           {
@@ -10757,16 +12027,55 @@
             group: "Design Time",
             title: "Design Time · Model & Contract",
             subsection: "Model & Contract",
-            message: "Thiết kế trước cách mô hình được huấn luyện, kiểm định, trả kết quả và đăng ký",
+            message:
+              "Thiết kế trước cách mô hình được huấn luyện, kiểm định, trả kết quả và đăng ký",
             lead: "Model & Contract quy định phạm vi mô hình, họ mô hình, dữ liệu đầu vào, phương pháp huấn luyện, cấu trúc đầu ra, cổng kiểm định và bộ thành phần bắt buộc của một phiên bản mô hình.",
-            flow: ["Phạm vi mô hình", "Họ mô hình", "Hợp đồng dữ liệu", "Hợp đồng huấn luyện", "Hợp đồng đầu ra", "Hợp đồng kiểm định", "Hợp đồng đăng ký"],
+            flow: [
+              "Phạm vi mô hình",
+              "Họ mô hình",
+              "Hợp đồng dữ liệu",
+              "Hợp đồng huấn luyện",
+              "Hợp đồng đầu ra",
+              "Hợp đồng kiểm định",
+              "Hợp đồng đăng ký",
+            ],
             detailGroups: [
-              {title:"Dữ liệu và huấn luyện", items:["Phiên bản danh sách ứng viên", "Phiên bản Feature Bundle", "Quy tắc quần thể và nhãn", "Chia tập huấn luyện / kiểm định / ngoài thời gian"]},
-              {title:"Đầu ra chuẩn", items:["Mã và phiên bản mô hình", "Xác suất rủi ro", "Điểm và hạng", "Dải rủi ro và mã lý do"]},
-              {title:"Cổng kiểm định", items:["Chất lượng dữ liệu và nhãn", "Rò rỉ dữ liệu", "Gini / KS / ngoài thời gian", "Hiệu chỉnh, ổn định, khả năng giải thích"]},
+              {
+                title: "Dữ liệu và huấn luyện",
+                items: [
+                  "Phiên bản danh sách ứng viên",
+                  "Phiên bản Feature Bundle",
+                  "Quy tắc quần thể và nhãn",
+                  "Chia tập huấn luyện / kiểm định / ngoài thời gian",
+                ],
+              },
+              {
+                title: "Đầu ra chuẩn",
+                items: [
+                  "Mã và phiên bản mô hình",
+                  "Xác suất rủi ro",
+                  "Điểm và hạng",
+                  "Dải rủi ro và mã lý do",
+                ],
+              },
+              {
+                title: "Cổng kiểm định",
+                items: [
+                  "Chất lượng dữ liệu và nhãn",
+                  "Rò rỉ dữ liệu",
+                  "Gini / KS / ngoài thời gian",
+                  "Hiệu chỉnh, ổn định, khả năng giải thích",
+                ],
+              },
             ],
             output: "Đường cơ sở Model & Contract đã phê duyệt",
-            outputItems: ["Hợp đồng đầu vào", "Hợp đồng huấn luyện", "Hợp đồng kiểm định", "Hợp đồng đầu ra", "Hợp đồng đóng gói và đăng ký"],
+            outputItems: [
+              "Hợp đồng đầu vào",
+              "Hợp đồng huấn luyện",
+              "Hợp đồng kiểm định",
+              "Hợp đồng đầu ra",
+              "Hợp đồng đóng gói và đăng ký",
+            ],
             visual: "brief",
           },
           {
@@ -10774,16 +12083,56 @@
             group: "Design Time",
             title: "Design Time · Governance Blueprint",
             subsection: "Governance Blueprint",
-            message: "Thiết kế khung quản trị xuyên suốt vòng đời feature và model",
+            message:
+              "Thiết kế khung quản trị xuyên suốt vòng đời feature và model",
             lead: "Governance Blueprint quy định trách nhiệm, phiên bản, trạng thái vòng đời, khả năng truy nguyên, phê duyệt, kiểm soát thay đổi và điều kiện theo dõi hoặc dừng sử dụng.",
-            flow: ["Chủ sở hữu", "Quản lý phiên bản", "Trạng thái vòng đời", "Truy nguyên và tái tạo", "Rà soát và phê duyệt", "Kiểm soát thay đổi", "Theo dõi và dừng sử dụng"],
+            flow: [
+              "Chủ sở hữu",
+              "Quản lý phiên bản",
+              "Trạng thái vòng đời",
+              "Truy nguyên và tái tạo",
+              "Rà soát và phê duyệt",
+              "Kiểm soát thay đổi",
+              "Theo dõi và dừng sử dụng",
+            ],
             detailGroups: [
-              {title:"Trách nhiệm", items:["Chủ sở hữu nghiệp vụ", "Chủ sở hữu rủi ro", "Chủ sở hữu feature và model", "Đơn vị kiểm định và vận hành"]},
-              {title:"Truy nguyên", items:["Phiên bản nhãn", "Phiên bản feature và snapshot", "Phiên bản tập dữ liệu", "Mã nguồn, cấu hình và môi trường"]},
-              {title:"Kiểm soát", items:["Rà soát kỹ thuật", "Rà soát rủi ro", "Kiểm định độc lập", "Cổng phát hành và phê duyệt"]},
+              {
+                title: "Trách nhiệm",
+                items: [
+                  "Chủ sở hữu nghiệp vụ",
+                  "Chủ sở hữu rủi ro",
+                  "Chủ sở hữu feature và model",
+                  "Đơn vị kiểm định và vận hành",
+                ],
+              },
+              {
+                title: "Truy nguyên",
+                items: [
+                  "Phiên bản nhãn",
+                  "Phiên bản feature và snapshot",
+                  "Phiên bản tập dữ liệu",
+                  "Mã nguồn, cấu hình và môi trường",
+                ],
+              },
+              {
+                title: "Kiểm soát",
+                items: [
+                  "Rà soát kỹ thuật",
+                  "Rà soát rủi ro",
+                  "Kiểm định độc lập",
+                  "Cổng phát hành và phê duyệt",
+                ],
+              },
             ],
             output: "Đường cơ sở Governance",
-            outputItems: ["Ma trận trách nhiệm", "Quy tắc phiên bản", "Trạng thái vòng đời", "Quy trình phê duyệt", "Quy tắc thay đổi", "Ngưỡng tái huấn luyện và dừng sử dụng"],
+            outputItems: [
+              "Ma trận trách nhiệm",
+              "Quy tắc phiên bản",
+              "Trạng thái vòng đời",
+              "Quy trình phê duyệt",
+              "Quy tắc thay đổi",
+              "Ngưỡng tái huấn luyện và dừng sử dụng",
+            ],
             visual: "brief",
           },
           {
@@ -10791,7 +12140,8 @@
             group: "Train Model",
             title: "Train Model · Quy trình 7 bước",
             subsection: "Quy trình 7 bước",
-            message: "Từ tập dữ liệu huấn luyện đến phiên bản mô hình được đăng ký",
+            message:
+              "Từ tập dữ liệu huấn luyện đến phiên bản mô hình được đăng ký",
             lead: "Train Model triển khai thiết kế đã được phê duyệt theo một quy trình gồm bảy bước liên tục. Ba bước đầu chuẩn bị dữ liệu và rút gọn biến; bốn bước sau phát triển, kiểm định, chuẩn hóa đầu ra và đăng ký phiên bản mô hình.",
             points: [],
             visual: "trainArchitecture",
@@ -10801,12 +12151,37 @@
             group: "Train Model",
             title: "Train Model · Tạo tập dữ liệu huấn luyện",
             subsection: "Bước 1 · Tạo tập dữ liệu huấn luyện",
-            message: "Kết hợp snapshot feature và nhãn theo đúng thời điểm quan sát",
+            message:
+              "Kết hợp snapshot feature và nhãn theo đúng thời điểm quan sát",
             lead: "Bước đầu tiên tạo một tập dữ liệu có phiên bản từ Offline Feature Store, Feature Bundle hoặc danh sách ứng viên, Outcome Store, phiên bản quy tắc nhãn và quy tắc quần thể.",
-            flow: ["Chọn thời điểm quan sát", "Lấy feature snapshot", "Sinh và gắn nhãn", "Áp dụng quy tắc loại trừ", "Chia tập dữ liệu", "Khóa phiên bản"],
+            flow: [
+              "Chọn thời điểm quan sát",
+              "Lấy feature snapshot",
+              "Sinh và gắn nhãn",
+              "Áp dụng quy tắc loại trừ",
+              "Chia tập dữ liệu",
+              "Khóa phiên bản",
+            ],
             detailGroups: [
-              {title:"Đầu vào", items:["Offline feature snapshot", "Phiên bản Feature Bundle / Candidate Pool", "Outcome Store", "Phiên bản quy tắc nhãn", "Quy tắc quần thể"]},
-              {title:"Kiểm soát", items:["Căn chỉnh thời điểm", "Không sử dụng dữ liệu tương lai", "Kiểm tra bản ghi trùng", "Kiểm tra checksum"]},
+              {
+                title: "Đầu vào",
+                items: [
+                  "Offline feature snapshot",
+                  "Phiên bản Feature Bundle / Candidate Pool",
+                  "Outcome Store",
+                  "Phiên bản quy tắc nhãn",
+                  "Quy tắc quần thể",
+                ],
+              },
+              {
+                title: "Kiểm soát",
+                items: [
+                  "Căn chỉnh thời điểm",
+                  "Không sử dụng dữ liệu tương lai",
+                  "Kiểm tra bản ghi trùng",
+                  "Kiểm tra checksum",
+                ],
+              },
             ],
             output: "Tập dữ liệu huấn luyện có phiên bản",
             visual: "brief",
@@ -10816,12 +12191,37 @@
             group: "Train Model",
             title: "Train Model · Sàng lọc biến ứng viên",
             subsection: "Bước 2 · Sàng lọc biến ứng viên",
-            message: "Loại bỏ biến không đủ chất lượng trên quần thể huấn luyện",
+            message:
+              "Loại bỏ biến không đủ chất lượng trên quần thể huấn luyện",
             lead: "Danh sách ứng viên được đánh giá trên quần thể huấn luyện để loại bỏ biến thiếu dữ liệu, không có biến thiên, sai giá trị, không phù hợp phạm vi hoặc có nguy cơ rò rỉ.",
-            flow: ["Tỷ lệ thiếu", "Độ bao phủ", "Biến hằng / gần hằng", "Giá trị không hợp lệ", "Rò rỉ dữ liệu", "Mức quan trọng ban đầu", "Phạm vi áp dụng"],
+            flow: [
+              "Tỷ lệ thiếu",
+              "Độ bao phủ",
+              "Biến hằng / gần hằng",
+              "Giá trị không hợp lệ",
+              "Rò rỉ dữ liệu",
+              "Mức quan trọng ban đầu",
+              "Phạm vi áp dụng",
+            ],
             detailGroups: [
-              {title:"Nguyên tắc", items:["Đánh giá theo từng nhóm khách hàng", "Giữ lý do loại bỏ", "Không đồng nhất thiếu lịch sử với rủi ro cao", "Kết quả có thể tái lập"]},
-              {title:"Kết quả", items:["Danh sách biến đạt", "Danh sách biến loại", "Lý do và ngưỡng", "Báo cáo theo segment"]},
+              {
+                title: "Nguyên tắc",
+                items: [
+                  "Đánh giá theo từng nhóm khách hàng",
+                  "Giữ lý do loại bỏ",
+                  "Không đồng nhất thiếu lịch sử với rủi ro cao",
+                  "Kết quả có thể tái lập",
+                ],
+              },
+              {
+                title: "Kết quả",
+                items: [
+                  "Danh sách biến đạt",
+                  "Danh sách biến loại",
+                  "Lý do và ngưỡng",
+                  "Báo cáo theo segment",
+                ],
+              },
             ],
             output: "Tập biến ứng viên đã rút gọn",
             visual: "brief",
@@ -10831,12 +12231,38 @@
             group: "Train Model",
             title: "Train Model · Biến đổi và chọn biến cuối",
             subsection: "Bước 3 · Biến đổi và chọn biến cuối",
-            message: "Tạo bộ biến cuối cùng và pipeline biến đổi của phiên bản mô hình",
+            message:
+              "Tạo bộ biến cuối cùng và pipeline biến đổi của phiên bản mô hình",
             lead: "Các biến còn lại được kiểm tra tương quan, phân khoảng, chuyển đổi WoE, đánh giá IV, tính đơn điệu, đa cộng tuyến, độ ổn định và khả năng giải thích nghiệp vụ.",
-            flow: ["Sàng lọc tương quan", "Phân khoảng", "Chuyển đổi WoE", "Đánh giá IV", "Kiểm tra đơn điệu", "Kiểm tra đa cộng tuyến", "Kiểm tra ổn định", "Chọn biến cuối"],
+            flow: [
+              "Sàng lọc tương quan",
+              "Phân khoảng",
+              "Chuyển đổi WoE",
+              "Đánh giá IV",
+              "Kiểm tra đơn điệu",
+              "Kiểm tra đa cộng tuyến",
+              "Kiểm tra ổn định",
+              "Chọn biến cuối",
+            ],
             detailGroups: [
-              {title:"Thành phần lưu lại", items:["Bộ biến cuối", "Bảng phân khoảng", "Ánh xạ WoE", "Pipeline biến đổi"]},
-              {title:"Tiêu chí", items:["Hiệu quả thống kê", "Ổn định theo thời gian", "Phù hợp nghiệp vụ", "Khả năng giải thích"]},
+              {
+                title: "Thành phần lưu lại",
+                items: [
+                  "Bộ biến cuối",
+                  "Bảng phân khoảng",
+                  "Ánh xạ WoE",
+                  "Pipeline biến đổi",
+                ],
+              },
+              {
+                title: "Tiêu chí",
+                items: [
+                  "Hiệu quả thống kê",
+                  "Ổn định theo thời gian",
+                  "Phù hợp nghiệp vụ",
+                  "Khả năng giải thích",
+                ],
+              },
             ],
             output: "Final Feature Set và Transformation Pipeline",
             visual: "brief",
@@ -10848,10 +12274,32 @@
             subsection: "Bước 4 · Huấn luyện mô hình",
             message: "Ước lượng mô hình theo họ mô hình đã được phê duyệt",
             lead: "Mô hình được huấn luyện theo đúng hợp đồng thiết kế. Mỗi lần chạy lưu tham số, seed, mã nguồn, cấu hình, môi trường và kết quả so sánh với mô hình cơ sở hoặc mô hình thách thức.",
-            flow: ["Nạp bộ biến cuối", "Huấn luyện theo họ mô hình", "Ước lượng tham số", "So sánh mô hình cơ sở / thách thức", "Lưu lần chạy huấn luyện"],
+            flow: [
+              "Nạp bộ biến cuối",
+              "Huấn luyện theo họ mô hình",
+              "Ước lượng tham số",
+              "So sánh mô hình cơ sở / thách thức",
+              "Lưu lần chạy huấn luyện",
+            ],
             detailGroups: [
-              {title:"Họ mô hình", items:["Logistic scorecard cho A-Score", "Mô hình cây tăng cường cho nhóm phù hợp", "Mô hình cơ sở và mô hình thách thức"]},
-              {title:"Khả năng tái tạo", items:["Seed", "Mã nguồn", "Cấu hình", "Môi trường", "Dấu thời gian"]},
+              {
+                title: "Họ mô hình",
+                items: [
+                  "Logistic scorecard cho A-Score",
+                  "Mô hình cây tăng cường cho nhóm phù hợp",
+                  "Mô hình cơ sở và mô hình thách thức",
+                ],
+              },
+              {
+                title: "Khả năng tái tạo",
+                items: [
+                  "Seed",
+                  "Mã nguồn",
+                  "Cấu hình",
+                  "Môi trường",
+                  "Dấu thời gian",
+                ],
+              },
             ],
             output: "Phiên bản mô hình ứng viên",
             visual: "brief",
@@ -10861,12 +12309,39 @@
             group: "Train Model",
             title: "Train Model · Kiểm định mô hình",
             subsection: "Bước 5 · Kiểm định mô hình",
-            message: "Đánh giá hiệu quả, ổn định, khả năng giải thích và khả năng tái tạo",
+            message:
+              "Đánh giá hiệu quả, ổn định, khả năng giải thích và khả năng tái tạo",
             lead: "Phiên bản ứng viên phải vượt qua cổng kiểm định về dữ liệu, nhãn, rò rỉ, hiệu quả phân biệt, hiệu quả ngoài thời gian, hiệu chỉnh, ổn định và khả năng tái tạo.",
-            flow: ["Gini", "KS", "Hiệu quả ngoài thời gian", "Khoảng tin cậy", "Hiệu chỉnh", "AVI / ổn định", "Ổn định điểm", "Giải thích", "Tái tạo"],
+            flow: [
+              "Gini",
+              "KS",
+              "Hiệu quả ngoài thời gian",
+              "Khoảng tin cậy",
+              "Hiệu chỉnh",
+              "AVI / ổn định",
+              "Ổn định điểm",
+              "Giải thích",
+              "Tái tạo",
+            ],
             detailGroups: [
-              {title:"Điều kiện bắt buộc", items:["Không có lỗi dữ liệu hoặc nhãn nghiêm trọng", "Không rò rỉ dữ liệu", "Đạt ngưỡng ngoài thời gian", "Đạt ngưỡng hiệu chỉnh và ổn định"]},
-              {title:"Đầu ra", items:["Báo cáo kiểm định", "Kết quả đạt / không đạt", "Ngoại lệ và điều kiện sử dụng", "Chữ ký phê duyệt"]},
+              {
+                title: "Điều kiện bắt buộc",
+                items: [
+                  "Không có lỗi dữ liệu hoặc nhãn nghiêm trọng",
+                  "Không rò rỉ dữ liệu",
+                  "Đạt ngưỡng ngoài thời gian",
+                  "Đạt ngưỡng hiệu chỉnh và ổn định",
+                ],
+              },
+              {
+                title: "Đầu ra",
+                items: [
+                  "Báo cáo kiểm định",
+                  "Kết quả đạt / không đạt",
+                  "Ngoại lệ và điều kiện sử dụng",
+                  "Chữ ký phê duyệt",
+                ],
+              },
             ],
             output: "Báo cáo kiểm định và kết quả cổng",
             visual: "brief",
@@ -10878,10 +12353,33 @@
             subsection: "Bước 6 · Hiệu chỉnh, điểm, hạng và lý do",
             message: "Chuẩn hóa dự báo thành đầu ra thống nhất cho vận hành",
             lead: "Dự báo thô được hiệu chỉnh thành xác suất rủi ro, ánh xạ sang thang điểm thống nhất, hạng và dải rủi ro; đồng thời sinh các mã lý do có ý nghĩa nghiệp vụ.",
-            flow: ["Dự báo thô", "Hiệu chỉnh xác suất", "Ánh xạ thang điểm", "Ánh xạ hạng / dải rủi ro", "Sinh mã lý do ưu tiên"],
+            flow: [
+              "Dự báo thô",
+              "Hiệu chỉnh xác suất",
+              "Ánh xạ thang điểm",
+              "Ánh xạ hạng / dải rủi ro",
+              "Sinh mã lý do ưu tiên",
+            ],
             detailGroups: [
-              {title:"Bộ ánh xạ", items:["Tham số hiệu chỉnh", "Ánh xạ xác suất - điểm", "Ngưỡng hạng", "Ánh xạ dải rủi ro", "Ánh xạ mã lý do"]},
-              {title:"Nguyên tắc", items:["Cùng thang điểm giữa các họ mô hình", "Mã lý do dễ hiểu", "Quản lý phiên bản", "Tái tạo được kết quả"]},
+              {
+                title: "Bộ ánh xạ",
+                items: [
+                  "Tham số hiệu chỉnh",
+                  "Ánh xạ xác suất - điểm",
+                  "Ngưỡng hạng",
+                  "Ánh xạ dải rủi ro",
+                  "Ánh xạ mã lý do",
+                ],
+              },
+              {
+                title: "Nguyên tắc",
+                items: [
+                  "Cùng thang điểm giữa các họ mô hình",
+                  "Mã lý do dễ hiểu",
+                  "Quản lý phiên bản",
+                  "Tái tạo được kết quả",
+                ],
+              },
             ],
             output: "Bộ hiệu chỉnh và ánh xạ Score - Grade - Reason",
             visual: "brief",
@@ -10891,12 +12389,41 @@
             group: "Train Model",
             title: "Train Model · Đóng gói và đăng ký Model Registry",
             subsection: "Bước 7 · Đóng gói và đăng ký",
-            message: "Khóa toàn bộ thành phần của một phiên bản mô hình có thể kiểm toán",
+            message:
+              "Khóa toàn bộ thành phần của một phiên bản mô hình có thể kiểm toán",
             lead: "Gói phát hành chứa mô hình, pipeline tiền xử lý, bộ biến cuối, phân khoảng, WoE, hiệu chỉnh, ánh xạ điểm - hạng - lý do và báo cáo kiểm định. Model Registry lưu các tham chiếu phiên bản, lineage, checksum và trạng thái phê duyệt.",
-            flow: ["Đóng gói artifact", "Khóa phiên bản thành phần", "Ghi lineage", "Tạo checksum", "Ghi kết quả kiểm định", "Ghi trạng thái phê duyệt", "Commit Model Registry"],
+            flow: [
+              "Đóng gói artifact",
+              "Khóa phiên bản thành phần",
+              "Ghi lineage",
+              "Tạo checksum",
+              "Ghi kết quả kiểm định",
+              "Ghi trạng thái phê duyệt",
+              "Commit Model Registry",
+            ],
             detailGroups: [
-              {title:"Gói phát hành", items:["Mô hình đã huấn luyện", "Pipeline tiền xử lý", "Bộ biến cuối", "Phân khoảng và WoE", "Hiệu chỉnh và ánh xạ", "Báo cáo kiểm định"]},
-              {title:"Registry Commit", items:["Phiên bản mô hình", "Phiên bản tập dữ liệu", "Phiên bản nhãn", "Phiên bản feature", "Lineage và checksum", "Trạng thái phê duyệt"]},
+              {
+                title: "Gói phát hành",
+                items: [
+                  "Mô hình đã huấn luyện",
+                  "Pipeline tiền xử lý",
+                  "Bộ biến cuối",
+                  "Phân khoảng và WoE",
+                  "Hiệu chỉnh và ánh xạ",
+                  "Báo cáo kiểm định",
+                ],
+              },
+              {
+                title: "Registry Commit",
+                items: [
+                  "Phiên bản mô hình",
+                  "Phiên bản tập dữ liệu",
+                  "Phiên bản nhãn",
+                  "Phiên bản feature",
+                  "Lineage và checksum",
+                  "Trạng thái phê duyệt",
+                ],
+              },
             ],
             output: "Phiên bản mô hình đã đăng ký",
             visual: "brief",
@@ -10906,7 +12433,8 @@
             group: "Train Model",
             title: "Design Time · Train Model · Model Registry",
             subsection: "Traceability",
-            message: "Liên kết kết quả huấn luyện với toàn bộ tài sản thiết kế đã phê duyệt",
+            message:
+              "Liên kết kết quả huấn luyện với toàn bộ tài sản thiết kế đã phê duyệt",
             lead: "Design Time định nghĩa và quản lý tài sản. Train Model hiện thực hóa các tài sản đó thành một phiên bản mô hình cụ thể. Model Registry là điểm nối để truy ngược từ phiên bản mô hình về phạm vi, nhãn, feature, dataset, contract và phê duyệt.",
             visual: "traceabilityBrief",
           },
@@ -10914,7 +12442,8 @@
             id: "bc-definition",
             group: "Business Case",
             title: "A-Score là gì",
-            message: "A-Score đo rủi ro tín dụng tại thời điểm hồ sơ và cung cấp tín hiệu cho quy trình ra quyết định",
+            message:
+              "A-Score đo rủi ro tín dụng tại thời điểm hồ sơ và cung cấp tín hiệu cho quy trình ra quyết định",
             lead: "A-Score là điểm rủi ro tín dụng tại thời điểm hồ sơ được tạo hoặc chuẩn bị thẩm định. A-Score không tự ra quyết định phê duyệt; kết quả được Decision Engine kết hợp với các tín hiệu và chính sách kiểm soát để đưa ra quyết định cuối cùng.",
             points: [
               "A-Score là điểm rủi ro tín dụng tại thời điểm hồ sơ được tạo hoặc chuẩn bị thẩm định.",
@@ -10927,7 +12456,8 @@
             id: "bc-value-chain",
             group: "Business Case",
             title: "Vai trò của Scoring trong chuỗi giá trị vay",
-            message: "Scoring xuất hiện từ bước tư vấn (Pre-scoring) và được thực hiện đầy đủ tại bước thẩm định (Risk Assessment)",
+            message:
+              "Scoring xuất hiện từ bước tư vấn (Pre-scoring) và được thực hiện đầy đủ tại bước thẩm định (Risk Assessment)",
             lead: "A-Score phục vụ hai thời điểm trong hành trình vay: Pre-scoring dùng dữ liệu tối thiểu để tư vấn nhanh; Risk Assessment dùng hồ sơ đã xác minh để chấm đầy đủ, cung cấp Score, Grade và Reason Code cho bước ra quyết định.",
             points: [],
             visual: "bcValueChain",
@@ -10935,8 +12465,10 @@
           {
             id: "bc-problem",
             group: "Business Case",
-            title: "Business problem & objective - từ model rời rạc đến scoring platform",
-            message: "Chuyển từ model tĩnh, không thể chạy lại sang platform/engine quản trị end-to-end theo toàn bộ lifecycle",
+            title:
+              "Business problem & objective - từ model rời rạc đến scoring platform",
+            message:
+              "Chuyển từ model tĩnh, không thể chạy lại sang platform/engine quản trị end-to-end theo toàn bộ lifecycle",
             lead: "Bài toán không dừng ở việc nâng độ chính xác của một model. A-Score hướng tới một platform/engine quản trị xuyên suốt từ Draft, Candidate, Validate, Approve, Ready, Shadow, Production đến Deprecated và Retired; hỗ trợ multi-model, replay, giải thích và giám sát có kiểm soát.",
             points: [],
             visual: "bcProblem",
@@ -10960,7 +12492,8 @@
             id: "bc-scope",
             group: "Business Case",
             title: "Phạm vi dự án - A-Score làm gì và không làm gì",
-            message: "Ranh giới phạm vi dự án theo nhóm A-Score thực hiện và không thực hiện",
+            message:
+              "Ranh giới phạm vi dự án theo nhóm A-Score thực hiện và không thực hiện",
             lead: "Việc xác định rõ ranh giới phạm vi giúp đội ngũ tập trung đúng bài toán chấm điểm rủi ro, đồng thời làm rõ những dữ liệu và tín hiệu nào A-Score tiêu thụ như đầu vào từ các hệ thống đã có chủ sở hữu riêng.",
             points: [],
             visual: "bcScope",
@@ -11049,9 +12582,9 @@
           {
             id: "governance-model-degradation",
             group: "Governance",
-            title: "Khi Model Monitoring phát hiện suy giảm — Governance làm gì?",
-            message:
-              "Quy trình quản trị chất lượng model",
+            title:
+              "Khi Model Monitoring phát hiện suy giảm — Governance làm gì?",
+            message: "Quy trình quản trị chất lượng model",
             lead: "Dashboard phát hiện KPI vượt ngưỡng → Root Cause Analysis → Impact Assessment → rẽ hai nhánh: Keep & Tune quay lại Monitoring, hoặc Retrain/Replace mở vòng Deploy & Retirement.",
             points: [],
             visual: "modelDegradation",
@@ -11927,11 +13460,49 @@
               <text x="490" y="60" text-anchor="middle" font-size="12" font-weight="800" fill="#64748b">Từ Model Dashboard đến quyết định Governance</text>
 
               ${[
-                ["1", "DASHBOARD", ["KPI vượt ngưỡng", "PSI · Calibration", "Gini · Bad rate"], 44, "#eef6ff", "#2368c4"],
-                ["2", "ROOT CAUSE", ["Phân tích nguyên nhân", "Feature drift · DQ", "Population shift"], 268, "#fff3e9", "#db681d"],
-                ["3", "IMPACT", ["Đánh giá ảnh hưởng", "Business impact", "Model card floor"], 492, "#f5efff", "#7245c7"],
-                ["4", "DECISION", ["Governance quyết định", "Hai hướng xử lý", "Keep hoặc Retrain"], 716, "#eef9f1", "#168447"],
-              ].map(([n, t, bullets, x, fill, color], i) => `
+                [
+                  "1",
+                  "DASHBOARD",
+                  ["KPI vượt ngưỡng", "PSI · Calibration", "Gini · Bad rate"],
+                  44,
+                  "#eef6ff",
+                  "#2368c4",
+                ],
+                [
+                  "2",
+                  "ROOT CAUSE",
+                  [
+                    "Phân tích nguyên nhân",
+                    "Feature drift · DQ",
+                    "Population shift",
+                  ],
+                  268,
+                  "#fff3e9",
+                  "#db681d",
+                ],
+                [
+                  "3",
+                  "IMPACT",
+                  ["Đánh giá ảnh hưởng", "Business impact", "Model card floor"],
+                  492,
+                  "#f5efff",
+                  "#7245c7",
+                ],
+                [
+                  "4",
+                  "DECISION",
+                  [
+                    "Governance quyết định",
+                    "Hai hướng xử lý",
+                    "Keep hoặc Retrain",
+                  ],
+                  716,
+                  "#eef9f1",
+                  "#168447",
+                ],
+              ]
+                .map(
+                  ([n, t, bullets, x, fill, color], i) => `
                 <g filter="url(#mdShadow)">
                   <rect x="${x}" y="82" width="196" height="118" rx="13" fill="${fill}" stroke="${color}" stroke-opacity="0.55"/>
                   <circle cx="${x + 98}" cy="82" r="18" fill="${color}"/>
@@ -11943,7 +13514,9 @@
                   <text x="${x + 98}" y="188" text-anchor="middle" font-size="10.5" font-weight="700" fill="#26384d">${bullets[2]}</text>
                 </g>
                 ${i < 3 ? `<line x1="${x + 196}" y1="141" x2="${x + 224}" y2="141" stroke="#60758c" stroke-width="2.2" marker-end="url(#mdArrow)"/>` : ""}
-              `).join("")}
+              `,
+                )
+                .join("")}
 
               <line x1="814" y1="200" x2="814" y2="224" stroke="#60758c" stroke-width="2.2"/>
               <line x1="248" y1="224" x2="814" y2="224" stroke="#60758c" stroke-width="2.2"/>
@@ -12514,8 +14087,13 @@
               [coreNames[1], { cx: 550, cy: 340, ring: "core" }],
             ]);
             directNames.forEach((name, index) => {
-              const angle = -Math.PI / 2 + index * (Math.PI * 2 / directNames.length);
-              positions.set(name, { cx: 460 + Math.cos(angle) * 230, cy: 340 + Math.sin(angle) * 172, ring: "inner" });
+              const angle =
+                -Math.PI / 2 + index * ((Math.PI * 2) / directNames.length);
+              positions.set(name, {
+                cx: 460 + Math.cos(angle) * 230,
+                cy: 340 + Math.sin(angle) * 172,
+                ring: "inner",
+              });
             });
             outerNames.forEach((name, index) => {
               const angle =
@@ -12526,7 +14104,8 @@
                 ring: "outer",
               });
             });
-            const nodeW = 150, nodeH = 58;
+            const nodeW = 150,
+              nodeH = 58;
             const boundaryPoint = (from, to) => {
               const dx = to.cx - from.cx,
                 dy = to.cy - from.cy;
@@ -12604,21 +14183,51 @@
                 words.slice(best).join(" "),
               ];
             };
-            const palette = ["#0b4ea2", "#00833e", "#c84e00", "#6f42a5", "#a9790a", "#087f8c"];
-            const nodesSvg = source.domains.map((domain, index) => {
-              const position = positions.get(domain.name), lines = splitName(domain.name);
-              const color = domain.name === coreNames[0] ? "#c84e00" : domain.name === coreNames[1] ? "#00833e" : palette[index % palette.length];
-              const propertyCount = domain.objects.reduce((total, object) => total + object.properties.length, 0);
-              const representative = [];
-              const properties = domain.objects.flatMap((object) => object.properties);
-              [...properties.filter((property) => ["Yes", "Derived"].includes(property.ascoreFeature)), ...properties].forEach((property) => {
-                if (representative.length < 3 && !representative.some((item) => item.name === property.name)) representative.push(property);
-              });
-              const nameText = lines.length === 1
-                ? `<text x="${position.cx}" y="${position.cy + 3}" text-anchor="middle">${esc2(lines[0])}</text>`
-                : `<text x="${position.cx}" y="${position.cy - 5}" text-anchor="middle"><tspan x="${position.cx}">${esc2(lines[0])}</tspan><tspan x="${position.cx}" dy="12">${esc2(lines[1])}</tspan></text>`;
-              return `<g class="enterprise-domain-node${coreNames.includes(domain.name) ? " core-node" : ""}" tabindex="0" role="button" aria-label="Xem ${esc2(domain.name)}" data-domain="${esc2(domain.name)}" style="--node-color:${color}"><rect x="${position.cx - nodeW / 2}" y="${position.cy - nodeH / 2}" width="${nodeW}" height="${nodeH}" rx="9"/>${nameText}</g>`;
-            }).join("");
+            const palette = [
+              "#0b4ea2",
+              "#00833e",
+              "#c84e00",
+              "#6f42a5",
+              "#a9790a",
+              "#087f8c",
+            ];
+            const nodesSvg = source.domains
+              .map((domain, index) => {
+                const position = positions.get(domain.name),
+                  lines = splitName(domain.name);
+                const color =
+                  domain.name === coreNames[0]
+                    ? "#c84e00"
+                    : domain.name === coreNames[1]
+                      ? "#00833e"
+                      : palette[index % palette.length];
+                const propertyCount = domain.objects.reduce(
+                  (total, object) => total + object.properties.length,
+                  0,
+                );
+                const representative = [];
+                const properties = domain.objects.flatMap(
+                  (object) => object.properties,
+                );
+                [
+                  ...properties.filter((property) =>
+                    ["Yes", "Derived"].includes(property.ascoreFeature),
+                  ),
+                  ...properties,
+                ].forEach((property) => {
+                  if (
+                    representative.length < 3 &&
+                    !representative.some((item) => item.name === property.name)
+                  )
+                    representative.push(property);
+                });
+                const nameText =
+                  lines.length === 1
+                    ? `<text x="${position.cx}" y="${position.cy + 3}" text-anchor="middle">${esc2(lines[0])}</text>`
+                    : `<text x="${position.cx}" y="${position.cy - 5}" text-anchor="middle"><tspan x="${position.cx}">${esc2(lines[0])}</tspan><tspan x="${position.cx}" dy="12">${esc2(lines[1])}</tspan></text>`;
+                return `<g class="enterprise-domain-node${coreNames.includes(domain.name) ? " core-node" : ""}" tabindex="0" role="button" aria-label="Xem ${esc2(domain.name)}" data-domain="${esc2(domain.name)}" style="--node-color:${color}"><rect x="${position.cx - nodeW / 2}" y="${position.cy - nodeH / 2}" width="${nodeW}" height="${nodeH}" rx="9"/>${nameText}</g>`;
+              })
+              .join("");
             return `<div class="enterprise-graph-only">
               <div class="enterprise-network-board">
                 <div class="enterprise-network-head"><b>${source.domainCount} domains · 2 core hubs</b><span>Nét đứt: liên kết về domain lõi · Rê chuột hoặc bấm node để xem phụ lục</span></div>
@@ -13089,27 +14698,103 @@
             </svg></div>`;
           if (type === "ontKeyObjects") {
             const source = window.ONTOLOGY_XLSX;
-            if (!source) return `<div class="callout">Không tải được dữ liệu Ontology version2.xlsx.</div>`;
-            const objectNames = ["FeatureSet", "TrainingDataset", "ModelVersion", "Assessment", "ScoreResult", "RiskSignal", "APIEndpoint", "IntegrationEvent", "ModelRunLog", "AuditLog"];
-            const colorByDomain = { "Loan Application":"#0b4ea2", "Credit Scoring & Risk Assessment":"#c84e00", "Model Management":"#00833e", "Loan Approval & Underwriting":"#6f42a5", "Data Governance & Metadata":"#087f8c", "System Integration & API":"#52657a" };
+            if (!source)
+              return `<div class="callout">Không tải được dữ liệu Ontology version2.xlsx.</div>`;
+            const objectNames = [
+              "FeatureSet",
+              "TrainingDataset",
+              "ModelVersion",
+              "Assessment",
+              "ScoreResult",
+              "RiskSignal",
+              "APIEndpoint",
+              "IntegrationEvent",
+              "ModelRunLog",
+              "AuditLog",
+            ];
+            const colorByDomain = {
+              "Loan Application": "#0b4ea2",
+              "Credit Scoring & Risk Assessment": "#c84e00",
+              "Model Management": "#00833e",
+              "Loan Approval & Underwriting": "#6f42a5",
+              "Data Governance & Metadata": "#087f8c",
+              "System Integration & API": "#52657a",
+            };
             const layout = new Map([
-              ["FeatureSet",{x:130,y:130}],["TrainingDataset",{x:130,y:250}],["ModelVersion",{x:130,y:370}],
-              ["Assessment",{x:400,y:190}],["ScoreResult",{x:400,y:320}],
-              ["RiskSignal",{x:665,y:190}],["APIEndpoint",{x:665,y:320}],
-              ["IntegrationEvent",{x:930,y:130}],["ModelRunLog",{x:930,y:250}],["AuditLog",{x:930,y:370}],
+              ["FeatureSet", { x: 130, y: 130 }],
+              ["TrainingDataset", { x: 130, y: 250 }],
+              ["ModelVersion", { x: 130, y: 370 }],
+              ["Assessment", { x: 400, y: 190 }],
+              ["ScoreResult", { x: 400, y: 320 }],
+              ["RiskSignal", { x: 665, y: 190 }],
+              ["APIEndpoint", { x: 665, y: 320 }],
+              ["IntegrationEvent", { x: 930, y: 130 }],
+              ["ModelRunLog", { x: 930, y: 250 }],
+              ["AuditLog", { x: 930, y: 370 }],
             ]);
             const objectIndex = new Map();
-            source.domains.forEach((domain) => domain.objects.forEach((object) => objectIndex.set(object.name, { object, domain })));
-            const nodeW = 160, nodeH = 56;
-            const boundary = (from, to) => { const dx = to.x - from.x, dy = to.y - from.y; const scale = 1 / Math.max(Math.abs(dx) / (nodeW / 2), Math.abs(dy) / (nodeH / 2)); return { x: from.x + dx * scale, y: from.y + dy * scale }; };
-            const edges = [["FeatureSet","Assessment"],["TrainingDataset","ModelVersion"],["ModelVersion","Assessment"],["Assessment","ScoreResult"],["ScoreResult","RiskSignal"],["ScoreResult","APIEndpoint"],["APIEndpoint","IntegrationEvent"],["Assessment","ModelRunLog"],["ModelVersion","ModelRunLog"],["ModelRunLog","AuditLog"],["IntegrationEvent","AuditLog"]];
-            const edgeSvg = edges.map(([fromName,toName]) => { const from=layout.get(fromName),to=layout.get(toName),a=boundary(from,to),b=boundary(to,from); return `<line x1="${a.x.toFixed(1)}" y1="${a.y.toFixed(1)}" x2="${b.x.toFixed(1)}" y2="${b.y.toFixed(1)}" stroke="#9aabba" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#ascoreObjectArrow)"/>`; }).join("");
-            const nodeSvg = objectNames.map((name) => {
-              const item=objectIndex.get(name),p=layout.get(name); if(!item||!p) return "";
-              const representative=[]; [...item.object.properties.filter((property)=>["Yes","Derived"].includes(property.ascoreFeature)),...item.object.properties].forEach((property)=>{if(representative.length<6&&!representative.some((x)=>x.name===property.name)) representative.push(property);});
-              const color=colorByDomain[item.domain.name]||"#0b4ea2";
-              return `<g class="ascore-object-node" tabindex="0" role="button" data-ascore-object="${esc2(name)}" data-object-domain="${esc2(item.domain.name)}" data-object-description="${esc2(item.object.description || "Object trong luồng A-Score.")}" data-object-properties="${esc2(representative.map((property)=>property.name).join("|"))}" data-object-color="${color}" style="--object-color:${color}"><rect x="${p.x-nodeW/2}" y="${p.y-nodeH/2}" width="${nodeW}" height="${nodeH}" rx="10"/><text x="${p.x}" y="${p.y+4}" text-anchor="middle">${esc2(name)}</text></g>`;
-            }).join("");
+            source.domains.forEach((domain) =>
+              domain.objects.forEach((object) =>
+                objectIndex.set(object.name, { object, domain }),
+              ),
+            );
+            const nodeW = 160,
+              nodeH = 56;
+            const boundary = (from, to) => {
+              const dx = to.x - from.x,
+                dy = to.y - from.y;
+              const scale =
+                1 /
+                Math.max(
+                  Math.abs(dx) / (nodeW / 2),
+                  Math.abs(dy) / (nodeH / 2),
+                );
+              return { x: from.x + dx * scale, y: from.y + dy * scale };
+            };
+            const edges = [
+              ["FeatureSet", "Assessment"],
+              ["TrainingDataset", "ModelVersion"],
+              ["ModelVersion", "Assessment"],
+              ["Assessment", "ScoreResult"],
+              ["ScoreResult", "RiskSignal"],
+              ["ScoreResult", "APIEndpoint"],
+              ["APIEndpoint", "IntegrationEvent"],
+              ["Assessment", "ModelRunLog"],
+              ["ModelVersion", "ModelRunLog"],
+              ["ModelRunLog", "AuditLog"],
+              ["IntegrationEvent", "AuditLog"],
+            ];
+            const edgeSvg = edges
+              .map(([fromName, toName]) => {
+                const from = layout.get(fromName),
+                  to = layout.get(toName),
+                  a = boundary(from, to),
+                  b = boundary(to, from);
+                return `<line x1="${a.x.toFixed(1)}" y1="${a.y.toFixed(1)}" x2="${b.x.toFixed(1)}" y2="${b.y.toFixed(1)}" stroke="#9aabba" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#ascoreObjectArrow)"/>`;
+              })
+              .join("");
+            const nodeSvg = objectNames
+              .map((name) => {
+                const item = objectIndex.get(name),
+                  p = layout.get(name);
+                if (!item || !p) return "";
+                const representative = [];
+                [
+                  ...item.object.properties.filter((property) =>
+                    ["Yes", "Derived"].includes(property.ascoreFeature),
+                  ),
+                  ...item.object.properties,
+                ].forEach((property) => {
+                  if (
+                    representative.length < 6 &&
+                    !representative.some((x) => x.name === property.name)
+                  )
+                    representative.push(property);
+                });
+                const color = colorByDomain[item.domain.name] || "#0b4ea2";
+                return `<g class="ascore-object-node" tabindex="0" role="button" data-ascore-object="${esc2(name)}" data-object-domain="${esc2(item.domain.name)}" data-object-description="${esc2(item.object.description || "Object trong luồng A-Score.")}" data-object-properties="${esc2(representative.map((property) => property.name).join("|"))}" data-object-color="${color}" style="--object-color:${color}"><rect x="${p.x - nodeW / 2}" y="${p.y - nodeH / 2}" width="${nodeW}" height="${nodeH}" rx="10"/><text x="${p.x}" y="${p.y + 4}" text-anchor="middle">${esc2(name)}</text></g>`;
+              })
+              .join("");
             return `<div class="ascore-object-graph">
               <svg viewBox="0 0 1100 500" role="img" aria-label="Object chính trong luồng A-Score"><defs><marker id="ascoreObjectArrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8799aa"/></marker></defs>
                 <text x="130" y="62" text-anchor="middle" font-size="12" font-weight="900" fill="#00833e">MODEL ASSET</text><text x="400" y="62" text-anchor="middle" font-size="12" font-weight="900" fill="#c84e00">SCORING CORE</text><text x="665" y="62" text-anchor="middle" font-size="12" font-weight="900" fill="#0b4ea2">RESULT &amp; SERVICE</text><text x="930" y="62" text-anchor="middle" font-size="12" font-weight="900" fill="#087f8c">INTEGRATION &amp; AUDIT</text>
@@ -13121,7 +14806,8 @@
           }
           if (type === "ontKeyObjectsLegacy") {
             const source = window.ONTOLOGY_XLSX;
-            if (!source) return `<div class="callout">Không tải được dữ liệu Ontology version2.xlsx.</div>`;
+            if (!source)
+              return `<div class="callout">Không tải được dữ liệu Ontology version2.xlsx.</div>`;
             const profileObjectNames = [
               "Application",
               "Assessment",
@@ -13426,16 +15112,52 @@
                   <div class="lifecycle-control-loop"><b>VÒNG KIỂM SOÁT SAU PHÁT HÀNH</b><div class="lifecycle-control-item"><b>Sự cố khi Canary/Production</b> → rollback đồng bộ về Champion ổn định.</div><div class="lifecycle-control-item"><b>Drift hoặc giảm hiệu năng</b> → recalibrate hoặc retrain thành Candidate phiên bản mới.</div><div class="lifecycle-control-item"><b>Challenger được promote</b> → bản Champion cũ tự chuyển Deprecated rồi Retired.</div></div>
                 </section>
               </div>`;
-            }
-          const flows = {
-            transition: ["Business rule", "Risk driver + label", "Khung thiết kế", "Train scorecard"],
-            designOverview: ["Business Risk", "Feature data build", "Model contract", "Governance baseline"],
-            riskCoverage: ["Risk driver", "Derived feature", "Long-list build", "Candidate pool"],
-            featureStore: ["Candidate pool", "Dictionary", "Registry", "Offline feature store"],
-            datasetLabel: ["Offline snapshot", "Label rule version", "Population contract", "Training dataset"],
-            tabnetLogistic: ["Candidate Pool", "Screening", "Transformation", "Final Feature Set"],
-            registry: ["Validation", "Calibration / mapping", "Lineage checksum", "Model Registry"],
-          }[type] || [];
+          }
+          const flows =
+            {
+              transition: [
+                "Business rule",
+                "Risk driver + label",
+                "Khung thiết kế",
+                "Train scorecard",
+              ],
+              designOverview: [
+                "Business Risk",
+                "Feature data build",
+                "Model contract",
+                "Governance baseline",
+              ],
+              riskCoverage: [
+                "Risk driver",
+                "Derived feature",
+                "Long-list build",
+                "Candidate pool",
+              ],
+              featureStore: [
+                "Candidate pool",
+                "Dictionary",
+                "Registry",
+                "Offline feature store",
+              ],
+              datasetLabel: [
+                "Offline snapshot",
+                "Label rule version",
+                "Population contract",
+                "Training dataset",
+              ],
+              tabnetLogistic: [
+                "Candidate Pool",
+                "Screening",
+                "Transformation",
+                "Final Feature Set",
+              ],
+              registry: [
+                "Validation",
+                "Calibration / mapping",
+                "Lineage checksum",
+                "Model Registry",
+              ],
+            }[type] || [];
           return `<div class="ds-diagram"><svg viewBox="0 0 980 430" role="img" aria-label="DS architecture board">
             <defs>
               <marker id="dsMiniArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#6d8297"/></marker>
@@ -13472,9 +15194,21 @@
         }
         function briefVisual(item) {
           const arrow = '<span class="brief-arrow">→</span>';
-          const flow = (item.flow || []).map((step, index) => `<div class="brief-step"><span>${String(index + 1).padStart(2, "0")}</span><b>${esc2(step)}</b></div>`).join(arrow);
-          const groups = (item.detailGroups || []).map((group) => `<article class="brief-detail"><h5>${esc2(group.title)}</h5><ul>${(group.items || []).map((entry) => `<li>${esc2(entry)}</li>`).join("")}</ul></article>`).join("");
-          const outputItems = (item.outputItems || []).map((entry) => `<span>${esc2(entry)}</span>`).join("");
+          const flow = (item.flow || [])
+            .map(
+              (step, index) =>
+                `<div class="brief-step"><span>${String(index + 1).padStart(2, "0")}</span><b>${esc2(step)}</b></div>`,
+            )
+            .join(arrow);
+          const groups = (item.detailGroups || [])
+            .map(
+              (group) =>
+                `<article class="brief-detail"><h5>${esc2(group.title)}</h5><ul>${(group.items || []).map((entry) => `<li>${esc2(entry)}</li>`).join("")}</ul></article>`,
+            )
+            .join("");
+          const outputItems = (item.outputItems || [])
+            .map((entry) => `<span>${esc2(entry)}</span>`)
+            .join("");
           return `<div class="brief-board">
             <div class="brief-message"><b>${esc2(item.message || "")}</b><p>${esc2(item.lead || "")}</p></div>
             ${flow ? `<div class="brief-flow">${flow}</div>` : ""}
@@ -13483,19 +15217,47 @@
           </div>`;
         }
         function lifecycleBriefVisual() {
-          const d = ["Business Risk", "Feature Blueprint", "Model & Contract", "Governance Blueprint"];
-          const t = ["Tạo tập dữ liệu", "Sàng lọc ứng viên", "Chọn biến cuối + bộ biến tối thiểu", "Huấn luyện", "Kiểm định", "Hiệu chỉnh điểm - hạng - lý do", "Đóng gói và đăng ký"];
-          const registryItems = ["model binary / pkl", "dataset version", "label version", "final feature set", "minimum feature set cho PreA / Quick Offer", "preprocessing", "binning / WoE", "calibration", "score mapping", "grade mapping", "reason mapping", "validation report", "checksum", "approval status"];
+          const d = [
+            "Business Risk",
+            "Feature Blueprint",
+            "Model & Contract",
+            "Governance Blueprint",
+          ];
+          const t = [
+            "Tạo tập dữ liệu",
+            "Sàng lọc ứng viên",
+            "Chọn biến cuối + bộ biến tối thiểu",
+            "Huấn luyện",
+            "Kiểm định",
+            "Hiệu chỉnh điểm - hạng - lý do",
+            "Đóng gói và đăng ký",
+          ];
+          const registryItems = [
+            "model binary / pkl",
+            "dataset version",
+            "label version",
+            "final feature set",
+            "minimum feature set cho PreA / Quick Offer",
+            "preprocessing",
+            "binning / WoE",
+            "calibration",
+            "score mapping",
+            "grade mapping",
+            "reason mapping",
+            "validation report",
+            "checksum",
+            "approval status",
+          ];
           return `<div class="life-brief">
             <div class="life-request">Yêu cầu nghiệp vụ</div>
             <div class="life-down">↓</div>
-            <section class="life-phase design"><header><b>DESIGN TIME</b><span>Xây dựng và phê duyệt tài sản nền tảng</span></header><div class="life-cards">${d.map((x,i)=>`<article><span>0${i+1}</span><b>${x}</b></article>`).join("")}</div></section>
+            <section class="life-phase design"><header><b>DESIGN TIME</b><span>Xây dựng và phê duyệt tài sản nền tảng</span></header><div class="life-cards">${d.map((x, i) => `<article><span>0${i + 1}</span><b>${x}</b></article>`).join("")}</div></section>
             <div class="life-assets"><b>Tài sản thiết kế đã phê duyệt</b><span>Risk baseline</span><span>Candidate feature pool</span><span>Feature bundle</span><span>Dictionary / Registry</span><span>Offline feature store</span><span>Model contract</span><span>Quick Offer requirement</span><span>Governance baseline</span></div>
             <div class="life-down">↓</div>
-            <section class="life-phase train"><header><b>TRAIN MODEL</b><span>Thực hiện 7 bước để tạo phiên bản mô hình cụ thể</span></header><div class="life-train-steps">${t.map((x,i)=>`<article><span>${i+1}</span><b>${x}</b></article>`).join("")}</div></section>
+            <section class="life-phase train"><header><b>TRAIN MODEL</b><span>Thực hiện 7 bước để tạo phiên bản mô hình cụ thể</span></header><div class="life-train-steps">${t.map((x, i) => `<article><span>${i + 1}</span><b>${x}</b></article>`).join("")}</div></section>
             <div class="life-minimal"><b>Bộ biến tối thiểu</b><span>Được xác định ở bước 3, là tập con đã kiểm định để phục vụ PreA Score / Quick Offer khi dữ liệu chưa đầy đủ.</span></div>
             <div class="life-down">↓</div>
-            <div class="life-registry"><b>MODEL REGISTRY GHI NHẬN</b><div>${registryItems.map(x=>`<span>${x}</span>`).join("")}</div></div>
+            <div class="life-registry"><b>MODEL REGISTRY GHI NHẬN</b><div>${registryItems.map((x) => `<span>${x}</span>`).join("")}</div></div>
             <div class="life-back">↖ Mỗi mục trong Registry tham chiếu ngược về Design Time: feature version · label rule · contract · approval</div>
           </div>`;
         }
@@ -13503,15 +15265,39 @@
           const rows = [
             ["Phạm vi khách hàng", "Lọc quần thể", "Tham chiếu phạm vi"],
             ["Định nghĩa nhãn", "Chạy Label Engine", "Phiên bản nhãn"],
-            ["Risk Driver", "Kiểm tra độ bao phủ và lựa chọn", "Ánh xạ driver - feature"],
-            ["Candidate Pool / Feature Bundle", "Sàng lọc và giới hạn đầu vào", "Phiên bản bộ biến"],
-            ["Dictionary / Registry", "Dùng đúng định nghĩa và phiên bản", "Tham chiếu feature"],
+            [
+              "Risk Driver",
+              "Kiểm tra độ bao phủ và lựa chọn",
+              "Ánh xạ driver - feature",
+            ],
+            [
+              "Candidate Pool / Feature Bundle",
+              "Sàng lọc và giới hạn đầu vào",
+              "Phiên bản bộ biến",
+            ],
+            [
+              "Dictionary / Registry",
+              "Dùng đúng định nghĩa và phiên bản",
+              "Tham chiếu feature",
+            ],
             ["Offline Feature Store", "Lấy snapshot", "Phiên bản snapshot"],
-            ["Hợp đồng dữ liệu và huấn luyện", "Tạo dataset, biến đổi và huấn luyện", "Dataset và pipeline đã fit"],
-            ["Hợp đồng kiểm định và đầu ra", "Kiểm định, hiệu chỉnh, sinh điểm - hạng - lý do", "Báo cáo và bộ ánh xạ"],
-            ["Governance Blueprint", "Rà soát và phê duyệt", "Trạng thái, checksum, lifecycle"],
+            [
+              "Hợp đồng dữ liệu và huấn luyện",
+              "Tạo dataset, biến đổi và huấn luyện",
+              "Dataset và pipeline đã fit",
+            ],
+            [
+              "Hợp đồng kiểm định và đầu ra",
+              "Kiểm định, hiệu chỉnh, sinh điểm - hạng - lý do",
+              "Báo cáo và bộ ánh xạ",
+            ],
+            [
+              "Governance Blueprint",
+              "Rà soát và phê duyệt",
+              "Trạng thái, checksum, lifecycle",
+            ],
           ];
-          return `<div class="trace-board"><div class="trace-head"><span>DESIGN TIME ĐÃ CÓ</span><span>TRAIN MODEL THỰC HIỆN</span><span>MODEL REGISTRY GHI NHẬN</span></div>${rows.map(r=>`<div class="trace-row"><div>${esc2(r[0])}</div><div>${esc2(r[1])}</div><div>${esc2(r[2])}</div></div>`).join("")}<div class="trace-close">Design Time quản lý tài sản · Train Model tạo phiên bản cụ thể · Model Registry bảo đảm truy nguyên</div></div>`;
+          return `<div class="trace-board"><div class="trace-head"><span>DESIGN TIME ĐÃ CÓ</span><span>TRAIN MODEL THỰC HIỆN</span><span>MODEL REGISTRY GHI NHẬN</span></div>${rows.map((r) => `<div class="trace-row"><div>${esc2(r[0])}</div><div>${esc2(r[1])}</div><div>${esc2(r[2])}</div></div>`).join("")}<div class="trace-close">Design Time quản lý tài sản · Train Model tạo phiên bản cụ thể · Model Registry bảo đảm truy nguyên</div></div>`;
         }
         function compactPoint(text) {
           return (text || "")
@@ -13583,14 +15369,16 @@
                 `<span class="sub-dot ${idx < subNum ? "on" : ""}"></span>`,
             )
             .join("");
-          const hasPoints = Array.isArray(item.points) && item.points.length > 0;
-          const customVisual = item.visual === "lifecycleBrief"
-            ? lifecycleBriefVisual()
-            : item.visual === "traceabilityBrief"
-              ? traceabilityBriefVisual()
-              : item.visual === "brief"
-                ? briefVisual(item)
-                : dsVisual(item.visual);
+          const hasPoints =
+            Array.isArray(item.points) && item.points.length > 0;
+          const customVisual =
+            item.visual === "lifecycleBrief"
+              ? lifecycleBriefVisual()
+              : item.visual === "traceabilityBrief"
+                ? traceabilityBriefVisual()
+                : item.visual === "brief"
+                  ? briefVisual(item)
+                  : dsVisual(item.visual);
           const content = hasPoints
             ? `<div class="ds-grid">
                 <div class="ds-panel">
@@ -13653,12 +15441,49 @@
         }
         function subSlidesFor(flowId) {
           const dsMap = {
-            "business-case": ["bc-definition", "bc-value-chain", "bc-problem", "bc-objective", "bc-scope"],
-            "design-time": ["design-business-risk", "design-feature-blueprint", "design-model-contract", "design-governance-blueprint"],
-            "train-time": ["train-model-overview", "train-step-1-dataset", "train-step-2-screening", "train-step-3-selection", "train-step-4-training", "train-step-5-validation", "train-step-6-calibration", "train-step-7-registry", "design-train-traceability"],
-            monitoring: ["monitoring-system-phase1", "monitoring-grafana-dashboard", "monitoring-model-kpi", "monitoring-model-dashboard"],
-            governance: ["governance-incident-response", "governance-golive-gate", "governance-model-degradation"],
-            deployment: ["dp-8steps", "dp-rollback3", "dp-times3", "dp-compare", "dp-dashboard", "dp-canary"],
+            "business-case": [
+              "bc-definition",
+              "bc-value-chain",
+              "bc-problem",
+              "bc-objective",
+              "bc-scope",
+            ],
+            "design-time": [
+              "design-business-risk",
+              "design-feature-blueprint",
+              "design-model-contract",
+              "design-governance-blueprint",
+            ],
+            "train-time": [
+              "train-model-overview",
+              "train-step-1-dataset",
+              "train-step-2-screening",
+              "train-step-3-selection",
+              "train-step-4-training",
+              "train-step-5-validation",
+              "train-step-6-calibration",
+              "train-step-7-registry",
+              "design-train-traceability",
+            ],
+            monitoring: [
+              "monitoring-system-phase1",
+              "monitoring-grafana-dashboard",
+              "monitoring-model-kpi",
+              "monitoring-model-dashboard",
+            ],
+            governance: [
+              "governance-incident-response",
+              "governance-golive-gate",
+              "governance-model-degradation",
+            ],
+            deployment: [
+              "dp-8steps",
+              "dp-rollback3",
+              "dp-times3",
+              "dp-compare",
+              "dp-dashboard",
+              "dp-canary",
+            ],
           };
           const ontMap = {
             ontology: [
@@ -13683,7 +15508,9 @@
           const items = [];
           flow.forEach((item) => {
             if (item.id === "design-time") {
-              const lifecycleOverview = dsSlides.find((slide) => slide && slide.id === "ds-lifecycle-overview");
+              const lifecycleOverview = dsSlides.find(
+                (slide) => slide && slide.id === "ds-lifecycle-overview",
+              );
               if (lifecycleOverview) items.push(lifecycleOverview);
             }
             items.push(item);
@@ -13729,19 +15556,58 @@
                 );
               }
               if (item.id === "runtime") {
-                return dataEngineering + sectionCard(item, i) + runtimeTraceSlide() + extra;
+                return (
+                  dataEngineering +
+                  sectionCard(item, i) +
+                  runtimeTraceSlide() +
+                  extra
+                );
               }
               if (item.id === "design-time") {
-                const lifecycleOverview = dsSlides.find((slide) => slide && slide.id === "ds-lifecycle-overview");
-                const lifecycleParent = { title: "Quy trình thiết kế và huấn luyện mô hình" };
+                const lifecycleOverview = dsSlides.find(
+                  (slide) => slide && slide.id === "ds-lifecycle-overview",
+                );
+                const lifecycleParent = {
+                  title: "Quy trình thiết kế và huấn luyện mô hình",
+                };
                 const overviewCard = lifecycleOverview
-                  ? dsSlideCard(lifecycleOverview, "LT.1", lifecycleParent, "↔", 1, 1)
+                  ? dsSlideCard(
+                      lifecycleOverview,
+                      "LT.1",
+                      lifecycleParent,
+                      "↔",
+                      1,
+                      1,
+                    )
                   : "";
-                return overviewCard + sectionCard(item, i) + extra + dataEngineering;
+                return (
+                  overviewCard + sectionCard(item, i) + extra + dataEngineering
+                );
               }
               if (item.id === "train-time" && subs.length) {
-                const first = `<span id="train-time" class="section-anchor" aria-hidden="true"></span>` + dsSlideCard(subs[0], `${i + 1}.1`, item, i + 1, 1, groupTotal);
-                const rest = subs.slice(1).map((slide, j) => dsSlideCard(slide, `${i + 1}.${j + 2}`, item, i + 1, j + 2, groupTotal)).join("");
+                const first =
+                  `<span id="train-time" class="section-anchor" aria-hidden="true"></span>` +
+                  dsSlideCard(
+                    subs[0],
+                    `${i + 1}.1`,
+                    item,
+                    i + 1,
+                    1,
+                    groupTotal,
+                  );
+                const rest = subs
+                  .slice(1)
+                  .map((slide, j) =>
+                    dsSlideCard(
+                      slide,
+                      `${i + 1}.${j + 2}`,
+                      item,
+                      i + 1,
+                      j + 2,
+                      groupTotal,
+                    ),
+                  )
+                  .join("");
                 return first + rest + dataEngineering;
               }
               return sectionCard(item, i) + extra + dataEngineering;
@@ -13750,106 +15616,133 @@
         }
         function runtimeBoard() {
           return `<div class="runtime-simple-board">
-      <div class="runtime-simple-flow">
-        <div class="runtime-simple-node source">
-          <h4>Caller</h4>
-          <p>LOS / MyF88 / PGD / Partner gửi request qua API Gateway.</p>
-          <div class="runtime-simple-tags"><span>request_id</span><span>trace_id</span><span>correlation_id</span></div>
-        </div>
-        <div class="runtime-simple-arrow" aria-hidden="true"></div>
-        <div class="runtime-simple-node be">
-          <h4>A-Score BE</h4>
-          <p>Validate, idempotency, DQ Gate, identity, routing New / Thin / Thick và chọn candidate model.</p>
-          <div class="runtime-simple-tags"><span>RuntimeContext</span><span>RoutingContext</span></div>
-        </div>
-        <div class="runtime-simple-arrow" aria-hidden="true"></div>
-        <div class="runtime-simple-node engine">
-          <h4>Submit Context to Scoring Engine</h4>
-          <p>BE gửi scoring context sang engine. Engine xử lý scoring và trả result.</p>
-          <div class="runtime-simple-tags"><span>ScoringEngineRequest</span><span>ScoringExecutionContext</span><span>ModelInput</span></div>
-        </div>
-        <div class="runtime-simple-arrow" aria-hidden="true"></div>
-        <div class="runtime-simple-node response">
-          <h4>Result về BE</h4>
-          <p>BE check response contract, build full response và trả về LOS / Decision Engine.</p>
-          <div class="runtime-simple-tags"><span>score</span><span>grade</span><span>reason_codes</span></div>
-        </div>
-      </div>
-      <div class="runtime-support-grid">
-        <div class="runtime-support-panel">
-          <h4>Object instance trong một request</h4>
-          <div class="runtime-object-chain">
-            <div>BE Contexts<small>RuntimeContext, IdentityContext, RoutingContext.</small></div>
-            <div>Scoring request<small>ScoringEngineRequest là gói context BE submit sang Scoring Engine.</small></div>
-            <div>Engine state<small>ScoringExecutionContext giữ trạng thái chính của lần scoring.</small></div>
+      <div class="runtime-board runtime-object-board">
+        <div class="runtime-source">
+          <div class="runtime-source-card">
+            <b>Caller</b>
+            <small>LOS / MyF88 / PGD / Partner</small>
+          </div>
+          <div class="runtime-arrow">Request</div>
+          <div class="runtime-gateway">
+            <b>API Gateway</b>
+            <small>Chuẩn hóa cửa vào runtime</small>
           </div>
         </div>
-        <div class="runtime-support-panel">
-          <h4>Object tạo để audit / replay</h4>
-          <div class="runtime-object-chain">
-            <div>Evidence objects<small>FeatureSnapshot, InferenceLog, ReplayPackage được tạo đúng thời điểm.</small></div>
-            <div>ModelInstance cached<small>Model không tạo lại theo request; mỗi request chỉ tạo ModelInput.</small></div>
+        <div class="runtime-stages">
+          <div class="runtime-stage be flow-next">
+            <div class="runtime-stage-head"><span class="n">1</span><div>A-Score BE<small>Runtime Orchestrator</small></div></div>
+            <div class="runtime-stage-body">
+              <details class="runtime-action">
+                <summary><span class="ico">1</span><span class="runtime-action-label"><span>Receive + Validate Request</span><em>create: RuntimeContext</em></span></summary>
+                <ul><li><b>Nhiệm vụ:</b> nhận request qua API Gateway, kiểm tra header/body và mở RuntimeContext cho lần scoring này.</li></ul>
+              </details>
+              <details class="runtime-action">
+                <summary><span class="ico">2</span><span class="runtime-action-label"><span>Idempotency + DQ Gate</span></span></summary>
+                <ul><li><b>Nhiệm vụ:</b> chống request trùng và chặn sớm dữ liệu không đủ điều kiện.</li></ul>
+              </details>
+              <details class="runtime-action">
+                <summary><span class="ico">3</span><span class="runtime-action-label"><span>Resolve Customer Identity</span><em>create: IdentityContext</em></span></summary>
+                <ul><li><b>Nhiệm vụ:</b> xác định customer_key và trạng thái match.</li></ul>
+              </details>
+              <details class="runtime-action">
+                <summary><span class="ico">4</span><span class="runtime-action-label"><span>Route + Select Model</span><em>create: RoutingContext</em></span></summary>
+                <ul><li><b>Nhiệm vụ:</b> phân loại New / Thin / Thick và chọn model phù hợp.</li></ul>
+              </details>
+              <details class="runtime-action">
+                <summary><span class="ico">5</span><span class="runtime-action-label"><span>Submit Context To Engine</span><em>create: ScoringEngineRequest</em></span></summary>
+                <ul><li><b>Nhiệm vụ:</b> gửi request_id, trace_id, customer_key, segment và selected_model sang Scoring Engine.</li></ul>
+              </details>
+            </div>
+          </div>
+          <div class="runtime-engine">
+            <div class="runtime-engine-title">
+              <div>Scoring Engine <small>3 nhiệm vụ chính: build feature -> run model -> build result</small></div>
+            </div>
+            <div class="runtime-engine-stages">
+              <div class="runtime-stage feature flow-next">
+                <div class="runtime-stage-head"><span class="n">2</span><div>Handle Feature<small>Build Final Feature</small></div></div>
+                <div class="runtime-stage-body">
+                  <div class="feature-merge-visual">
+                    <div class="feature-merge-sources"><span>T-1 Data</span><span>Intraday Data</span><span>Request-time Data</span></div>
+                    <div class="feature-merge-target">Merge Feature -> Final Feature Vector</div>
+                  </div>
+                  <div class="runtime-main-task"><b>Build Final Feature</b>Hợp nhất dữ liệu T-1, intraday và request-time thành final feature vector để đưa vào model.
+                    <div class="runtime-inline-objects"><span>create: ScoringExecutionContext</span><span>create: FeatureSnapshot</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="runtime-stage model flow-next">
+                <div class="runtime-stage-head"><span class="n">3</span><div>Model Serving<small>Run Model</small></div></div>
+                <div class="runtime-stage-body">
+                  <div class="runtime-main-task"><b>Run Model</b>Dùng final feature vector gọi ModelInstance đã cache để lấy prediction, không load lại model theo từng request.
+                    <div class="runtime-inline-objects"><span>create: ModelInput</span><span>Dùng: ModelInstance cached</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="runtime-stage audit">
+                <div class="runtime-stage-head"><span class="n">4</span><div>Post-processing & Audit<small>Build result + return BE</small></div></div>
+                <div class="runtime-stage-body">
+                  <div class="runtime-main-task"><b>Build Result + Audit</b>Tạo kết quả nghiệp vụ, ghi log/audit, đóng gói replay rồi trả kết quả scoring về BE.
+                    <div class="runtime-audit-flow"><span>1. Build score, grade, risk_band, reason_codes</span><span>2. Write InferenceLog</span><span>3. Build ReplayPackage</span><span>4. Return result to A-Score BE</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="runtime-simple-footer">
-        <div><b>Thông điệp:</b> BE không tự chạy model; BE chuẩn hóa request, tạo scoring context rồi submit sang Scoring Engine.</div>
-        <div><b>Ranh giới trách nhiệm:</b> A-Score trả scoring result hỗ trợ quyết định; LOS / Decision Engine mới là nơi approve/reject cuối cùng.</div>
+        <div><b>Quan trọng:</b> approve/reject phụ thuộc vào Decision Engine; A-Score chỉ cung cấp tín hiệu scoring hỗ trợ quyết định.</div>
+        <div><b>Response về BE:</b> score, grade, risk_band, reason_codes, inference_log_id, replay_package_id.</div>
       </div>
     </div>`;
         }
         function runtimeTraceSlide() {
           return `<section class="section visual-slide runtime-detail-slide" id="runtime-traceability">
-      <div class="section-head"><div><h3>Runtime Traceability</h3><p class="sub">Sau khi scoring xong, hệ thống phải lần ngược được input, model version, output và audit evidence.</p></div><span class="badge">Runtime 2/2</span></div>
-      <div class="runtime-simple-board">
-        <div class="runtime-simple-flow runtime-trace-flow">
-          <div class="runtime-simple-node source">
-            <h4>Trace IDs</h4>
-            <p>ID đi xuyên suốt từ BE sang Scoring Engine rồi quay lại BE.</p>
-            <div class="runtime-simple-tags"><span>trace_id</span><span>request_id</span><span>correlation_id</span><span>idempotency_key</span></div>
+      <div class="section-head"><div><h3>Runtime Traceability</h3><p class="sub">Khi cần kiểm tra một request scoring: bắt đầu từ mã hồ sơ, tìm request trong A-Score, xem runtime path rồi lần sang evidence để audit/replay.</p></div><span class="badge">Runtime 2/2</span></div>
+      <div class="runtime-trace-board">
+        <div class="runtime-trace-path">
+          <div class="runtime-trace-card lookup flow-next">
+            <h4>1. Case cần trace</h4>
+            <p>Bắt đầu từ mã hồ sơ bên LOS hoặc caller.</p>
+            <span class="trace-label">Search key</span><code>correlation_id</code><code>application_id</code>
           </div>
-          <div class="runtime-simple-arrow" aria-hidden="true"></div>
-          <div class="runtime-simple-node be">
-            <h4>Checkpoint Logs</h4>
-            <p>Ghi lại request đã đi qua các điểm kiểm soát nào.</p>
-            <div class="runtime-simple-tags"><span>validate</span><span>DQ Gate</span><span>routing</span><span>selected_model</span></div>
+          <div class="runtime-trace-card logs flow-next">
+            <h4>2. Tìm request A-Score</h4>
+            <p>Tra log để tìm đúng lần scoring trong A-Score.</p>
+            <span class="trace-label">Kết quả lấy ra</span><code>request_id</code><code>trace_id</code><code>idempotency_key</code>
           </div>
-          <div class="runtime-simple-arrow" aria-hidden="true"></div>
-          <div class="runtime-simple-node engine">
-            <h4>Evidence Objects</h4>
-            <p>Giữ bằng chứng input, output và model version đã dùng.</p>
-            <div class="runtime-simple-tags"><span>FeatureSnapshot</span><span>InferenceLog</span><span>model_version</span></div>
+          <div class="runtime-trace-card path flow-next">
+            <h4>3. Xem đi qua bước nào</h4>
+            <p>Search trace_id để thấy checkpoint.</p>
+            <span class="trace-label">Biết được</span><code>validate</code><code>routing</code><code>build feature</code><code>run model</code>
           </div>
-          <div class="runtime-simple-arrow" aria-hidden="true"></div>
-          <div class="runtime-simple-node response">
-            <h4>Replay / Audit</h4>
-            <p>Đủ thông tin để giải thích score hoặc chạy lại khi cần.</p>
-            <div class="runtime-simple-tags"><span>ReplayPackage</span><span>response_hash</span><span>audit_metadata</span></div>
+          <div class="runtime-trace-card result flow-next">
+            <h4>4. Kiểm tra scoring result</h4>
+            <p>Tra inference_log để xem kết quả scoring.</p>
+            <span class="trace-label">Biết được</span><code>score</code><code>grade</code><code>model_version</code><code>reason_codes</code>
+          </div>
+          <div class="runtime-trace-card audit">
+            <h4>5. Audit / replay</h4>
+            <p>Mở evidence khi cần giải thích hoặc chạy lại.</p>
+            <span class="trace-label">Bằng chứng</span><code>features used</code><code>artifact version</code><code>replay package</code>
           </div>
         </div>
-        <div class="runtime-support-grid">
-          <div class="runtime-support-panel">
-            <h4>Khi business hỏi “vì sao ra score này?”</h4>
-            <div class="runtime-trace-chain">
-              <div>1. Tìm theo trace_id / request_id<small>trace_id nối observability end-to-end; request_id nối nghiệp vụ scoring.</small></div>
-              <div>2. Mở FeatureSnapshot<small>Xem input feature tại thời điểm scoring.</small></div>
-              <div>3. Đối chiếu model_version<small>Biết chính xác artifact và mapping version đã dùng.</small></div>
-              <div>4. Xem InferenceLog / ReplayPackage<small>Kiểm tra score, reason_codes, latency và khả năng replay.</small></div>
+        <div class="runtime-trace-lookup-grid">
+          <div class="runtime-trace-panel">
+            <h4>Header bắt buộc của request</h4>
+            <div class="runtime-header-fields">
+              <div class="runtime-header-field"><b>request-id</b><small>ID của một lần gọi scoring vào A-Score.</small></div>
+              <div class="runtime-header-field"><b>correlation-id</b><small>ID nối hồ sơ/case qua LOS, A-Score và Decision Engine.</small></div>
+              <div class="runtime-header-field"><b>caller-system</b><small>Hệ thống gửi request: LOS, MyF88, PGD hoặc Partner.</small></div>
+              <div class="runtime-header-field"><b>api-version</b><small>Version contract để BE validate đúng schema.</small></div>
             </div>
-          </div>
-          <div class="runtime-support-panel">
-            <h4>Thông điệp traceability</h4>
-            <div class="runtime-trace-chain">
-              <div>Trace = ID xuyên suốt<small>trace_id cho observability, request_id cho nghiệp vụ, correlation_id nối upstream/downstream.</small></div>
-              <div>Idempotency = chống request trùng<small>idempotency_key giúp biết request có bị gửi lại hay không.</small></div>
-              <div>Trace = checkpoint log<small>Biết fail hoặc lệch ở bước nào.</small></div>
-              <div>Trace = evidence object<small>Biết input, model, output và replay package.</small></div>
-            </div>
+            <p class="runtime-header-note">Các header này đi xuyên suốt log, tracing và response để tìm đúng request, chống nhầm case và hỗ trợ audit.</p>
           </div>
         </div>
         <div class="runtime-simple-footer">
-          <div><b>Câu nói chính:</b> A-Score không chỉ trả score; mỗi score phải giải thích, audit và replay được.</div>
-          <div><b>Đường trace:</b> trace_id / request_id -> FeatureSnapshot -> model_version -> InferenceLog -> ReplayPackage.</div>
+          <div><b>Traceability</b> trả lời 3 câu: request đi qua đâu, dùng dữ liệu/model nào, và có audit/replay được không.</div>
+          <div><b>Đường trace:</b> correlation_id -> request_id / trace_id -> checkpoints -> inference_log -> FeatureSnapshot / ReplayPackage.</div>
         </div>
       </div>
     </section>`;
@@ -14253,89 +16146,133 @@
           if (pool[0]) show(pool[0].object);
         }
         function initLifecycleStateDropdown() {
-          const lifecycle = document.querySelector(".lifecycle-workflow.lifecycle-v4");
+          const lifecycle = document.querySelector(
+            ".lifecycle-workflow.lifecycle-v4",
+          );
           const dropdown = document.getElementById("lifecycleStateDropdown");
           if (!lifecycle || !dropdown) return;
-          const nodes = [...lifecycle.querySelectorAll("[data-lifecycle-state]")];
+          const nodes = [
+            ...lifecycle.querySelectorAll("[data-lifecycle-state]"),
+          ];
           const head = dropdown.querySelector(".lifecycle-state-dropdown-head");
           const index = document.getElementById("lifecycleStateIndex");
           const title = document.getElementById("lifecycleStateTitle");
           const subtitle = document.getElementById("lifecycleStateSubtitle");
-          const description = document.getElementById("lifecycleStateDescription");
+          const description = document.getElementById(
+            "lifecycleStateDescription",
+          );
           const input = document.getElementById("lifecycleStateInput");
           const activity = document.getElementById("lifecycleStateActivity");
           const output = document.getElementById("lifecycleStateOutput");
           const gate = document.getElementById("lifecycleStateGate");
           const stateDetails = {
             DRAFT: {
-              description: "Khởi tạo yêu cầu và thiết kế đầy đủ phạm vi của model artifact trước khi phát triển.",
-              input: "Yêu cầu nghiệp vụ · use case · chính sách rủi ro · danh mục nguồn dữ liệu.",
-              activity: "Thiết kế population, outcome/label, Risk Driver, Feature Definition và lineage.",
-              output: "Design specification · feature definition bản nháp · owner và phạm vi sử dụng.",
-              gate: "Thiết kế đủ thông tin, có owner và được chấp thuận để bắt đầu huấn luyện."
+              description:
+                "Khởi tạo yêu cầu và thiết kế đầy đủ phạm vi của model artifact trước khi phát triển.",
+              input:
+                "Yêu cầu nghiệp vụ · use case · chính sách rủi ro · danh mục nguồn dữ liệu.",
+              activity:
+                "Thiết kế population, outcome/label, Risk Driver, Feature Definition và lineage.",
+              output:
+                "Design specification · feature definition bản nháp · owner và phạm vi sử dụng.",
+              gate: "Thiết kế đủ thông tin, có owner và được chấp thuận để bắt đầu huấn luyện.",
             },
             CANDIDATE: {
-              description: "Tạo phiên bản mô hình có thể tái lập để đưa sang kiểm định độc lập.",
-              input: "Thiết kế đã chốt · dữ liệu point-in-time · label rule · feature definition.",
-              activity: "Tạo training dataset, huấn luyện, tinh chỉnh, hiệu chỉnh và đóng gói cấu hình.",
-              output: "Candidate model package · training report · FeatureSet và ModelVersion.",
-              gate: "Pipeline chạy tái lập, không leakage và đạt ngưỡng kỹ thuật tối thiểu."
+              description:
+                "Tạo phiên bản mô hình có thể tái lập để đưa sang kiểm định độc lập.",
+              input:
+                "Thiết kế đã chốt · dữ liệu point-in-time · label rule · feature definition.",
+              activity:
+                "Tạo training dataset, huấn luyện, tinh chỉnh, hiệu chỉnh và đóng gói cấu hình.",
+              output:
+                "Candidate model package · training report · FeatureSet và ModelVersion.",
+              gate: "Pipeline chạy tái lập, không leakage và đạt ngưỡng kỹ thuật tối thiểu.",
             },
             VALIDATED: {
-              description: "Xác nhận độc lập rằng mô hình đạt yêu cầu kỹ thuật, nghiệp vụ và kiểm soát rủi ro.",
-              input: "Candidate package · validation dataset · bộ ngưỡng KPI và tiêu chí UAT.",
-              activity: "Kiểm định AUC/KS, stability, calibration, explainability, leakage và UAT.",
-              output: "Validation report · danh sách phát hiện · khuyến nghị phê duyệt hoặc chỉnh sửa.",
-              gate: "Đạt các ngưỡng bắt buộc và đóng toàn bộ phát hiện mức nghiêm trọng."
+              description:
+                "Xác nhận độc lập rằng mô hình đạt yêu cầu kỹ thuật, nghiệp vụ và kiểm soát rủi ro.",
+              input:
+                "Candidate package · validation dataset · bộ ngưỡng KPI và tiêu chí UAT.",
+              activity:
+                "Kiểm định AUC/KS, stability, calibration, explainability, leakage và UAT.",
+              output:
+                "Validation report · danh sách phát hiện · khuyến nghị phê duyệt hoặc chỉnh sửa.",
+              gate: "Đạt các ngưỡng bắt buộc và đóng toàn bộ phát hiện mức nghiêm trọng.",
             },
             APPROVED: {
-              description: "Ghi nhận quyết định quản trị cho phép mô hình được chuẩn bị phát hành.",
-              input: "Model package · validation report · giới hạn sử dụng · kế hoạch rollback.",
-              activity: "Model Owner, Risk và Governance rà soát bằng chứng, phạm vi và trách nhiệm.",
-              output: "Approval record · phạm vi hiệu lực · điều kiện sử dụng · đầy đủ sign-off.",
-              gate: "Đủ phê duyệt từ các vai trò bắt buộc theo chính sách quản trị mô hình."
+              description:
+                "Ghi nhận quyết định quản trị cho phép mô hình được chuẩn bị phát hành.",
+              input:
+                "Model package · validation report · giới hạn sử dụng · kế hoạch rollback.",
+              activity:
+                "Model Owner, Risk và Governance rà soát bằng chứng, phạm vi và trách nhiệm.",
+              output:
+                "Approval record · phạm vi hiệu lực · điều kiện sử dụng · đầy đủ sign-off.",
+              gate: "Đủ phê duyệt từ các vai trò bắt buộc theo chính sách quản trị mô hình.",
             },
             READY: {
-              description: "Hoàn thiện gói phát hành bất biến và xác nhận hệ thống đã sẵn sàng triển khai.",
-              input: "Model đã duyệt · artifact có version · API, routing, monitoring và rollback config.",
-              activity: "Khóa checksum, run preparation, kiểm thử triển khai, giám sát và rollback.",
-              output: "Immutable release package · deployment plan · operational readiness record.",
-              gate: "Gói phát hành đầy đủ và vượt kiểm tra sẵn sàng vận hành."
+              description:
+                "Hoàn thiện gói phát hành bất biến và xác nhận hệ thống đã sẵn sàng triển khai.",
+              input:
+                "Model đã duyệt · artifact có version · API, routing, monitoring và rollback config.",
+              activity:
+                "Khóa checksum, run preparation, kiểm thử triển khai, giám sát và rollback.",
+              output:
+                "Immutable release package · deployment plan · operational readiness record.",
+              gate: "Gói phát hành đầy đủ và vượt kiểm tra sẵn sàng vận hành.",
             },
             SHADOW_ACTIVE: {
-              description: "Kiểm chứng mô hình trên luồng dữ liệu thật nhưng chưa dùng kết quả để ra quyết định.",
-              input: "Ready package · production traffic · Champion baseline · guardrail và KPI.",
-              activity: "Shadow scoring, so Champion/Challenger và mở Canary theo tỷ lệ 5% → 100%.",
-              output: "Shadow/Canary report · bằng chứng so sánh · đề xuất promote hoặc rollback.",
-              gate: "KPI, chất lượng dữ liệu và guardrail đạt ngưỡng trong thời gian quan sát."
+              description:
+                "Kiểm chứng mô hình trên luồng dữ liệu thật nhưng chưa dùng kết quả để ra quyết định.",
+              input:
+                "Ready package · production traffic · Champion baseline · guardrail và KPI.",
+              activity:
+                "Shadow scoring, so Champion/Challenger và mở Canary theo tỷ lệ 5% → 100%.",
+              output:
+                "Shadow/Canary report · bằng chứng so sánh · đề xuất promote hoặc rollback.",
+              gate: "KPI, chất lượng dữ liệu và guardrail đạt ngưỡng trong thời gian quan sát.",
             },
             PRODUCTION_ACTIVE: {
-              description: "Mô hình chính thức tham gia chấm điểm và phục vụ quyết định nghiệp vụ.",
-              input: "Canary đã đạt · routing được kích hoạt · policy threshold · SLA/SLO.",
-              activity: "Scoring chính thức; theo dõi drift, bad rate, calibration, latency và explainability.",
-              output: "Score · Grade · Reason Code · log/lineage · feedback và monitoring metrics.",
-              gate: "Duy trì SLA và guardrail; sự cố kích hoạt rollback, recalibrate hoặc retrain."
+              description:
+                "Mô hình chính thức tham gia chấm điểm và phục vụ quyết định nghiệp vụ.",
+              input:
+                "Canary đã đạt · routing được kích hoạt · policy threshold · SLA/SLO.",
+              activity:
+                "Scoring chính thức; theo dõi drift, bad rate, calibration, latency và explainability.",
+              output:
+                "Score · Grade · Reason Code · log/lineage · feedback và monitoring metrics.",
+              gate: "Duy trì SLA và guardrail; sự cố kích hoạt rollback, recalibrate hoặc retrain.",
             },
             DEPRECATED: {
-              description: "Ngừng dùng phiên bản cũ cho quyết định mới nhưng vẫn giữ để tái hiện lịch sử và kiểm toán.",
-              input: "Model thay thế đã active · retention policy · danh sách phụ thuộc còn lại.",
-              activity: "Tắt routing mới, khóa thay đổi và duy trì khả năng replay, explain và audit.",
-              output: "Phiên bản ngừng phục vụ nhưng vẫn truy xuất được cùng artifact lịch sử.",
-              gate: "Hết thời gian retention và không còn luồng nghiệp vụ phụ thuộc."
+              description:
+                "Ngừng dùng phiên bản cũ cho quyết định mới nhưng vẫn giữ để tái hiện lịch sử và kiểm toán.",
+              input:
+                "Model thay thế đã active · retention policy · danh sách phụ thuộc còn lại.",
+              activity:
+                "Tắt routing mới, khóa thay đổi và duy trì khả năng replay, explain và audit.",
+              output:
+                "Phiên bản ngừng phục vụ nhưng vẫn truy xuất được cùng artifact lịch sử.",
+              gate: "Hết thời gian retention và không còn luồng nghiệp vụ phụ thuộc.",
             },
             RETIRED: {
-              description: "Kết thúc hoàn toàn việc phục vụ của model package sau thời gian lưu giữ quy định.",
-              input: "Deprecated package · xác nhận hết retention · kết quả kiểm tra dependency.",
-              activity: "Dừng serving, lưu trữ artifact, audit trail, lineage và kiểm soát quyền truy cập.",
-              output: "Archival record · artifact và bằng chứng kiểm toán được lưu theo chính sách.",
-              gate: "Trạng thái cuối; chỉ cho phép truy xuất phục vụ kiểm toán và tuân thủ."
-            }
+              description:
+                "Kết thúc hoàn toàn việc phục vụ của model package sau thời gian lưu giữ quy định.",
+              input:
+                "Deprecated package · xác nhận hết retention · kết quả kiểm tra dependency.",
+              activity:
+                "Dừng serving, lưu trữ artifact, audit trail, lineage và kiểm soát quyền truy cập.",
+              output:
+                "Archival record · artifact và bằng chứng kiểm toán được lưu theo chính sách.",
+              gate: "Trạng thái cuối; chỉ cho phép truy xuất phục vụ kiểm toán và tuân thủ.",
+            },
           };
 
           function setOpen(open) {
             dropdown.classList.toggle("open", open);
             head?.setAttribute("aria-expanded", String(open));
-            const active = nodes.find((node) => node.classList.contains("active"));
+            const active = nodes.find((node) =>
+              node.classList.contains("active"),
+            );
             if (active) active.setAttribute("aria-expanded", String(open));
           }
 
@@ -14345,12 +16282,16 @@
               item.classList.toggle("active", item === node);
               item.setAttribute("aria-expanded", "false");
             });
-            dropdown.style.setProperty("--state-color", node.style.getPropertyValue("--state-color") || "#0b4ea2");
+            dropdown.style.setProperty(
+              "--state-color",
+              node.style.getPropertyValue("--state-color") || "#0b4ea2",
+            );
             index.textContent = node.dataset.index || "";
             title.textContent = node.dataset.lifecycleState || "";
             subtitle.textContent = node.dataset.subtitle || "";
             const detail = stateDetails[node.dataset.lifecycleState] || {};
-            description.textContent = detail.description || node.dataset.description || "";
+            description.textContent =
+              detail.description || node.dataset.description || "";
             input.textContent = detail.input || "";
             activity.textContent = detail.activity || "";
             output.textContent = detail.output || "";
@@ -14358,11 +16299,13 @@
             setOpen(!wasActive || !dropdown.classList.contains("open"));
           }
 
-          nodes.forEach((node) => node.addEventListener("click", (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            selectState(node);
-          }));
+          nodes.forEach((node) =>
+            node.addEventListener("click", (event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              selectState(node);
+            }),
+          );
           const toggle = (event) => {
             event.preventDefault();
             event.stopPropagation();
@@ -14378,39 +16321,75 @@
           const popup = document.getElementById("ascoreObjectPopover");
           if (!graph || !popup) return;
           const nodes = [...graph.querySelectorAll("[data-ascore-object]")];
-          let pinned = false, activeName = "", closeTimer = 0;
+          let pinned = false,
+            activeName = "",
+            closeTimer = 0;
           function closePopup() {
             popup.classList.remove("open");
             nodes.forEach((node) => node.classList.remove("active"));
-            pinned = false; activeName = "";
+            pinned = false;
+            activeName = "";
           }
           function positionPopup(node) {
-            const graphBox=graph.getBoundingClientRect(),nodeBox=node.getBoundingClientRect(),width=330,height=Math.min(popup.scrollHeight||250,310);
-            let left=nodeBox.right-graphBox.left+12;
-            if(left+width>graphBox.width-8) left=nodeBox.left-graphBox.left-width-12;
-            left=Math.max(8,Math.min(left,graphBox.width-width-8));
-            let top=nodeBox.top-graphBox.top-30;
-            top=Math.max(8,Math.min(top,graphBox.height-height-8));
-            popup.style.left=`${left}px`; popup.style.top=`${top}px`;
+            const graphBox = graph.getBoundingClientRect(),
+              nodeBox = node.getBoundingClientRect(),
+              width = 330,
+              height = Math.min(popup.scrollHeight || 250, 310);
+            let left = nodeBox.right - graphBox.left + 12;
+            if (left + width > graphBox.width - 8)
+              left = nodeBox.left - graphBox.left - width - 12;
+            left = Math.max(8, Math.min(left, graphBox.width - width - 8));
+            let top = nodeBox.top - graphBox.top - 30;
+            top = Math.max(8, Math.min(top, graphBox.height - height - 8));
+            popup.style.left = `${left}px`;
+            popup.style.top = `${top}px`;
           }
           function openPopup(node, pin) {
             window.clearTimeout(closeTimer);
-            const properties=(node.dataset.objectProperties||"").split("|").filter(Boolean);
-            popup.style.setProperty("--popup-color",node.dataset.objectColor||"#0b4ea2");
-            popup.innerHTML=`<h4>${esc2(node.dataset.ascoreObject)}</h4><p><b>${esc2(node.dataset.objectDomain)}</b><br>${esc2(node.dataset.objectDescription)}</p><b>Property đại diện</b><ul>${properties.map((property)=>`<li>${esc2(property)}</li>`).join("")||"<li>Chưa có property</li>"}</ul>`;
-            nodes.forEach((item)=>item.classList.toggle("active",item===node));
-            popup.classList.add("open"); pinned=!!pin; activeName=node.dataset.ascoreObject;
-            requestAnimationFrame(()=>positionPopup(node));
+            const properties = (node.dataset.objectProperties || "")
+              .split("|")
+              .filter(Boolean);
+            popup.style.setProperty(
+              "--popup-color",
+              node.dataset.objectColor || "#0b4ea2",
+            );
+            popup.innerHTML = `<h4>${esc2(node.dataset.ascoreObject)}</h4><p><b>${esc2(node.dataset.objectDomain)}</b><br>${esc2(node.dataset.objectDescription)}</p><b>Property đại diện</b><ul>${properties.map((property) => `<li>${esc2(property)}</li>`).join("") || "<li>Chưa có property</li>"}</ul>`;
+            nodes.forEach((item) =>
+              item.classList.toggle("active", item === node),
+            );
+            popup.classList.add("open");
+            pinned = !!pin;
+            activeName = node.dataset.ascoreObject;
+            requestAnimationFrame(() => positionPopup(node));
           }
-          nodes.forEach((node)=>{
-            node.addEventListener("pointerenter",()=>{if(!pinned)openPopup(node,false);});
-            node.addEventListener("pointerleave",()=>{if(!pinned)closeTimer=window.setTimeout(closePopup,180);});
-            node.addEventListener("click",(event)=>{event.preventDefault();event.stopPropagation();if(pinned&&activeName===node.dataset.ascoreObject)closePopup();else openPopup(node,true);});
-            node.addEventListener("keydown",(event)=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();openPopup(node,true);}});
+          nodes.forEach((node) => {
+            node.addEventListener("pointerenter", () => {
+              if (!pinned) openPopup(node, false);
+            });
+            node.addEventListener("pointerleave", () => {
+              if (!pinned) closeTimer = window.setTimeout(closePopup, 180);
+            });
+            node.addEventListener("click", (event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              if (pinned && activeName === node.dataset.ascoreObject)
+                closePopup();
+              else openPopup(node, true);
+            });
+            node.addEventListener("keydown", (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openPopup(node, true);
+              }
+            });
           });
-          popup.addEventListener("pointerenter",()=>window.clearTimeout(closeTimer));
-          popup.addEventListener("pointerleave",()=>{if(!pinned)closeTimer=window.setTimeout(closePopup,180);});
-          popup.addEventListener("click",(event)=>event.stopPropagation());
+          popup.addEventListener("pointerenter", () =>
+            window.clearTimeout(closeTimer),
+          );
+          popup.addEventListener("pointerleave", () => {
+            if (!pinned) closeTimer = window.setTimeout(closePopup, 180);
+          });
+          popup.addEventListener("click", (event) => event.stopPropagation());
         }
         function initOntologyEnterpriseExplorer() {
           const source = window.ONTOLOGY_XLSX;
@@ -14590,17 +16569,21 @@
           }
 
           nodeList.forEach((node) => {
-            node.addEventListener("pointerdown", (event) => event.preventDefault());
+            node.addEventListener("pointerdown", (event) =>
+              event.preventDefault(),
+            );
             node.addEventListener("pointerenter", () => {
               if (!popupPinned) openDomainPopup(node, false);
             });
             node.addEventListener("pointerleave", () => {
-              if (!popupPinned) popupCloseTimer = window.setTimeout(closeDomainPopup, 180);
+              if (!popupPinned)
+                popupCloseTimer = window.setTimeout(closeDomainPopup, 180);
             });
             node.addEventListener("click", (event) => {
               event.preventDefault();
               event.stopPropagation();
-              if (popupPinned && popupDomain === node.dataset.domain) closeDomainPopup();
+              if (popupPinned && popupDomain === node.dataset.domain)
+                closeDomainPopup();
               else openDomainPopup(node, true);
             });
             node.addEventListener("keydown", (event) => {
@@ -14610,12 +16593,21 @@
               }
             });
           });
-          quickDetail?.addEventListener("pointerenter", () => window.clearTimeout(popupCloseTimer));
+          quickDetail?.addEventListener("pointerenter", () =>
+            window.clearTimeout(popupCloseTimer),
+          );
           quickDetail?.addEventListener("pointerleave", () => {
-            if (!popupPinned) popupCloseTimer = window.setTimeout(closeDomainPopup, 180);
+            if (!popupPinned)
+              popupCloseTimer = window.setTimeout(closeDomainPopup, 180);
           });
-          quickDetail?.addEventListener("click", (event) => event.stopPropagation());
-          stripButtons.forEach((button) => button.addEventListener("click", () => renderDomain(button.dataset.detailDomain, false)));
+          quickDetail?.addEventListener("click", (event) =>
+            event.stopPropagation(),
+          );
+          stripButtons.forEach((button) =>
+            button.addEventListener("click", () =>
+              renderDomain(button.dataset.detailDomain, false),
+            ),
+          );
           detail?.addEventListener("click", (event) => {
             const button = event.target.closest("[data-detail-object]");
             if (!button) return;
@@ -15269,7 +17261,9 @@
               void g.sec.offsetHeight;
               var kids = Array.prototype.filter
                 .call(g.sec.children, function (k) {
-                  return k.nodeType === 1 && !k.classList.contains("visually-hidden");
+                  return (
+                    k.nodeType === 1 && !k.classList.contains("visually-hidden")
+                  );
                 })
                 .map(function (k) {
                   return { top: k.offsetTop, height: k.offsetHeight };
