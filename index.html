@@ -7867,6 +7867,474 @@
         font-weight: 900;
         line-height: 1.45;
       }
+      .cti-v2 .runtime-object-board {
+        grid-template-columns: 180px minmax(0, 1fr);
+      }
+      .cti-v2 .runtime-object-board .runtime-stages {
+        grid-template-columns: minmax(205px, 0.86fr) minmax(0, 3.45fr);
+      }
+      .cti-v2 .runtime-object-board .runtime-action summary {
+        min-height: 46px;
+      }
+      .cti-v2 .runtime-action {
+        border: 1px solid #e1eaf3;
+        border-radius: 10px;
+        background: #fff;
+        overflow: hidden;
+      }
+      .cti-v2 .runtime-action summary {
+        list-style: none;
+        cursor: pointer;
+        display: grid;
+        grid-template-columns: 24px 1fr auto;
+        gap: 7px;
+        align-items: center;
+        padding: 7px 8px;
+        color: #102033;
+        font-size: 12px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-action-label {
+        min-width: 0;
+      }
+      .cti-v2 .runtime-action-label span {
+        display: block;
+      }
+      .cti-v2 .runtime-action-label em {
+        display: block;
+        margin-top: 2px;
+        color: #0b4ea2;
+        font-size: 9px;
+        font-style: normal;
+        font-weight: 900;
+        line-height: 1.2;
+      }
+      .cti-v2 .runtime-stage.feature .runtime-action-label em {
+        color: #007236;
+      }
+      .cti-v2 .runtime-stage.model .runtime-action-label em {
+        color: #5b35a5;
+      }
+      .cti-v2 .runtime-stage.audit .runtime-action-label em {
+        color: #8a5b00;
+      }
+      .cti-v2 .runtime-action summary::-webkit-details-marker {
+        display: none;
+      }
+      .cti-v2 .runtime-action summary::after {
+        content: "+";
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: #eef4fb;
+        color: #0b4ea2;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-action[open] summary::after {
+        content: "-";
+      }
+      .cti-v2 .runtime-action .ico {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: #f1f5f9;
+        color: #0b4ea2;
+        font-size: 12px;
+        font-weight: 900;
+      }
+      .cti-v2 .feature-merge-visual {
+        display: grid;
+        gap: 6px;
+        border: 1px dashed #9cccac;
+        border-radius: 10px;
+        background: #f7fff9;
+        padding: 7px;
+      }
+      .cti-v2 .feature-merge-sources {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+      }
+      .cti-v2 .feature-merge-sources span {
+        border: 1px solid #cfe8d8;
+        border-radius: 8px;
+        background: #fff;
+        padding: 6px 5px;
+        text-align: center;
+        color: #24613c;
+        font-size: 11px;
+        font-weight: 900;
+      }
+      .cti-v2 .feature-merge-target {
+        border-radius: 8px;
+        padding: 7px;
+        text-align: center;
+        color: #fff;
+        background: #00833e;
+        font-size: 12px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-action ul {
+        margin: 0;
+        padding: 0 10px 9px 42px;
+        color: #516173;
+        font-size: 11px;
+        line-height: 1.45;
+      }
+      .cti-v2 .runtime-action li {
+        margin: 2px 0;
+      }
+      .cti-v2 .runtime-action li b {
+        color: #0b2f64;
+      }
+      .cti-v2 .runtime-object-groups {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 8px;
+      }
+      .cti-v2 .runtime-object-groups span {
+        display: inline-flex;
+        padding: 4px 7px;
+        border-radius: 999px;
+        background: #eef6ff;
+        color: #0b4ea2;
+        font-size: 10px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-compact-note {
+        border: 1px solid #e1eaf3;
+        border-radius: 10px;
+        background: #fff;
+        padding: 8px 9px;
+        color: #516173;
+        font-size: 11px;
+        font-weight: 800;
+        line-height: 1.4;
+      }
+      .cti-v2 .runtime-compact-note b {
+        display: block;
+        margin-bottom: 3px;
+        color: #102033;
+        font-size: 12px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-main-task {
+        border: 2px solid #b7dac7;
+        border-radius: 10px;
+        background: #f2fff7;
+        padding: 9px 10px;
+        color: #0b3f22;
+        font-size: 11px;
+        font-weight: 850;
+        line-height: 1.35;
+      }
+      .cti-v2 .runtime-main-task b {
+        display: block;
+        margin-bottom: 4px;
+        color: #00833e;
+        font-size: 15px;
+        font-weight: 1000;
+      }
+      .cti-v2 .runtime-stage.model .runtime-main-task {
+        border-color: #c8b9eb;
+        background: #f7f3ff;
+        color: #3d2475;
+      }
+      .cti-v2 .runtime-stage.model .runtime-main-task b {
+        color: #5b35a5;
+      }
+      .cti-v2 .runtime-stage.audit .runtime-main-task {
+        border-color: #efca77;
+        background: #fffaf0;
+        color: #664300;
+      }
+      .cti-v2 .runtime-stage.audit .runtime-main-task b {
+        color: #b06e00;
+      }
+      .cti-v2 .runtime-audit-flow {
+        display: grid;
+        gap: 5px;
+        margin-top: 7px;
+      }
+      .cti-v2 .runtime-audit-flow span {
+        display: block;
+        border: 1px solid #f0d49b;
+        border-radius: 8px;
+        background: #fff;
+        padding: 5px 7px;
+        color: #6f4a00;
+        font-size: 10px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-inline-objects {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 7px;
+      }
+      .cti-v2 .runtime-inline-objects span {
+        display: inline-flex;
+        padding: 4px 7px;
+        border-radius: 999px;
+        background: #ffffff;
+        border: 1px solid rgba(0, 131, 62, 0.24);
+        color: #007236;
+        font-size: 10px;
+        font-weight: 900;
+        line-height: 1.2;
+      }
+      .cti-v2 .runtime-stage.model .runtime-inline-objects span {
+        border-color: rgba(91, 53, 165, 0.24);
+        color: #5b35a5;
+      }
+      .cti-v2 .runtime-stage.audit .runtime-inline-objects span {
+        border-color: rgba(216, 145, 0, 0.28);
+        color: #8a5b00;
+      }
+
+      .cti-v2 .runtime-trace-board {
+        display: grid;
+        gap: 14px;
+        margin-top: 12px;
+      }
+      .cti-v2 .runtime-trace-path {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 14px;
+        align-items: stretch;
+      }
+      .cti-v2 .runtime-trace-card {
+        position: relative;
+        min-width: 0;
+        border: 1px solid #d7e3ef;
+        border-top: 5px solid #0b4ea2;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #ffffff, #fbfdff);
+        padding: 11px;
+        min-height: 174px;
+        box-shadow: 0 8px 18px rgba(16, 32, 51, 0.06);
+      }
+      .cti-v2 .runtime-trace-card.flow-next::after {
+        content: "\2192";
+        position: absolute;
+        right: -14px;
+        top: 50%;
+        transform: translate(50%, -50%);
+        z-index: 2;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: #0b2f64;
+        background: #fff;
+        border: 1px solid #cbd7e3;
+        box-shadow: 0 5px 14px rgba(16, 32, 51, 0.12);
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-trace-card.lookup {
+        border-top-color: #60758c;
+      }
+      .cti-v2 .runtime-trace-card.logs {
+        border-top-color: #0b4ea2;
+      }
+      .cti-v2 .runtime-trace-card.path {
+        border-top-color: #00833e;
+      }
+      .cti-v2 .runtime-trace-card.result {
+        border-top-color: #5b35a5;
+      }
+      .cti-v2 .runtime-trace-card.audit {
+        border-top-color: #d89100;
+      }
+      .cti-v2 .runtime-trace-card h4 {
+        margin: 0 0 7px;
+        color: #102033;
+        font-size: 13.5px;
+        font-weight: 1000;
+        line-height: 1.2;
+      }
+      .cti-v2 .runtime-trace-card p {
+        margin: 0 0 8px;
+        color: #64748b;
+        font-size: 10.25px;
+        font-weight: 800;
+        line-height: 1.35;
+      }
+      .cti-v2 .runtime-trace-card .trace-label {
+        display: block;
+        margin-top: 7px;
+        color: #0b2f64;
+        font-size: 10px;
+        font-weight: 1000;
+      }
+      .cti-v2 .runtime-trace-card code {
+        display: inline-flex;
+        margin: 3px 3px 0 0;
+        padding: 3px 6px;
+        border-radius: 999px;
+        background: #eef6ff;
+        color: #0b4ea2;
+        font-family: inherit;
+        font-size: 9.5px;
+        font-weight: 900;
+      }
+      .cti-v2 .runtime-trace-card.path code {
+        background: #eaf7ef;
+        color: #007236;
+      }
+      .cti-v2 .runtime-trace-card.result code {
+        background: #f4efff;
+        color: #5b35a5;
+      }
+      .cti-v2 .runtime-trace-card.audit code {
+        background: #fff7db;
+        color: #8a5b00;
+      }
+      .cti-v2 .runtime-trace-lookup-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .cti-v2 .runtime-trace-panel {
+        border: 1px solid #d7e3ef;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #ffffff, #fbfdff);
+        padding: 13px;
+        min-width: 0;
+      }
+      .cti-v2 .runtime-trace-panel h4 {
+        margin: 0 0 10px;
+        color: #102033;
+        font-size: 15.5px;
+        font-weight: 1000;
+      }
+      .cti-v2 .runtime-header-fields {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .cti-v2 .runtime-header-field {
+        border: 1px solid #e1eaf3;
+        border-radius: 9px;
+        background: #fbfdff;
+        padding: 9px 10px;
+        color: #102033;
+        font-size: 11.5px;
+        font-weight: 900;
+        line-height: 1.35;
+        min-height: 78px;
+      }
+      .cti-v2 .runtime-header-field b {
+        display: block;
+        margin-bottom: 4px;
+        color: #0b4ea2;
+        font-size: 12px;
+        font-weight: 1000;
+      }
+      .cti-v2 .runtime-header-field small {
+        display: block;
+        margin-top: 2px;
+        color: #64748b;
+        font-size: 10px;
+        font-weight: 800;
+      }
+      .cti-v2 .runtime-header-note {
+        margin: 10px 0 0;
+        color: #0b2f64;
+        font-size: 11.5px;
+        font-weight: 900;
+        line-height: 1.35;
+      }
+
+      /* Runtime 3/3 (#41): chữ +3 bậc rồi +1, box phóng theo nội dung */
+      .cti-v2 #runtime-traceability .runtime-simple-footer {
+        gap: 10px;
+        margin-top: 4px;
+      }
+      .cti-v2 #runtime-traceability .runtime-simple-footer div {
+        padding: 13px 15px;
+        font-size: 16px;
+        line-height: 1.45;
+        border-radius: 12px;
+      }
+
+      .cti-v2 #runtime-traceability .runtime-trace-board {
+        gap: 16px;
+        margin-top: 6px;
+      }
+      .cti-v2 #runtime-traceability .runtime-trace-path {
+        gap: 16px;
+      }
+      .cti-v2 #runtime-traceability .runtime-trace-card {
+        padding: 15px 14px;
+        min-height: 230px;
+        border-radius: 14px;
+        border-top-width: 6px;
+      }
+      .cti-v2 #runtime-traceability .runtime-trace-card.flow-next::after {
+        width: 28px;
+        height: 28px;
+        right: -16px;
+        font-size: 16px;
+      }
+      .cti-v2 #runtime-traceability .runtime-trace-card h4 {
+        margin: 0 0 10px;
+        font-size: 17.5px;
+        line-height: 1.25;
+      }
+      .cti-v2 #runtime-traceability .runtime-trace-card p {
+        margin: 0 0 10px;
+        font-size: 14.25px;
+        line-height: 1.4;
+      }
+      .cti-v2 #runtime-traceability .runtime-trace-card .trace-label {
+        margin-top: 8px;
+        font-size: 14px;
+      }
+      .cti-v2 #runtime-traceability .runtime-trace-card code {
+        margin: 4px 4px 0 0;
+        padding: 6px 9px;
+        font-size: 13.5px;
+        border-radius: 8px;
+      }
+      .cti-v2 #runtime-traceability .runtime-trace-panel {
+        padding: 16px;
+        border-radius: 14px;
+      }
+      .cti-v2 #runtime-traceability .runtime-trace-panel h4 {
+        margin: 0 0 12px;
+        font-size: 19.5px;
+      }
+      .cti-v2 #runtime-traceability .runtime-header-fields {
+        gap: 12px;
+      }
+      .cti-v2 #runtime-traceability .runtime-header-field {
+        padding: 13px 12px;
+        min-height: 108px;
+        border-radius: 12px;
+        font-size: 15.5px;
+        line-height: 1.4;
+      }
+      .cti-v2 #runtime-traceability .runtime-header-field b {
+        font-size: 16.5px;
+        margin-bottom: 6px;
+      }
+      .cti-v2 #runtime-traceability .runtime-header-field small {
+        font-size: 14px;
+        line-height: 1.4;
+      }
+      .cti-v2 #runtime-traceability .runtime-header-note {
+        margin-top: 12px;
+        font-size: 15.5px;
+        line-height: 1.4;
+      }
+
       .cti-v2 .runtime-simple-board {
         display: grid;
         gap: 12px;
@@ -8495,6 +8963,15 @@
         flex-direction: column;
         margin-top: 0;
       }
+
+      .cti-v2 .section.section-fill-slide .runtime-board,
+      .cti-v2 .section.section-fill-slide .runtime-object-board,
+      .cti-v2 .section.section-fill-slide .runtime-trace-board {
+        flex: 1 1 auto;
+        min-height: 0;
+        width: 100%;
+      }
+
       .cti-v2 .ds-slide.visual-fill-slide .ds-grid {
         display: grid;
         grid-template-columns: minmax(250px, 0.42fr) minmax(0, 1.58fr);
@@ -14958,51 +15435,84 @@ if (type === "ontRoutingMatrixCompact")
         }
         function runtimeBoard() {
           return `<div class="runtime-simple-board">
-      <div class="runtime-simple-flow">
-        <div class="runtime-simple-node source">
-          <h4>Caller</h4>
-          <p>LOS / MyF88 / PGD / Partner gửi request qua API Gateway.</p>
-          <div class="runtime-simple-tags"><span>request_id</span><span>trace_id</span><span>correlation_id</span></div>
-        </div>
-        <div class="runtime-simple-arrow" aria-hidden="true"></div>
-        <div class="runtime-simple-node be">
-          <h4>A-Score BE</h4>
-          <p>Validate, idempotency, DQ Gate, identity, routing New / Thin / Thick và chọn candidate model.</p>
-          <div class="runtime-simple-tags"><span>RuntimeContext</span><span>RoutingContext</span></div>
-        </div>
-        <div class="runtime-simple-arrow" aria-hidden="true"></div>
-        <div class="runtime-simple-node engine">
-          <h4>Submit Context to Scoring Engine</h4>
-          <p>BE gửi scoring context sang engine. Engine xử lý scoring và trả result.</p>
-          <div class="runtime-simple-tags"><span>ScoringEngineRequest</span><span>ScoringExecutionContext</span><span>ModelInput</span></div>
-        </div>
-        <div class="runtime-simple-arrow" aria-hidden="true"></div>
-        <div class="runtime-simple-node response">
-          <h4>Result về BE</h4>
-          <p>BE check response contract, build full response và trả về LOS / Decision Engine.</p>
-          <div class="runtime-simple-tags"><span>score</span><span>grade</span><span>reason_codes</span></div>
-        </div>
-      </div>
-      <div class="runtime-support-grid">
-        <div class="runtime-support-panel">
-          <h4>Object instance trong một request</h4>
-          <div class="runtime-object-chain">
-            <div>BE Contexts<small>RuntimeContext, IdentityContext, RoutingContext.</small></div>
-            <div>Scoring request<small>ScoringEngineRequest là gói context BE submit sang Scoring Engine.</small></div>
-            <div>Engine state<small>ScoringExecutionContext giữ trạng thái chính của lần scoring.</small></div>
+      <div class="runtime-board runtime-object-board">
+        <div class="runtime-source">
+          <div class="runtime-source-card">
+            <b>Caller</b>
+            <small>LOS / MyF88 / PGD / Partner</small>
+          </div>
+          <div class="runtime-arrow">Request</div>
+          <div class="runtime-gateway">
+            <b>API Gateway</b>
+            <small>Chuẩn hóa cửa vào runtime</small>
           </div>
         </div>
-        <div class="runtime-support-panel">
-          <h4>Object tạo để audit / replay</h4>
-          <div class="runtime-object-chain">
-            <div>Evidence objects<small>FeatureSnapshot, InferenceLog, ReplayPackage được tạo đúng thời điểm.</small></div>
-            <div>ModelInstance cached<small>Model không tạo lại theo request; mỗi request chỉ tạo ModelInput.</small></div>
+        <div class="runtime-stages">
+          <div class="runtime-stage be flow-next">
+            <div class="runtime-stage-head"><span class="n">1</span><div>A-Score BE<small>Runtime Orchestrator</small></div></div>
+            <div class="runtime-stage-body">
+              <details class="runtime-action">
+                <summary><span class="ico">1</span><span class="runtime-action-label"><span>Receive + Validate Request</span><em>create: RuntimeContext</em></span></summary>
+                <ul><li><b>Nhiệm vụ:</b> nhận request qua API Gateway, kiểm tra header/body và mở RuntimeContext cho lần scoring này.</li></ul>
+              </details>
+              <details class="runtime-action">
+                <summary><span class="ico">2</span><span class="runtime-action-label"><span>Idempotency + DQ Gate</span></span></summary>
+                <ul><li><b>Nhiệm vụ:</b> chống request trùng và chặn sớm dữ liệu không đủ điều kiện.</li></ul>
+              </details>
+              <details class="runtime-action">
+                <summary><span class="ico">3</span><span class="runtime-action-label"><span>Resolve Customer Identity</span><em>create: IdentityContext</em></span></summary>
+                <ul><li><b>Nhiệm vụ:</b> xác định customer_key và trạng thái match.</li></ul>
+              </details>
+              <details class="runtime-action">
+                <summary><span class="ico">4</span><span class="runtime-action-label"><span>Route + Select Model</span><em>create: RoutingContext</em></span></summary>
+                <ul><li><b>Nhiệm vụ:</b> phân loại New / Thin / Thick và chọn model phù hợp.</li></ul>
+              </details>
+              <details class="runtime-action">
+                <summary><span class="ico">5</span><span class="runtime-action-label"><span>Submit Context To Engine</span><em>create: ScoringEngineRequest</em></span></summary>
+                <ul><li><b>Nhiệm vụ:</b> gửi request_id, trace_id, customer_key, segment và selected_model sang Scoring Engine.</li></ul>
+              </details>
+            </div>
+          </div>
+          <div class="runtime-engine">
+            <div class="runtime-engine-title">
+              <div>Scoring Engine <small>3 nhiệm vụ chính: build feature -> run model -> build result</small></div>
+            </div>
+            <div class="runtime-engine-stages">
+              <div class="runtime-stage feature flow-next">
+                <div class="runtime-stage-head"><span class="n">2</span><div>Handle Feature<small>Build Final Feature</small></div></div>
+                <div class="runtime-stage-body">
+                  <div class="feature-merge-visual">
+                    <div class="feature-merge-sources"><span>T-1 Data</span><span>Intraday Data</span><span>Request-time Data</span></div>
+                    <div class="feature-merge-target">Merge Feature -> Final Feature Vector</div>
+                  </div>
+                  <div class="runtime-main-task"><b>Build Final Feature</b>Hợp nhất dữ liệu T-1, intraday và request-time thành final feature vector để đưa vào model.
+                    <div class="runtime-inline-objects"><span>create: ScoringExecutionContext</span><span>create: FeatureSnapshot</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="runtime-stage model flow-next">
+                <div class="runtime-stage-head"><span class="n">3</span><div>Model Serving<small>Run Model</small></div></div>
+                <div class="runtime-stage-body">
+                  <div class="runtime-main-task"><b>Run Model</b>Dùng final feature vector gọi ModelInstance đã cache để lấy prediction, không load lại model theo từng request.
+                    <div class="runtime-inline-objects"><span>create: ModelInput</span><span>Dùng: ModelInstance cached</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="runtime-stage audit">
+                <div class="runtime-stage-head"><span class="n">4</span><div>Post-processing & Audit<small>Build result + return BE</small></div></div>
+                <div class="runtime-stage-body">
+                  <div class="runtime-main-task"><b>Build Result + Audit</b>Tạo kết quả nghiệp vụ, ghi log/audit, đóng gói replay rồi trả kết quả scoring về BE.
+                    <div class="runtime-audit-flow"><span>1. Build score, grade, risk_band, reason_codes</span><span>2. Write InferenceLog</span><span>3. Build ReplayPackage</span><span>4. Return result to A-Score BE</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="runtime-simple-footer">
-        <div><b>Thông điệp:</b> BE không tự chạy model; BE chuẩn hóa request, tạo scoring context rồi submit sang Scoring Engine.</div>
-        <div><b>Ranh giới trách nhiệm:</b> A-Score trả scoring result hỗ trợ quyết định; LOS / Decision Engine mới là nơi approve/reject cuối cùng.</div>
+        <div><b>Quan trọng:</b> approve/reject phụ thuộc vào Decision Engine; A-Score chỉ cung cấp tín hiệu scoring hỗ trợ quyết định.</div>
+        <div><b>Response về BE:</b> score, grade, risk_band, reason_codes, inference_log_id, replay_package_id.</div>
       </div>
     </div>`;
         }
@@ -15020,58 +15530,52 @@ if (type === "ontRoutingMatrixCompact")
       <h3 class="visually-hidden">${parentNum}.${subNum}. Runtime Traceability</h3>
       <div class="section-context">
         <span class="context-num">${parentNum}</span>
-        <div class="context-title"><b>Runtime · Traceability</b><small>${subNum}/${total} — Sau scoring phải lần ngược được input, model version, output và audit evidence</small></div>
+        <div class="context-title"><b>Runtime · Traceability</b><small>${subNum}/${total} — Khi cần kiểm tra một request scoring: bắt đầu từ mã hồ sơ, tìm request trong A-Score, xem runtime path rồi lần sang evidence để audit/replay</small></div>
         <div class="sub-progress">${progress}</div>
       </div>
-      <div class="runtime-simple-board">
-        <div class="runtime-simple-flow runtime-trace-flow">
-          <div class="runtime-simple-node source">
-            <h4>Trace IDs</h4>
-            <p>ID đi xuyên suốt từ BE sang Scoring Engine rồi quay lại BE.</p>
-            <div class="runtime-simple-tags"><span>trace_id</span><span>request_id</span><span>correlation_id</span><span>idempotency_key</span></div>
+      <div class="runtime-trace-board">
+        <div class="runtime-trace-path">
+          <div class="runtime-trace-card lookup flow-next">
+            <h4>1. Case cần trace</h4>
+            <p>Bắt đầu từ mã hồ sơ bên LOS hoặc caller.</p>
+            <span class="trace-label">Search key</span><code>correlation_id</code><code>application_id</code>
           </div>
-          <div class="runtime-simple-arrow" aria-hidden="true"></div>
-          <div class="runtime-simple-node be">
-            <h4>Checkpoint Logs</h4>
-            <p>Ghi lại request đã đi qua các điểm kiểm soát nào.</p>
-            <div class="runtime-simple-tags"><span>validate</span><span>DQ Gate</span><span>routing</span><span>selected_model</span></div>
+          <div class="runtime-trace-card logs flow-next">
+            <h4>2. Tìm request A-Score</h4>
+            <p>Tra log để tìm đúng lần scoring trong A-Score.</p>
+            <span class="trace-label">Kết quả lấy ra</span><code>request_id</code><code>trace_id</code><code>idempotency_key</code>
           </div>
-          <div class="runtime-simple-arrow" aria-hidden="true"></div>
-          <div class="runtime-simple-node engine">
-            <h4>Evidence Objects</h4>
-            <p>Giữ bằng chứng input, output và model version đã dùng.</p>
-            <div class="runtime-simple-tags"><span>FeatureSnapshot</span><span>InferenceLog</span><span>model_version</span></div>
+          <div class="runtime-trace-card path flow-next">
+            <h4>3. Xem đi qua bước nào</h4>
+            <p>Search trace_id để thấy checkpoint.</p>
+            <span class="trace-label">Biết được</span><code>validate</code><code>routing</code><code>build feature</code><code>run model</code>
           </div>
-          <div class="runtime-simple-arrow" aria-hidden="true"></div>
-          <div class="runtime-simple-node response">
-            <h4>Replay / Audit</h4>
-            <p>Đủ thông tin để giải thích score hoặc chạy lại khi cần.</p>
-            <div class="runtime-simple-tags"><span>ReplayPackage</span><span>response_hash</span><span>audit_metadata</span></div>
+          <div class="runtime-trace-card result flow-next">
+            <h4>4. Kiểm tra scoring result</h4>
+            <p>Tra inference_log để xem kết quả scoring.</p>
+            <span class="trace-label">Biết được</span><code>score</code><code>grade</code><code>model_version</code><code>reason_codes</code>
+          </div>
+          <div class="runtime-trace-card audit">
+            <h4>5. Audit / replay</h4>
+            <p>Mở evidence khi cần giải thích hoặc chạy lại.</p>
+            <span class="trace-label">Bằng chứng</span><code>features used</code><code>artifact version</code><code>replay package</code>
           </div>
         </div>
-        <div class="runtime-support-grid">
-          <div class="runtime-support-panel">
-            <h4>Khi business hỏi “vì sao ra score này?”</h4>
-            <div class="runtime-trace-chain">
-              <div>1. Tìm theo trace_id / request_id<small>trace_id nối observability end-to-end; request_id nối nghiệp vụ scoring.</small></div>
-              <div>2. Mở FeatureSnapshot<small>Xem input feature tại thời điểm scoring.</small></div>
-              <div>3. Đối chiếu model_version<small>Biết chính xác artifact và mapping version đã dùng.</small></div>
-              <div>4. Xem InferenceLog / ReplayPackage<small>Kiểm tra score, reason_codes, latency và khả năng replay.</small></div>
+        <div class="runtime-trace-lookup-grid">
+          <div class="runtime-trace-panel">
+            <h4>Header bắt buộc của request</h4>
+            <div class="runtime-header-fields">
+              <div class="runtime-header-field"><b>request-id</b><small>ID của một lần gọi scoring vào A-Score.</small></div>
+              <div class="runtime-header-field"><b>correlation-id</b><small>ID nối hồ sơ/case qua LOS, A-Score và Decision Engine.</small></div>
+              <div class="runtime-header-field"><b>caller-system</b><small>Hệ thống gửi request: LOS, MyF88, PGD hoặc Partner.</small></div>
+              <div class="runtime-header-field"><b>api-version</b><small>Version contract để BE validate đúng schema.</small></div>
             </div>
-          </div>
-          <div class="runtime-support-panel">
-            <h4>Thông điệp traceability</h4>
-            <div class="runtime-trace-chain">
-              <div>Trace = ID xuyên suốt<small>trace_id cho observability, request_id cho nghiệp vụ, correlation_id nối upstream/downstream.</small></div>
-              <div>Idempotency = chống request trùng<small>idempotency_key giúp biết request có bị gửi lại hay không.</small></div>
-              <div>Trace = checkpoint log<small>Biết fail hoặc lệch ở bước nào.</small></div>
-              <div>Trace = evidence object<small>Biết input, model, output và replay package.</small></div>
-            </div>
+            <p class="runtime-header-note">Các header này đi xuyên suốt log, tracing và response để tìm đúng request, chống nhầm case và hỗ trợ audit.</p>
           </div>
         </div>
         <div class="runtime-simple-footer">
-          <div><b>Câu nói chính:</b> A-Score không chỉ trả score; mỗi score phải giải thích, audit và replay được.</div>
-          <div><b>Đường trace:</b> trace_id / request_id -> FeatureSnapshot -> model_version -> InferenceLog -> ReplayPackage.</div>
+          <div><b>Traceability</b> trả lời 3 câu: request đi qua đâu, dùng dữ liệu/model nào, và có audit/replay được không.</div>
+          <div><b>Đường trace:</b> correlation_id -> request_id / trace_id -> checkpoints -> inference_log -> FeatureSnapshot / ReplayPackage.</div>
         </div>
       </div>
     </section>`;
