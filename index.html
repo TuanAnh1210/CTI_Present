@@ -10995,13 +10995,13 @@
           {
             id: "bc-definition",
             group: "Business Case",
-            title: "A-Score là gì",
-            message: "A-Score đo rủi ro tín dụng tại thời điểm hồ sơ và cung cấp tín hiệu cho quy trình ra quyết định",
-            lead: "A-Score là điểm rủi ro tín dụng tại thời điểm hồ sơ được tạo hoặc chuẩn bị thẩm định. A-Score không tự ra quyết định phê duyệt; kết quả được Decision Engine kết hợp với các tín hiệu và chính sách kiểm soát để đưa ra quyết định cuối cùng.",
+            title: "CTI là gì",
+            message: "CTI định lượng mức độ tin cậy và rủi ro của khách hàng tại thời điểm đánh giá",
+            lead: "CTI (Customer Trust Index) là chỉ số định lượng mức độ tin cậy và rủi ro của khách hàng tại thời điểm hồ sơ được tạo hoặc chuẩn bị thẩm định. CTI được sinh ra qua nền tảng A-Score và đóng vai trò là tín hiệu đầu vào; quyết định cuối cùng vẫn thuộc Underwriting và Decision Engine.",
             points: [
-              "A-Score là điểm rủi ro tín dụng tại thời điểm hồ sơ được tạo hoặc chuẩn bị thẩm định.",
-              "A-Score được chấm tại các điểm cần đánh giá hoặc khi dữ liệu trọng yếu của hồ sơ thay đổi.",
-              "A-Score là tín hiệu đầu vào; quyết định cuối cùng thuộc Underwriting và Decision Engine.",
+              "CTI là chỉ số định lượng mức độ tin cậy và rủi ro của khách hàng tại thời điểm đánh giá.",
+              "CTI được tính tại các điểm cần đánh giá hoặc khi dữ liệu trọng yếu của hồ sơ thay đổi.",
+              "CTI là tín hiệu đầu vào; quyết định cuối cùng thuộc Underwriting và Decision Engine.",
             ],
             visual: "bcDefinition",
           },
@@ -11041,19 +11041,19 @@
           {
             id: "bc-scope",
             group: "Business Case",
-            title: "Phạm vi dự án - A-Score làm gì và không làm gì",
-            message: "Ranh giới phạm vi dự án theo nhóm A-Score thực hiện và không thực hiện",
-            lead: "Việc xác định rõ ranh giới phạm vi giúp đội ngũ tập trung đúng bài toán chấm điểm rủi ro, đồng thời làm rõ những dữ liệu và tín hiệu nào A-Score tiêu thụ như đầu vào từ các hệ thống đã có chủ sở hữu riêng.",
+            title: "Phạm vi dự án - CTI làm gì và không làm gì",
+            message: "Ranh giới phạm vi dự án theo nhóm CTI thực hiện và không thực hiện",
+            lead: "Việc xác định rõ ranh giới phạm vi giúp đội ngũ tập trung đúng bài toán chấm điểm rủi ro, đồng thời làm rõ những dữ liệu và tín hiệu nào CTI tiêu thụ như đầu vào từ các hệ thống đã có chủ sở hữu riêng.",
             points: [],
             visual: "bcScope",
           },
           {
             id: "bc-success",
             group: "Business Case",
-            title: "Success criteria - tiêu chí thành công",
+            title: "Success KPI - chỉ số đánh giá thành công",
             message:
-              "Bốn nhóm KPI đo bổ sung cho nhau: kinh doanh, model, vận hành, giám sát",
-            lead: "Mức độ thành công của A-Score được đo bằng bốn nhóm chỉ số bổ sung cho nhau, bao phủ từ tác động kinh doanh, chất lượng thống kê của model, độ ổn định vận hành đến khả năng phát hiện sớm suy giảm chất lượng.",
+              "CTI thành công khi tạo giá trị kinh doanh, model đủ tốt, vận hành ổn định và có thể kiểm soát",
+            lead: "Mức độ thành công của CTI được đo bằng bốn nhóm chỉ số bổ sung cho nhau: Business KPI, Model KPI, Operational KPI và Governance & Monitoring KPI. Mỗi KPI phải có công thức, nguồn dữ liệu, ngưỡng, owner và hành động khi vượt ngưỡng.",
             points: [],
             visual: "bcSuccess",
           },
@@ -12250,11 +12250,11 @@
               <text x="793" y="296" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Registered Model Version</text>
             </svg></div>`;
           if (type === "bcDefinition")
-            return `<div class="ds-diagram" style="height:440px"><svg viewBox="0 0 980 390" role="img" aria-label="A-Score la gi">
+            return `<div class="ds-diagram" style="height:440px"><svg viewBox="0 0 980 390" role="img" aria-label="CTI la gi">
               <defs><marker id="bcdArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#66788d"/></marker><filter id="bcdShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="6" flood-color="#102033" flood-opacity="0.14"/></filter></defs>
               <rect x="10" y="10" width="960" height="370" rx="16" fill="#fbfdff" stroke="#cbd7e3"/>
-              <text x="490" y="48" text-anchor="middle" font-size="24" font-weight="900" fill="#0b2f64">A-SCORE: MỘT SẢN PHẨM CHẤM ĐIỂM, KHÔNG PHẢI MỘT CON SỐ ĐƠN LẺ</text>
-              <text x="490" y="77" text-anchor="middle" font-size="15" font-weight="800" fill="#64748b">Một chuỗi xử lý có kiểm soát, từ dữ liệu đầu vào đến kết quả có thể giải thích</text>
+              <text x="490" y="48" text-anchor="middle" font-size="24" font-weight="900" fill="#0b2f64">CTI — CUSTOMER TRUST INDEX LÀ GÌ?</text>
+              <text x="490" y="77" text-anchor="middle" font-size="15" font-weight="800" fill="#64748b">Chỉ số định lượng mức độ tin cậy và rủi ro của khách hàng tại thời điểm đánh giá</text>
 
               <rect x="24" y="108" width="220" height="172" rx="14" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcdShadow)"/>
               <text x="134" y="146" text-anchor="middle" font-size="18" font-weight="900" fill="#0b4ea2">1. INPUT</text>
@@ -12273,7 +12273,7 @@
 
               <rect x="738" y="108" width="220" height="172" rx="14" fill="#102033" stroke="#102033" filter="url(#bcdShadow)"/>
               <text x="848" y="146" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">4. OUTPUT</text>
-              <text x="848" y="184" text-anchor="middle" font-size="15" font-weight="850" fill="#fff">Score + Grade</text>
+              <text x="848" y="184" text-anchor="middle" font-size="15" font-weight="850" fill="#fff">CTI Score + Grade</text>
               <text x="848" y="212" text-anchor="middle" font-size="13.5" font-weight="700" fill="#cbd5e1">+ Reason Code</text>
 
               <line x1="244" y1="194" x2="262" y2="194" stroke="#66788d" stroke-width="3" marker-end="url(#bcdArrow)"/>
@@ -12420,7 +12420,7 @@
               <text x="550" y="84" text-anchor="middle" font-size="15" font-weight="800" fill="#64748b">A-Score đảm nhiệm bài toán chấm điểm — các nghiệp vụ khác do hệ thống chuyên trách đảm nhiệm</text>
               <rect x="30" y="110" width="505" height="410" rx="14" fill="#eaf7ef" stroke="#79c999"/>
               <rect x="30" y="110" width="505" height="52" rx="14" fill="#00833e"/>
-              <text x="282" y="144" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">A-SCORE ĐẢM NHIỆM (DO)</text>
+              <text x="282" y="144" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">CTI ĐẢM NHIỆM (DO)</text>
               <text x="58" y="210" font-size="16" font-weight="850" fill="#0f5132">• Tính Score / Grade / Reason Code</text>
               <text x="58" y="268" font-size="16" font-weight="850" fill="#0f5132">• Quản trị vòng đời Feature &amp; Model</text>
               <text x="58" y="326" font-size="16" font-weight="850" fill="#0f5132">• Chuẩn hóa output giữa các model</text>
@@ -12428,7 +12428,7 @@
               <text x="58" y="442" font-size="16" font-weight="850" fill="#0f5132">• Giám sát chất lượng model liên tục</text>
               <rect x="565" y="110" width="505" height="410" rx="14" fill="#fff1e9" stroke="#ff9b59"/>
               <rect x="565" y="110" width="505" height="52" rx="14" fill="#c84e00"/>
-              <text x="817" y="144" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">A-SCORE KHÔNG ĐẢM NHIỆM (DON'T)</text>
+              <text x="817" y="144" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">CTI KHÔNG ĐẢM NHIỆM (DON'T)</text>
               <text x="593" y="210" font-size="16" font-weight="850" fill="#8a3700">• Xác minh định danh (KYC)</text>
               <text x="593" y="268" font-size="16" font-weight="850" fill="#8a3700">• Phát hiện gian lận (Fraud)</text>
               <text x="593" y="326" font-size="16" font-weight="850" fill="#8a3700">• Ra quyết định phê duyệt cuối cùng</text>
@@ -12439,63 +12439,63 @@
             return `<div class="ds-diagram" style="height:470px"><svg viewBox="0 0 980 470" role="img" aria-label="Success criteria va chi tiet KPI">
               <defs><filter id="bcsShadow" x="-12%" y="-20%" width="135%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#102033" flood-opacity="0.13"/></filter></defs>
               <rect x="18" y="18" width="944" height="434" rx="14" fill="#fbfdff" stroke="#cbd7e3"/>
-              <text x="490" y="50" text-anchor="middle" font-size="21" font-weight="900" fill="#0b2f64">4 NHÓM KPI ĐO THÀNH CÔNG CỦA A-SCORE</text>
-              <text x="490" y="73" text-anchor="middle" font-size="12.5" font-weight="800" fill="#64748b">Mỗi chỉ số cần có định nghĩa/công thức, chiều phân tích, ngưỡng cảnh báo, owner và hành động</text>
+              <text x="490" y="50" text-anchor="middle" font-size="21" font-weight="900" fill="#0b2f64">4 NHÓM KPI ĐO THÀNH CÔNG CỦA CTI</text>
+              <text x="490" y="73" text-anchor="middle" font-size="12.5" font-weight="800" fill="#64748b">SUCCESS = BUSINESS VALUE × MODEL QUALITY × OPERATIONAL RELIABILITY × GOVERNANCE</text>
 
               <rect x="42" y="96" width="214" height="306" rx="12" fill="#eef6ff" stroke="#8ab8ec" filter="url(#bcsShadow)"/>
               <text x="149" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#0b4ea2">Business KPI</text>
-              <text x="58" y="167" font-size="10.5" font-weight="900" fill="#0b4ea2">Auto-Approval Rate</text>
-              <text x="58" y="185" font-size="9.7" fill="#516173">Approved tự động / Decisioned</text>
-              <text x="58" y="217" font-size="10.5" font-weight="900" fill="#0b4ea2">Time-to-Decision</text>
-              <text x="58" y="235" font-size="9.7" fill="#516173">Tổng thời gian / hồ sơ Decisioned</text>
-              <text x="58" y="267" font-size="10.5" font-weight="900" fill="#0b4ea2">Scoring Coverage</text>
-              <text x="58" y="285" font-size="9.7" fill="#516173">Scored / tổng hồ sơ tiếp nhận</text>
-              <text x="58" y="317" font-size="10.5" font-weight="900" fill="#0b4ea2">Portfolio Growth</text>
-              <text x="58" y="335" font-size="9.7" fill="#516173">Tăng dư nợ theo segment/grade</text>
-              <text x="149" y="378" text-anchor="middle" font-size="9.4" font-weight="800" fill="#334155">Đọc cùng bad rate, không tối ưu</text>
-              <text x="149" y="392" text-anchor="middle" font-size="9.4" font-weight="800" fill="#334155">tăng trưởng/approval đơn lẻ</text>
+              <text x="58" y="167" font-size="10.5" font-weight="900" fill="#0b4ea2">Scoring Coverage</text>
+              <text x="58" y="185" font-size="9.7" fill="#516173">Scored / eligible applications</text>
+              <text x="58" y="217" font-size="10.5" font-weight="900" fill="#0b4ea2">Product / Channel Adoption</text>
+              <text x="58" y="235" font-size="9.7" fill="#516173">Luồng đang dùng chung CTI service</text>
+              <text x="58" y="267" font-size="10.5" font-weight="900" fill="#0b4ea2">Pre-score Turnaround</text>
+              <text x="58" y="285" font-size="9.7" fill="#516173">Thời gian phản hồi cho tư vấn</text>
+              <text x="58" y="317" font-size="10.5" font-weight="900" fill="#0b4ea2">Portfolio Quality</text>
+              <text x="58" y="335" font-size="9.7" fill="#516173">Bad rate theo grade / segment</text>
+              <text x="149" y="378" text-anchor="middle" font-size="9.4" font-weight="800" fill="#334155">Đo tác động, không quy toàn bộ</text>
+              <text x="149" y="392" text-anchor="middle" font-size="9.4" font-weight="800" fill="#334155">kết quả kinh doanh cho CTI</text>
 
               <rect x="270" y="96" width="214" height="306" rx="12" fill="#fff1e9" stroke="#ffb27d" filter="url(#bcsShadow)"/>
               <text x="377" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#c84e00">Model KPI</text>
               <text x="286" y="167" font-size="10.5" font-weight="900" fill="#c84e00">AUC / Gini / KS</text>
               <text x="286" y="185" font-size="9.7" fill="#516173">Khả năng phân biệt hồ sơ Good/Bad</text>
-              <text x="286" y="217" font-size="10.5" font-weight="900" fill="#c84e00">PSI / CSI</text>
-              <text x="286" y="235" font-size="9.7" fill="#516173">Ổn định population / feature</text>
-              <text x="286" y="267" font-size="10.5" font-weight="900" fill="#c84e00">Calibration</text>
-              <text x="286" y="285" font-size="9.7" fill="#516173">Predicted risk vs observed bad rate</text>
+              <text x="286" y="217" font-size="10.5" font-weight="900" fill="#c84e00">Calibration</text>
+              <text x="286" y="235" font-size="9.7" fill="#516173">Predicted risk vs observed bad rate</text>
+              <text x="286" y="267" font-size="10.5" font-weight="900" fill="#c84e00">PSI / CSI</text>
+              <text x="286" y="285" font-size="9.7" fill="#516173">Ổn định population / feature</text>
               <text x="286" y="317" font-size="10.5" font-weight="900" fill="#c84e00">Rank Ordering</text>
               <text x="286" y="335" font-size="9.7" fill="#516173">Bad rate tăng dần từ grade tốt → xấu</text>
-              <text x="377" y="378" text-anchor="middle" font-size="9.4" font-weight="800" fill="#8a3700">PSI &lt;0,10 ổn định · 0,10–0,25</text>
-              <text x="377" y="392" text-anchor="middle" font-size="9.4" font-weight="800" fill="#8a3700">cảnh báo · &gt;0,25 nghiêm trọng</text>
+              <text x="377" y="378" text-anchor="middle" font-size="9.4" font-weight="800" fill="#8a3700">Ngưỡng theo model card</text>
+              <text x="377" y="392" text-anchor="middle" font-size="9.4" font-weight="800" fill="#8a3700">và từng population áp dụng</text>
 
               <rect x="498" y="96" width="214" height="306" rx="12" fill="#eaf7ef" stroke="#8bd0a8" filter="url(#bcsShadow)"/>
               <text x="605" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#007236">Operational KPI</text>
-              <text x="514" y="167" font-size="10.5" font-weight="900" fill="#007236">Latency p50 / p95 / p99</text>
-              <text x="514" y="185" font-size="9.7" fill="#516173">SLA breach rate khi E2E &gt; 2.000 ms</text>
-              <text x="514" y="217" font-size="10.5" font-weight="900" fill="#007236">API Error / Timeout Rate</text>
-              <text x="514" y="235" font-size="9.7" fill="#516173">Lỗi hoặc timeout / tổng request</text>
-              <text x="514" y="267" font-size="10.5" font-weight="900" fill="#007236">Result Mode Mix</text>
-              <text x="514" y="285" font-size="9.7" fill="#516173">MODEL / FALLBACK / NOT_SCORABLE</text>
-              <text x="514" y="317" font-size="10.5" font-weight="900" fill="#007236">Availability &amp; Data Fail</text>
-              <text x="514" y="335" font-size="9.7" fill="#516173">Downtime, DATA_FAIL, log success</text>
-              <text x="605" y="378" text-anchor="middle" font-size="9.4" font-weight="800" fill="#0f5132">Mục tiêu E2E &lt; 2 giây/request</text>
-              <text x="605" y="392" text-anchor="middle" font-size="9.4" font-weight="800" fill="#0f5132">so với baseline hiện tại ~3 giây</text>
+              <text x="514" y="167" font-size="10.5" font-weight="900" fill="#007236">Latency p95</text>
+              <text x="514" y="185" font-size="9.7" fill="#516173">Pre-score / Full-score theo SLA</text>
+              <text x="514" y="217" font-size="10.5" font-weight="900" fill="#007236">Availability</text>
+              <text x="514" y="235" font-size="9.7" fill="#516173">Uptime của scoring service</text>
+              <text x="514" y="267" font-size="10.5" font-weight="900" fill="#007236">Error / Timeout Rate</text>
+              <text x="514" y="285" font-size="9.7" fill="#516173">Lỗi hoặc timeout / tổng request</text>
+              <text x="514" y="317" font-size="10.5" font-weight="900" fill="#007236">Replay Accuracy</text>
+              <text x="514" y="335" font-size="9.7" fill="#516173">Tái lập đúng kết quả lịch sử</text>
+              <text x="605" y="378" text-anchor="middle" font-size="9.4" font-weight="800" fill="#0f5132">Theo dõi p95, không chỉ average</text>
+              <text x="605" y="392" text-anchor="middle" font-size="9.4" font-weight="800" fill="#0f5132">và tách theo từng scoring mode</text>
 
               <rect x="726" y="96" width="214" height="306" rx="12" fill="#102033" stroke="#102033" filter="url(#bcsShadow)"/>
-              <text x="833" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Monitoring KPI</text>
-              <text x="742" y="167" font-size="10.5" font-weight="900" fill="#fff">Feature Health</text>
-              <text x="742" y="185" font-size="9.7" fill="#cbd5e1">Missing, outlier, freshness, drift</text>
-              <text x="742" y="217" font-size="10.5" font-weight="900" fill="#fff">Score / Grade Stability</text>
-              <text x="742" y="235" font-size="9.7" fill="#cbd5e1">Score PSI, grade mix shift</text>
-              <text x="742" y="267" font-size="10.5" font-weight="900" fill="#fff">Outcome Performance</text>
-              <text x="742" y="285" font-size="9.7" fill="#cbd5e1">Bad rate by grade, performance gap</text>
-              <text x="742" y="317" font-size="10.5" font-weight="900" fill="#fff">Decision Usage</text>
-              <text x="742" y="335" font-size="9.7" fill="#cbd5e1">Override, fallback, manual review</text>
-              <text x="833" y="378" text-anchor="middle" font-size="9.4" font-weight="800" fill="#fff">Daily: health · Weekly: stability</text>
-              <text x="833" y="392" text-anchor="middle" font-size="9.4" font-weight="800" fill="#fff">Monthly: outcome/calibration</text>
+              <text x="833" y="136" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">Governance &amp; Monitoring</text>
+              <text x="742" y="167" font-size="10.5" font-weight="900" fill="#fff">Reason Code Coverage</text>
+              <text x="742" y="185" font-size="9.7" fill="#cbd5e1">Kết quả có lý do giải thích</text>
+              <text x="742" y="217" font-size="10.5" font-weight="900" fill="#fff">Traceability Coverage</text>
+              <text x="742" y="235" font-size="9.7" fill="#cbd5e1">Input → feature → model → output</text>
+              <text x="742" y="267" font-size="10.5" font-weight="900" fill="#fff">Version Completeness</text>
+              <text x="742" y="285" font-size="9.7" fill="#cbd5e1">Model / feature / rule version</text>
+              <text x="742" y="317" font-size="10.5" font-weight="900" fill="#fff">Drift Alert SLA</text>
+              <text x="742" y="335" font-size="9.7" fill="#cbd5e1">Cảnh báo có owner và action</text>
+              <text x="833" y="378" text-anchor="middle" font-size="9.4" font-weight="800" fill="#fff">Mục tiêu: giải thích, tái lập</text>
+              <text x="833" y="392" text-anchor="middle" font-size="9.4" font-weight="800" fill="#fff">và kiểm toán được end-to-end</text>
 
               <rect x="92" y="418" width="796" height="24" rx="8" fill="#f8fbff" stroke="#d7e3ee"/>
-              <text x="490" y="435" text-anchor="middle" font-size="10.5" font-weight="800" fill="#334155">Cắt theo date · product · channel · segment · model version · grade; vượt ngưỡng phải gắn owner và action cụ thể</text>
+              <text x="490" y="435" text-anchor="middle" font-size="10.5" font-weight="800" fill="#334155">Mỗi KPI phải có công thức · nguồn dữ liệu · baseline · target · owner · ngưỡng cảnh báo · hành động</text>
             </svg></div>`;
           if (type === "ontEnterpriseGraph") {
             const source = window.ONTOLOGY_XLSX;
@@ -13566,12 +13566,12 @@
               "tabnet-feature-logistic": "Sàng lọc feature",
               "validation-calibration-reason-registry":
                 "Kiểm định và đăng ký model",
-              "bc-definition": "Định nghĩa A-Score",
+              "bc-definition": "Định nghĩa CTI",
               "bc-value-chain": "Value chain & vị trí Scoring",
               "bc-problem": "Business problem & objective",
               "bc-objective": "Business objective",
               "bc-scope": "Phạm vi dự án (DO/DON'T)",
-              "bc-success": "Success criteria",
+              "bc-success": "Success KPI",
               "monitoring-system-phase1": "Giám sát hệ thống Phase 1",
               "monitoring-grafana-dashboard": "Dashboard Grafana Phase 1",
               "monitoring-model-kpi": "Giám sát hiệu quả model",
@@ -13674,7 +13674,7 @@
         }
         function subSlidesFor(flowId) {
           const dsMap = {
-            "business-case": ["bc-definition", "bc-value-chain", "bc-problem", "bc-objective", "bc-scope"],
+            "business-case": ["bc-definition", "bc-value-chain", "bc-problem", "bc-objective", "bc-scope", "bc-success"],
             "design-time": ["design-business-risk", "design-feature-blueprint", "design-model-contract", "design-governance-blueprint"],
             "train-time": ["train-model-overview", "train-step-1-dataset", "train-step-2-screening", "train-step-3-selection", "train-step-4-training", "train-step-5-validation", "train-step-6-calibration", "train-step-7-registry", "design-train-traceability"],
             monitoring: ["monitoring-system-phase1", "monitoring-grafana-dashboard", "monitoring-model-kpi", "monitoring-model-dashboard"],
